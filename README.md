@@ -1,5 +1,5 @@
-# Boilerplate: Fullstack with Sass
-Pointless Commit. and another one.
+# Boilerplate: Fullstack
+
 ## Setup
 
 ### What's included
