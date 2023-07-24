@@ -1,13 +1,19 @@
-/**
- * @param { import("knex").Knex } knex
- * @returns { Promise<void> } 
- */
-exports.seed = async function(knex) {
-  // Deletes ALL existing entries
-  await knex('table_name').del()
-  await knex('table_name').insert([
-    {id: 1, colName: 'rowValue1'},
-    {id: 2, colName: 'rowValue2'},
-    {id: 3, colName: 'rowValue3'}
-  ]);
-};
+exports.seed = async function (knex) {
+  await knex('shipping_options').insert([
+    {
+      id: 1,
+      shipping_type: 'Standard (3-7 working days)',
+      price: 5,
+    },
+    {
+      id: 2,
+      shipping_type: 'Express (2-4 working days)',
+      price: 12.5,
+    },
+    {
+      id: 3,
+      shipping_type: 'Overnight (1 working day)',
+      price: 25,
+    },
+  ])
+}
