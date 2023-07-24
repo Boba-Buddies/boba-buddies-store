@@ -4,10 +4,12 @@
  */
 exports.seed = async function(knex) {
   // Deletes ALL existing entries
-  await knex('table_name').del()
-  await knex('table_name').insert([
-    {id: 1, colName: 'rowValue1'},
-    {id: 2, colName: 'rowValue2'},
-    {id: 3, colName: 'rowValue3'}
-  ]);
+  await knex('wishlist').del()
+  await knex('reviews').del()
+  await knex('purchases').del()
+  await knex('cart').del()
+  await knex('email').del()
+  await knex('users').del()
+  await knex('shipping_options').del()
+  await knex('products').del()
 };
