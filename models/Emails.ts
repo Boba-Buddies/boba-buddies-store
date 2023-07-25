@@ -1,14 +1,21 @@
 import * as z from 'zod'
 
 
-export const emailSchema = z.object({
+export const emailsSchema = z.object({
+  id: z.number(),
   userName: z.string(),
   isRead: z.boolean(),
   title: z.string(),
   createdAt: z.string(),
-})
+}).array()
 
-export const emailsSchema = emailSchema.extend({}).array()
+export const emailSchema = z.object({
+  id: z.number(),
+  userName: z.string(),
+  title: z.string(),
+  description: z.string(),
+  createdAt: z.string(),
+})
 
 export const sendEmailSchema = z.object({
   title: z.string(),
