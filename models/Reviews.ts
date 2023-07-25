@@ -1,10 +1,5 @@
 import * as z from 'zod'
 
-//ProductReviewsSchema
-//ReviewsSchema
-//ReviewSchema
-//NewReviewSchema
-
 export const ProductReviewsSchema = z.object({
   productId: z.number(),
   userName: z.string(),
@@ -33,6 +28,13 @@ export const ReviewSchema = z.object({
   reviewCreatedAt: z.string(),
 })
 
+export const NewReviewSchema = z.object({
+  productId: z.number(),
+  description: z.string(),
+  rating: z.number(),
+})
+
 export type ProductReviews = z.infer<typeof ProductReviewsSchema>
 export type Reviews = z.infer<typeof ReviewsSchema>
 export type Review = z.infer<typeof ReviewSchema>
+export type NewReview = z.infer<typeof NewReviewSchema>
