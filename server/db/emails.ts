@@ -1,4 +1,4 @@
-import { SendEmail, Emails, Email, UpdateEmailReadStatus } from '../../models/Emails'
+import { SentEmail, Emails, Email, UpdateEmailReadStatus } from '../../models/Emails'
 import db from './connection'
 
 // GET: getAllEmails()
@@ -46,7 +46,15 @@ export function deleteEmailById(id: number) {
 
 
 //GET getAmountOfUnreadEmailsByDate(date:format?)
+export async function getAmountOfUnreadEmailsByDate(date: string) {
+  return (await db('emails')
+    .whereRaw('DATE(created_at) = ?', date)
+    .where('is_read', false)
+    .count('* as unreadEmailCount')
+    .first())
+}
+//The result will be an object, like {unreadEmailCount: 20}
 
-//and more, please refer back to Figma
+
 
 
