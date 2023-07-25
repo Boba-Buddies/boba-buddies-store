@@ -49,12 +49,16 @@ export async function getAllReviews(adminUserId: string) {
   //Check if user is authorised. If they are:
   //return "User is not authorized"
 
-  return await db('reviews').select(
-    'product_id as productId',
-    'description',
-    'rating',
-    'is_enabled as isEnabled',
-    'user_id as userId',
-    'created_at as createdAt',
-  ) as 
+  return await db('reviews')
+  .join('users', 'reviews.user_id', 'users.auth0_id')
+  .join('products', 'reviews.product_id', 'products.id')
+  .select(
+    'reviews.id as id',
+    'reviews.rating',
+    'products.product_name as productName',
+    'reviews.is_enabled as isEnabled',
+    'users.user_name as userName',
+    'reviews.created_at as createdAt',
+  ) as Reviews
 }
+
