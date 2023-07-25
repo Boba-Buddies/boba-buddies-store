@@ -11,4 +11,12 @@ export const UserOrdersSchema = z.object({
   totalAmount: z.string(),
 })
 
+export const OrdersSchema = z.object({
+  userName: z.string(),
+  orderId: z.number(),
+  totalSale: z.number(),
+  purchasedAt: z.string(),
+})
+
 export type UserOrders = z.infer<typeof UserOrdersSchema>
+export type Orders = z.infer<typeof OrdersSchema>
