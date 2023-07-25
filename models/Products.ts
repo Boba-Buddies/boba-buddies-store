@@ -47,5 +47,9 @@ export const OrderSchema = z.object({
     .array(),
 })
 
+
+
 export type UserOrders = z.infer<typeof UserOrdersSchema>
 export type Orders = z.infer<typeof OrdersSchema>
+export type Order = z.infer<typeof OrderSchema>
+
