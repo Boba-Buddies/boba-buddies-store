@@ -13,11 +13,14 @@ export const ProductReviewsSchema = z.object({
   description: z.string(),
 })
 
-
-
-
-
-
-
+export const ReviewsSchema = z.object({
+  id: z.number(),
+  productName: z.string(),
+  rating: z.number(),
+  isEnabled: z.boolean(),
+  userName: z.string(),
+  createdAt: z.string(),
+})
 
 export type ProductReviews = z.infer<typeof ProductReviewsSchema>
+export type Reviews = z.infer<typeof ReviewsSchema>
