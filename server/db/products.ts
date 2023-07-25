@@ -1,7 +1,16 @@
+import { Products } from '../../models/Products'
+import db from './connection'
 
-
-//GET: getProductById(id : number)
-
-//GET: getAllProducts()
-
-//and more, please refer back to Figma
+export async function getAllProducts() {
+  return (await db('products').select(
+    'id',
+    'name',
+    'img',
+    'price',
+    'price',
+    'description',
+    'stock',
+    'is_enabled',
+    'average_rating',
+  )) as Products[]
+}
