@@ -5,4 +5,4 @@ export const shippingOptionsSchema = z.object({
   price: z.number(),
 })
 
-export type shippingOptions = z.infer<typeof shippingOptionsSchema>
+export type ShippingOptions = z.infer<typeof shippingOptionsSchema>
