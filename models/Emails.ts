@@ -25,4 +25,4 @@ export const updateEmailReadStatusSchema = z.object({
 export type Emails = z.infer<typeof emailsSchema>
 export type Email = z.infer<typeof emailSchema>
 export type SendEmail = z.infer<typeof sendEmailSchema>
-export type updateEmailReadStatus = z.infer<typeof updateEmailReadStatusSchema>
+export type UpdateEmailReadStatus = z.infer<typeof updateEmailReadStatusSchema>
