@@ -49,7 +49,7 @@ export function deleteEmailById(id: number) {
 export async function getAmountOfUnreadEmailsByDate(date: string) {
   return (await db('emails')
     .whereRaw('DATE(created_at) = ?', date)
-    .where('is_read', false)
+    .where('is_read', 0)
     .count('* as unreadEmailCount')
     .first())
 }
