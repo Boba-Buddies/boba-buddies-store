@@ -1,4 +1,4 @@
-import { Reviews } from '../../models/Reviews'
+import { ProductReviews, Reviews } from '../../models/Reviews'
 import db from './connection'
 
 /*
@@ -19,15 +19,16 @@ DELETE: removeReviewByUserId(userId : string, productId : number)
 
 export async function getReviewsByProductId(productId: number) {
   return (await db('reviews')
+  .join('users', 'reviews.user_id', 'users.auth0_id')
+  .where('reviews.product_id', productId)
     .select(
-      'product_id as productId',
-      'description',
-      'rating',
-      'is_enabled as isEnabled',
-      'user_id as userId',
-      'created_at as createdAt',
+      'reviews.product_id as productId',
+      'reviews.description',
+      'reviews.rating',
+      'reviews.created_at as createdAt',
+      'users.user_name as userName'
     )
-    .where('product_id', productId)) as Reviews
+    ) as ProductReviews
 }
 
 export async function getAmountOfReviewsByDate(
@@ -42,4 +43,18 @@ export async function getAmountOfReviewsByDate(
     .whereRaw('DATE(created_at) = ?', date)
     //DATE will ignore hours/minutes/seconds. It will only look at the year/month/day
     .first()
+}
+
+export async function getAllReviews(adminUserId: string) {
+  //Check if user is authorised. If they are:
+  //return "User is not authorized"
+
+  return await db('reviews').select(
+    'product_id as productId',
+    'description',
+    'rating',
+    'is_enabled as isEnabled',
+    'user_id as userId',
+    'created_at as createdAt',
+  ) as 
 }
