@@ -1,15 +1,10 @@
 import * as z from 'zod'
 
-//UserOrdersSchema
-//OrdersSchema
-//OrderSchema
-//TransferedCartSchema
-
 export const UserOrdersSchema = z
   .object({
     orderId: z.number(),
     purchasedAt: z.string(),
-    totalAmount: z.string(),
+    totalAmount: z.number(),
   })
   .array()
 
@@ -41,12 +36,21 @@ export const OrderSchema = z.object({
     .object({
       productName: z.string(),
       productSale: z.number(),
-      productImg: z.number(),
+      productImg: z.string(),
       itemQuantity: z.number(),
     })
     .array(),
 })
 
+export const TransferedCartSchema = z
+  .object({
+    productId: z.number(),
+    quantity: z.number(),
+    shippingId: z.number(),
+  })
+  .array()
+
 export type UserOrders = z.infer<typeof UserOrdersSchema>
 export type Orders = z.infer<typeof OrdersSchema>
 export type Order = z.infer<typeof OrderSchema>
+export type TransferedCart = z.infer<typeof TransferedCartSchema>
