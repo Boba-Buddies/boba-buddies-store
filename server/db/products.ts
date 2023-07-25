@@ -1,4 +1,4 @@
-import { Products } from '../../models/Products'
+import { Product, Products } from '../../models/Products'
 import db from './connection'
 
 export async function getAllProducts() {
@@ -23,10 +23,10 @@ export async function getProductById(id: number) {
       'name',
       'img',
       'price',
-      'price',
       'description',
       'stock',
       'is_enabled as isEnabled',
       'average_rating as averageRating',
-    )) as Products[]
+    )
+    .first()) as Product
 }
