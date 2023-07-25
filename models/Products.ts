@@ -21,5 +21,12 @@ export const productSchema = z.object({
   averageRating: z.number(),
 })
 
+export const lowStockProductsSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  img: z.string(),
+})
+
 export type Products = z.infer<typeof productsSchema>
 export type Product = z.infer<typeof productSchema>
+export type LowStockProducts = z.infer<typeof productsSchema>
