@@ -1,21 +1,25 @@
 import * as z from 'zod'
 
-export const ProductReviewsSchema = z.object({
-  productId: z.number(),
-  userName: z.string(),
-  rating: z.number(),
-  createdAt: z.string(),
-  description: z.string(),
-})
+export const ProductReviewsSchema = z
+  .object({
+    productId: z.number(),
+    userName: z.string(),
+    rating: z.number(),
+    createdAt: z.string(),
+    description: z.string(),
+  })
+  .array()
 
-export const ReviewsSchema = z.object({
-  id: z.number(),
-  productName: z.string(),
-  rating: z.number(),
-  isEnabled: z.boolean(),
-  userName: z.string(),
-  createdAt: z.string(),
-})
+export const ReviewsSchema = z
+  .object({
+    id: z.number(),
+    productName: z.string(),
+    rating: z.number(),
+    isEnabled: z.boolean(),
+    userName: z.string(),
+    createdAt: z.string(),
+  })
+  .array()
 
 export const ReviewSchema = z.object({
   reviewId: z.number(),
