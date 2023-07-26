@@ -1,5 +1,4 @@
 import {
-  AddNewReview,
   NewReview,
   ProductReviews,
   Review,
@@ -87,10 +86,39 @@ export async function getReviewById(id: number, adminUserId: string) {
     .first()) as Review
 }
 
-export async function addReviewByUserId(userId: string, newReview: NewReview) {
-  db('reviews').insert({ user_id: userId, ...newReview })
+export async function recalculateAverageRatingByProductId(productId: number) {
+  // Calculate the average rating
+  const averageRatingResult = await db('reviews')
+    .where('product_id', productId)
+    .avg('rating as averageRating')
+    .first()
 
-  //Insert function that recalcuates averageRating in the associated product of NewReview.
+  // Check if averageRatingResult is defined
+  if (averageRatingResult && averageRatingResult.averageRating !== null) {
+    const averageRating = averageRatingResult.averageRating
+    //Round the rating to the nearest 0.25 incremement between 0 and 5. E.g. 0, 0.25, 0.5, 0.75, 1...
+    const roundedAverage = Math.min(
+      5,
+      Math.max(0, Math.round(averageRating * 4) / 4),
+    )
+
+    // Update the associated product's average_rating
+    await db('products')
+      .where('id', productId)
+      .update('average_rating', roundedAverage)
+
+    // Return the updated average rating
+    return roundedAverage
+  } else {
+    return null
+  }
+}
+
+export async function addReviewByUserId(userId: string, newReview: NewReview) {
+  await db('reviews').insert({ user_id: userId, ...newReview })
+
+  //After we add the review, we recalcaute the average_rating of the associated product, taking into account the new review's rating that was just added.
+  await recalculateAverageRatingByProductId(newReview.productId)
 
   /*
   NOTE: We don't need to add 'created_at' or 'is_enabled' because they both have defaults created when we add the data to the table.
