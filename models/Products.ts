@@ -47,6 +47,6 @@ export const newProductSchema = z.object({
 
 export type Products = z.infer<typeof productsSchema>
 export type Product = z.infer<typeof productSchema>
-export type LowStockProducts = z.infer<typeof productsSchema>
+export type LowStockProducts = z.infer<typeof lowStockProductsSchema>
 export type UpdateProduct = z.infer<typeof updateProductSchema>
 export type NewProduct = z.infer<typeof newProductSchema>

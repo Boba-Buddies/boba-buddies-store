@@ -26,4 +26,19 @@ router.get('/:id', async (req, res) => {
   }
 })
 
+// GET /api/v1/products/lowstock/:maxStock
+router.get('/lowstock/:maxStock', async (req, res) => {
+  const maxStock = Number(req.params.maxStock)
+  try {
+    // here need to check the user's auth0_id be the admin auth0_id,will update when the user db function is ready
+    const lowStockProducts = await db.getAmountOfProductsBelowStockLevel(
+      maxStock,
+    )
+    res.status(200).json({ lowStockProducts })
+  } catch (error) {
+    logError(error)
+    res.status(500).json({ message: 'Unable to ge the data from database' })
+  }
+})
+
 export default router

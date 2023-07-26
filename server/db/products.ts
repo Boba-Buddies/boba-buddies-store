@@ -1,4 +1,4 @@
-import { Product, Products } from '../../models/Products'
+import { LowStockProducts, Product, Products } from '../../models/Products'
 import db from './connection'
 
 export async function getAllProducts() {
@@ -29,4 +29,10 @@ export async function getProductById(id: number) {
       'average_rating as averageRating',
     )
     .first()) as Product
+}
+
+export async function getAmountOfProductsBelowStockLevel(maxStock: number) {
+  return (await db('products')
+    .where('stock', '<', maxStock)
+    .select('id', 'name', 'img')) as LowStockProducts[]
 }
