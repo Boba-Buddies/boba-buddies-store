@@ -27,16 +27,7 @@ export const lowStockProductsSchema = z.object({
   img: z.string(),
 })
 
-export const updateProductSchema = z.object({
-  name: z.string(),
-  img: z.string(),
-  price: z.number(),
-  description: z.string(),
-  stock: z.number(),
-  isEnabled: z.boolean(),
-})
-
-export const newProductSchema = z.object({
+export const upsertProductSchema = z.object({
   name: z.string(),
   img: z.string(),
   price: z.number(),
@@ -48,5 +39,4 @@ export const newProductSchema = z.object({
 export type Products = z.infer<typeof productsSchema>
 export type Product = z.infer<typeof productSchema>
 export type LowStockProducts = z.infer<typeof lowStockProductsSchema>
-export type UpdateProduct = z.infer<typeof updateProductSchema>
-export type NewProduct = z.infer<typeof newProductSchema>
+export type UpsertProduct = z.infer<typeof upsertProductSchema>
