@@ -12,7 +12,7 @@ export const UserSchema = z.object({
   zipCode: z.string(),
 })
 
-export const UpdatedUserSchema = z.object({
+export const UpdateUserSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   phoneNumber: z.string(),
@@ -22,5 +22,18 @@ export const UpdatedUserSchema = z.object({
   zipCode: z.string(),
 })
 
+export const NewUserSchema = z.object({
+  firstName: z.string(),
+  lastName: z.string(),
+  userName: z.string(),
+  email: z.string().email(),
+})
+
+export const NewUserBackendSchema = z.object({
+  auth0Id: z.string(),
+})
+
 export type User = z.infer<typeof UserSchema>
-export type UpdatedUser = z.infer<typeof UpdatedUserSchema>
+export type UpdateUser = z.infer<typeof UpdateUserSchema>
+export type NewUser = z.infer<typeof NewUserSchema>
+export type NewUserBackend = z.infer<typeof NewUserBackendSchema>
