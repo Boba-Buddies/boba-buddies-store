@@ -150,5 +150,6 @@ export async function updateReviewStatusById(
 
 export async function removeReviewByUserId(userId: string, productId: number) {
   await db('reviews').where({ user_id: userId, product_id: productId }).delete()
+  await recalculateAverageRatingByProductId(productId)
 }
 
