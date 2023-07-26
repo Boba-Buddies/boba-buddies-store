@@ -1,4 +1,10 @@
-import { ProductReviews, Review, Reviews } from '../../models/Reviews'
+import {
+  AddNewReview,
+  NewReview,
+  ProductReviews,
+  Review,
+  Reviews,
+} from '../../models/Reviews'
 import db from './connection'
 
 /*
@@ -19,23 +25,22 @@ DELETE: removeReviewByUserId(userId : string, productId : number)
 
 export async function getReviewsByProductId(productId: number) {
   return (await db('reviews')
-  .join('users', 'reviews.user_id', 'users.auth0_id')
-  .where('reviews.product_id', productId)
+    .join('users', 'reviews.user_id', 'users.auth0_id')
+    .where('reviews.product_id', productId)
     .select(
       'reviews.product_id as productId',
       'reviews.description',
       'reviews.rating',
       'reviews.created_at as createdAt',
-      'users.user_name as userName'
-    )
-    ) as ProductReviews
+      'users.user_name as userName',
+    )) as ProductReviews
 }
 
 export async function getAmountOfReviewsByDate(
   date: string,
   adminUserId: string,
 ) {
-  //Check if user is authorised. If they are:
+  //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
   return await db('reviews')
@@ -46,39 +51,50 @@ export async function getAmountOfReviewsByDate(
 }
 
 export async function getAllReviews(adminUserId: string) {
-  //Check if user is authorised. If they are:
+  //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
-  return await db('reviews')
-  .join('users', 'reviews.user_id', 'users.auth0_id')
-  .join('products', 'reviews.product_id', 'products.id')
-  .select(
-    'reviews.id as id',
-    'reviews.rating',
-    'products.product_name as productName',
-    'reviews.is_enabled as isEnabled',
-    'users.user_name as userName',
-    'reviews.created_at as createdAt',
-  ) as Reviews
+  return (await db('reviews')
+    .join('users', 'reviews.user_id', 'users.auth0_id')
+    .join('products', 'reviews.product_id', 'products.id')
+    .select(
+      'reviews.id as id',
+      'reviews.rating',
+      'products.product_name as productName',
+      'reviews.is_enabled as isEnabled',
+      'users.user_name as userName',
+      'reviews.created_at as createdAt',
+    )) as Reviews
 }
 
-export async function getReviewById(id : number, adminUserId : string) {
-  //Check if user is authorised. If they are:
+export async function getReviewById(id: number, adminUserId: string) {
+  //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
-  return await db('reviews')
-  .join('users', 'reviews.user_id', 'users.auth0_id')
-  .join('products', 'reviews.product_id', 'products.id')
-  .select(
-    'reviews.id as reviewId',
-    'products.product_name as productName',
-    'products.img as productImg',
-    'reviews.description as reviewDescription',
-    'reviews.rating as reviewRating',
-    'reviews.is_enabled as reviewIsEnabled',
-    'users.user_name as reviewerUserName',
-    'reviews.created_at as reviewCreatedAt'
-  )
-  .first() as Review
+  return (await db('reviews')
+    .join('users', 'reviews.user_id', 'users.auth0_id')
+    .join('products', 'reviews.product_id', 'products.id')
+    .select(
+      'reviews.id as reviewId',
+      'products.product_name as productName',
+      'products.img as productImg',
+      'reviews.description as reviewDescription',
+      'reviews.rating as reviewRating',
+      'reviews.is_enabled as reviewIsEnabled',
+      'users.user_name as reviewerUserName',
+      'reviews.created_at as reviewCreatedAt',
+    )
+    .first()) as Review
 }
 
+export async function addReviewByUserId(userId: string, newReview: NewReview) {
+  db('reviews').insert({ user_id: userId, ...newReview })
+
+  //Insert function that recalcuates averageRating in the associated product of NewReview.
+
+  /*
+  NOTE: We don't need to add 'created_at' or 'is_enabled' because they both have defaults created when we add the data to the table.
+  is_enabled defaults to true in migration file
+  created_at defaults to knex.fn.now() in migration file
+  */
+}
