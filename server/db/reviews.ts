@@ -6,21 +6,6 @@ import {
 } from '../../models/Reviews'
 import db from './connection'
 
-/*
-GET: getReviewsByProductId(productId : number)
-
-GET: getAmountOfReviewsByDate(date : format?, adminUserId)
-
-GET: getAllReviews(adminUserId)
-
-GET: getReviewById(id : number, adminUserId : string)
-
-POST: addReviewByUserId(userId : string, review : object)
-
-PATCH: updateReviewStatusById(id : number, isEnabled : boolean, adminUserId : string)
-
-DELETE: removeReviewByUserId(userId : string, productId : number)
-*/
 
 export async function getReviewsByProductId(productId: number) {
   return (await db('reviews')
