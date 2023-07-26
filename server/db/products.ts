@@ -17,7 +17,7 @@ export async function getAllProducts() {
     'stock',
     'is_enabled as isEnabled',
     'average_rating as averageRating',
-  )) as Products[]
+  )) as Products
 }
 
 export async function getProductById(id: number) {

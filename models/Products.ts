@@ -1,15 +1,17 @@
 import * as z from 'zod'
 
-export const productsSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  img: z.string(),
-  price: z.number(),
-  description: z.string(),
-  stock: z.number(),
-  isEnabled: z.boolean(),
-  averageRating: z.number(),
-})
+export const productsSchema = z
+  .object({
+    id: z.number(),
+    name: z.string(),
+    img: z.string(),
+    price: z.number(),
+    description: z.string(),
+    stock: z.number(),
+    isEnabled: z.boolean(),
+    averageRating: z.number(),
+  })
+  .array()
 
 export const productSchema = z.object({
   id: z.number(),
