@@ -1,9 +1,10 @@
+import db from './connection'
 
+export async function getLatestOrderIdByUserId(userId: string) {
+  const latestPurchase = await db('purchases')
+    .where('user_id', userId)
+    .orderBy('purchased_at', 'desc') // Order the rows by purchased_at in descending order (newest first)
+    .first()
 
-//GET: getLatestOrderIdByUserId(userId : string)
-
-
-//POST: addCartToPurchasesByUserId(userId : string, cart : object)
-
-
-// and more, please refer back to figma
+  return latestPurchase.order_id
+}
