@@ -39,3 +39,8 @@ export async function addCartToPurchasesByUserId(
   await db('purchases').insert(dataArray)
   //Now clear the user's cart.
 }
+
+//Clear cart function (NOTE: WILL BE MOVED TO CART.TS AFTERWARDS)
+export async function clearCartByUserId(userId : string) {
+  await db('cart').where('user_id', userId).delete()
+}
