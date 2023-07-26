@@ -147,3 +147,7 @@ export async function updateReviewStatusById(
 
   return `is_enabled status of reivew matching the id: ${id} has been updated to ${isEnabled}`
 }
+
+export async function removeReviewByUserId() {
+  
+}
