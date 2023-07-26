@@ -1,4 +1,4 @@
-import { ProductReviews, Reviews } from '../../models/Reviews'
+import { ProductReviews, Review, Reviews } from '../../models/Reviews'
 import db from './connection'
 
 /*
@@ -60,5 +60,25 @@ export async function getAllReviews(adminUserId: string) {
     'users.user_name as userName',
     'reviews.created_at as createdAt',
   ) as Reviews
+}
+
+export async function getReviewById(id : number, adminUserId : string) {
+  //Check if user is authorised. If they are:
+  //return "User is not authorized"
+
+  return await db('reviews')
+  .join('users', 'reviews.user_id', 'users.auth0_id')
+  .join('products', 'reviews.product_id', 'products.id')
+  .select(
+    'reviews.id as reviewId',
+    'products.product_name as productName',
+    'products.img as productImg',
+    'reviews.description as reviewDescription',
+    'reviews.rating as reviewRating',
+    'reviews.is_enabled as reviewIsEnabled',
+    'users.user_name as reviewerUserName',
+    'reviews.created_at as reviewCreatedAt'
+  )
+  .first() as Review
 }
 
