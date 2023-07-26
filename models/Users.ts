@@ -29,7 +29,7 @@ export const NewUserSchema = z.object({
   email: z.string().email(),
 })
 
-export const NewUserBackendSchema = z.object({
+export const NewUserBackendSchema = NewUserSchema.extend({
   auth0Id: z.string(),
 })
 
