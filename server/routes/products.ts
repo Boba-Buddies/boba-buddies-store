@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import * as db from '../db/products'
 import { logError } from '../logger'
+import { upsertProductSchema } from '../../models/Products'
 const router = Router()
 
 // GET /api/v1/products
@@ -38,6 +39,33 @@ router.get('/lowstock/:maxStock', async (req, res) => {
   } catch (error) {
     logError(error)
     res.status(500).json({ message: 'Unable to ge the data from database' })
+  }
+})
+
+//POST add new Product /api/v1/products
+router.post('/', async (req, res) => {
+  const form = req.body
+
+  if (!form) {
+    res.status(400).json({ message: 'Please provide a form' })
+    return
+  }
+
+  try {
+    const userResult = upsertProductSchema.safeParse(form)
+
+    if (!userResult.success) {
+      res.status(400).json({ message: 'Please provide a valid form' })
+      return
+    }
+
+    await db.addProduct(form)
+    res.sendStatus(201)
+  } catch (e) {
+    console.error(e)
+    res
+      .status(500)
+      .json({ message: 'Unable to insert new Product to database' })
   }
 })
 
