@@ -126,3 +126,24 @@ export async function addReviewByUserId(userId: string, newReview: NewReview) {
   created_at defaults to knex.fn.now() in migration file
   */
 }
+
+export async function updateReviewStatusById(
+  id: number,
+  isEnabled: boolean,
+  adminUserId: string,
+) {
+  //Check if user is authorised. If they are not:
+  //return "User is not authorized"
+
+  // Select the associated review with the given id
+  const review = await db('reviews').where('id', id).first()
+
+  // Check if the review exists
+  if (!review) {
+    return 'Review not found'
+  }
+
+  await db('reviews').where('id', id).update('is_enabled', isEnabled)
+
+  return `is_enabled status of reivew matching the id: ${id} has been updated to ${isEnabled}`
+}
