@@ -44,3 +44,21 @@ export async function addCartToPurchasesByUserId(
 export async function clearCartByUserId(userId: string) {
   await db('cart').where('user_id', userId).delete()
 }
+
+
+export async function getAmountOfOrdersByDate(date: string) {
+  // Retrieve the total amount of unique order_id on the given date
+  const totalOrders = await db('purchases')
+    .whereRaw('DATE(purchased_at) = ?', date)
+    .countDistinct('order_id as totalOrders')
+    .first();
+
+  // Extract the count from the result object and convert it to a number
+  if (totalOrders !== undefined) {
+  const amountOfOrders = Number(totalOrders.totalOrders)
+  return amountOfOrders;
+  }
+
+  return 0
+  
+}
