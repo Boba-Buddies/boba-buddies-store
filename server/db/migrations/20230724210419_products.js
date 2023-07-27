@@ -7,7 +7,7 @@ exports.up = function (knex) {
     table.text('description').notNullable()
     table.integer('stock').unsigned().notNullable()
     table.boolean('is_enabled').notNullable().defaultTo(true)
-    table.decimal('average_rating').notNullable()
+    table.decimal('average_rating').notNullable().defaultTo(0)
   })
 }
 

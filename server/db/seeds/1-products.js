@@ -139,7 +139,7 @@ exports.seed = async function (knex) {
       price: 7,
       description:
         'A zesty and revitalizing combination of kiwifruit and tea, providing a tangy and invigorating drink experience.',
-      stock: 200,
+      stock: 4,
       is_enabled: true,
       average_rating: 3.75,
     },
@@ -172,7 +172,7 @@ exports.seed = async function (knex) {
       price: 8.6,
       description:
         'A vibrant and visually striking juice made from red dragon fruit, providing a refreshingly exotic and mildly sweet taste.',
-      stock: 200,
+      stock: 4,
       is_enabled: true,
       average_rating: 3.75,
     },
