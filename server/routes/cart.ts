@@ -42,4 +42,25 @@ router.post('/', async (req, res) => {
   }
 })
 
+// PATCH route to update the cart item quantity by user id
+router.patch('/', async (req, res) => {
+  try {
+    const { userId, productId, quantity } = req.body
+
+    if (!userId || !productId || !quantity) {
+      return res.status(400).json({
+        message: 'Missing required fields',
+      })
+    }
+    await db.updateCartItemQuantityByProductId({ userId, productId, quantity })
+
+    res
+      .status(200)
+      .json({ message: 'Cart item quantity updated successfully.' })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({ message: 'Failed to update cart item quantity.' })
+  }
+})
+
 export default router

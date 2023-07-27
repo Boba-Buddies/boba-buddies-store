@@ -1,5 +1,5 @@
 import connection from './connection'
-import { Cart, CartItem } from '../../models/Cart'
+import { CartItem } from '../../models/Cart'
 
 //GET: getCartByUserId(userId: string)
 export async function getCartByUserId(userId: string, db = connection) {
@@ -54,8 +54,8 @@ export async function updateCartItemQuantityByProductId(
     .update({ quantity: updatedQuantityItem.quantity })
 }
 
-//DELETE: removeCartItemByUserId(userId : string, productId : number)
-export async function removeCartItemByUserId(
+//DELETE: removeCartItemByProductId(userId : string, productId : number)
+export async function removeCartItemByProductId(
   userId: string,
   productId: number,
   db = connection,
