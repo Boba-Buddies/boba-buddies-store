@@ -4,15 +4,15 @@ import { Cart, CartItem } from '../../models/Cart'
 //GET: getCartByUserId(userId: string)
 export async function getCartByUserId(userId: string, db = connection) {
   return await db('cart')
-    .join('products', 'cart.product_id', 'product.id')
-    .where('cart.product_id', userId)
+    .join('products', 'cart.product_id', 'products.id')
+    .where('cart.user_id', userId)
     .select(
       'cart.user_id as userId',
       'products.name as name',
       'products.id as productId',
       'products.price as price',
       'cart.quantity as quantity',
-      'products.img_src as img',
+      'products.img as img',
     )
 }
 
