@@ -67,10 +67,17 @@ export async function getAmountOfOrdersByDate(
   return 0
 }
 
+export async function getOrdersByUserId(userId: string) {
+  const userOrders = await db('purchases')
+    .join('products', 'purchases.product_id', 'products.id')
+    .where('purchases.user_id', userId)
+    .select(
+      'purchases.order_id as orderId',
+      'purchases.purchased_at as purchasedAt',
+      db.raw('SUM(products.price * purchases.quantity) as totalAmount'),
+    )
+    .groupBy('purchases.order_id', 'purchases.purchased_at')
+    .orderBy('purchases.purchased_at', 'desc')
 
-export async function getOrdersByUserId(userId : string) {
-  //returns an array of objects.
-  //Each object represents an order from the given userId that looks like this:  {orderId : number,  purchasedAt : string, totalAmount : number }
-  //the totalAmount would be calculated here, by taking the product_id to access the price of the associated product in the products table, and multiplying it by the quantity in the purchase row. And then adding all the purchase rows that are linked together by the same order_id. 
-  //Since the purchased_at is the same for each purchase that is in the same order, we can just take the first purchased_at value in each order.
+  return userOrders
 }
