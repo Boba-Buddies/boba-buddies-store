@@ -23,11 +23,13 @@ export const productSchema = z.object({
   averageRating: z.number(),
 })
 
-export const lowStockProductsSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  img: z.string(),
-})
+export const lowStockProductsSchema = z
+  .object({
+    id: z.number(),
+    name: z.string(),
+    img: z.string(),
+  })
+  .array()
 
 export const upsertProductSchema = z.object({
   name: z.string(),
