@@ -100,3 +100,55 @@ export async function getAllOrders(adminUserId: string) {
 
   return orders
 }
+
+export async function getOrderByOrderId(orderId: number) {
+  const order = await db('purchases')
+    .where('purchases.order_id', orderId)
+    .join('users', 'purchases.user_id', '=', 'users.auth0_id')
+    .join('products', 'purchases.product_id', '=', 'products.id')
+    .join(
+      'shipping_options',
+      'purchases.shipping_id',
+      '=',
+      'shipping_options.id',
+    )
+    .select(
+      'purchases.order_id as orderId',
+      'users.first_name as userFirstName',
+      'users.last_name as userLastName',
+      'users.address as userAddress',
+      'users.city as userCity',
+      'users.country as userCountry',
+      'users.zip_code as userZipCode',
+      'users.email_address as userEmail',
+      'users.phone_number as userPhoneNumber',
+      'purchases.purchased_at as orderDate',
+      'shipping_options.shipping_type as shippingType',
+      'shipping_options.price as shippingPrice',
+      db.raw(`SUM(purchases.quantity * products.price) as totalSale`),
+      db.raw(`SUM(purchases.quantity) as amountOfItems`),
+      db.raw(
+        `ARRAY_AGG(JSON_BUILD_OBJECT('productName', products.name, 'productSale', (purchases.quantity * products.price), 'productImg', products.img, 'itemQuantity', purchases.quantity)) as orderItems`,
+      ),
+    )
+    .groupBy(
+      'purchases.order_id',
+      'users.first_name',
+      'users.last_name',
+      'users.address',
+      'users.city',
+      'users.country',
+      'users.zip_code',
+      'users.email_address',
+      'users.phone_number',
+      'purchases.purchased_at',
+      'shipping_options.shipping_type',
+      'shipping_options.price',
+    )
+    .first()
+
+  return order
+}
+
+
+
