@@ -11,7 +11,6 @@ export const cartSchema = z
   .array()
 
 export const cartItemSchema = z.object({
-  id: z.number(),
   userId: z.string(),
   productId: z.number(),
   quantity: z.number(),
