@@ -27,7 +27,9 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.0",
+    "csv-parser": "^3.0.0",
     "express": "^4.17.2",
+    "fs": "^0.0.1-security",
     "jest": "^29.6.1",
     "knex": "^2.3.0",
     "sqlite3": "^5.1.2",
