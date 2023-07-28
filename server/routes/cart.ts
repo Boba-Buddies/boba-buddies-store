@@ -81,3 +81,9 @@ router.delete('/:userId/:productId', async (req, res) => {
 })
 
 export default router
+
+// router.delete('/:userId', async (req, res) => {
+//   try {
+//     const {userId} = req.params
+//   }
+// })

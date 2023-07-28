@@ -60,7 +60,7 @@ export async function removeCartItemByProductId(
   productId: number,
   db = connection,
 ) {
-  return db('cart')
+  await db('cart')
     .where('user_id', userId)
     .andWhere('product_id', productId)
     .del()
@@ -68,5 +68,5 @@ export async function removeCartItemByProductId(
 
 //DELETE: clearCartByUserId(userId: string)
 export async function clearCartByUserId(userId: string, db = connection) {
-  return db('cart').where('user_id', userId).del()
+  await db('cart').where('user_id', userId).del()
 }
