@@ -1,7 +1,7 @@
 import { Router } from 'express'
 import * as db from '../db/cart'
 import { logError } from '../logger'
-import { cartItemSchema } from '../../models/Cart'
+import { Cart, CartItem, cartItemSchema } from '../../models/Cart'
 const router = Router()
 
 router.get('/', async (req, res) => {
@@ -60,6 +60,23 @@ router.patch('/', async (req, res) => {
   } catch (error) {
     console.error(error)
     res.status(500).json({ message: 'Failed to update cart item quantity.' })
+  }
+})
+
+// DELETE route to delete cart item by product id
+
+router.delete('/:userId/:productId', async (req, res) => {
+  try {
+    const { userId, productId } = req.params
+
+    if (!userId || !productId) {
+      return res.status(400).json({ message: 'Missing required fields' })
+    }
+    await db.removeCartItemByProductId(userId, Number(productId))
+
+    res.status(200).json({ message: 'Cart item removed successfully' })
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to remove item from cart.' })
   }
 })
 
