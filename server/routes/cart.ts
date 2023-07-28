@@ -1,8 +1,11 @@
 import { Router } from 'express'
 import * as db from '../db/cart'
 import { logError } from '../logger'
-import { Cart, CartItem, cartItemSchema } from '../../models/Cart'
 const router = Router()
+
+// GETs the cart by user id
+
+// example: http://localhost:5173/api/v1/cart/?userId=auth0|xyz45678
 
 router.get('/', async (req, res) => {
   const userId = req.query.userId as string
@@ -65,6 +68,8 @@ router.patch('/', async (req, res) => {
 
 // DELETE route to delete cart item by product id
 
+// http://localhost:5173/api/v1/cart/:userId/:productId
+
 router.delete('/:userId/:productId', async (req, res) => {
   try {
     const { userId, productId } = req.params
@@ -82,8 +87,16 @@ router.delete('/:userId/:productId', async (req, res) => {
 
 export default router
 
-// router.delete('/:userId', async (req, res) => {
-//   try {
-//     const {userId} = req.params
-//   }
-// })
+// DELETE route to clear cart by user id
+
+// http://localhost:5173/api/v1/cart/:userId
+
+router.delete('/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params
+    await db.clearCartByUserId(userId)
+    res.status(200).json({ message: 'Successfully cleared cart.' })
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to  clear cart.' })
+  }
+})
