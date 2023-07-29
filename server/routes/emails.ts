@@ -1,10 +1,21 @@
-import { Router, NextFunction } from 'express'
+import { Router } from 'express'
 import * as db from '../db/emails'
 import { logError } from '../logger'
-import { SentEmailToBackend, newEmailSchema } from '../../models/Emails'
+import { newEmailSchema } from '../../models/Emails'
 
 const router = Router()
 
+router.get('/today', async (req, res) => {
+  const today = new Date().toISOString().slice(0, 10)
+
+  try {
+    const unreadNumber = await db.getAmountOfUnreadEmailsByDate(today)
+    res.status(200).json(unreadNumber)
+  } catch (error) {
+    logError(error)
+    res.status(500).json({ message: 'failed to get number of unread emails' })
+  }
+})
 
 router.get('/', async (req, res) => {
   // check auth0_id, if it has admin access
@@ -29,21 +40,6 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.get('/today', async (req, res) => {
-  // const today = new Date().toISOString().slice(0, 10)
-  const today = '2023-07-29'
-
-  console.log(today, "i'm from server")
-  try {
-    const unreadNumber = await db.getAmountOfUnreadEmailsByDate(today)
-    res.status(200).json({ unreadNumber })
-  } catch (error) {
-    logError(error)
-    res.status(500).json({ message: 'failed to get number of unread emails' })
-  }
-})
-
-// router.post()
 router.post('/', async (req, res) => {
   // check if it is logged in, has to be singed in to send the email.
 
@@ -68,9 +64,8 @@ router.post('/', async (req, res) => {
 })
 
 
-//router.patch()
 router.patch('/:id', async (req, res) => {
-  // check if it is logged in, has to be singed in to send the email.
+  // check if it is logged in, has to be singed in as admin to read the email.
   try {
     const id = Number(req.params.id)
     await db.updateEmailReadStatusById(id)

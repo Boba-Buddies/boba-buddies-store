@@ -1,4 +1,4 @@
-import { SentEmailToBackend, Emails, Email, UpdateEmailReadStatus, NewEmail } from '../../models/Emails'
+import { Emails, Email, NewEmail } from '../../models/Emails'
 import db from './connection'
 
 // GET: getAllEmails()
@@ -38,7 +38,7 @@ export async function sendEmailByUserId(newEmail: NewEmail, userId: string) {
 }
 
 
-//POST: updateEmailReadStatusById(id:number, isRead:boolean)
+//PATCH: updateEmailReadStatusById(id:number, isRead:boolean)
 export function updateEmailReadStatusById(id: number) {
   return db('emails').where('id', id).update('is_read', true)
 }
@@ -52,15 +52,12 @@ export function deleteEmailById(id: number) {
 }
 
 
-//GET getAmountOfUnreadEmailsByDate(date:format?)
+//GET: getAmountOfUnreadEmailsByDate(date:format?)
 export async function getAmountOfUnreadEmailsByDate(date: string) {
-  const isRead = "FALSE"
   return (await db('emails')
-
-    .where('DATE(created_at) = ?', date)
-    // .whereRaw('DATE(created_at) = ?', date)
-    // .where('is_read', isRead)
-    // .count('* as unreadEmailCount')
+    .whereRaw('DATE(created_at) = ?', date)
+    .where('is_read', 0)
+    .count('* as unreadEmailCount')
     .first())
 }
 //The result will be an object, like {unreadEmailCount: 20}
