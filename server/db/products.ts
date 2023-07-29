@@ -52,3 +52,17 @@ export async function addProduct(newProduct: UpsertProduct) {
     is_enabled: newProduct.isEnabled,
   })
 }
+
+export async function updateProduct(
+  updateProduct: UpsertProduct,
+  productId: number,
+) {
+  return await db('products').where('id', productId).update({
+    name: updateProduct.name,
+    img: updateProduct.img,
+    price: updateProduct.price,
+    stock: updateProduct.stock,
+    description: updateProduct.description,
+    is_enabled: updateProduct.isEnabled,
+  })
+}

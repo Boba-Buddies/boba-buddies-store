@@ -69,4 +69,31 @@ router.post('/', async (req, res) => {
   }
 })
 
+//Patch  updateProduct /api/v1/products/:id
+router.patch('/:id', async (req, res) => {
+  const form = req.body
+  const productId = Number(req.params.id)
+
+  if (!form) {
+    res.status(400).json({ message: 'Please provide a form' })
+    return
+  }
+
+  try {
+    const userResult = upsertProductSchema.safeParse(form)
+
+    if (!userResult.success) {
+      res.status(400).json({ message: 'Please provide a valid form' })
+      return
+    }
+
+    await db.updateProduct(form, productId)
+    res.sendStatus(201)
+  } catch (e) {
+    console.error(e)
+    res
+      .status(500)
+      .json({ message: 'Unable to insert new Product to database' })
+  }
+})
 export default router
