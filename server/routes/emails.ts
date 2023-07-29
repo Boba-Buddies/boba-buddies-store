@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
     await db.sendEmailByUserId(newEmail, userId)
     res.sendStatus(201)
   } catch (error) {
-    console.error(error)
+    logError(error)
     res.status(500).json({ message: 'Unable to insert new email to database' })
   }
 })
@@ -71,10 +71,21 @@ router.patch('/:id', async (req, res) => {
     await db.updateEmailReadStatusById(id)
     res.sendStatus(200)
   } catch (error) {
+    logError(error)
     res.status(500).json({ message: 'Unable to update read status to database' })
   }
 })
 
+router.delete('/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id)
+    await db.deleteEmailById(id)
+    res.sendStatus(200)
+  } catch (error) {
+    logError(error)
+    res.status(500).json({ message: 'could not delete email' })
+  }
+})
 
 
 export default router
