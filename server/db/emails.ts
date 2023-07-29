@@ -1,4 +1,4 @@
-import { SentEmail, Emails, Email, UpdateEmailReadStatus } from '../../models/Emails'
+import { SentEmailToBackend, Emails, Email, UpdateEmailReadStatus, NewEmail } from '../../models/Emails'
 import db from './connection'
 
 // GET: getAllEmails()
@@ -28,11 +28,19 @@ export async function getEmailById(id: number) {
     ).first()) as Email
 }
 
-//POST: updateEmailReadStatusById(id:number, isRead:boolean)
-export function updateEmailReadStatusById(id: number, updatedStatus: UpdateEmailReadStatus) {
-  const newObj = { ...updatedStatus }
+//POST: sendEmailByUserId(userId: string, sentEmail: object)
+export async function sendEmailByUserId(newEmail: NewEmail, userId: string) {
+  return db('emails').insert({
+    user_id: userId,
+    title: newEmail.title,
+    description: newEmail.description,
+  })
+}
 
-  return db('emails').where('id', id).update(newObj)
+
+//POST: updateEmailReadStatusById(id:number, isRead:boolean)
+export function updateEmailReadStatusById(id: number) {
+  return db('emails').where('id', id).update('is_read', true)
 }
 
 
@@ -44,13 +52,15 @@ export function deleteEmailById(id: number) {
 }
 
 
-
 //GET getAmountOfUnreadEmailsByDate(date:format?)
 export async function getAmountOfUnreadEmailsByDate(date: string) {
+  const isRead = "FALSE"
   return (await db('emails')
-    .whereRaw('DATE(created_at) = ?', date)
-    .where('is_read', 0)
-    .count('* as unreadEmailCount')
+
+    .where('DATE(created_at) = ?', date)
+    // .whereRaw('DATE(created_at) = ?', date)
+    // .where('is_read', isRead)
+    // .count('* as unreadEmailCount')
     .first())
 }
 //The result will be an object, like {unreadEmailCount: 20}
