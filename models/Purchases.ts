@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-export const UserOrdersSchema = z
+export const userOrdersSchema = z
   .object({
     orderId: z.number(),
     purchasedAt: z.string(),
@@ -8,7 +8,7 @@ export const UserOrdersSchema = z
   })
   .array()
 
-export const OrdersSchema = z
+export const ordersSchema = z
   .object({
     userName: z.string(),
     orderId: z.number(),
@@ -17,7 +17,7 @@ export const OrdersSchema = z
   })
   .array()
 
-export const OrderSchema = z.object({
+export const orderSchema = z.object({
   orderId: z.number(),
   userFirstName: z.string(),
   userLastName: z.string(),
@@ -42,7 +42,7 @@ export const OrderSchema = z.object({
     .array(),
 })
 
-export const TransferedCartSchema = z
+export const transferedCartSchema = z
   .object({
     productId: z.number(),
     quantity: z.number(),
@@ -50,7 +50,7 @@ export const TransferedCartSchema = z
   })
   .array()
 
-export type UserOrders = z.infer<typeof UserOrdersSchema>
-export type Orders = z.infer<typeof OrdersSchema>
-export type Order = z.infer<typeof OrderSchema>
-export type TransferedCart = z.infer<typeof TransferedCartSchema>
+export type UserOrders = z.infer<typeof userOrdersSchema>
+export type Orders = z.infer<typeof ordersSchema>
+export type Order = z.infer<typeof orderSchema>
+export type TransferedCart = z.infer<typeof transferedCartSchema>
