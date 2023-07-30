@@ -29,4 +29,27 @@ router.get('/', async (req, res) => {
   }
 })
 
+// GET http://localhost:5173/api/v1/users/auth0|xyz45678
+
+router.get('/:userId', async (req, res) => {
+  const userId = req.params.userId
+  try {
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is missing' })
+    }
+
+    const userName = await db.getUserName(userId)
+    if (!userName) {
+      return res.status(404).json({ message: 'UserName not found' })
+    }
+
+    res.status(200).json(userName)
+  } catch (error) {
+    logError(error)
+    res
+      .status(500)
+      .json({ message: 'Unable to get the data from the database' })
+  }
+})
+
 export default router

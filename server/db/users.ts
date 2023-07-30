@@ -21,3 +21,25 @@ export async function getUserById(userId: string) {
 }
 
 //GET: getUserNameById(userId: string)
+
+export async function getUserName(userId: string) {
+  return await db('users')
+    .where('auth0_id', userId)
+    .first('user_name as userName')
+}
+
+// PATCH: updateUserDetailsById(updatedUserDetails: UpdateUser)
+export async function updateUserDetailsById(
+  userId: string,
+  updatedUserDetails: UpdateUser,
+) {
+  await db('users').where('auth0Id', userId).update({
+    first_name: updatedUserDetails.firstName,
+    last_name: updatedUserDetails.lastName,
+    phone_number: updatedUserDetails.phoneNumber,
+    address: updatedUserDetails.address,
+    city: updatedUserDetails.city,
+    country: updatedUserDetails.country,
+    zip_code: updatedUserDetails.zipCode,
+  })
+}
