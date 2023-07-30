@@ -23,7 +23,7 @@ export async function addCartToPurchasesByUserId(
   shippingId: number,
 ) {
   const latestOrderId: number = await getLatestOrderId()
-  const newOrderId: number = latestOrderId
+  const newOrderId: number = latestOrderId + 1
 
   const cart = await db('cart')
     .where('user_id', userId)
