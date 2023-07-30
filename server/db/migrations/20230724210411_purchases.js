@@ -14,7 +14,7 @@ exports.up = function (knex) {
       .references('shipping_options.id')
       .unsigned()
       .notNullable()
-    table.number('order_id').notNullable()
+    table.integer('order_id').notNullable()
   })
 }
 
