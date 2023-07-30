@@ -85,8 +85,6 @@ router.delete('/:userId/:productId', async (req, res) => {
   }
 })
 
-export default router
-
 // DELETE route to clear cart by user id
 
 // http://localhost:5173/api/v1/cart/:userId
@@ -100,3 +98,5 @@ router.delete('/:userId', async (req, res) => {
     res.status(500).json({ message: 'Failed to  clear cart.' })
   }
 })
+
+export default router
