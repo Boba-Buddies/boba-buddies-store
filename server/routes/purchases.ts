@@ -20,11 +20,11 @@ router.get('/latest-order/:userId', async (req, res) => {
 
 //POST /api/v1/purchases
 //db.addCartToPurchasesByUserId (userId : string, transferedCart : [{ productId : number, quantity : number, shippingId : number}])
-router.post('/', async (req, res) => {
+router.post('/:userId/:shippingId', async (req, res) => {
   try {
     await db.addCartToPurchasesByUserId(
-      req.body.userId,
-      req.body.transferedCart,
+      req.params.userId,
+      Number(req.params.shippingId),
     )
     res.status(200).json({ message: 'Cart successfully added to purchases' })
   } catch (error) {

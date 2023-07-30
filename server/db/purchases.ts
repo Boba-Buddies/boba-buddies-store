@@ -12,7 +12,7 @@ export async function getLatestOrderIdByUserId(userId: string) {
 
 export async function getLatestOrderId() {
   const latestPurchase = await db('purchases')
-    .orderBy('purchased_at', 'desc') // Order the rows by purchased_at in descending order (newest first)
+    .orderBy('order_id', 'desc')
     .first()
 
   return latestPurchase.order_id
@@ -20,23 +20,24 @@ export async function getLatestOrderId() {
 
 export async function addCartToPurchasesByUserId(
   userId: string,
-  transferedCart: TransferedCart,
+  shippingId: number,
 ) {
-  const latestOrderId: number = await getLatestOrderId()
-  const newOrderId: number = latestOrderId + 1
-  const timestamp = db.fn.now() //get the current time
+  const latestOrderId = await getLatestOrderId()
+  const newOrderId: number = Number(latestOrderId) + 1
 
-  //For each object inside transfered cart, insert it to the table, adding the timestamp and newOrderId to each one.
-  const dataArray = transferedCart.map((purchase) => {
+  const cart = await db('cart')
+    .where('user_id', userId)
+    .select('user_id', 'product_id', 'quantity')
+  //For each object inside transfered cart, add the newOrderId to each one.
+  const newPurchases = cart.map((purchase) => {
     return {
       ...purchase,
-      user_id: userId,
       order_id: newOrderId,
-      purchased_at: timestamp,
+      shipping_id: shippingId,
     }
   })
 
-  await db('purchases').insert(dataArray)
+  await db('purchases').insert(newPurchases)
   await clearCartByUserId(userId)
 }
 
@@ -101,8 +102,8 @@ export async function getAllOrders(adminUserId: string) {
   return orders
 }
 
-export async function getOrderByOrderId(adminUserId : string, orderId: string ) {
-    //Check if user is authorised. If they are not:
+export async function getOrderByOrderId(adminUserId: string, orderId: string) {
+  //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
   const order = await db('purchases')
@@ -150,8 +151,8 @@ export async function getOrderByOrderId(adminUserId : string, orderId: string ) 
     )
     .first()
 
-  if(order) {
-    order.orderItems = JSON.parse(`[${order.orderItems}]`);
+  if (order) {
+    order.orderItems = JSON.parse(`[${order.orderItems}]`)
   }
 
   return order
