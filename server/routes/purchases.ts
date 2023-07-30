@@ -34,6 +34,7 @@ router.post('/', async (req, res) => {
   }
 })
 
+//TESTED - WORKING
 //GET /api/v1/purchases/orders-by-date/:adminUserId/:date
 //db.getAmountOfOrdersByDate(date : string (year-month-day), adminUserId : string)
 router.get('/orders-by-date/:adminUserId/:date', async (req, res) => {
@@ -51,6 +52,7 @@ router.get('/orders-by-date/:adminUserId/:date', async (req, res) => {
   }
 })
 
+//TESTED - WORKING
 //GET /api/v1/purchases/user-orders/:userId
 //db.getOrdersByUserId(userId : string)
 router.get('/user-orders/:userId', async (req, res) => {
