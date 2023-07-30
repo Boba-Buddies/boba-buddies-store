@@ -3,6 +3,7 @@ import * as db from '../db/purchases'
 import { logError } from '../logger'
 const router = Router()
 
+//TESTED - WORKING
 // GET /api/v1/purchases/latest-order/:userId
 //db.getLatestOrderByUserId(userId : string)
 router.get('/latest-order/:userId', async (req, res) => {
@@ -16,6 +17,7 @@ router.get('/latest-order/:userId', async (req, res) => {
       .json({ message: 'Unable to get the latest order from database' })
   }
 })
+
 
 //POST /api/v1/purchases
 //db.addCartToPurchasesByUserId (userId : string, transferedCart : [{ productId : number, quantity : number, shippingId : number}])
@@ -61,6 +63,7 @@ router.get('/user-orders/:userId', async (req, res) => {
   }
 })
 
+//TESTED - WORKING
 //GET /api/v1/purchases/:adminUserId
 //db.getAllOrders(adminUserId : string)
 router.get('/:adminUserId', async (req, res) => {
