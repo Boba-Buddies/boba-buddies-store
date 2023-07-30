@@ -92,7 +92,7 @@ export async function getAllOrders(adminUserId: string) {
     .select(
       'users.user_name as userName',
       'purchases.order_id as orderId',
-      db.raw('SUM(products.price * purchases.quantity) as totalSale'),
+      db.raw('ROUND(SUM(products.price * purchases.quantity), 2) as totalSale'),
       db.raw('MIN(purchases.purchased_at) as purchasedAt'),
     )
     .groupBy('users.user_name', 'purchases.order_id')
@@ -149,6 +149,3 @@ export async function getOrderByOrderId(orderId: number) {
 
   return order
 }
-
-
-
