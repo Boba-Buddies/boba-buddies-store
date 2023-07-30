@@ -101,7 +101,10 @@ export async function getAllOrders(adminUserId: string) {
   return orders
 }
 
-export async function getOrderByOrderId(orderId: number) {
+export async function getOrderByOrderId(adminUserId : string, orderId: string ) {
+    //Check if user is authorised. If they are not:
+  //return "User is not authorized"
+
   const order = await db('purchases')
     .where('purchases.order_id', orderId)
     .join('users', 'purchases.user_id', '=', 'users.auth0_id')
@@ -125,10 +128,10 @@ export async function getOrderByOrderId(orderId: number) {
       'purchases.purchased_at as orderDate',
       'shipping_options.shipping_type as shippingType',
       'shipping_options.price as shippingPrice',
-      db.raw(`SUM(purchases.quantity * products.price) as totalSale`),
+      db.raw(`ROUND(SUM(purchases.quantity * products.price), 2) as totalSale`),
       db.raw(`SUM(purchases.quantity) as amountOfItems`),
       db.raw(
-        `ARRAY_AGG(JSON_BUILD_OBJECT('productName', products.name, 'productSale', (purchases.quantity * products.price), 'productImg', products.img, 'itemQuantity', purchases.quantity)) as orderItems`,
+        `GROUP_CONCAT(json_object('productName', products.name, 'productSale', (purchases.quantity * products.price), 'productImg', products.img, 'itemQuantity', purchases.quantity)) as orderItems`,
       ),
     )
     .groupBy(
@@ -146,6 +149,10 @@ export async function getOrderByOrderId(orderId: number) {
       'shipping_options.price',
     )
     .first()
+
+  if(order) {
+    order.orderItems = JSON.parse(`[${order.orderItems}]`);
+  }
 
   return order
 }

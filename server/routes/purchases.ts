@@ -18,7 +18,6 @@ router.get('/latest-order/:userId', async (req, res) => {
   }
 })
 
-
 //POST /api/v1/purchases
 //db.addCartToPurchasesByUserId (userId : string, transferedCart : [{ productId : number, quantity : number, shippingId : number}])
 router.post('/', async (req, res) => {
@@ -78,11 +77,15 @@ router.get('/:adminUserId', async (req, res) => {
   }
 })
 
+//TESTED - WORKING
 //GET /api/v1/purchases/order
 //db.getOrderByOrderId(orderId : number, adminUserId : string)
-router.get('/order/:orderId', async (req, res) => {
+router.get('/order/:adminUserId/:orderId', async (req, res) => {
   try {
-    const order = await db.getOrderByOrderId(Number(req.params.orderId))
+    const order = await db.getOrderByOrderId(
+      req.params.adminUserId,
+      req.params.orderId,
+    )
     res.status(200).json({ order })
   } catch (error) {
     logError(error)
