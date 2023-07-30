@@ -5,7 +5,7 @@ const router = Router()
 
 // GETs the cart by user id
 
-// example: http://localhost:5173/api/v1/cart/?userId=auth0|xyz45678
+// example: http://localhost:5173/api/v1/cart?userId=auth0|xyz45678
 
 router.get('/', async (req, res) => {
   const userId = req.query.userId as string
