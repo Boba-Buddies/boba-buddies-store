@@ -1,4 +1,4 @@
-import { TransferedCart } from '../../models/Purchases'
+import {CartTransferInfo } from '../../models/Cart'
 import db from './connection'
 
 export async function getLatestOrderIdByUserId(userId: string) {
@@ -19,9 +19,9 @@ export async function getLatestOrderId() {
 }
 
 export async function addCartToPurchasesByUserId(
-  userId: string,
-  shippingId: number,
+  cartTransferInfo : CartTransferInfo
 ) {
+  const { userId, shippingId } = cartTransferInfo
   const newOrderId = (await getLatestOrderId()) + 1
 
   const cart = await db('cart')
