@@ -38,29 +38,36 @@ export async function getAllReviews(adminUserId: string) {
   //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
-  return (await db('reviews')
+  const reviews = (await db('reviews')
     .join('users', 'reviews.user_id', 'users.auth0_id')
     .join('products', 'reviews.product_id', 'products.id')
     .select(
       'reviews.id as id',
       'reviews.rating',
-      'products.product_name as productName',
+      'products.name as productName',
       'reviews.is_enabled as isEnabled',
       'users.user_name as userName',
       'reviews.created_at as createdAt',
     )) as Reviews
+
+  // Here we map through each review and transform the isEnabled field from integer to boolean, since SQLite always represents true as 1, and false as 0 under the hood.
+  return reviews.map((review) => ({
+    ...review,
+    isEnabled: Boolean(review.isEnabled),
+  }))
 }
 
 export async function getReviewById(id: number, adminUserId: string) {
   //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
-  return (await db('reviews')
+  const review = (await db('reviews')
+    .where('reviews.id', id)
     .join('users', 'reviews.user_id', 'users.auth0_id')
     .join('products', 'reviews.product_id', 'products.id')
     .select(
       'reviews.id as reviewId',
-      'products.product_name as productName',
+      'products.name as productName',
       'products.img as productImg',
       'reviews.description as reviewDescription',
       'reviews.rating as reviewRating',
@@ -69,6 +76,9 @@ export async function getReviewById(id: number, adminUserId: string) {
       'reviews.created_at as reviewCreatedAt',
     )
     .first()) as Review
+
+  //Convert is_enabled: 1/0 value into true/false
+  return { ...review, reviewIsEnabled: Boolean(review.reviewIsEnabled) }
 }
 
 export async function recalculateAverageRatingByProductId(productId: number) {
@@ -100,16 +110,15 @@ export async function recalculateAverageRatingByProductId(productId: number) {
 }
 
 export async function addReviewByUserId(newReview: NewReview) {
-  await db('reviews').insert(newReview)
+  await db('reviews').insert({
+    user_id: newReview.userId,
+    product_id: newReview.productId,
+    description: newReview.description,
+    rating: newReview.rating,
+  })
 
   //After we add the review, we recalcaute the average_rating of the associated product, taking into account the new review's rating that was just added.
   await recalculateAverageRatingByProductId(newReview.productId)
-
-  /*
-  NOTE: We don't need to add 'created_at' or 'is_enabled' because they both have defaults created when we add the data to the table.
-  is_enabled defaults to true in migration file
-  created_at defaults to knex.fn.now() in migration file
-  */
 }
 
 export async function updateReviewStatusById(
@@ -132,7 +141,7 @@ export async function updateReviewStatusById(
   return `is_enabled status of reivew matching the id: ${id} has been updated to ${isEnabled}`
 }
 
-export async function removeReviewByUserId(userId: string, productId: number) {
+export async function removeReviewByUserId(productId: number, userId: string) {
   await db('reviews').where({ user_id: userId, product_id: productId }).delete()
   await recalculateAverageRatingByProductId(productId)
 }

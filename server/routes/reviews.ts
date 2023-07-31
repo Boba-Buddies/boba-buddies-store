@@ -3,6 +3,7 @@ import * as db from '../db/reviews'
 import { logError } from '../logger'
 const router = Router()
 
+//GET REVIEW BY PRODUCT ID
 //GET /api/v1/reviews/by-product-id/:productId
 router.get('/by-product-id/:productId', async (req, res) => {
   try {
@@ -14,6 +15,7 @@ router.get('/by-product-id/:productId', async (req, res) => {
   }
 })
 
+//GET AMOUNT OF REVIEWS BY DATE
 //GET /api/v1/reviews/amount-by-date/:date/:adminUserId
 router.get('/amount-by-date/:date/:adminUserId', async (req, res) => {
   try {
@@ -28,6 +30,7 @@ router.get('/amount-by-date/:date/:adminUserId', async (req, res) => {
   }
 })
 
+//GET ALL REVIEWS
 //GET /api/v1/reviews/all/:adminUserId
 router.get('/all/:adminUserId', async (req, res) => {
   try {
@@ -39,6 +42,7 @@ router.get('/all/:adminUserId', async (req, res) => {
   }
 })
 
+//GET REVIEW BY ID
 //GET /api/v1/reviews/by-review-id/:id/:adminUserId
 router.get('/by-review-id/:id/:adminUserId', async (req, res) => {
   try {
@@ -53,6 +57,7 @@ router.get('/by-review-id/:id/:adminUserId', async (req, res) => {
   }
 })
 
+//ADD REVIEW
 //POST /api/v1/reviews/add
 router.post('/add', async (req, res) => {
   try {
@@ -64,8 +69,9 @@ router.post('/add', async (req, res) => {
   }
 })
 
-//PATCH api/v1/reviews/modify-status
-router.patch('/modify-status', async (req, res) => {
+//UPDATE REVIEW STATUS
+//PATCH api/v1/reviews/update-status
+router.patch('/update-status', async (req, res) => {
   try {
     const message = await db.updateReviewStatusById(req.body)
     res.status(200).json({ message })
@@ -75,12 +81,13 @@ router.patch('/modify-status', async (req, res) => {
   }
 })
 
+//DELETE REVIEW
 //DELETE api/v1/reviews/remove/:productId/:userId
 router.delete('/remove/:productId/:userId', async (req, res) => {
   try {
     await db.removeReviewByUserId(
-      req.params.userId,
       Number(req.params.productId),
+      req.params.userId,
     )
     res.status(200).json({ message: 'Review removed successfully' })
   } catch (error) {
@@ -88,3 +95,5 @@ router.delete('/remove/:productId/:userId', async (req, res) => {
     res.status(500).json({ message: 'Unable to remove review' })
   }
 })
+
+export default router
