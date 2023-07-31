@@ -27,4 +27,8 @@ const router = Router()
 
 
 //!POST /api/v1/reviews
-//?Adds review from req.body : { userId : string, }
+//?Adds new review from req.body 
+//db.addReviewByUserId(newReview : { userId : string, productId : number, description : string, rating : number })
+
+
+//!PATCH api/v1/reviews/:id/:isEnabled/:adminUserId
