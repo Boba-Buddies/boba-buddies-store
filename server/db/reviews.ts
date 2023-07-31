@@ -3,6 +3,7 @@ import {
   ProductReviews,
   Review,
   Reviews,
+  UpdatedReviewStatus,
 } from '../../models/Reviews'
 import db from './connection'
 
@@ -112,10 +113,9 @@ export async function addReviewByUserId(newReview: NewReview) {
 }
 
 export async function updateReviewStatusById(
-  id: number,
-  isEnabled: boolean,
-  adminUserId: string,
+  updatedReviewStatus: UpdatedReviewStatus,
 ) {
+  const { id, isEnabled, adminUserId } = updatedReviewStatus
   //Check if user is authorised. If they are not:
   //return "User is not authorized"
 

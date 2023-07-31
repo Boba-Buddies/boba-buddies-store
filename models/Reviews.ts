@@ -33,13 +33,20 @@ export const reviewSchema = z.object({
 })
 
 export const newReviewSchema = z.object({
-  userId : z.string(),
+  userId: z.string(),
   productId: z.number(),
   description: z.string(),
   rating: z.number(),
+})
+
+export const updatedReviewStatusSchema = z.object({
+  id: z.number(),
+  isEnabled: z.boolean(),
+  adminUserId: z.string(),
 })
 
 export type ProductReviews = z.infer<typeof productReviewsSchema>
 export type Reviews = z.infer<typeof reviewsSchema>
 export type Review = z.infer<typeof reviewSchema>
 export type NewReview = z.infer<typeof newReviewSchema>
+export type UpdatedReviewStatus = z.infer<typeof updatedReviewStatusSchema>
