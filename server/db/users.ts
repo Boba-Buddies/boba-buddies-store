@@ -2,7 +2,6 @@ import db from './connection'
 import { User, UpdateUser, NewUser, NewUserBackend } from '../../models/Users'
 
 //GET: getUserById(userId : string)
-
 export async function getUserById(userId: string) {
   return (await db('users')
     .where('auth0_id', userId)
@@ -21,7 +20,6 @@ export async function getUserById(userId: string) {
 }
 
 //GET: getUserNameById(userId: string)
-
 export async function getUserName(userId: string) {
   return await db('users')
     .where('auth0_id', userId)
@@ -43,3 +41,7 @@ export async function updateUserDetailsById(
     zip_code: updatedUserDetails.zipCode,
   })
 }
+
+// GET: checkIfUserExists(userId:string)
+
+// POST: addNewUser(newUser:Object)
