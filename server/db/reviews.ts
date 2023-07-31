@@ -6,7 +6,6 @@ import {
 } from '../../models/Reviews'
 import db from './connection'
 
-
 export async function getReviewsByProductId(productId: number) {
   return (await db('reviews')
     .join('users', 'reviews.user_id', 'users.auth0_id')
@@ -99,8 +98,8 @@ export async function recalculateAverageRatingByProductId(productId: number) {
   }
 }
 
-export async function addReviewByUserId(userId: string, newReview: NewReview) {
-  await db('reviews').insert({ user_id: userId, ...newReview })
+export async function addReviewByUserId(newReview: NewReview) {
+  await db('reviews').insert(newReview)
 
   //After we add the review, we recalcaute the average_rating of the associated product, taking into account the new review's rating that was just added.
   await recalculateAverageRatingByProductId(newReview.productId)
@@ -137,4 +136,3 @@ export async function removeReviewByUserId(userId: string, productId: number) {
   await db('reviews').where({ user_id: userId, product_id: productId }).delete()
   await recalculateAverageRatingByProductId(productId)
 }
-
