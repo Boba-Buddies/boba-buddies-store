@@ -33,7 +33,7 @@ export async function updateUserDetailsById(
   userId: string,
   updatedUserDetails: UpdateUser,
 ) {
-  await db('users').where('auth0Id', userId).update({
+  await db('users').where('auth0_id', userId).update({
     first_name: updatedUserDetails.firstName,
     last_name: updatedUserDetails.lastName,
     phone_number: updatedUserDetails.phoneNumber,

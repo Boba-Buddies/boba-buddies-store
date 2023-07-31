@@ -29,9 +29,10 @@ router.get('/', async (req, res) => {
   }
 })
 
-// GET http://localhost:5173/api/v1/users/auth0|xyz45678
+// GET userName by userId
+// http://localhost:5173/api/v1/users/username/user_id_here
 
-router.get('/:userId', async (req, res) => {
+router.get('/username/:userId', async (req, res) => {
   const userId = req.params.userId
   try {
     if (!userId) {
@@ -54,24 +55,19 @@ router.get('/:userId', async (req, res) => {
 
 // PATCH route to update the use details by user id
 
-// router.patch('/', async (req, res) => {
-//   try {
-//     const { userId...} = req.body
+// http://localhost:5173/api/v1/users/edit/user_id_here
 
-//     if (!userId || !productId || !quantity) {
-//       return res.status(400).json({
-//         message: 'Missing required fields',
-//       })
-//     }
-//     await db.updateCartItemQuantityByProductId({  })
+router.patch('/edit/:userId', async (req, res) => {
+  const userId = req.params.userId
+  const updatedUserDetails = req.body
 
-//     res
-//       .status(200)
-//       .json({ message: 'Cart item quantity updated successfully.' })
-//   } catch (error) {
-//     console.error(error)
-//     res.status(500).json({ message: 'Failed to update cart item quantity.' })
-//   }
-// })
+  try {
+    await db.updateUserDetailsById(userId, updatedUserDetails)
+    res.status(200).json({ message: 'User details updated successfully' })
+  } catch (error) {
+    logError(error)
+    res.status(500).json({ message: 'Unable to update user details' })
+  }
+})
 
 export default router

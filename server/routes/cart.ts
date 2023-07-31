@@ -25,7 +25,10 @@ router.get('/', async (req, res) => {
 })
 
 // POST route to add a product to the user's cart
-router.post('/', async (req, res) => {
+
+// http://localhost:5173/api/v1/cart/add-item
+
+router.post('/add-item', async (req, res) => {
   const { userId, productId, quantity } = req.body
 
   if (!userId || !productId || !quantity) {
@@ -46,7 +49,10 @@ router.post('/', async (req, res) => {
 })
 
 // PATCH route to update the cart item quantity by user id
-router.patch('/', async (req, res) => {
+
+// http://localhost:5173/api/v1/cart/update-quantity
+
+router.patch('/update-quantity', async (req, res) => {
   try {
     const { userId, productId, quantity } = req.body
 
