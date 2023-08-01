@@ -7,7 +7,7 @@ export async function getWhishListByUserId(userId: string) {
     .join('users', 'users.auth0_id', 'wishlist.user_id')
     .where('wishlist.user_id', userId)
     .select(
-      'id',
+      'wishlist.id',
       'product_id as productId',
       'products.name as productName',
       'products.img as productImg',
