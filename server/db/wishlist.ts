@@ -33,3 +33,7 @@ export async function addToWishlistByProductId(
     product_id: productId,
   })
 }
+
+export async function removeFromWishlistByProductId(productId: number) {
+  await db('wishlist').where('product_id', productId).delete()
+}

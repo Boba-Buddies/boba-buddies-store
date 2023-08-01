@@ -42,16 +42,28 @@ router.post('/', async (req, res) => {
 //GET get wishListStatus   /api/v1/whishlist/:id
 
 router.get('/:id', async (req, res) => {
-  const productId = req.params.id
+  const productId = Number(req.params.id)
 
   try {
-    const isProductInWishlist = await db.getWishlistStatusByProductId(
-      Number(productId),
-    )
+    const isProductInWishlist = await db.getWishlistStatusByProductId(productId)
     res.status(200).json({ isProductInWishlist })
   } catch (error) {
     logError(error)
     res.status(500).json({ message: 'Unable to ge the data from database' })
+  }
+})
+
+//DELETE /api/v1/whishlist/:id
+router.delete('/:id', async (req, res) => {
+  const productId = Number(req.params.id)
+
+  try {
+    await db.removeFromWishlistByProductId(productId)
+    res.sendStatus(200)
+    return
+  } catch (error) {
+    logError(error)
+    res.status(500).json({ message: 'Unable to delete the data' })
   }
 })
 
