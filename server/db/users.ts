@@ -1,5 +1,5 @@
 import db from './connection'
-import { User, UpdateUser, NewUser, NewUserBackend } from '../../models/Users'
+import { User, UpdateUser, NewUserBackend } from '../../models/Users'
 
 //GET: getUserById(userId : string)
 export async function getUserById(userId: string) {
