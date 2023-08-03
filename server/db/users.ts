@@ -43,5 +43,13 @@ export async function updateUserDetailsById(
 }
 
 // GET: checkIfUserExists(userId:string)
+export async function checkIfUserExists(auth0Id: string) {
+  const result = await db('users')
+    .select('auth0_id')
+    .where('auth0_id', auth0Id)
+    .first()
+
+  return !!result
+}
 
 // POST: addNewUser(newUser:Object)
