@@ -69,4 +69,19 @@ router.patch('/edit/:userId', async (req, res) => {
   }
 })
 
+// GET: checkIfUserExists(userId:string)
+// http://localhost:5173/api/v1/users/check/user_id_here
+
+router.post('/api/v1/user/check', async (req, res) => {
+  try {
+    const auth0Id = req.body.auth0Id
+
+    const status = await db.checkIfUserExists(auth0Id)
+    res.json(status)
+  } catch (error) {
+    logError(error)
+    res.status(500).json({ message: 'Unable to check if user exists' })
+  }
+})
+
 export default router
