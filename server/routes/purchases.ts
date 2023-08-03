@@ -3,8 +3,8 @@ import * as db from '../db/purchases'
 import { logError } from '../logger'
 const router = Router()
 
-// GET /api/v1/purchases/latest-order/:userId
-//db.getLatestOrderByUserId(userId : string)
+//GET LATEST ORDER BY USER ID
+//GET /api/v1/purchases/latest-order/:userId
 router.get('/latest-order/:userId', async (req, res) => {
   try {
     const orderId = await db.getLatestOrderIdByUserId(req.params.userId)
@@ -17,14 +17,11 @@ router.get('/latest-order/:userId', async (req, res) => {
   }
 })
 
+//TRANSFER USER'S CART TO PURCHASES
 //POST /api/v1/purchases
-//db.addCartToPurchasesByUserId (userId : string, transferedCart : [{ productId : number, quantity : number, shippingId : number}])
-router.post('/:userId/:shippingId', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
-    await db.addCartToPurchasesByUserId(
-      req.params.userId,
-      Number(req.params.shippingId),
-    )
+    await db.addCartToPurchasesByUserId(req.body)
     res.status(200).json({ message: 'Cart successfully added to purchases' })
   } catch (error) {
     logError(error)
@@ -32,8 +29,8 @@ router.post('/:userId/:shippingId', async (req, res) => {
   }
 })
 
+//GET ALL ORDERS BY DATE
 //GET /api/v1/purchases/orders-by-date/:adminUserId/:date
-//db.getAmountOfOrdersByDate(date : string (year-month-day), adminUserId : string)
 router.get('/orders-by-date/:adminUserId/:date', async (req, res) => {
   try {
     const amountOfOrders = await db.getAmountOfOrdersByDate(
@@ -49,8 +46,8 @@ router.get('/orders-by-date/:adminUserId/:date', async (req, res) => {
   }
 })
 
+//GET ORDERS BY USER
 //GET /api/v1/purchases/user-orders/:userId
-//db.getOrdersByUserId(userId : string)
 router.get('/user-orders/:userId', async (req, res) => {
   try {
     const orders = await db.getOrdersByUserId(req.params.userId)
@@ -61,8 +58,8 @@ router.get('/user-orders/:userId', async (req, res) => {
   }
 })
 
+//GET ALL ORDERS
 //GET /api/v1/purchases/:adminUserId
-//db.getAllOrders(adminUserId : string)
 router.get('/:adminUserId', async (req, res) => {
   try {
     const orders = await db.getAllOrders(req.params.adminUserId)
@@ -73,8 +70,8 @@ router.get('/:adminUserId', async (req, res) => {
   }
 })
 
+//GET ORDER BY ORDER ID
 //GET /api/v1/purchases/order
-//db.getOrderByOrderId(orderId : number, adminUserId : string)
 router.get('/order/:adminUserId/:orderId', async (req, res) => {
   try {
     const order = await db.getOrderByOrderId(
