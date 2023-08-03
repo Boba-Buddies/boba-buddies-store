@@ -53,3 +53,12 @@ export async function checkIfUserExists(auth0Id: string) {
 }
 
 // POST: addNewUser(newUser:Object)
+export async function addUser(newUser: NewUserBackend) {
+  return (await db('users').insert({
+    auth0Id: newUser.auth0Id,
+    firstName: newUser.firstName,
+    lastName: newUser.lastName,
+    userName: newUser.userName,
+    emailAddress: newUser.email,
+  })) as NewUser
+}
