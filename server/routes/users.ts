@@ -110,4 +110,12 @@ router.post('/', async (req, res) => {
   }
 })
 
+// {
+//   "auth0Id": "auth0|1234chicken",
+//   "firstName": "Chicken",
+//   "lastName": "Leg",
+//   "userName": "chicken.leg",
+//   "emailAddress": "chicken@gmail.com"
+// }
+
 export default router

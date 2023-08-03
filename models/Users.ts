@@ -26,7 +26,7 @@ export const newUserSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   userName: z.string(),
-  email: z.string().email(),
+  emailAddress: z.string().email(),
 })
 
 export const newUserBackendSchema = newUserSchema.extend({

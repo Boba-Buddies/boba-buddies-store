@@ -54,11 +54,11 @@ export async function checkIfUserExists(auth0Id: string) {
 
 // POST: addNewUser(newUser:Object)
 export async function addUser(newUser: NewUserBackend) {
-  return (await db('users').insert({
-    auth0Id: newUser.auth0Id,
-    firstName: newUser.firstName,
-    lastName: newUser.lastName,
-    userName: newUser.userName,
-    emailAddress: newUser.email,
-  })) as NewUser
+  return await db('users').insert({
+    auth0_Id: newUser.auth0Id,
+    first_name: newUser.firstName,
+    last_name: newUser.lastName,
+    user_name: newUser.userName,
+    email_address: newUser.emailAddress,
+  })
 }
