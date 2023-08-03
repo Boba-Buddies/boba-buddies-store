@@ -84,4 +84,20 @@ router.post('/api/v1/user/check', async (req, res) => {
   }
 })
 
+// POST: addNewUser(newUser:Object)
+// http://localhost:5173/api/v1/users
+
+router.post('/api/v1/user', async (req, res) => {
+  try {
+    const newUser = req.body
+
+    await db.addUser(newUser)
+
+    res.sendStatus(200)
+  } catch (error) {
+    logError(error)
+    res.status(500).json({ message: 'Unable to add new user' })
+  }
+})
+
 export default router
