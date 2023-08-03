@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-export const ProductReviewsSchema = z
+export const productReviewsSchema = z
   .object({
     productId: z.number(),
     userName: z.string(),
@@ -10,7 +10,7 @@ export const ProductReviewsSchema = z
   })
   .array()
 
-export const ReviewsSchema = z
+export const reviewsSchema = z
   .object({
     id: z.number(),
     productName: z.string(),
@@ -21,7 +21,7 @@ export const ReviewsSchema = z
   })
   .array()
 
-export const ReviewSchema = z.object({
+export const reviewSchema = z.object({
   reviewId: z.number(),
   productName: z.string(),
   productImg: z.string(),
@@ -32,13 +32,21 @@ export const ReviewSchema = z.object({
   reviewCreatedAt: z.string(),
 })
 
-export const NewReviewSchema = z.object({
+export const newReviewSchema = z.object({
+  userId: z.string(),
   productId: z.number(),
   description: z.string(),
   rating: z.number(),
 })
 
-export type ProductReviews = z.infer<typeof ProductReviewsSchema>
-export type Reviews = z.infer<typeof ReviewsSchema>
-export type Review = z.infer<typeof ReviewSchema>
-export type NewReview = z.infer<typeof NewReviewSchema>
+export const updatedReviewStatusSchema = z.object({
+  id: z.number(),
+  isEnabled: z.boolean(),
+  adminUserId: z.string(),
+})
+
+export type ProductReviews = z.infer<typeof productReviewsSchema>
+export type Reviews = z.infer<typeof reviewsSchema>
+export type Review = z.infer<typeof reviewSchema>
+export type NewReview = z.infer<typeof newReviewSchema>
+export type UpdatedReviewStatus = z.infer<typeof updatedReviewStatusSchema>

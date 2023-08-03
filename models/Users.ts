@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-export const UserSchema = z.object({
+export const userSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   userName: z.string(),
@@ -12,7 +12,7 @@ export const UserSchema = z.object({
   zipCode: z.string(),
 })
 
-export const UpdateUserSchema = z.object({
+export const updateUserSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   phoneNumber: z.string(),
@@ -22,18 +22,18 @@ export const UpdateUserSchema = z.object({
   zipCode: z.string(),
 })
 
-export const NewUserSchema = z.object({
+export const newUserSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
   userName: z.string(),
-  email: z.string().email(),
+  emailAddress: z.string().email(),
 })
 
-export const NewUserBackendSchema = NewUserSchema.extend({
+export const newUserBackendSchema = newUserSchema.extend({
   auth0Id: z.string(),
 })
 
-export type User = z.infer<typeof UserSchema>
-export type UpdateUser = z.infer<typeof UpdateUserSchema>
-export type NewUser = z.infer<typeof NewUserSchema>
-export type NewUserBackend = z.infer<typeof NewUserBackendSchema>
+export type User = z.infer<typeof userSchema>
+export type UpdateUser = z.infer<typeof updateUserSchema>
+export type NewUser = z.infer<typeof newUserSchema>
+export type NewUserBackend = z.infer<typeof newUserBackendSchema>
