@@ -72,22 +72,32 @@ router.patch('/edit/:userId', async (req, res) => {
 // GET: checkIfUserExists(userId:string)
 // http://localhost:5173/api/v1/users/check/user_id_here
 
-router.post('/api/v1/user/check', async (req, res) => {
+router.get('/check', async (req, res) => {
   try {
     const auth0Id = req.body.auth0Id
 
-    const status = await db.checkIfUserExists(auth0Id)
-    res.json(status)
+    if (!auth0Id) {
+      return res.status(400).json({ message: 'Auth0 ID is required' })
+    }
+
+    const userExists = await db.checkIfUserExists(auth0Id)
+    res.json(userExists)
   } catch (error) {
     logError(error)
     res.status(500).json({ message: 'Unable to check if user exists' })
   }
 })
 
+// JSON
+
+// {
+//   "auth0Id": "auth0|abc1234"
+// }
+
 // POST: addNewUser(newUser:Object)
 // http://localhost:5173/api/v1/users
 
-router.post('/api/v1/user', async (req, res) => {
+router.post('/', async (req, res) => {
   try {
     const newUser = req.body
 
