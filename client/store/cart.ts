@@ -1,8 +1,8 @@
 import { create } from 'zustand'
+import { CartClient } from '../../models/Cart'
 
 interface CartState {
-  bears: number
-  increase: (by: number) => void
+  userCart: CartClient
 }
 
 // const useCartStore = create<BearState>()((set) => ({
