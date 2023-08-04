@@ -1,12 +1,25 @@
 import { create } from 'zustand'
+import { fetchCartByUserId } from '../apis/cart'
 import { CartClient } from '../../models/Cart'
 
-interface CartState {
-  cartItems: CartClient
-  insertCartItems: (cartItems: CartClient) => void
+type CartStore = {
+  cart: CartClient
+  loading: boolean
+  error: any
+  fetchCart: (userId: string) => Promise<void>
 }
 
-const useCartStore = create<CartState>()((set) => ({
-  cartItems: [],
-  insertCartItems: (cartItems) => set({ ...cartItems }),
+export const useCartStore = create<CartStore>((set) => ({
+  cart: [],
+  loading: false,
+  error: null,
+  fetchCart: async (userId: string) => {
+    set({ loading: true, error: null })
+    try {
+      const cart = await fetchCartByUserId(userId)
+      set({ cart, loading: false })
+    } catch (error) {
+      set({ loading: false, error })
+    }
+  },
 }))
