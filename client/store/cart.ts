@@ -2,10 +2,11 @@ import { create } from 'zustand'
 import { CartClient } from '../../models/Cart'
 
 interface CartState {
-  userCart: CartClient
+  cartItems: CartClient
+  insertCartItems: (cartItems: CartClient) => void
 }
 
-// const useCartStore = create<BearState>()((set) => ({
-//   bears: 0,
-//   increase: (by) => set((state) => ({ bears: state.bears + by })),
-// }))
+const useCartStore = create<CartState>()((set) => ({
+  cartItems: [],
+  insertCartItems: (cartItems) => set({ ...cartItems }),
+}))
