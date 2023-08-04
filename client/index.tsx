@@ -8,36 +8,45 @@ import {
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { Auth0Provider } from '@auth0/auth0-react'
 
-import AppLayout from './components/AppLayout/AppLayout'
-import ProtectedComponent from './components/UI/ProtectedComponent'
-import Home from './pages/Home/Home'
-import About from './pages/About/About'
+import AppLayout from './user/components/AppLayout/AppLayout'
 import Cart from './user/pages/Cart/Cart'
-import Shop from './pages/Shop/Shop'
-import ThankYouPage from './pages/ThankYouPage/ThankYouPage'
-import Contact from './pages/Contact/Contact'
-import Product from './pages/Product/Product'
-import ErrorPage from './pages/ErrorPage/ErrorPage'
+import UnprotectedComponent from './UI/UnprotectedComponent'
+import { ErrorPage, Home, Shop, Product, ThankYou, Contact, Checkout, Profile, EditProfile, Wishlist} from './user/pages/index'
 
 export const routes = createRoutesFromElements(
   <Route path="/" element={<AppLayout />} errorElement={<ErrorPage />}>
-    <Route index element={<ProtectedComponent component={Home} />} />
-    <Route path="about" element={<ProtectedComponent component={About} />} />
-    <Route path="cart" element={<ProtectedComponent component={Cart} />} />
-    <Route path="shop" element={<ProtectedComponent component={Shop} />} />
+    <Route index element={<UnprotectedComponent component={Home} />} />
+    <Route path="cart" element={<UnprotectedComponent component={Cart} />} />
+    <Route path="shop" element={<UnprotectedComponent component={Shop} />} />
     <Route
       path="shop/:id"
-      element={<ProtectedComponent component={Product} />}
+      element={<UnprotectedComponent component={Product} />}
     />
     <Route
-      path="thankyoupage"
-      element={<ProtectedComponent component={ThankYouPage} />}
+      path="thankyou"
+      element={<UnprotectedComponent component={ThankYou} />}
     />
     <Route
       path="contact"
-      element={<ProtectedComponent component={Contact} />}
+      element={<UnprotectedComponent component={Contact} />}
     />
-  </Route>
+    <Route
+      path="checkout"
+      element={<UnprotectedComponent component={Checkout} />}
+    />
+    <Route
+      path="profile/:auth0Id"
+      element={<UnprotectedComponent component={Profile} />}
+    />
+    <Route
+      path="edit-profile/:auth0Id"
+      element={<UnprotectedComponent component={EditProfile} />}
+    />
+    <Route
+      path="wishlist/:auth0Id"
+      element={<UnprotectedComponent component={Wishlist} />}
+    />
+  </Route>,
 )
 
 function AppProvider() {
@@ -47,22 +56,8 @@ function AppProvider() {
 document.addEventListener('DOMContentLoaded', () => {
   const queryClient = new QueryClient()
   createRoot(document.getElementById('app') as HTMLElement).render(
-    <Auth0Provider
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      domain="daniel-g.au.auth0.com"
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      clientId="aIGYkqO3IqkivZ75hgkU5kk7DTvBjjuL"
-      cacheLocation="localstorage"
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      audience="https://bnanas/api"
-      redirectUri={window.location.origin + '/'}
-    >
-      <QueryClientProvider client={queryClient}>
-        <AppProvider />
-      </QueryClientProvider>
-    </Auth0Provider>
+    <QueryClientProvider client={queryClient}>
+      <AppProvider />
+    </QueryClientProvider>,
   )
 })
