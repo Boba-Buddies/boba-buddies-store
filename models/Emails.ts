@@ -17,7 +17,13 @@ export const emailSchema = z.object({
   createdAt: z.string(),
 })
 
-export const sentEmailSchema = z.object({
+export const newEmailSchema = z.object({
+  title: z.string(),
+  description: z.string(),
+})
+
+export const sentEmailToBackendSchema = z.object({
+  user_id: z.string(),
   title: z.string(),
   description: z.string(),
 })
@@ -31,5 +37,6 @@ export const updateEmailReadStatusSchema = z.object({
 
 export type Emails = z.infer<typeof emailsSchema>
 export type Email = z.infer<typeof emailSchema>
-export type SentEmail = z.infer<typeof sentEmailSchema>
+export type NewEmail = z.infer<typeof newEmailSchema>
+export type SentEmailToBackend = z.infer<typeof sentEmailToBackendSchema>
 export type UpdateEmailReadStatus = z.infer<typeof updateEmailReadStatusSchema>
