@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useCartStore } from '../../../store/cart'
+import { CartClient } from '../../../../models/Cart'
 
 const Cart = () => {
   const { cart, loading, error, fetchCart } = useCartStore()
@@ -16,8 +17,8 @@ const Cart = () => {
   return (
     <div>
       <h2>Your Cart</h2>
-      {cart.map((item: any) => (
-        <div key={item.id}>
+      {cart.map((item: CartClient) => (
+        <div key={item.productId}>
           <h3>{item.name}</h3>
           <p>Price: ${item.price}</p>
           <p>Quantity: {item.quantity}</p>

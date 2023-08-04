@@ -4,7 +4,7 @@ export const productsSchema = z
   .object({
     id: z.number(),
     name: z.string(),
-    img: z.string(),
+    image: z.string(),
     price: z.number(),
     description: z.string(),
     stock: z.number(),
@@ -16,7 +16,7 @@ export const productsSchema = z
 export const productSchema = z.object({
   id: z.number(),
   name: z.string(),
-  img: z.string(),
+  image: z.string(),
   price: z.number(),
   description: z.string(),
   stock: z.number(),
@@ -27,13 +27,13 @@ export const lowStockProductsSchema = z
   .object({
     id: z.number(),
     name: z.string(),
-    img: z.string(),
+    image: z.string(),
   })
   .array()
 
 export const upsertProductSchema = z.object({
   name: z.string(),
-  img: z.string(),
+  image: z.string(),
   price: z.number(),
   description: z.string(),
   stock: z.number(),

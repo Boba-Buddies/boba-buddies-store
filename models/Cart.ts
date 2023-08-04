@@ -1,20 +1,20 @@
 import * as z from 'zod'
 
-export const individualCartSchema = z.object({
+export const cartSchema = z.object({
   image: z.string(),
   name: z.string(),
   quantity: z.number(),
   price: z.number(),
   totalPrice: z.number(),
+  productId : z.string(),
 })
 
-export const cartSchema = individualCartSchema.array()
 
-export const cartClientSchema = individualCartSchema
+export const cartClientSchema = cartSchema
   .extend({
     auth0Id: z.string(),
   })
-  .array()
+ 
 
 export const cartItemSchema = z.object({
   userId: z.string(),

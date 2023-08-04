@@ -5,7 +5,7 @@ export const wishlisthProductSchema = z
     id: z.number(),
     productId: z.number(),
     productName: z.string(),
-    productImg: z.string(),
+    productImage: z.string(),
     productPrice: z.number(),
   })
   .array()

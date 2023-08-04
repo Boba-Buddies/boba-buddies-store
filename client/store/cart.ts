@@ -3,7 +3,7 @@ import { fetchCartByUserId } from '../apis/cart'
 import { CartClient } from '../../models/Cart'
 
 type CartStore = {
-  cart: CartClient
+  cart: CartClient[]
   loading: boolean
   error: any
   fetchCart: (userId: string) => Promise<void>

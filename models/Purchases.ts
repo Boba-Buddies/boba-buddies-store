@@ -36,7 +36,7 @@ export const orderSchema = z.object({
     .object({
       productName: z.string(),
       productSale: z.number(),
-      productImg: z.string(),
+      productImage: z.string(),
       itemQuantity: z.number(),
     })
     .array(),
