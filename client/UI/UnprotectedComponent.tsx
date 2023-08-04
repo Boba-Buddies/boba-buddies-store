@@ -6,12 +6,12 @@ interface Props {
 }
 
 export const UnprotectedComponent = ({ component }: Props) => {
-  const { isLoading } = useAuth0()
+  //const { isLoading } = useAuth0()
 
-  if (isLoading) {
-    // Render loading indicator or placeholder content while Auth0 is being initialized
-    return
-  }
+  // if (isLoading) {
+  //   // Render loading indicator or placeholder content while Auth0 is being initialized
+  //   return
+  // }
 
   // Render the component if the user is authenticated
   const Component = component

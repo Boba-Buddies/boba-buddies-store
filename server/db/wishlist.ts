@@ -10,7 +10,7 @@ export async function getWhishListByUserId(userId: string) {
       'wishlist.id',
       'product_id as productId',
       'products.name as productName',
-      'products.img as productImg',
+      'products.image as productImage',
       'products.price as productPrice',
     )) as WishlisthProduct
 }

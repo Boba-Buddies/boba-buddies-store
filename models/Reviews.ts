@@ -24,7 +24,7 @@ export const reviewsSchema = z
 export const reviewSchema = z.object({
   reviewId: z.number(),
   productName: z.string(),
-  productImg: z.string(),
+  productImage: z.string(),
   reviewDescription: z.string(),
   reviewRating: z.number(),
   reviewIsEnabled: z.boolean(),

@@ -1,4 +1,4 @@
-import {CartTransferInfo } from '../../models/Cart'
+import { CartTransferInfo } from '../../models/Cart'
 import db from './connection'
 
 export async function getLatestOrderIdByUserId(userId: string) {
@@ -19,7 +19,7 @@ export async function getLatestOrderId() {
 }
 
 export async function addCartToPurchasesByUserId(
-  cartTransferInfo : CartTransferInfo
+  cartTransferInfo: CartTransferInfo,
 ) {
   const { userId, shippingId } = cartTransferInfo
   const newOrderId = (await getLatestOrderId()) + 1
@@ -131,7 +131,7 @@ export async function getOrderByOrderId(adminUserId: string, orderId: string) {
       db.raw(`ROUND(SUM(purchases.quantity * products.price), 2) as totalSale`),
       db.raw(`SUM(purchases.quantity) as amountOfItems`),
       db.raw(
-        `GROUP_CONCAT(json_object('productName', products.name, 'productSale', (purchases.quantity * products.price), 'productImg', products.img, 'itemQuantity', purchases.quantity)) as orderItems`,
+        `GROUP_CONCAT(json_object('productName', products.name, 'productSale', (purchases.quantity * products.price), 'productImage', products.image, 'itemQuantity', purchases.quantity)) as orderItems`,
       ),
     )
     .groupBy(

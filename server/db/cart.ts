@@ -12,7 +12,7 @@ export async function getCartByUserId(userId: string, db = connection) {
       'products.id as productId',
       'products.price as price',
       'cart.quantity as quantity',
-      'products.img as img',
+      'products.image as image',
     )
 }
 

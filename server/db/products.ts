@@ -10,7 +10,7 @@ export async function getAllProducts() {
   return (await db('products').select(
     'id',
     'name',
-    'img',
+    'image',
     'price',
     'price',
     'description',
@@ -26,7 +26,7 @@ export async function getProductById(id: number) {
     .select(
       'id',
       'name',
-      'img',
+      'image',
       'price',
       'description',
       'stock',
@@ -39,13 +39,13 @@ export async function getProductById(id: number) {
 export async function getAmountOfProductsBelowStockLevel(maxStock: number) {
   return (await db('products')
     .where('stock', '<', maxStock)
-    .select('id', 'name', 'img')) as LowStockProducts
+    .select('id', 'name', 'image')) as LowStockProducts
 }
 
 export async function addProduct(newProduct: UpsertProduct) {
   return await db('products').insert({
     name: newProduct.name,
-    img: newProduct.img,
+    image: newProduct.image,
     price: newProduct.price,
     stock: newProduct.stock,
     description: newProduct.description,
@@ -59,7 +59,7 @@ export async function updateProduct(
 ) {
   return await db('products').where('id', productId).update({
     name: updateProduct.name,
-    img: updateProduct.img,
+    image: updateProduct.image,
     price: updateProduct.price,
     stock: updateProduct.stock,
     description: updateProduct.description,
