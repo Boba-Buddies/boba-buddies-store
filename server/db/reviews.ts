@@ -68,7 +68,7 @@ export async function getReviewById(id: number, adminUserId: string) {
     .select(
       'reviews.id as reviewId',
       'products.name as productName',
-      'products.img as productImg',
+      'products.image as productImage',
       'reviews.description as reviewDescription',
       'reviews.rating as reviewRating',
       'reviews.is_enabled as reviewIsEnabled',
