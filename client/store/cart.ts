@@ -5,7 +5,7 @@ import { CartClient } from '../../models/Cart'
 type CartStore = {
   cart: CartClient[]
   loading: boolean
-  error: any
+  error: unknown
   fetchCart: (userId: string) => Promise<void>
 }
 
