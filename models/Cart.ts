@@ -6,15 +6,12 @@ export const cartSchema = z.object({
   quantity: z.number(),
   price: z.number(),
   totalPrice: z.number(),
-  productId : z.string(),
+  productId: z.string(),
 })
 
-
-export const cartClientSchema = cartSchema
-  .extend({
-    auth0Id: z.string(),
-  })
- 
+export const cartClientSchema = cartSchema.extend({
+  auth0Id: z.string(),
+})
 
 export const cartItemSchema = z.object({
   userId: z.string(),
@@ -27,7 +24,13 @@ export const cartTransferInfoSchema = z.object({
   shippingId: z.number(),
 })
 
+export const removedProductSchema = z.object({
+  userId: z.string(),
+  productId: z.number(),
+})
+
 export type Cart = z.infer<typeof cartSchema>
 export type CartItem = z.infer<typeof cartItemSchema>
 export type CartTransferInfo = z.infer<typeof cartTransferInfoSchema>
 export type CartClient = z.infer<typeof cartClientSchema>
+export type RemovedProduct = z.infer<typeof removedProductSchema>
