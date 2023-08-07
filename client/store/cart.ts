@@ -1,22 +1,22 @@
 import { create } from 'zustand'
-import { fetchCartByUserId } from '../apis/cart'
+import { fetchCart } from '../apis/cart'
 import { CartClient } from '../../models/Cart'
 
 type CartStore = {
   cart: CartClient[]
   loading: boolean
   error: unknown
-  fetchCart: (userId: string) => Promise<void>
+  fetchCart: () => Promise<void>
 }
 
 export const useCartStore = create<CartStore>((set) => ({
   cart: [],
   loading: false,
   error: null,
-  fetchCart: async (userId: string) => {
+  fetchCart: async () => {
     set({ loading: true, error: null })
     try {
-      const cart = await fetchCartByUserId(userId)
+      const cart = await fetchCart()
       set({ cart, loading: false })
     } catch (error) {
       set({ loading: false, error })
