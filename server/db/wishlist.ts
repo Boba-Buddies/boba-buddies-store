@@ -1,7 +1,7 @@
 import { WishlisthProduct } from '../../models/Wishlist'
 import db from './connection'
 
-export async function getWhishListByUserId(userId: string) {
+export async function getWishlistByUserId(userId: string) {
   return (await db('wishlist')
     .join('products', 'product_id', 'products.id')
     .join('users', 'users.auth0_id', 'wishlist.user_id')
