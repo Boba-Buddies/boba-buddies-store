@@ -2,10 +2,14 @@ import { Router } from 'express'
 import * as db from '../db/emails'
 import { logError } from '../logger'
 import { newEmailSchema } from '../../models/Emails'
+import { isUserAdmin } from '../db/users'
+import { authorizeAdmin } from '../adminAuthorization'
+const adminUserId = 'auth0|def67890'
+const userId = 'auth0|abc12345'
 
 const router = Router()
 
-router.get('/today', async (req, res) => {
+router.get('/today', authorizeAdmin, async (req, res) => {
   const today = new Date().toISOString().slice(0, 10)
 
   try {
@@ -17,8 +21,7 @@ router.get('/today', async (req, res) => {
   }
 })
 
-router.get('/', async (req, res) => {
-  // check auth0_id, if it has admin access
+router.get('/', authorizeAdmin, async (req, res) => {
   try {
     const emails = await db.getAllEmails()
     res.status(200).json({ emails })
@@ -28,7 +31,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', authorizeAdmin, async (req, res) => {
   // check auth0_id, if it has admin access
   const emailId = Number(req.params.id)
   try {
@@ -41,10 +44,6 @@ router.get('/:id', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  // check if it is logged in, has to be singed in to send the email.
-
-  const userId = 'auth0|abc12345' // replace this with actual user_id from authentication
-
   const newEmail = req.body
 
   try {
@@ -63,20 +62,20 @@ router.post('/', async (req, res) => {
   }
 })
 
-
-router.patch('/:id', async (req, res) => {
-  // check if it is logged in, has to be singed in as admin to read the email.
+router.patch('/:id', authorizeAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id)
     await db.updateEmailReadStatusById(id)
     res.sendStatus(200)
   } catch (error) {
     logError(error)
-    res.status(500).json({ message: 'Unable to update read status to database' })
+    res
+      .status(500)
+      .json({ message: 'Unable to update read status to database' })
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authorizeAdmin, async (req, res) => {
   try {
     const id = Number(req.params.id)
     await db.deleteEmailById(id)
@@ -86,6 +85,5 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: 'could not delete email' })
   }
 })
-
 
 export default router
