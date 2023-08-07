@@ -9,8 +9,10 @@ export async function fetchCart() {
 }
 
 export async function removeProduct(removedProduct: RemovedProduct) {
-  await request
+  const response = await request
     .delete(`${baseUrl}/single`)
     .send(removedProduct)
     .set('Content-Type', 'application/json')
+
+  return response.body.cart as CartClient[]
 }
