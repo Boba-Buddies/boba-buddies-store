@@ -6,10 +6,12 @@ import { logError } from '../logger'
 
 const router = express.Router()
 
+const userId = 'auth0|abc12345'
+
 // GET /api/v1/users?userId=your_user_id_here
 
 router.get('/', async (req, res) => {
-  const userId = req.query.userId as string
+  // const userId = req.query.userId as string
   try {
     if (!userId) {
       return res.status(400).json({ message: 'User ID is missing' })

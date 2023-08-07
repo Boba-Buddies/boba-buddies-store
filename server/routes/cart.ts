@@ -5,10 +5,12 @@ const router = Router()
 
 // GETs the cart by user id
 
+const userId = 'auth0|abc12345'
+
 // example: http://localhost:5173/api/v1/cart?userId=auth0|xyz45678
 
 router.get('/', async (req, res) => {
-  const userId = req.query.userId as string
+  // const userId = req.query.userId as string
   try {
     if (!userId) {
       return res.status(400).json({ message: 'User ID is missing' })
