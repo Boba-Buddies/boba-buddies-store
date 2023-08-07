@@ -6,7 +6,7 @@ export const cartSchema = z.object({
   quantity: z.number(),
   price: z.number(),
   totalPrice: z.number(),
-  productId: z.string(),
+  productId: z.number(),
 })
 
 export const cartClientSchema = cartSchema.extend({
