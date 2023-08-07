@@ -1,0 +1,7 @@
+//fetchReviewsByProductId(productId : number)
+//fetchAmountOfReviewsByDate(date : string, adminUserId : string)
+//fetchAllReviews(adminUserId : string)
+//fetchReviewById(id : number, adminUserId : string)
+//createReviewByUSerId(newReview : object)
+//modifyReviewStatusById(updatedReviewStatus : object)
+//deleteReviewByUserId(userId : string, productId : number)

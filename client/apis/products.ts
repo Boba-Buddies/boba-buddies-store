@@ -1,0 +1,5 @@
+//fetchProductById(id : number)
+//fetchAllProducts()
+//fetchAmountOfProductsBelowStockLevel(maxStock : number, adminUserId)
+//modifyProductById(id : number, updatedProduct : object, admindUserId : string)
+//createProduct(newProduct : object, adminUserId : string)
