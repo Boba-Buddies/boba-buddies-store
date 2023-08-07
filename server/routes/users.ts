@@ -6,6 +6,15 @@ import { logError } from '../logger'
 
 const router = express.Router()
 
+router.get('/isAdmin/:auth0Id', async (req, res) => {
+  try {
+    const isAdmin = await db.isUserAdmin(req.params.auth0Id)
+    return res.status(200).json({ isAdmin })
+  } catch (error) {
+    res.status(400).json({ error })
+  }
+})
+
 // GET /api/v1/users?userId=your_user_id_here
 
 router.get('/', async (req, res) => {
