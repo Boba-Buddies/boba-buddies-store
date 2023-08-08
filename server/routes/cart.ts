@@ -86,7 +86,11 @@ router.delete('/:productId', async (req, res) => {
       return res.status(400).json({ message: 'Missing required fields' })
     }
 
+    console.log('Deleting product with ID:', productId)
+
     await db.removeCartItemByProductId(userId, Number(productId))
+
+    console.log('Product deleted!')
 
     res.status(200).json({ message: 'Cart item removed successfully' })
   } catch (error) {
