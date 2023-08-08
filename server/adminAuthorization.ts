@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { isUserAdmin } from './db/users'
 
-const adminUserId = 'auth0|abc12345'
+const adminUserId = 'auth0|def67890'
 
 export async function authorizeAdmin(
   req: Request,
