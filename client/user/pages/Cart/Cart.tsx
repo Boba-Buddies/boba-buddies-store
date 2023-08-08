@@ -35,7 +35,7 @@ const Cart = () => {
             <p>Quantity: {item.quantity}</p>
             <button
               onClick={() => handleDeleteProductFromCart(item.productId)}
-              className="ml-4 px-4 py-1 bg-red-500 text-white rounded-md"
+              className="mt-3 px-3 py-1 text-sm bg-red-500 text-white rounded-md transition-colors hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
             >
               Remove
             </button>
