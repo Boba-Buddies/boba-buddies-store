@@ -2,7 +2,10 @@ import { Router } from 'express'
 import * as db from '../db/reviews'
 import { logError } from '../logger'
 import { authorizeAdmin } from '../adminAuthorization'
-import { newReviewSchema } from '../../models/Reviews'
+import {
+  newReviewSchema,
+  updatedReviewStatusSchema,
+} from '../../models/Reviews'
 const router = Router()
 const userId = 'auth0|abc12345'
 
@@ -84,8 +87,20 @@ router.post('/add', async (req, res) => {
 //UPDATE REVIEW STATUS
 //PATCH api/v1/reviews/update-status
 router.patch('/update-status', authorizeAdmin, async (req, res) => {
+  const form = req.body
+
+  if (!form) {
+    res.status(400).json({ message: 'Please provide a form' })
+    return
+  }
   try {
-    const message = await db.updateReviewStatusById(req.body)
+    const userResult = updatedReviewStatusSchema.safeParse(form)
+
+    if (!userResult.success) {
+      res.status(400).json({ message: 'Please provide a valid form' })
+      return
+    }
+    const message = await db.updateReviewStatusById(form)
     res.status(200).json({ message })
   } catch (error) {
     logError(error)

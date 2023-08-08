@@ -123,7 +123,7 @@ export async function addReviewByUserId(newReview: NewReview, userId : string) {
 export async function updateReviewStatusById(
   updatedReviewStatus: UpdatedReviewStatus,
 ) {
-  const { id, isEnabled, adminUserId } = updatedReviewStatus
+  const { id, isEnabled } = updatedReviewStatus
   //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
