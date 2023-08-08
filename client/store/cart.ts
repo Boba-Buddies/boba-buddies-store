@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { fetchCart, deleteProduct } from '../apis/cart'
+import { fetchCart, deleteProductFromCart } from '../apis/cart'
 import { CartClient } from '../../models/Cart'
 
 type CartStore = {
@@ -7,7 +7,7 @@ type CartStore = {
   loading: boolean
   error: Error | null
   fetchCart: () => Promise<void>
-  deleteProduct: (productId: number) => Promise<void>
+  deleteProductFromCart: (productId: number) => Promise<void>
 }
 
 export const useCartStore = create<CartStore>((set) => ({
@@ -20,10 +20,10 @@ export const useCartStore = create<CartStore>((set) => ({
     const cart = await fetchCart()
     set((state) => ({ ...state, cart, loading: false }))
   },
-  deleteProduct: async (productId: number) => {
+  deleteProductFromCart: async (productId: number) => {
     set((state) => ({ ...state, loading: true, error: null }))
 
-    const cart = await deleteProduct(productId)
+    const cart = await deleteProductFromCart(productId)
     set((state) => ({ ...state, cart, loading: false }))
   },
 }))

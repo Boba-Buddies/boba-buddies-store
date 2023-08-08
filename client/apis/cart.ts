@@ -9,7 +9,7 @@ export async function fetchCart() {
 }
 
 // cart.ts
-export async function deleteProduct(productId: number) {
+export async function deleteProductFromCart(productId: number) {
   try {
     console.log('Deleting product with ID:', productId)
     const response = await request

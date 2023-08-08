@@ -3,7 +3,8 @@ import { useCartStore } from '../../../store/cart'
 import { CartClient } from '../../../../models/Cart'
 
 const Cart = () => {
-  const { cart, loading, error, fetchCart, deleteProduct } = useCartStore()
+  const { cart, loading, error, fetchCart, deleteProductFromCart } =
+    useCartStore()
   useEffect(() => {
     fetchCart()
   }, [fetchCart])
@@ -11,9 +12,9 @@ const Cart = () => {
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error: error.message</div>
 
-  const handleRemoveProduct = async (productId: number) => {
+  const handleDeleteProductFromCart = async (productId: number) => {
     try {
-      await deleteProduct(productId)
+      await deleteProductFromCart(productId)
       fetchCart()
     } catch (error) {
       console.error('Error deleting product:', error)
@@ -33,7 +34,7 @@ const Cart = () => {
             <p>Price: ${item.price}</p>
             <p>Quantity: {item.quantity}</p>
             <button
-              onClick={() => handleRemoveProduct(item.productId)}
+              onClick={() => handleDeleteProductFromCart(item.productId)}
               className="ml-4 px-4 py-1 bg-red-500 text-white rounded-md"
             >
               Remove
