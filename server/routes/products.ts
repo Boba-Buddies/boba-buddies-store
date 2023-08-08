@@ -2,6 +2,7 @@ import { Router } from 'express'
 import * as db from '../db/products'
 import { logError } from '../logger'
 import { upsertProductSchema } from '../../models/Products'
+import { authorizeAdmin } from '../adminAuthorization'
 const router = Router()
 
 // GET /api/v1/products
@@ -28,7 +29,7 @@ router.get('/:id', async (req, res) => {
 })
 
 // GET /api/v1/products/lowstock/:maxStock
-router.get('/lowstock/:maxStock', async (req, res) => {
+router.get('/lowstock/:maxStock', authorizeAdmin, async (req, res) => {
   const maxStock = Number(req.params.maxStock)
   try {
     // here need to check the user's auth0_id be the admin auth0_id,will update when the user db function is ready
@@ -43,7 +44,7 @@ router.get('/lowstock/:maxStock', async (req, res) => {
 })
 
 //POST add new Product /api/v1/products
-router.post('/', async (req, res) => {
+router.post('/', authorizeAdmin, async (req, res) => {
   const form = req.body
 
   if (!form) {
@@ -70,7 +71,7 @@ router.post('/', async (req, res) => {
 })
 
 //Patch  updateProduct /api/v1/products/:id
-router.patch('/:id', async (req, res) => {
+router.patch('/:id', authorizeAdmin, async (req, res) => {
   const form = req.body
   const productId = Number(req.params.id)
 

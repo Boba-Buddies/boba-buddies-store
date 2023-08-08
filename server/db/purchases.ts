@@ -47,7 +47,6 @@ export async function clearCartByUserId(userId: string) {
 
 export async function getAmountOfOrdersByDate(
   date: string,
-  adminUserId: string,
 ) {
   //Check if user is authorised. If they are not:
   //return "User is not authorized"
@@ -82,7 +81,7 @@ export async function getOrdersByUserId(userId: string) {
   return userOrders
 }
 
-export async function getAllOrders(adminUserId: string) {
+export async function getAllOrders() {
   //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
@@ -101,7 +100,7 @@ export async function getAllOrders(adminUserId: string) {
   return orders
 }
 
-export async function getOrderByOrderId(adminUserId: string, orderId: string) {
+export async function getOrderByOrderId( orderId: string) {
   //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
