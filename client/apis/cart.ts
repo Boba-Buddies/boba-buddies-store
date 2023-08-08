@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { CartClient, RemovedProduct } from '../../models/Cart'
+import { CartClient } from '../../models/Cart'
 
 const baseUrl = '/api/v1/cart'
 
@@ -8,10 +8,10 @@ export async function fetchCart() {
   return response.body.cart as CartClient[]
 }
 
-export async function removeProduct(removedProduct: RemovedProduct) {
+export async function removeProduct(productId: number) {
   const response = await request
     .delete(`${baseUrl}/single`)
-    .send(removedProduct)
+    .send({ productId })
     .set('Content-Type', 'application/json')
 
   return response.body.cart as CartClient[]

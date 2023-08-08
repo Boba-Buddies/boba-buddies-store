@@ -3,7 +3,7 @@ import { useCartStore } from '../../../store/cart'
 import { CartClient } from '../../../../models/Cart'
 
 const Cart = () => {
-  const { cart, loading, error, fetchCart } = useCartStore()
+  const { cart, loading, error, fetchCart, removeProduct } = useCartStore()
 
   useEffect(() => {
     fetchCart()
@@ -11,6 +11,10 @@ const Cart = () => {
 
   if (loading) return <div>Loading...</div>
   if (error) return <div>Error: error.message</div>
+
+  const handleRemoveProduct = (productId: number) => {
+    removeProduct(productId)
+  }
 
   return (
     <div>
@@ -32,7 +36,7 @@ const Cart = () => {
               <p>Quantity: {item.quantity}</p>
               <button
                 onClick={() => {
-                  // Implement the logic to remove the item from the cart store
+                  handleRemoveProduct(item.productId)
                 }}
                 className="ml-4 px-4 py-1 bg-red-500 text-white rounded-md"
               >

@@ -24,13 +24,7 @@ export const cartTransferInfoSchema = z.object({
   shippingId: z.number(),
 })
 
-export const removedProductSchema = z.object({
-  userId: z.string(),
-  productId: z.number(),
-})
-
 export type Cart = z.infer<typeof cartSchema>
 export type CartItem = z.infer<typeof cartItemSchema>
 export type CartTransferInfo = z.infer<typeof cartTransferInfoSchema>
 export type CartClient = z.infer<typeof cartClientSchema>
-export type RemovedProduct = z.infer<typeof removedProductSchema>
