@@ -51,7 +51,11 @@ function Checkout() {
             />
           </div>
           <div>
-            <label htmlFor="">SELECT PAYMENT METHOD</label>
+            <label htmlFor="payment">SELECT PAYMENT METHOD</label>
+            <select name="payment" id="payment">
+              <option value="card">CREDIT</option>
+              <option value="visa">VISA</option>
+            </select>
           </div>
         </form>
       </div>
