@@ -1,5 +1,9 @@
 import { create } from 'zustand'
-import { fetchCart, deleteProductFromCartApi } from '../apis/cart'
+import {
+  fetchCart,
+  deleteProductFromCartApi,
+  modifyCartProductQuantityApi,
+} from '../apis/cart'
 import { CartClient } from '../../models/Cart'
 
 type CartStore = {
@@ -8,6 +12,10 @@ type CartStore = {
   error: Error | null
   fetchCart: () => Promise<void>
   deleteProductFromCart: (productId: number) => Promise<void>
+  modifyCartProductQuantity: (
+    productId: number,
+    quantity: number,
+  ) => Promise<void>
 }
 
 export const useCartStore = create<CartStore>((set) => ({
@@ -24,6 +32,12 @@ export const useCartStore = create<CartStore>((set) => ({
     set((state) => ({ ...state, loading: true, error: null }))
 
     const cart = await deleteProductFromCartApi(productId)
+    set((state) => ({ ...state, cart, loading: false }))
+  },
+  modifyCartProductQuantity: async (productId: number, quantity) => {
+    set((state) => ({ ...state, loading: true, error: null }))
+
+    const cart = await modifyCartProductQuantityApi(productId, quantity)
     set((state) => ({ ...state, cart, loading: false }))
   },
 }))
