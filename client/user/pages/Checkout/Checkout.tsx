@@ -57,6 +57,14 @@ function Checkout() {
               <option value="visa">VISA</option>
             </select>
           </div>
+          <div>
+            <label htmlFor="shipping">SELECT SHIPPING METHOD</label>
+            <select name="shipping" id="shipping">
+              <option value="standard">Standard (3-7 working days)</option>
+              <option value="express">Express (2-4 working days)</option>
+              <option value="overnight">Overnight (1 working day)</option>
+            </select>
+          </div>
         </form>
       </div>
     </>
