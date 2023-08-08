@@ -33,7 +33,6 @@ export const reviewSchema = z.object({
 })
 
 export const newReviewSchema = z.object({
-  userId: z.string(),
   productId: z.number(),
   description: z.string(),
   rating: z.number(),

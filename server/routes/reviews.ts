@@ -2,6 +2,7 @@ import { Router } from 'express'
 import * as db from '../db/reviews'
 import { logError } from '../logger'
 import { authorizeAdmin } from '../adminAuthorization'
+import { newReviewSchema } from '../../models/Reviews'
 const router = Router()
 const userId = 'auth0|abc12345'
 
@@ -21,9 +22,7 @@ router.get('/by-product-id/:productId', async (req, res) => {
 //GET /api/v1/reviews/amount-by-date/:date
 router.get('/amount-by-date/:date', authorizeAdmin, async (req, res) => {
   try {
-    const amount = await db.getAmountOfReviewsByDate(
-      req.params.date,
-    )
+    const amount = await db.getAmountOfReviewsByDate(req.params.date)
     res.status(200).json(amount)
   } catch (error) {
     logError(error)
@@ -58,8 +57,23 @@ router.get('/by-review-id/:id', authorizeAdmin, async (req, res) => {
 //ADD REVIEW
 //POST /api/v1/reviews/add
 router.post('/add', async (req, res) => {
+  const form = req.body
+
+  if (!form) {
+    res.status(400).json({ message: 'Please provide a form' })
+    return
+  }
+
   try {
-    await db.addReviewByUserId(req.body)
+    const userResult = newReviewSchema.safeParse(form)
+
+    if (!userResult.success) {
+      res.status(400).json({ message: 'Please provide a valid form' })
+      return
+    }
+
+    await db.addReviewByUserId(form, userId)
+
     res.status(201).json({ message: 'Review added successfully' })
   } catch (error) {
     logError(error)

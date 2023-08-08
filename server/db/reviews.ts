@@ -108,9 +108,9 @@ export async function recalculateAverageRatingByProductId(productId: number) {
   }
 }
 
-export async function addReviewByUserId(newReview: NewReview) {
+export async function addReviewByUserId(newReview: NewReview, userId : string) {
   await db('reviews').insert({
-    user_id: newReview.userId,
+    user_id: userId,
     product_id: newReview.productId,
     description: newReview.description,
     rating: newReview.rating,
