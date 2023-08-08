@@ -6,15 +6,12 @@ export const cartSchema = z.object({
   quantity: z.number(),
   price: z.number(),
   totalPrice: z.number(),
-  productId : z.string(),
+  productId: z.number(),
 })
 
-
-export const cartClientSchema = cartSchema
-  .extend({
-    auth0Id: z.string(),
-  })
- 
+export const cartClientSchema = cartSchema.extend({
+  auth0Id: z.string(),
+})
 
 export const cartItemSchema = z.object({
   userId: z.string(),
