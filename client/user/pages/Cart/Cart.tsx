@@ -3,23 +3,48 @@ import { useCartStore } from '../../../store/cart'
 import { CartClient } from '../../../../models/Cart'
 
 const Cart = () => {
-  const { cart, loading, error, fetchCart, deleteProductFromCart } =
-    useCartStore()
+  // const {
+  //   cart,
+  //   loading,
+  //   error,
+  //   fetchCart,
+  //   deleteProductFromCart,
+  //   modifyCartProductQuantity,
+  // } = useCartStore()
+
+  const cart = useCartStore((state) => state.cart)
+  const removeFromCart = useCartStore((state) => state.deleteProductFromCart)
+  const updateQuantity = useCartStore(
+    (state) => state.modifyCartProductQuantity,
+  )
+  const fetchCart = useCartStore((state) => state.fetchCart)
+
   useEffect(() => {
     fetchCart()
   }, [fetchCart])
 
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>Error: error.message</div>
+  // if (loading) return <div>Loading...</div>
+  // if (error) return <div>Error: error.message</div>
 
-  const handleDeleteProductFromCart = async (productId: number) => {
-    try {
-      await deleteProductFromCart(productId)
-      fetchCart()
-    } catch (error) {
-      console.error('Error deleting product:', error)
-    }
-  }
+  // const handleDeleteProductFromCart = async (productId: number) => {
+  //   try {
+  //     await deleteProductFromCart(productId)
+  //     fetchCart()
+  //   } catch (error) {
+  //     console.error('Error deleting product:', error)
+  //   }
+  // }
+
+  // const handleUpdateQuantityFromCart = async (
+  //   productId: number,
+  //   quantity: number,
+  // ) => {
+  //   try {
+  //     await modifyCartProductQuantity(productId, quantity)
+  //   } catch (error) {
+  //     console.error('Error updating product quantity:', error)
+  //   }
+  // }
 
   return (
     <div>
@@ -32,10 +57,28 @@ const Cart = () => {
           <div className="flex-1">
             <h3 className="font-bold">{item.name}</h3>
             <p>Price: ${item.price}</p>
-            <p>Quantity: {item.quantity}</p>
+            <div className="flex items-center mt-2">
+              <button
+                onClick={() =>
+                  updateQuantity(item.productId, item.quantity - 1)
+                }
+                className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-colors hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300"
+              >
+                -
+              </button>
+              <p className="px-3">{item.quantity}</p>
+              <button
+                onClick={() =>
+                  updateQuantity(item.productId, item.quantity + 1)
+                }
+                className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-colors hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300"
+              >
+                +
+              </button>
+            </div>
             <button
-              onClick={() => handleDeleteProductFromCart(item.productId)}
-              className="ml-4 px-4 py-1 bg-red-500 text-white rounded-md"
+              onClick={() => removeFromCart(item.productId)}
+              className="mt-3 px-3 py-1 text-sm bg-red-500 text-white rounded-md transition-colors hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
             >
               Remove
             </button>
