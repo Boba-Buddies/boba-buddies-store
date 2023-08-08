@@ -5,10 +5,12 @@ const router = Router()
 
 // GETs the cart by user id
 
+const userId = 'auth0|abc12345'
+
 // example: http://localhost:5173/api/v1/cart?userId=auth0|xyz45678
 
 router.get('/', async (req, res) => {
-  const userId = req.query.userId as string
+  // const userId = req.query.userId as string
   try {
     if (!userId) {
       return res.status(400).json({ message: 'User ID is missing' })
@@ -29,11 +31,11 @@ router.get('/', async (req, res) => {
 // http://localhost:5173/api/v1/cart/add-item
 
 router.post('/add-item', async (req, res) => {
-  const { userId, productId, quantity } = req.body
+  const { productId, quantity } = req.body
 
-  if (!userId || !productId || !quantity) {
+  if (!productId || !quantity) {
     return res.status(400).json({
-      message: 'Missing required fields (userId, productId, quantity).',
+      message: 'Missing required fields (productId, quantity).',
     })
   }
 
@@ -54,9 +56,9 @@ router.post('/add-item', async (req, res) => {
 
 router.patch('/update-quantity', async (req, res) => {
   try {
-    const { userId, productId, quantity } = req.body
+    const { productId, quantity } = req.body
 
-    if (!userId || !productId || !quantity) {
+    if (!productId || !quantity) {
       return res.status(400).json({
         message: 'Missing required fields',
       })
@@ -74,19 +76,25 @@ router.patch('/update-quantity', async (req, res) => {
 
 // DELETE route to delete cart item by product id
 
-// http://localhost:5173/api/v1/cart/:userId/:productId
+// http://localhost:5173/api/v1/cart/:productId
 
-router.delete('/:userId/:productId', async (req, res) => {
+router.delete('/:productId', async (req, res) => {
   try {
-    const { userId, productId } = req.params
+    const { productId } = req.params
 
-    if (!userId || !productId) {
+    if (!productId) {
       return res.status(400).json({ message: 'Missing required fields' })
     }
+
+    console.log('Deleting product with ID:', productId)
+
     await db.removeCartItemByProductId(userId, Number(productId))
+
+    console.log('Product deleted!')
 
     res.status(200).json({ message: 'Cart item removed successfully' })
   } catch (error) {
+    console.error(error)
     res.status(500).json({ message: 'Failed to remove item from cart.' })
   }
 })
@@ -95,13 +103,12 @@ router.delete('/:userId/:productId', async (req, res) => {
 
 // http://localhost:5173/api/v1/cart/:userId
 
-router.delete('/:userId', async (req, res) => {
+router.delete('/', async (req, res) => {
   try {
-    const { userId } = req.params
     await db.clearCartByUserId(userId)
     res.status(200).json({ message: 'Successfully cleared cart.' })
   } catch (error) {
-    res.status(500).json({ message: 'Failed to  clear cart.' })
+    res.status(500).json({ message: 'Failed to clear cart.' })
   }
 })
 

@@ -1,27 +1,45 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useCartStore } from '../../../store/cart'
 import { CartClient } from '../../../../models/Cart'
 
 const Cart = () => {
-  const { cart, loading, error, fetchCart } = useCartStore()
-  const userId = 'auth0|abc12345'
-
+  const { cart, loading, error, fetchCart, deleteProductFromCart } =
+    useCartStore()
   useEffect(() => {
-    fetchCart(userId)
-  }, [userId, fetchCart])
+    fetchCart()
+  }, [fetchCart])
 
   if (loading) return <div>Loading...</div>
-  if (error) return <div>Error: {error.message}</div>
+  if (error) return <div>Error: error.message</div>
 
-  console.log(cart)
+  const handleDeleteProductFromCart = async (productId: number) => {
+    try {
+      await deleteProductFromCart(productId)
+      fetchCart()
+    } catch (error) {
+      console.error('Error deleting product:', error)
+    }
+  }
+
   return (
     <div>
-      <h2>Your Cart</h2>
-      {cart.map((item: CartClient) => (
-        <div key={item.productId}>
-          <h3>{item.name}</h3>
-          <p>Price: ${item.price}</p>
-          <p>Quantity: {item.quantity}</p>
+      <h2 className="text-blue-500">Your Cart</h2>
+      {cart?.map((item: CartClient) => (
+        <div key={item.productId} className="flex items-center mb-6 border p-4">
+          <div className="flex-shrink-0 w-1/4 pr-4">
+            <img src={item.image} alt={item.name} />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-bold">{item.name}</h3>
+            <p>Price: ${item.price}</p>
+            <p>Quantity: {item.quantity}</p>
+            <button
+              onClick={() => handleDeleteProductFromCart(item.productId)}
+              className="ml-4 px-4 py-1 bg-red-500 text-white rounded-md"
+            >
+              Remove
+            </button>
+          </div>
         </div>
       ))}
     </div>
