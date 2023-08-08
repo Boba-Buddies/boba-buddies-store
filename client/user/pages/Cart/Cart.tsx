@@ -3,8 +3,15 @@ import { useCartStore } from '../../../store/cart'
 import { CartClient } from '../../../../models/Cart'
 
 const Cart = () => {
-  const { cart, loading, error, fetchCart, deleteProductFromCart } =
-    useCartStore()
+  const {
+    cart,
+    loading,
+    error,
+    fetchCart,
+    deleteProductFromCart,
+    modifyCartProductQuantity,
+  } = useCartStore()
+
   useEffect(() => {
     fetchCart()
   }, [fetchCart])
@@ -24,7 +31,14 @@ const Cart = () => {
   const handleUpdateQuantityFromCart = async (
     productId: number,
     quantity: number,
-  ) => {}
+  ) => {
+    try {
+      await modifyCartProductQuantity(productId, quantity)
+      fetchCart()
+    } catch (error) {
+      console.error('Error updating product quantity:', error)
+    }
+  }
 
   return (
     <div>
