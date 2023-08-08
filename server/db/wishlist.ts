@@ -34,6 +34,12 @@ export async function addToWishlistByProductId(
   })
 }
 
-export async function removeFromWishlistByProductId(productId: number) {
-  await db('wishlist').where('product_id', productId).delete()
+export async function removeFromWishlistByProductId(
+  productId: number,
+  userId: string,
+) {
+  await db('wishlist')
+    .where('product_id', productId)
+    .where('user_id', userId)
+    .delete()
 }
