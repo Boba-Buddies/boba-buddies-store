@@ -16,7 +16,7 @@ export async function deleteProductFromCartApi(productId: number) {
   return response.body.cart as CartClient[]
 }
 
-export async function modifyCartProductQuantity(
+export async function modifyCartProductQuantityApi(
   productId: number,
   quantity: number,
 ) {
