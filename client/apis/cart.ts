@@ -8,7 +8,7 @@ export async function fetchCart() {
   return response.body.cart as CartClient[]
 }
 
-export async function removeProduct(productId: number) {
+export async function deleteProduct(productId: number) {
   const response = await request
     .delete(`${baseUrl}/single`)
     .send({ productId })

@@ -3,7 +3,7 @@ import { useCartStore } from '../../../store/cart'
 import { CartClient } from '../../../../models/Cart'
 
 const Cart = () => {
-  const { cart, loading, error, fetchCart, removeProduct } = useCartStore()
+  const { cart, loading, error, fetchCart, deleteProduct } = useCartStore()
 
   useEffect(() => {
     fetchCart()
@@ -13,7 +13,7 @@ const Cart = () => {
   if (error) return <div>Error: error.message</div>
 
   const handleRemoveProduct = (productId: number) => {
-    removeProduct(productId)
+    deleteProduct(productId)
   }
 
   return (

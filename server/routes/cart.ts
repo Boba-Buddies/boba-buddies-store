@@ -97,7 +97,7 @@ router.delete('/:productId', async (req, res) => {
 
 // DELETE route to clear cart by user id
 
-// http://localhost:5173/api/v1/cart
+// http://localhost:5173/api/v1/cart/:userId
 
 router.delete('/', async (req, res) => {
   try {
