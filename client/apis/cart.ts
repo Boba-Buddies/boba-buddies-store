@@ -8,18 +8,21 @@ export async function fetchCart() {
   return response.body.cart as CartClient[]
 }
 
-// cart.ts
 export async function deleteProductFromCartApi(productId: number) {
-  try {
-    console.log('Deleting product with ID:', productId)
-    const response = await request
-      .delete(`${baseUrl}/${productId}`)
-      .set('Content-Type', 'application/json')
+  const response = await request
+    .delete(`${baseUrl}/${productId}`)
+    .set('Content-Type', 'application/json')
 
-    console.log('Product deletion response:', response.body)
-    return response.body.cart as CartClient[]
-  } catch (error) {
-    console.error('Error deleting product:', error)
-    throw new Error('Failed to delete product')
-  }
+  return response.body.cart as CartClient[]
+}
+
+export async function modifyCartProductQuantityApi(
+  productId: number,
+  quantity: number,
+) {
+  const response = await request
+    .patch(`${baseUrl}/update-quantity`)
+    .send({ productId, quantity })
+
+  return response.body.cart as CartClient[]
 }
