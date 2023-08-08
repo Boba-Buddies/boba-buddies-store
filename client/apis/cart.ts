@@ -16,12 +16,12 @@ export async function deleteProductFromCartApi(productId: number) {
   return response.body.cart as CartClient[]
 }
 
-export async function modifyCartItemQuantity(
+export async function modifyCartProductQuantity(
   productId: number,
   quantity: number,
 ) {
   const response = await request
-    .patch('/api/update-quantity')
+    .patch(`${baseUrl}/update-quantity`)
     .send({ productId, quantity })
 
   return response.body.cart as CartClient[]
