@@ -1,4 +1,4 @@
-exports.seed = async function(knex) {
+exports.seed = async function (knex) {
   await knex('users').insert([
     {
       auth0_id: 'auth0|abc12345',
@@ -12,7 +12,7 @@ exports.seed = async function(knex) {
       zip_code: '1010',
       email_address: 'emma.j@example.com',
       created_at: '2023-07-21 9:15:00',
-      is_admin: false
+      is_admin: false,
     },
     {
       auth0_id: 'auth0|def67890',
@@ -26,7 +26,7 @@ exports.seed = async function(knex) {
       zip_code: '6011',
       email_address: 'liam.smith@example.com',
       created_at: '2023-07-20 14:30:00',
-      is_admin: false
+      is_admin: true,
     },
     {
       auth0_id: 'auth0|xyz45678',
@@ -40,7 +40,7 @@ exports.seed = async function(knex) {
       zip_code: '8011',
       email_address: 'olivia.w@example.com',
       created_at: '2023-07-19 11:45:00',
-      is_admin: false
+      is_admin: false,
     },
     {
       auth0_id: 'auth0|pqr98765',
@@ -54,7 +54,7 @@ exports.seed = async function(knex) {
       zip_code: '9016',
       email_address: 'noah.j@example.com',
       created_at: '2023-07-18 16:00:00',
-      is_admin: false
+      is_admin: false,
     },
     {
       auth0_id: 'auth0|lmn65432',
@@ -68,7 +68,7 @@ exports.seed = async function(knex) {
       zip_code: '3204',
       email_address: 'ava.b@example.com',
       created_at: '2023-07-17 10:20:00',
-      is_admin: false
+      is_admin: false,
     },
     {
       auth0_id: 'auth0|ghi32109',
@@ -82,7 +82,7 @@ exports.seed = async function(knex) {
       zip_code: '3110',
       email_address: 'oliver.t@example.com',
       created_at: '2023-07-16 12:40:00',
-      is_admin: false
+      is_admin: false,
     },
     {
       auth0_id: 'auth0|uvw54321',
@@ -96,7 +96,7 @@ exports.seed = async function(knex) {
       zip_code: '4110',
       email_address: 'isla.d@example.com',
       created_at: '2023-07-15 8:10:00',
-      is_admin: false
+      is_admin: false,
     },
     {
       auth0_id: 'auth0|hij23456',
@@ -110,7 +110,7 @@ exports.seed = async function(knex) {
       zip_code: '4410',
       email_address: 'jack.evans@example.com',
       created_at: '2023-07-14 17:50:00',
-      is_admin: false
+      is_admin: false,
     },
     {
       auth0_id: 'auth0|klm78901',
@@ -124,7 +124,7 @@ exports.seed = async function(knex) {
       zip_code: '7010',
       email_address: 'charlotte.w@example.com',
       created_at: '2023-07-13 13:25:00',
-      is_admin: false
+      is_admin: false,
     },
     {
       auth0_id: 'auth0|bcd34567',
@@ -138,7 +138,7 @@ exports.seed = async function(knex) {
       zip_code: '3010',
       email_address: 'leo.moore@example.com',
       created_at: '2023-07-12 9:55:00',
-      is_admin: false
-    }
-  ]);
-};
+      is_admin: false,
+    },
+  ])
+}

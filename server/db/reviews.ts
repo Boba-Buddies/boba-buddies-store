@@ -22,7 +22,6 @@ export async function getReviewsByProductId(productId: number) {
 
 export async function getAmountOfReviewsByDate(
   date: string,
-  adminUserId: string,
 ) {
   //Check if user is authorised. If they are not:
   //return "User is not authorized"
@@ -34,7 +33,7 @@ export async function getAmountOfReviewsByDate(
     .first()
 }
 
-export async function getAllReviews(adminUserId: string) {
+export async function getAllReviews() {
   //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
@@ -57,7 +56,7 @@ export async function getAllReviews(adminUserId: string) {
   }))
 }
 
-export async function getReviewById(id: number, adminUserId: string) {
+export async function getReviewById(id: number) {
   //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
