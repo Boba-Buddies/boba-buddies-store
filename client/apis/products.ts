@@ -1,15 +1,15 @@
 import request from 'superagent'
-import { UpsertProduct } from '../../models/Products'
+import { Product, UpsertProduct } from '../../models/Products'
 
 const baseUrl = '/api/v1/products'
 
 export async function fetchProductById(id: number) {
   try {
     const response = await request.get(`${baseUrl}/${id}`)
-    return response.body
+    return response.body.product as Product
   } catch (error) {
     console.error('Error fetching product by ID:', (error as Error).message)
-    return { error: (error as Error).message }
+    throw { error: (error as Error).message }
   }
 }
 

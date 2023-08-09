@@ -11,7 +11,7 @@ import { Auth0Provider } from '@auth0/auth0-react'
 import AppLayout from './user/components/AppLayout/AppLayout'
 import Cart from './user/pages/Cart/Cart'
 import UnprotectedComponent from './UI/UnprotectedComponent'
-import { ErrorPage, Home, Shop, Product, ThankYou, Contact, Checkout, Profile, EditProfile, Wishlist} from './user/pages/index'
+import { ErrorPage, Home, Shop, ProductPage, ThankYou, Contact, Checkout, Profile, EditProfile, Wishlist} from './user/pages/index'
 
 export const routes = createRoutesFromElements(
   <Route path="/" element={<AppLayout />} errorElement={<ErrorPage />}>
@@ -20,7 +20,7 @@ export const routes = createRoutesFromElements(
     <Route path="shop" element={<UnprotectedComponent component={Shop} />} />
     <Route
       path="shop/:id"
-      element={<UnprotectedComponent component={Product} />}
+      element={<UnprotectedComponent component={ProductPage} />}
     />
     <Route
       path="thankyou"
