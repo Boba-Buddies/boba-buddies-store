@@ -65,6 +65,33 @@ function Checkout() {
               <option value="overnight">Overnight (1 working day)</option>
             </select>
           </div>
+          <div>
+            <h1>ORDER SUMMARY</h1>
+            <div>
+              <div>1 X ITEM NAME</div>
+              <div>$1.00</div>
+            </div>
+            <div>
+              <div>1 X ITEM NAMEs</div>
+              <div>$1.00</div>
+            </div>
+            <div>
+              <h1>SUBTOTAL</h1>
+              <div>
+                <p>NZD $2.00</p>
+              </div>
+            </div>
+            <div>
+              <h1>SHIPPING METHOD</h1>
+            </div>
+            <div>$7.00</div>
+            <div>EXPRESS SHIPPING 1-2 DAYS</div>
+            <div>
+              <h1>ORDER TOTAL</h1>
+              <p>NZD $9.00</p>
+            </div>
+          </div>
+          <button>COMPLETE ORDER</button>
         </form>
       </div>
     </>
