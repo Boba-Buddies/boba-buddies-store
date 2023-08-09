@@ -46,7 +46,7 @@ router.get('/all', authorizeAdmin, async (req, res) => {
 })
 
 //GET REVIEW BY ID
-//GET /api/v1/reviews/by-review-id/:id/:adminUserId
+//GET /api/v1/reviews/by-review-id/:id
 router.get('/by-review-id/:id', authorizeAdmin, async (req, res) => {
   try {
     const review = await db.getReviewById(Number(req.params.id))
