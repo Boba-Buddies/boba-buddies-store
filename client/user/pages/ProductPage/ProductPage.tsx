@@ -36,7 +36,7 @@ const ProductPage = () => {
       {product && (
         <div className="flex justify-center" style={{ marginTop: '100px' }}>
           <div
-            className="flex items-center max-w-5xl "
+            className="flex items-center max-w-5xl border border-black rounded"
             //style={{ background: 'lightGray' }}
           >
             <div className="w-1/2">
