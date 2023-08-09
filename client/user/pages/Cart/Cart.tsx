@@ -2,9 +2,9 @@ import { useCartStore } from '../../../store/cart'
 import { CartClient } from '../../../../models/Cart'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
-  deleteProductFromCartApi,
+  deleteProductFromCart,
   fetchCart,
-  modifyCartProductQuantityApi,
+  modifyCartProductQuantity,
 } from '../../../apis/cart'
 
 const Cart = () => {
@@ -22,8 +22,7 @@ const Cart = () => {
     Error,
     { productId: number; quantity: number }
   >(
-    ({ productId, quantity }) =>
-      modifyCartProductQuantityApi(productId, quantity),
+    ({ productId, quantity }) => modifyCartProductQuantity(productId, quantity),
     {
       onSuccess: async () => {
         queryClient.invalidateQueries('fetchCart')
@@ -32,7 +31,7 @@ const Cart = () => {
   )
 
   const deleteProductMutation = useMutation(
-    (productId: number) => deleteProductFromCartApi(productId),
+    (productId: number) => deleteProductFromCart(productId),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('fetchCart')
