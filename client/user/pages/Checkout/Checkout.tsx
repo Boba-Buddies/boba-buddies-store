@@ -1,8 +1,10 @@
 function Checkout() {
   return (
     <>
-      <div>
-        <div>I am the Logo</div>
+      <div className="bg-slate-300 text-black p-8">
+        <div className="bg-amber-800 text-4xl font-bold mb-4">
+          I am the Logo
+        </div>
         <form action="">
           <div>
             <h1>PAYMENT INFORMATION</h1>
