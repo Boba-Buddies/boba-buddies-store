@@ -16,6 +16,7 @@ export async function fetchReviewsByProductId(productId: number) {
   }
 }
 
+//!ADMIN ONLY FUNCTION
 export async function fetchAmountOfReviewsByDate(date: string) {
   try {
     const response = await request.get(`${baseUrl}/amount-by-date/${date}`)
@@ -29,6 +30,7 @@ export async function fetchAmountOfReviewsByDate(date: string) {
   }
 }
 
+//!ADMIN ONLY FUNCTION
 export async function fetchAllReviews() {
   try {
     const response = await request.get(`${baseUrl}/all`)
@@ -39,6 +41,7 @@ export async function fetchAllReviews() {
   }
 }
 
+//!ADMIN ONLY FUNCTION
 export async function fetchReviewById(id: number) {
   try {
     const response = await request.get(`${baseUrl}/by-review-id/${id}`)
@@ -59,6 +62,7 @@ export async function createReviewByUserId(newReview: NewReview) {
   }
 }
 
+//!ADMIN ONLY FUNCTION
 export async function modifyReviewStatusById(
   updatedReviewStatus: UpdatedReviewStatus,
 ) {
