@@ -8,7 +8,7 @@ export async function fetchCart() {
   return response.body.cart as CartClient[]
 }
 
-export async function deleteProductFromCartApi(productId: number) {
+export async function deleteProductFromCart(productId: number) {
   const response = await request
     .delete(`${baseUrl}/${productId}`)
     .set('Content-Type', 'application/json')
@@ -16,7 +16,7 @@ export async function deleteProductFromCartApi(productId: number) {
   return response.body.cart as CartClient[]
 }
 
-export async function modifyCartProductQuantityApi(
+export async function modifyCartProductQuantity(
   productId: number,
   quantity: number,
 ) {
