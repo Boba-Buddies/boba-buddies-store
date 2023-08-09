@@ -1,6 +1,9 @@
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { useNavigate } from 'react-router-dom'
+
 import { useCartStore } from '../../../store/cart'
 import { CartClient } from '../../../../models/Cart'
-import { useMutation, useQuery, useQueryClient } from 'react-query'
+
 import {
   deleteProductFromCart,
   fetchCart,
@@ -16,6 +19,11 @@ const Cart = () => {
       setCart(data)
     },
   })
+
+  const navigate = useNavigate()
+  function goTo(link: string) {
+    navigate(link)
+  }
 
   const modifyQuantityMutation = useMutation<
     CartClient[],
@@ -89,6 +97,22 @@ const Cart = () => {
             </div>
           </div>
         ))}
+
+      <div className="w-1/4">
+        <div className="border p-4">
+          <h2 className="text-blue-500">Summary</h2>
+          {!isLoading && data && (
+            <p>
+              Total: $
+              {data.reduce(
+                (total, item) => total + item.price * item.quantity,
+                0,
+              )}
+            </p>
+          )}
+          <button onClick={() => goTo('/Checkout')}>Checkout</button>
+        </div>
+      </div>
     </div>
   )
 }
