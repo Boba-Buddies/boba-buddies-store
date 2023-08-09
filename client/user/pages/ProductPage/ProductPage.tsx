@@ -34,16 +34,28 @@ const ProductPage = () => {
   return (
     <>
       {product && (
-        <div>
-          <p>{product.image}</p>
-          <div style={{ width: '100px', height: '100px' }}>
-            <img
-              src="/images/oolong-milk-tea.svg"
-              alt={product.name}
-              style={{ width: '100%' }}
-            />
+        <div className="flex justify-center" style={{ marginTop: '100px' }}>
+          <div
+            className="flex items-center max-w-5xl "
+            //style={{ background: 'lightGray' }}
+          >
+            <div className="w-1/2">
+              <img
+                src="/images/oolong-milk-tea.svg"
+                alt={product.name}
+                className="w-full"
+              />
+            </div>
+            <div className="w-1/2 ml-4">
+              <h1 className="text-xl font-bold">{product.name}</h1>
+              <h2 className="text-lg mt-2">${product.price}</h2>
+              <p className="mt-1">Rating : {product.averageRating}</p>
+              <p className="mt-2">{product.description}</p>
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded">
+                Add to cart
+              </button>
+            </div>
           </div>
-          <div></div>
         </div>
       )}
     </>
