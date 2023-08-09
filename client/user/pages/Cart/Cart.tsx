@@ -1,11 +1,13 @@
-import { useEffect } from 'react'
 import { useCartStore } from '../../../store/cart'
 import { CartClient } from '../../../../models/Cart'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { fetchCart, modifyCartProductQuantityApi } from '../../../apis/cart'
+import {
+  deleteProductFromCartApi,
+  fetchCart,
+  modifyCartProductQuantityApi,
+} from '../../../apis/cart'
 
 const Cart = () => {
-  const cart = useCartStore((state) => state.cart)
   const setCart = useCartStore((state) => state.setCart)
   const queryClient = useQueryClient()
 
@@ -29,7 +31,14 @@ const Cart = () => {
     },
   )
 
-  console.log('I am in the global state', cart)
+  const deleteProductMutation = useMutation(
+    (productId: number) => deleteProductFromCartApi(productId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('fetchCart')
+      },
+    },
+  )
 
   return (
     <div>
@@ -73,7 +82,7 @@ const Cart = () => {
                 </button>
               </div>
               <button
-                onClick={() => removeFromCart(item.productId)}
+                onClick={() => deleteProductMutation.mutate(item.productId)}
                 className="mt-3 px-3 py-1 text-sm bg-red-500 text-white rounded-md transition-colors hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
               >
                 Remove
