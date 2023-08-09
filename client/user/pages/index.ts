@@ -3,7 +3,7 @@ import Checkout from './Checkout/Checkout'
 import Contact from './Contact/Contact'
 import ErrorPage from './ErrorPage/ErrorPage'
 import Home from './Home/Home'
-import Product from './Product/Product'
+import ProductPage from './ProductPage/ProductPage'
 import EditProfile from './Profile/EditProfile'
 import Profile from './Profile/Profile'
 import ThankYou from './ThankYou/ThankYou'
@@ -16,7 +16,7 @@ export {
   Contact,
   ErrorPage,
   Home,
-  Product,
+  ProductPage,
   EditProfile,
   Profile,
   ThankYou,
