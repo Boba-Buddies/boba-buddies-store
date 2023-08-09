@@ -2,6 +2,10 @@ import { Router } from 'express'
 import * as db from '../db/reviews'
 import { logError } from '../logger'
 import { authorizeAdmin } from '../adminAuthorization'
+import {
+  newReviewSchema,
+  updatedReviewStatusSchema,
+} from '../../models/Reviews'
 const router = Router()
 const userId = 'auth0|abc12345'
 
@@ -21,9 +25,7 @@ router.get('/by-product-id/:productId', async (req, res) => {
 //GET /api/v1/reviews/amount-by-date/:date
 router.get('/amount-by-date/:date', authorizeAdmin, async (req, res) => {
   try {
-    const amount = await db.getAmountOfReviewsByDate(
-      req.params.date,
-    )
+    const amount = await db.getAmountOfReviewsByDate(req.params.date)
     res.status(200).json(amount)
   } catch (error) {
     logError(error)
@@ -44,7 +46,7 @@ router.get('/all', authorizeAdmin, async (req, res) => {
 })
 
 //GET REVIEW BY ID
-//GET /api/v1/reviews/by-review-id/:id/:adminUserId
+//GET /api/v1/reviews/by-review-id/:id
 router.get('/by-review-id/:id', authorizeAdmin, async (req, res) => {
   try {
     const review = await db.getReviewById(Number(req.params.id))
@@ -58,8 +60,23 @@ router.get('/by-review-id/:id', authorizeAdmin, async (req, res) => {
 //ADD REVIEW
 //POST /api/v1/reviews/add
 router.post('/add', async (req, res) => {
+  const form = req.body
+
+  if (!form) {
+    res.status(400).json({ message: 'Please provide a form' })
+    return
+  }
+
   try {
-    await db.addReviewByUserId(req.body)
+    const userResult = newReviewSchema.safeParse(form)
+
+    if (!userResult.success) {
+      res.status(400).json({ message: 'Please provide a valid form' })
+      return
+    }
+
+    await db.addReviewByUserId(form, userId)
+
     res.status(201).json({ message: 'Review added successfully' })
   } catch (error) {
     logError(error)
@@ -70,8 +87,20 @@ router.post('/add', async (req, res) => {
 //UPDATE REVIEW STATUS
 //PATCH api/v1/reviews/update-status
 router.patch('/update-status', authorizeAdmin, async (req, res) => {
+  const form = req.body
+
+  if (!form) {
+    res.status(400).json({ message: 'Please provide a form' })
+    return
+  }
   try {
-    const message = await db.updateReviewStatusById(req.body)
+    const userResult = updatedReviewStatusSchema.safeParse(form)
+
+    if (!userResult.success) {
+      res.status(400).json({ message: 'Please provide a valid form' })
+      return
+    }
+    const message = await db.updateReviewStatusById(form)
     res.status(200).json({ message })
   } catch (error) {
     logError(error)
@@ -83,7 +112,7 @@ router.patch('/update-status', authorizeAdmin, async (req, res) => {
 //DELETE api/v1/reviews/remove/:productId
 router.delete('/remove/:productId', async (req, res) => {
   try {
-    await db.removeReviewByUserId(Number(req.params.productId), userId)
+    await db.removeReviewByProductId(Number(req.params.productId), userId)
     res.status(200).json({ message: 'Review removed successfully' })
   } catch (error) {
     logError(error)

@@ -20,12 +20,7 @@ export async function getReviewsByProductId(productId: number) {
     )) as ProductReviews
 }
 
-export async function getAmountOfReviewsByDate(
-  date: string,
-) {
-  //Check if user is authorised. If they are not:
-  //return "User is not authorized"
-
+export async function getAmountOfReviewsByDate(date: string) {
   return await db('reviews')
     .count('* as reviewCount')
     .whereRaw('DATE(created_at) = ?', date)
@@ -34,9 +29,6 @@ export async function getAmountOfReviewsByDate(
 }
 
 export async function getAllReviews() {
-  //Check if user is authorised. If they are not:
-  //return "User is not authorized"
-
   const reviews = (await db('reviews')
     .join('users', 'reviews.user_id', 'users.auth0_id')
     .join('products', 'reviews.product_id', 'products.id')
@@ -57,9 +49,6 @@ export async function getAllReviews() {
 }
 
 export async function getReviewById(id: number) {
-  //Check if user is authorised. If they are not:
-  //return "User is not authorized"
-
   const review = (await db('reviews')
     .where('reviews.id', id)
     .join('users', 'reviews.user_id', 'users.auth0_id')
@@ -108,9 +97,9 @@ export async function recalculateAverageRatingByProductId(productId: number) {
   }
 }
 
-export async function addReviewByUserId(newReview: NewReview) {
+export async function addReviewByUserId(newReview: NewReview, userId: string) {
   await db('reviews').insert({
-    user_id: newReview.userId,
+    user_id: userId,
     product_id: newReview.productId,
     description: newReview.description,
     rating: newReview.rating,
@@ -123,9 +112,7 @@ export async function addReviewByUserId(newReview: NewReview) {
 export async function updateReviewStatusById(
   updatedReviewStatus: UpdatedReviewStatus,
 ) {
-  const { id, isEnabled, adminUserId } = updatedReviewStatus
-  //Check if user is authorised. If they are not:
-  //return "User is not authorized"
+  const { id, isEnabled } = updatedReviewStatus
 
   // Select the associated review with the given id
   const review = await db('reviews').where('id', id).first()
@@ -140,7 +127,7 @@ export async function updateReviewStatusById(
   return `is_enabled status of reivew matching the id: ${id} has been updated to ${isEnabled}`
 }
 
-export async function removeReviewByUserId(productId: number, userId: string) {
+export async function removeReviewByProductId(productId: number, userId: string) {
   await db('reviews').where({ user_id: userId, product_id: productId }).delete()
   await recalculateAverageRatingByProductId(productId)
 }
