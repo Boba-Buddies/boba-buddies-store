@@ -1,4 +1,10 @@
+import { useQuery } from 'react-query'
+import { fetchCart } from '../../../apis/cart'
+import { CartClient } from '../../../../models/Cart'
+
 function Checkout() {
+  const { isLoading, data } = useQuery('fetchProfiles', fetchCart)
+
   return (
     <>
       <div className=" text-black p-8">
@@ -95,14 +101,25 @@ function Checkout() {
           </div>
           <div>
             <h1 className="text-2xl font-semibold mb-4">ORDER SUMMARY</h1>
-            <div className="flex justify-between mb-2">
-              <div>1 X ITEM NAME</div>
-              <div>$1.00</div>
-            </div>
-            <div className="flex justify-between mb-2">
+
+            {!isLoading &&
+              data &&
+              data.map((product: CartClient) => (
+                <div
+                  className="flex justify-between mb-2"
+                  key={product.productId}
+                >
+                  <div className="flex flex-row">
+                    <div>{product.quantity}</div> <span className="m">X</span>{' '}
+                    {product.name}
+                  </div>
+                  <div>${product.price.toFixed(2)}</div>
+                </div>
+              ))}
+            {/* <div className="flex justify-between mb-2">
               <div>1 X ITEM NAMEs</div>
               <div>$1.00</div>
-            </div>
+            </div> */}
             <div className="flex justify-between mb-2">
               <h1 className="text-xl font-semibold">SUBTOTAL</h1>
               <p className="text-lg">NZD $2.00</p>
