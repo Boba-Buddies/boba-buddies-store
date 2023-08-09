@@ -127,7 +127,7 @@ export async function updateReviewStatusById(
   return `is_enabled status of reivew matching the id: ${id} has been updated to ${isEnabled}`
 }
 
-export async function removeReviewByUserId(productId: number, userId: string) {
+export async function removeReviewByProductId(productId: number, userId: string) {
   await db('reviews').where({ user_id: userId, product_id: productId }).delete()
   await recalculateAverageRatingByProductId(productId)
 }

@@ -112,7 +112,7 @@ router.patch('/update-status', authorizeAdmin, async (req, res) => {
 //DELETE api/v1/reviews/remove/:productId
 router.delete('/remove/:productId', async (req, res) => {
   try {
-    await db.removeReviewByUserId(Number(req.params.productId), userId)
+    await db.removeReviewByProductId(Number(req.params.productId), userId)
     res.status(200).json({ message: 'Review removed successfully' })
   } catch (error) {
     logError(error)
