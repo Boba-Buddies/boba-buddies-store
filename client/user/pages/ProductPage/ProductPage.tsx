@@ -9,6 +9,7 @@ import {
   createReviewByUserId,
   deleteReviewByProductId,
 } from '../../../apis/reviews'
+import ProductPreview from '../../components/Product/ProductPreview'
 
 const ProductPage = () => {
   const params = useParams()
@@ -31,35 +32,7 @@ const ProductPage = () => {
     return <div>Error: {(error as { message: string }).message}</div>
   }
 
-  return (
-    <>
-      {product && (
-        <div className="flex justify-center" style={{ marginTop: '100px' }}>
-          <div
-            className="flex items-center max-w-5xl border border-black rounded"
-            //style={{ background: 'lightGray' }}
-          >
-            <div className="w-1/2">
-              <img
-                src="/images/oolong-milk-tea.svg"
-                alt={product.name}
-                className="w-full"
-              />
-            </div>
-            <div className="w-1/2 ml-4">
-              <h1 className="text-xl font-bold">{product.name}</h1>
-              <h2 className="text-lg mt-2">${product.price}</h2>
-              <p className="mt-1">Rating : {product.averageRating}</p>
-              <p className="mt-2">{product.description}</p>
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded">
-                Add to cart
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
-  )
+  return <> {product && <ProductPreview product={product} />}</>
 }
 
 export default ProductPage
