@@ -48,75 +48,74 @@ const Cart = () => {
   )
 
   return (
-    <div>
-      <h2 className="text-blue-500">Your Cart</h2>
-      {!isLoading &&
-        data &&
-        data?.map((item: CartClient) => (
-          <div
-            key={item.productId}
-            className="flex items-center mb-6 border p-4"
-          >
-            <div className="flex-shrink-0 w-1/4 pr-4">
-              <img src={item.image} alt={item.name} />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold">{item.name}</h3>
-              <p>Price: ${item.price}</p>
-              <div className="flex items-center mt-2">
+    <div className="flex">
+      <div className="w-3/4 pr-6">
+        <h2 className="text-blue-500">Your Cart</h2>
+        {!isLoading &&
+          data &&
+          data.map((item: CartClient) => (
+            <div
+              key={item.productId}
+              className="flex items-center mb-6 border p-4"
+            >
+              <div className="flex-shrink-0 w-1/4 pr-4">
+                <img src={item.image} alt={item.name} />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-bold">{item.name}</h3>
+                <p>Price: ${item.price}</p>
+                <div className="flex items-center mt-2">
+                  <button
+                    onClick={() => {
+                      modifyQuantityMutation.mutate({
+                        productId: item.productId,
+                        quantity: item.quantity - 1,
+                      })
+                    }}
+                    className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-colors hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300"
+                  >
+                    -
+                  </button>
+                  <p className="px-3">{item.quantity}</p>
+                  <button
+                    onClick={() => {
+                      modifyQuantityMutation.mutate({
+                        productId: item.productId,
+                        quantity: item.quantity + 1,
+                      })
+                    }}
+                    className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-colors hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300"
+                  >
+                    +
+                  </button>
+                </div>
                 <button
-                  onClick={() => {
-                    modifyQuantityMutation.mutate({
-                      productId: item.productId,
-                      quantity: item.quantity - 1,
-                    })
-                  }}
-                  className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-colors hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300"
+                  onClick={() => deleteProductMutation.mutate(item.productId)}
+                  className="mt-3 px-3 py-1 text-sm bg-red-500 text-white rounded-md transition-colors hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
                 >
-                  -
-                </button>
-                <p className="px-3">{item.quantity}</p>
-                <button
-                  onClick={() => {
-                    modifyQuantityMutation.mutate({
-                      productId: item.productId,
-                      quantity: item.quantity + 1,
-                    })
-                  }}
-                  className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-colors hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300"
-                >
-                  +
+                  Remove
                 </button>
               </div>
-              <button
-                onClick={() => deleteProductMutation.mutate(item.productId)}
-                className="mt-3 px-3 py-1 text-sm bg-red-500 text-white rounded-md transition-colors hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
-              >
-                Remove
-              </button>
             </div>
-          </div>
-        ))}
-
-      <div className="w-1/4">
-        <div className="border p-4">
-          <h2 className="text-blue-500">Summary</h2>
-          {!isLoading && data && (
-            <p>
-              Total: $
-              {data.reduce(
-                (total, item) => total + item.price * item.quantity,
-                0,
-              )}
-            </p>
-          )}
-          <button
-            onClick={() => goTo('/Checkout')}
-            className="mt-3 px-3 py-1 text-sm bg-black text-white rounded-md transition-colors hover:bg-gray-700 focus:outline-none focus:ring focus:ring-black"
-          >
-            Checkout
-          </button>
-        </div>
+          ))}
+      </div>
+      <div className="w-1/4 border p-4">
+        <h2 className="text-blue-500">Cart Summary</h2>
+        {!isLoading && data && (
+          <p>
+            Total: $
+            {data.reduce(
+              (total, item) => total + item.price * item.quantity,
+              0,
+            )}
+          </p>
+        )}
+        <button
+          onClick={() => goTo('/Checkout')}
+          className="mt-3 px-3 py-1 text-sm bg-black text-white rounded-md transition-colors hover:bg-gray-700 focus:outline-none focus:ring focus:ring-black"
+        >
+          Checkout
+        </button>
       </div>
     </div>
   )
