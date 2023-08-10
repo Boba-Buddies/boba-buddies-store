@@ -32,7 +32,16 @@ const ProductPage = () => {
     return <div>Error: {(error as { message: string }).message}</div>
   }
 
-  return <> {product && <ProductPreview product={product} />}</>
+  return (
+    <>
+      {' '}
+      {product && (
+        <div className="flex justify-center" style={{ marginTop: '100px' }}>
+          <ProductPreview product={product} />
+        </div>
+      )}
+    </>
+  )
 }
 
 export default ProductPage

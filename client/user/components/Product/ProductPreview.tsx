@@ -6,7 +6,6 @@ interface ProductPreviewProps {
 
 function ProductPreview({ product }: ProductPreviewProps) {
   return (
-    <div className="flex justify-center" style={{ marginTop: '100px' }}>
       <div className="flex items-center max-w-5xl border border-black rounded">
         <div className="w-1/2">
           <img src="/images/oolong-milk-tea.svg" alt={product.name} className="w-full" />
@@ -21,7 +20,6 @@ function ProductPreview({ product }: ProductPreviewProps) {
           </button>
         </div>
       </div>
-    </div>
   );
 }
 
