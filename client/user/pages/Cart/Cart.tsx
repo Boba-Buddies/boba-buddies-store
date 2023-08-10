@@ -110,7 +110,12 @@ const Cart = () => {
               )}
             </p>
           )}
-          <button onClick={() => goTo('/Checkout')}>Checkout</button>
+          <button
+            onClick={() => goTo('/Checkout')}
+            className="mt-3 px-3 py-1 text-sm bg-black text-white rounded-md transition-colors hover:bg-gray-700 focus:outline-none focus:ring focus:ring-black"
+          >
+            Checkout
+          </button>
         </div>
       </div>
     </div>
