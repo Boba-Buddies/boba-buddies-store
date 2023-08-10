@@ -10,31 +10,19 @@ import {
   deleteReviewByProductId,
 } from '../../../apis/reviews'
 import ProductPreview from '../../components/Product/ProductPreview'
+import LoadError from '../../components/LoadError/LoadError'
 
 const ProductPage = () => {
   const params = useParams()
   const id = Number(params.id)
 
-  const {
-    data: product,
-    isLoading,
-    isError,
-    error,
-  } = useQuery(['getProduct', id], async () => {
+  const { data: product, status } = useQuery(['getProduct', id], async () => {
     return await fetchProductById(id)
   })
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (isError) {
-    return <div>Error: {(error as { message: string }).message}</div>
-  }
-
   return (
     <>
-      {' '}
+      <LoadError status={status} />
       {product && (
         <div className="flex justify-center" style={{ marginTop: '100px' }}>
           <ProductPreview product={product} />
