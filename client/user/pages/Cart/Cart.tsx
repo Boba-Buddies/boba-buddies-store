@@ -9,12 +9,13 @@ import {
   fetchCart,
   modifyCartProductQuantity,
 } from '../../../apis/cart'
+import LoadError from '../../components/LoadError/LoadError'
 
 const Cart = () => {
   const setCart = useCartStore((state) => state.setCart)
   const queryClient = useQueryClient()
 
-  const { data, isLoading } = useQuery('fetchCart', fetchCart, {
+  const { data, status } = useQuery('fetchCart', fetchCart, {
     onSuccess: (data) => {
       setCart(data)
     },
@@ -49,6 +50,7 @@ const Cart = () => {
 
   return (
     <>
+      <LoadError status={status} />
       <div className="flex justify-center items-center mt-4">
         <h1 className="text-blue-500 text-2xl font-bold">Your Cart</h1>
       </div>
@@ -56,8 +58,7 @@ const Cart = () => {
       <div className="flex justify-center items-center min-h-screen mt-4">
         <div className="flex w-4/5">
           <div className="w-3/4 pr-6">
-            {!isLoading &&
-              data &&
+            {data &&
               data.map((item: CartClient) => (
                 <div
                   key={item.productId}
@@ -109,7 +110,7 @@ const Cart = () => {
           <div className="w-1/5">
             <div className="border border-gray-300 shadow-md bg-gray-100 p-4 ">
               <h2 className="text-blue-500">Total Cost</h2>
-              {!isLoading && data && (
+              {data && (
                 <p>
                   Total: $
                   {data.reduce(
