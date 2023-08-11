@@ -52,7 +52,7 @@ const Cart = () => {
     <>
       <LoadError status={status} />
       <div className="flex justify-center items-center mt-4">
-        <h1 className="text-blue-500 text-2xl font-bold">Your Cart</h1>
+        <h1 className="text-3xl font-bold tracking-wider">CART</h1>
       </div>
 
       <div className="flex justify-center items-center min-h-screen mt-4">
@@ -62,14 +62,18 @@ const Cart = () => {
               data.map((item: CartClient) => (
                 <div
                   key={item.productId}
-                  className="flex items-center mb-6 border p-4"
+                  className="flex items-center justify-between mb-6 border p-4 rounded-md"
                 >
                   <div className="flex-shrink-0 w-1/4 pr-4">
-                    <img src={item.image} alt={item.name} />
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="max-w-full h-auto"
+                    />
                   </div>
                   <div className="flex-1">
                     <h3 className="font-bold">{item.name}</h3>
-                    <p>Price: ${item.price}</p>
+                    <p className="text-gray-600">Price: ${item.price}</p>
                     <div className="flex items-center mt-2">
                       <button
                         onClick={() => {
@@ -95,6 +99,7 @@ const Cart = () => {
                         +
                       </button>
                     </div>
+
                     <button
                       onClick={() =>
                         deleteProductMutation.mutate(item.productId)
@@ -104,22 +109,27 @@ const Cart = () => {
                       Remove
                     </button>
                   </div>
+                  <p className="font-bold text-right">
+                    $ {(item.price * item.quantity).toFixed(2)}
+                  </p>
                 </div>
               ))}
           </div>
+
           <div className="w-1/5">
-            <div className="border border-gray-300 shadow-md bg-gray-100 p-4 ">
-              <h2 className="text-blue-500">Total Cost</h2>
+            <div className="border border-gray-300 shadow-md bg-gray-100 p-4 rounded-md">
               {data && (
-                <p>
+                <p className="text-gray-600">
                   Total: $
-                  {data.reduce(
-                    (total, item) => total + item.price * item.quantity,
-                    0,
-                  )}
+                  {data
+                    .reduce(
+                      (total, item) => total + item.price * item.quantity,
+                      0,
+                    )
+                    .toFixed(2)}
                 </p>
               )}
-              <p>
+              <p className="text-gray-600">
                 <span>Shipping: TBC</span>
               </p>
               <button
