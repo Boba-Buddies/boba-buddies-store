@@ -117,7 +117,7 @@ const Cart = () => {
 
           <div className="w-1/3 pl-6 mt-14">
             <div
-              className="shadow-md bg-black p-8 rounded-md text-white"
+              className="p-8 rounded-md bg-gray-500 text-white"
               style={{ width: '340px' }}
             >
               {data && (
@@ -141,7 +141,7 @@ const Cart = () => {
               </p>
               <button
                 onClick={() => goTo('/Checkout')}
-                className="mt-4 w-full py-2 bg-white text-black font-bold rounded-md transition-colors hover:bg-gray-400 hover:text-white focus:outline-none focus:ring focus:ring-black"
+                className="mt-4 w-full py-2 bg-gray-400 text-white font-bold rounded-md transition-colors hover:bg-gray-100 hover:text-white focus:outline-none focus:ring focus:ring-black"
               >
                 Checkout
               </button>
