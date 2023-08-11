@@ -3,7 +3,7 @@ import { fetchCart } from '../../../apis/cart'
 import { CartClient } from '../../../../models/Cart'
 
 function Checkout() {
-  const { isLoading, data } = useQuery('fetchProfiles', fetchCart)
+  const CartQuery = useQuery('fetchProfiles', fetchCart)
 
   return (
     <>
@@ -102,9 +102,9 @@ function Checkout() {
           <div>
             <h1 className="text-2xl font-semibold mb-4">ORDER SUMMARY</h1>
 
-            {!isLoading &&
-              data &&
-              data.map((product: CartClient) => (
+            {!CartQuery.isLoading &&
+              CartQuery.data &&
+              CartQuery.data.map((product: CartClient) => (
                 <div
                   className="flex justify-between mb-2"
                   key={product.productId}
@@ -116,10 +116,7 @@ function Checkout() {
                   <div>${product.price.toFixed(2)}</div>
                 </div>
               ))}
-            {/* <div className="flex justify-between mb-2">
-              <div>1 X ITEM NAMEs</div>
-              <div>$1.00</div>
-            </div> */}
+
             <div className="flex justify-between mb-2">
               <h1 className="text-xl font-semibold">SUBTOTAL</h1>
               <p className="text-lg">NZD $2.00</p>
