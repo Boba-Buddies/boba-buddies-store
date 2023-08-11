@@ -9,41 +9,23 @@ import {
   createReviewByUserId,
   deleteReviewByProductId,
 } from '../../../apis/reviews'
+import ProductPreview from '../../components/Product/ProductPreview'
+import LoadError from '../../components/LoadError/LoadError'
 
 const ProductPage = () => {
   const params = useParams()
   const id = Number(params.id)
 
-  const {
-    data: product,
-    isLoading,
-    isError,
-    error,
-  } = useQuery(['getProduct', id], async () => {
+  const { data: product, status } = useQuery(['getProduct', id], async () => {
     return await fetchProductById(id)
   })
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (isError) {
-    return <div>Error: {(error as { message: string }).message}</div>
-  }
-
   return (
     <>
+      <LoadError status={status} />
       {product && (
-        <div>
-          <p>{product.image}</p>
-          <div style={{ width: '100px', height: '100px' }}>
-            <img
-              src="/images/oolong-milk-tea.svg"
-              alt={product.name}
-              style={{ width: '100%' }}
-            />
-          </div>
-          <div></div>
+        <div className="flex justify-center" style={{ marginTop: '100px' }}>
+          <ProductPreview product={product} />
         </div>
       )}
     </>
