@@ -6,16 +6,22 @@ import { ShippingOptions } from '../../../../models/ShippingOptions'
 import { useState } from 'react'
 
 function Checkout() {
-  const CartQuery = useQuery('fetchProfiles', fetchCart)
-  const ShippingQuery = useQuery(
-    'fetchAllShippingOptions',
-    fetchAllShippingOptions,
-  )
+  const [cartProducts, setCartProduct] = useState([] as CartClient[])
+
+  useQuery('fetchProfiles', fetchCart, {
+    onSuccess: (data: CartClient[]) => {
+      setCartProduct(data)
+    },
+  })
 
   const [selectedShipping, setSelectedShipping] = useState({
     type: '',
     price: 0,
   })
+  const ShippingQuery = useQuery(
+    'fetchAllShippingOptions',
+    fetchAllShippingOptions,
+  )
 
   const handleShippingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const shippingOption = ShippingQuery.data?.find(
@@ -30,6 +36,11 @@ function Checkout() {
     }
   }
 
+  const subtotal = cartProducts.reduce(
+    (total, product) => total + product.price * product.quantity,
+    0,
+  )
+  const total = subtotal + selectedShipping.price
   return (
     <>
       <div className=" text-black p-8">
@@ -134,20 +145,18 @@ function Checkout() {
           <div>
             <h1 className="text-2xl font-semibold mb-4">ORDER SUMMARY</h1>
 
-            {!CartQuery.isLoading &&
-              CartQuery.data &&
-              CartQuery.data.map((product: CartClient) => (
-                <div
-                  className="flex justify-between mb-2"
-                  key={product.productId}
-                >
-                  <div className="flex flex-row">
-                    <div>{product.quantity}</div>{' '}
-                    <span className="mx-2">X</span> {product.name}
-                  </div>
-                  <div>${product.price.toFixed(2)}</div>
+            {cartProducts.map((product: CartClient) => (
+              <div
+                className="flex justify-between mb-2"
+                key={product.productId}
+              >
+                <div className="flex flex-row">
+                  <div>{product.quantity}</div> <span className="mx-2">X</span>{' '}
+                  {product.name}
                 </div>
-              ))}
+                <div>${product.price.toFixed(2)}</div>
+              </div>
+            ))}
 
             <div className="flex justify-between mb-2">
               <h1 className="text-xl font-semibold">SUBTOTAL</h1>
@@ -164,7 +173,7 @@ function Checkout() {
             </div>
             <div className="flex justify-between mb-4">
               <h1 className="text-xl font-semibold">ORDER TOTAL</h1>
-              <p className="text-lg">NZD $9.00</p>
+              <p className="text-lg">NZD $ {total.toFixed(2)}</p>
             </div>
           </div>
           <button className="bg-black text-white p-4 w-full text-lg font-bold">
