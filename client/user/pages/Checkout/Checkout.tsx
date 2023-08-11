@@ -1,9 +1,14 @@
 import { useQuery } from 'react-query'
 import { fetchCart } from '../../../apis/cart'
 import { CartClient } from '../../../../models/Cart'
+import { fetchAllShippingOptions } from '../../../apis/shipping'
 
 function Checkout() {
   const CartQuery = useQuery('fetchProfiles', fetchCart)
+  const ShippingQuery = useQuery(
+    'fetchAllShippingOptions',
+    fetchAllShippingOptions,
+  )
 
   return (
     <>
