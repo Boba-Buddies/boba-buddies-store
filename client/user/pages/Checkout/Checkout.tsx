@@ -7,6 +7,17 @@ import { useState } from 'react'
 
 function Checkout() {
   const [cartProducts, setCartProduct] = useState([] as CartClient[])
+  const [userDetails, setUserDetails] = useState({
+    phone: '',
+    firstName: '',
+    lastName: '',
+    address: {
+      street: '',
+      city: '',
+      country: '',
+    },
+    zipCode: '',
+  })
 
   useQuery('fetchProfiles', fetchCart, {
     onSuccess: (data: CartClient[]) => {
@@ -36,11 +47,31 @@ function Checkout() {
     }
   }
 
+  function handleUserDetailsChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target
+    if (['street', 'city', 'country'].includes(name)) {
+      setUserDetails({
+        ...userDetails,
+        address: {
+          ...userDetails.address,
+          [name]: value,
+        },
+      })
+    } else {
+      setUserDetails({
+        ...userDetails,
+        [name]: value,
+      })
+    }
+  }
+  console.log(userDetails, 'I am the user Detail')
+
   const subtotal = cartProducts.reduce(
     (total, product) => total + product.price * product.quantity,
     0,
   )
   const total = subtotal + selectedShipping.price
+
   return (
     <>
       <div className=" text-black p-8">
@@ -53,8 +84,10 @@ function Checkout() {
             <input
               type="text"
               id="phone"
+              name="phone"
               placeholder="PHONE"
               className="border p-2 w-full mb-4"
+              onChange={handleUserDetailsChange}
             />
           </div>
           <h1 className="text-2xl font-semibold mb-4">DELIVERY ADDRESS</h1>
@@ -65,6 +98,7 @@ function Checkout() {
               id="firstName"
               placeholder="FIRST NAME"
               className="border p-2 w-full mb-4 mr-6"
+              onChange={handleUserDetailsChange}
             />
             <input
               type="text"
@@ -72,15 +106,17 @@ function Checkout() {
               id="lastName"
               placeholder="LAST NAME"
               className="border p-2 w-full mb-4"
+              onChange={handleUserDetailsChange}
             />
           </div>
           <div>
             <input
               type="text"
-              name="address"
-              id="address"
+              name="street"
+              id="street"
               placeholder="ADDRESS"
               className="border p-2 w-full mb-4"
+              onChange={handleUserDetailsChange}
             />
           </div>
           <div>
@@ -90,6 +126,7 @@ function Checkout() {
               id="city"
               placeholder="CITY"
               className="border p-2 w-full mb-4"
+              onChange={handleUserDetailsChange}
             />
           </div>
           <div className="flex flex-row">
@@ -99,6 +136,7 @@ function Checkout() {
               id="country"
               placeholder="COUNTRY"
               className="border p-2 w-full mb-4 mr-6"
+              onChange={handleUserDetailsChange}
             />
             <input
               type="text"
@@ -106,6 +144,7 @@ function Checkout() {
               id="zipCode"
               placeholder="ZIPCODE"
               className="border p-2 w-full mb-4"
+              onChange={handleUserDetailsChange}
             />
           </div>
           <div>
