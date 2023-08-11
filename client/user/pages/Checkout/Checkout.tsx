@@ -2,6 +2,8 @@ import { useQuery } from 'react-query'
 import { fetchCart } from '../../../apis/cart'
 import { CartClient } from '../../../../models/Cart'
 import { fetchAllShippingOptions } from '../../../apis/shipping'
+import { ShippingOptions } from '../../../../models/ShippingOptions'
+import { useState } from 'react'
 
 function Checkout() {
   const CartQuery = useQuery('fetchProfiles', fetchCart)
@@ -9,6 +11,24 @@ function Checkout() {
     'fetchAllShippingOptions',
     fetchAllShippingOptions,
   )
+
+  const [selectedShipping, setSelectedShipping] = useState({
+    type: '',
+    price: 0,
+  })
+
+  const handleShippingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const shippingOption = ShippingQuery.data?.find(
+      (option: ShippingOptions) => option.id === Number(e.target.value),
+    )
+
+    if (shippingOption) {
+      setSelectedShipping({
+        type: shippingOption.shippingType,
+        price: shippingOption.price,
+      })
+    }
+  }
 
   return (
     <>
@@ -85,6 +105,7 @@ function Checkout() {
               name="payment"
               id="payment"
               className="border p-2 w-full mb-4"
+              onChange={handleShippingChange}
             >
               <option value="card">CREDIT</option>
               <option value="visa">VISA</option>
@@ -98,10 +119,16 @@ function Checkout() {
               name="shipping"
               id="shipping"
               className="border p-2 w-full mb-4"
+              onChange={handleShippingChange}
             >
-              <option value="standard">Standard (3-7 working days)</option>
-              <option value="express">Express (2-4 working days)</option>
-              <option value="overnight">Overnight (1 working day)</option>
+              <option value="">Please Select the Shipping Type</option>
+              {!ShippingQuery.isLoading &&
+                ShippingQuery.data &&
+                ShippingQuery.data.map((option: ShippingOptions) => (
+                  <option value={option.id} key={option.id}>
+                    {option.shippingType}
+                  </option>
+                ))}
             </select>
           </div>
           <div>
@@ -115,8 +142,8 @@ function Checkout() {
                   key={product.productId}
                 >
                   <div className="flex flex-row">
-                    <div>{product.quantity}</div> <span className="m">X</span>{' '}
-                    {product.name}
+                    <div>{product.quantity}</div>{' '}
+                    <span className="mx-2">X</span> {product.name}
                   </div>
                   <div>${product.price.toFixed(2)}</div>
                 </div>
@@ -129,8 +156,10 @@ function Checkout() {
             <div className="mb-2 ">
               <h1 className="text-xl font-semibold">SHIPPING METHOD</h1>
               <div className="flex flex-row justify-between">
-                <div className="text-sm">EXPRESS SHIPPING 1-2 DAYS</div>
-                <div className="text-lg">$7.00</div>
+                <div className="text-sm">{selectedShipping.type}</div>
+                <div className="text-lg">
+                  ${selectedShipping.price.toFixed(2)}
+                </div>
               </div>
             </div>
             <div className="flex justify-between mb-4">

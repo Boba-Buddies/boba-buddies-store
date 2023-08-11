@@ -6,5 +6,5 @@ export async function getAllShippingOptions() {
     'id',
     'shipping_type as shippingType',
     'price',
-  )) as ShippingOptions
+  )) as ShippingOptions[]
 }
