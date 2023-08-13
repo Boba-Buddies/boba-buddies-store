@@ -25,8 +25,9 @@ function Checkout() {
     (shippingId: number) => moveCartToPurchases(shippingId),
     {
       onSuccess: async () => {
-        // queryClient.invalidateQueries('fetchPurchase');
-        console.log('add purchase done')
+        //Need to check the api function
+        queryClient.invalidateQueries('fetchOrderByOrderId')
+        queryClient.invalidateQueries('fetchAllOrders')
       },
     },
   )
@@ -103,7 +104,6 @@ function Checkout() {
 
     const submittedShippingId = selectedShipping.id
     purchaseMutation.mutate(submittedShippingId)
-    console.log(submittedShippingId, 'I am the submitted shipping Id')
   }
 
   return (
