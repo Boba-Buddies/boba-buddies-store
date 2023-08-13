@@ -9,7 +9,7 @@ import {
   createReviewByUserId,
   deleteReviewByProductId,
 } from '../../../apis/reviews'
-import ProductPreview from '../../components/Product/ProductPreview'
+import ProductPreview from '../../components/Product/ViewProduct'
 import LoadError from '../../components/LoadError/LoadError'
 
 const ProductPage = () => {
@@ -26,6 +26,7 @@ const ProductPage = () => {
       {product && (
         <div className="flex justify-center" style={{ marginTop: '100px' }}>
           <ProductPreview product={product} />
+          <div></div>
         </div>
       )}
     </>
