@@ -3,6 +3,23 @@ import { CartClient } from '../../models/Cart'
 
 const baseUrl = '/api/v1/cart'
 
+export async function addProductToCart(productId: number, quantity: number) {
+  try {
+    const response = await request
+      .post(`${baseUrl}/add-item`)
+      .send({ productId, quantity })
+
+    if (response.status === 200) {
+      console.log('Product added to the cart successfully.')
+    } else {
+      console.error('Failed to add the product to the cart.')
+    }
+  } catch (error) {
+    console.error('An error occurred:', (error as Error).message)
+    return { error: (error as Error).message }
+  }
+}
+
 export async function fetchCart() {
   const response = await request.get(`${baseUrl}`)
   return response.body.cart as CartClient[]
