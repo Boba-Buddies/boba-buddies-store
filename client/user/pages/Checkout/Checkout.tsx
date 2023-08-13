@@ -72,11 +72,25 @@ function Checkout() {
   )
   const total = subtotal + selectedShipping.price
 
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const addressString = [
+      userDetails.address.street,
+      userDetails.address.city,
+      userDetails.address.country,
+    ].join(', ')
+    const submittedData = {
+      ...userDetails,
+      address: addressString,
+    }
+    console.log('submited Data', submittedData)
+  }
+
   return (
     <>
       <div className=" text-black p-8">
         <div className="text-4xl font-bold mb-4">I am the Logo</div>
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <div>
             <h1 className="text-2xl font-semibold mb-4">PAYMENT INFORMATION</h1>
           </div>
@@ -215,7 +229,10 @@ function Checkout() {
               <p className="text-lg">NZD $ {total.toFixed(2)}</p>
             </div>
           </div>
-          <button className="bg-black text-white p-4 w-full text-lg font-bold">
+          <button
+            className="bg-black text-white p-4 w-full text-lg font-bold"
+            type="submit"
+          >
             COMPLETE ORDER
           </button>
         </form>
