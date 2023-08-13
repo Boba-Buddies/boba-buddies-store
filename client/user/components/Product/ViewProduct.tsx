@@ -4,7 +4,7 @@ interface ProductPreviewProps {
   product: Product
 }
 
-function ViewPreview({ product }: ProductPreviewProps) {
+function ViewProduct({ product }: ProductPreviewProps) {
   return (
     <div className="flex items-center max-w-5xl border border-black rounded">
       <div className="w-1/2">
@@ -23,4 +23,4 @@ function ViewPreview({ product }: ProductPreviewProps) {
   )
 }
 
-export default ViewPreview
+export default ViewProduct
