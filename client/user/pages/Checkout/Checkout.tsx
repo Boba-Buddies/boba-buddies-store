@@ -1,11 +1,13 @@
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchCart } from '../../../apis/cart'
 import { CartClient } from '../../../../models/Cart'
 import { fetchAllShippingOptions } from '../../../apis/shipping'
 import { ShippingOptions } from '../../../../models/ShippingOptions'
 import { useState } from 'react'
+import { moveCartToPurchases } from '../../../apis/purchases'
 
 function Checkout() {
+  const queryClient = useQueryClient()
   const [cartProducts, setCartProduct] = useState([] as CartClient[])
   const [userDetails, setUserDetails] = useState({
     phone: '',
@@ -18,6 +20,16 @@ function Checkout() {
     },
     zipCode: '',
   })
+
+  const purchaseMutation = useMutation(
+    (shippingId: number) => moveCartToPurchases(shippingId),
+    {
+      onSuccess: async () => {
+        // queryClient.invalidateQueries('fetchPurchase');
+        console.log('add purchase done')
+      },
+    },
+  )
 
   useQuery('fetchProfiles', fetchCart, {
     onSuccess: (data: CartClient[]) => {
@@ -90,6 +102,7 @@ function Checkout() {
     console.log('I am the submitted userData', submittedData)
 
     const submittedShippingId = selectedShipping.id
+    purchaseMutation.mutate(submittedShippingId)
     console.log(submittedShippingId, 'I am the submitted shipping Id')
   }
 

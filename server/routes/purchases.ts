@@ -25,7 +25,7 @@ router.get('/latest-order', async (req, res) => {
 //POST /api/v1/purchases
 router.post('/', async (req, res) => {
   try {
-    const shippingId = req.body as number
+    const shippingId = req.body.shippingId as number
     const cartTransferInfo = { userId, shippingId }
     await db.addCartToPurchasesByUserId(cartTransferInfo)
     res.status(200).json({ message: 'Cart successfully added to purchases' })
