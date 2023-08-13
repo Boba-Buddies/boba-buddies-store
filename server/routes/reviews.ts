@@ -9,7 +9,7 @@ import {
 const router = Router()
 const userId = 'auth0|abc12345'
 
-//GET REVIEW BY PRODUCT ID
+//GET REVIEWS BY PRODUCT ID
 //GET /api/v1/reviews/by-product-id/:productId
 router.get('/by-product-id/:productId', async (req, res) => {
   try {
