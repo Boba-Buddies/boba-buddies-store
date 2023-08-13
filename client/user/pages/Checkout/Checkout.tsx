@@ -26,9 +26,11 @@ function Checkout() {
   })
 
   const [selectedShipping, setSelectedShipping] = useState({
+    id: 0,
     type: '',
     price: 0,
   })
+
   const ShippingQuery = useQuery(
     'fetchAllShippingOptions',
     fetchAllShippingOptions,
@@ -41,11 +43,14 @@ function Checkout() {
 
     if (shippingOption) {
       setSelectedShipping({
+        id: shippingOption.id,
         type: shippingOption.shippingType,
         price: shippingOption.price,
       })
     }
   }
+
+  console.log(selectedShipping)
 
   function handleUserDetailsChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target
@@ -64,7 +69,6 @@ function Checkout() {
       })
     }
   }
-  console.log(userDetails, 'I am the user Detail')
 
   const subtotal = cartProducts.reduce(
     (total, product) => total + product.price * product.quantity,
@@ -83,7 +87,10 @@ function Checkout() {
       ...userDetails,
       address: addressString,
     }
-    console.log('submited Data', submittedData)
+    console.log('I am the submitted userData', submittedData)
+
+    const submittedShippingId = selectedShipping.id
+    console.log(submittedShippingId, 'I am the submitted shipping Id')
   }
 
   return (
