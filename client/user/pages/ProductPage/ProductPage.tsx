@@ -9,7 +9,7 @@ import {
   createReviewByUserId,
   deleteReviewByProductId,
 } from '../../../apis/reviews'
-import ViewProduct from '../../components/Product/ViewProduct'
+import ViewProduct from '../../components/ViewProduct/ViewProduct'
 import LoadError from '../../components/LoadError/LoadError'
 import { ProductReviews } from '../../../../models/Reviews'
 
@@ -26,24 +26,31 @@ const ProductPage = () => {
     return fetchedReviews
   })
 
-  console.log(reviews)
   return (
     <>
       <LoadError status={status} />
       {product && (
         <div
           className="flex flex-col items-center w-full"
-          style={{ marginTop: '100px'}}
+          style={{ marginTop: '100px' }}
         >
           <ViewProduct product={product} />
-          <div className="flex flex-col items-center max-w-5xl border border-black rounded"
-          style={{ marginTop: '30px'}}>
+          <div
+            className="flex flex-col items-center max-w-5xl border border-black rounded"
+            style={{ marginTop: '30px' }}
+          >
             {reviews &&
               reviews.map((review) => {
                 return (
-                  <div key={review.userName} className = "border border-black rounded"
-                  style={{marginBottom : '30px'}}>
-                    <div className="flex flex-row gap-4"><h2>{review.userName}</h2> <h2>Created at: {review.createdAt}</h2></div>
+                  <div
+                    key={review.userName}
+                    className="border border-black rounded"
+                    style={{ marginBottom: '30px' }}
+                  >
+                    <div className="flex flex-row gap-4">
+                      <h2>{review.userName}</h2>
+                      <h2>Created at: {review.createdAt}</h2>
+                    </div>
                     <p>{review.rating} stars</p>
                     <p>{review.description}</p>
                   </div>
