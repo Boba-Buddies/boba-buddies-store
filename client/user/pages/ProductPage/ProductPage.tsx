@@ -12,6 +12,8 @@ import {
 import ViewProduct from '../../components/ViewProduct/ViewProduct'
 import LoadError from '../../components/LoadError/LoadError'
 import { ProductReviews } from '../../../../models/Reviews'
+import StarRating from '../../components/StarRating/StarRating'
+import { formatDateToDDMMYYYY } from '../../../utils/FormatDate/formatDate'
 
 const ProductPage = () => {
   const params = useParams()
@@ -44,15 +46,21 @@ const ProductPage = () => {
                 return (
                   <div
                     key={review.userName}
-                    className="border border-black rounded"
+                    className="flex flex-col border border-black rounded"
                     style={{ marginBottom: '30px' }}
                   >
-                    <div className="flex flex-row gap-4">
+                    <div
+                      className="flex flex-row justify-between font-bold"
+                      style={{ marginBottom: '5px' }}
+                    >
                       <h2>{review.userName}</h2>
-                      <h2>Created at: {review.createdAt}</h2>
+                      <h2>{formatDateToDDMMYYYY(review.createdAt)}</h2>
                     </div>
-                    <p>{review.rating} stars</p>
-                    <p>{review.description}</p>
+                    <p style={{ marginBottom: '20px' }}>{review.description}</p>
+                    <div className="flex">
+                      <p>{review.rating}</p>
+                      <StarRating rating={review.rating} size={0.9} />
+                    </div>
                   </div>
                 )
               })}
