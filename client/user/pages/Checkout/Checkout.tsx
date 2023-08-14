@@ -5,19 +5,21 @@ import { fetchAllShippingOptions } from '../../../apis/shipping'
 import { ShippingOptions } from '../../../../models/ShippingOptions'
 import { useState } from 'react'
 import { moveCartToPurchases } from '../../../apis/purchases'
+import { UpdateUser } from '../../../../models/Users'
+import { modifyUserDetails } from '../../../apis/users'
+import { useNavigate } from 'react-router-dom'
 
 function Checkout() {
+  const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [cartProducts, setCartProduct] = useState([] as CartClient[])
   const [userDetails, setUserDetails] = useState({
-    phone: '',
+    phoneNumber: '',
     firstName: '',
     lastName: '',
-    address: {
-      street: '',
-      city: '',
-      country: '',
-    },
+    address: '',
+    city: '',
+    country: '',
     zipCode: '',
   })
 
@@ -28,6 +30,17 @@ function Checkout() {
         //Need to check the api function
         queryClient.invalidateQueries('fetchOrderByOrderId')
         queryClient.invalidateQueries('fetchAllOrders')
+      },
+    },
+  )
+
+  const updateUserDataMutation = useMutation(
+    (updatedDetail: UpdateUser) => modifyUserDetails(updatedDetail),
+    {
+      onSuccess: async () => {
+        //Need to check the user api function
+        queryClient.invalidateQueries('fetchUser')
+        queryClient.invalidateQueries('fetchUserName')
       },
     },
   )
@@ -63,24 +76,12 @@ function Checkout() {
     }
   }
 
-  console.log(selectedShipping)
-
   function handleUserDetailsChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target
-    if (['street', 'city', 'country'].includes(name)) {
-      setUserDetails({
-        ...userDetails,
-        address: {
-          ...userDetails.address,
-          [name]: value,
-        },
-      })
-    } else {
-      setUserDetails({
-        ...userDetails,
-        [name]: value,
-      })
-    }
+    setUserDetails({
+      ...userDetails,
+      [name]: value,
+    })
   }
 
   const subtotal = cartProducts.reduce(
@@ -91,19 +92,10 @@ function Checkout() {
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const addressString = [
-      userDetails.address.street,
-      userDetails.address.city,
-      userDetails.address.country,
-    ].join(', ')
-    const submittedData = {
-      ...userDetails,
-      address: addressString,
-    }
-    console.log('I am the submitted userData', submittedData)
-
+    updateUserDataMutation.mutate(userDetails)
     const submittedShippingId = selectedShipping.id
     purchaseMutation.mutate(submittedShippingId)
+    navigate('/thankyou')
   }
 
   return (
@@ -117,8 +109,8 @@ function Checkout() {
           <div>
             <input
               type="text"
-              id="phone"
-              name="phone"
+              id="phoneNumber"
+              name="phoneNumber"
               placeholder="PHONE"
               className="border p-2 w-full mb-4"
               onChange={handleUserDetailsChange}
@@ -146,8 +138,8 @@ function Checkout() {
           <div>
             <input
               type="text"
-              name="street"
-              id="street"
+              name="address"
+              id="address"
               placeholder="ADDRESS"
               className="border p-2 w-full mb-4"
               onChange={handleUserDetailsChange}
