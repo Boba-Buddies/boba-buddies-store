@@ -225,7 +225,7 @@ function Checkout() {
 
             <div className="flex justify-between mb-2">
               <h1 className="text-xl font-semibold">SUBTOTAL</h1>
-              <p className="text-lg">NZD $2.00</p>
+              <p className="text-lg">${subtotal.toFixed(2)}</p>
             </div>
             <div className="mb-2 ">
               <h1 className="text-xl font-semibold">SHIPPING METHOD</h1>
