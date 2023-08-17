@@ -34,20 +34,26 @@ const ProductPage = () => {
       {product && (
         <div
           className="flex flex-col items-center w-full"
-          style={{ marginTop: '100px'}}
+          style={{ marginTop: '100px' }}
         >
           <ViewProduct product={product} />
           <div
             className="flex flex-col items-center max-w-5xl"
             style={{ marginTop: '30px' }}
           >
+            <div
+            className="flex flex-row items-center max-w-5xl">
+              <h2 className="text-xl font-bold">Average Rating : </h2>
+              <StarRating rating={product.averageRating} size={2} />
+            </div>
+
             {reviews &&
               reviews.map((review) => {
                 return (
                   <div
                     key={review.userName}
                     className="flex flex-col border border-black rounded"
-                    style={{ marginBottom: '30px', padding : "10px" }}
+                    style={{ marginBottom: '30px', padding: '10px' }}
                   >
                     <div
                       className="flex flex-row justify-between font-bold"

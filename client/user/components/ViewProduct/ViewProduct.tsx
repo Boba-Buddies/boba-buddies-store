@@ -18,8 +18,8 @@ function ViewProduct({ product }: ProductPreviewProps) {
         <h1 className="text-xl font-bold">{product.name}</h1>
         <h2 className="text-lg mt-2">${product.price}</h2>
         <div className="flex">
-          <p>{product.averageRating}</p>
           <StarRating rating={product.averageRating} size={1} />
+          <p>{product.averageRating}</p>
         </div>
 
         <p className="mt-2">{product.description}</p>
