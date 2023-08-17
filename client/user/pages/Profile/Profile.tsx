@@ -23,44 +23,47 @@ const Profile = () => {
 
       <div className="flex">
         <div className="w-1/2 pr-8">
-          <h2 className="text-xl font-semibold mb-4">Orders</h2>
-          <ul className="space-y-2">
-            <li className="border p-2">Order 1</li>
-            <li className="border p-2">Order 2</li>
-            <li className="border p-2">Order 3</li>
-            {/* Add more items as needed */}
-          </ul>
+          <section className="mb-8">
+            <h2 className="text-xl font-semibold">Orders</h2>
+            <ul className="space-y-2">
+              <li className="border p-2">Order 1</li>
+              <li className="border p-2">Order 2</li>
+              <li className="border p-2">Order 3</li>
+              {/* Add more items as needed */}
+            </ul>
+          </section>
         </div>
 
         <div className="w-1/2 pl-8">
-          <h2 className="text-xl font-semibold mb-4">Account Details</h2>
-          <p>
-            {data?.firstName} {data?.lastName}
-          </p>
-          <p>{data?.address}</p>
-          <p>{data?.city}</p>
-          <p>{data?.country}</p>
-          <p>{data?.zipCode}</p>
+          <section className="mb-8">
+            <h2 className="text-xl font-semibold">Account Details</h2>
+            <p>
+              {data?.firstName} {data?.lastName}
+            </p>
+            <p>{data?.address}</p>
+            <p>{data?.city}</p>
+            <p>{data?.country}</p>
+            <p>{data?.zipCode}</p>
 
-          <button
-            onClick={() => goTo(`/edit-profile/${data?.userId}}`)}
-            className="mt-4 w-full py-2 bg-gray-400 text-white font-bold rounded-md transition-colors hover:bg-gray-100 hover:text-white focus:outline-none focus:ring focus:ring-black"
-          >
-            Edit Details
-          </button>
+            <button
+              onClick={() => goTo(`/edit-profile/${data?.userId}`)}
+              className="mt-2 py-1 px-2 bg-gray-400 text-sm text-white font-semibold rounded-md transition duration-300 ease-in-out hover:bg-gray-500 hover:text-gray-100 focus:outline-none focus:ring focus:ring-gray-400"
+            >
+              Edit Details
+            </button>
+          </section>
         </div>
       </div>
 
-      <div className="mt-8">
-        <div>
-          <h2 className="text-xl font-semibold mb-4">Reviews</h2>
-          <ul className="space-y-2">
-            <li className="border p-2">Review 1</li>
-            <li className="border p-2">Review 2</li>
-            <li className="border p-2">Review 3</li>
-          </ul>
-        </div>
-      </div>
+      <section>
+        <h2 className="text-xl font-semibold mb-4">Reviews</h2>
+        <ul className="space-y-2">
+          <li className="border p-2">Review 1</li>
+          <li className="border p-2">Review 2</li>
+          <li className="border p-2">Review 3</li>
+          {/* Add more items as needed */}
+        </ul>
+      </section>
     </div>
   )
 }
