@@ -14,7 +14,14 @@ const Profile = () => {
       <h1 className="text-3xl font-bold tracking-wider">Profile</h1>
 
       <div>
-        <p>{data && data.firstName}</p>
+        <h2>Account Details</h2>
+        <p>
+          {data && data.firstName} {data && data.lastName}
+        </p>
+        <p>{data && data.address}</p>
+        <p>{data && data.city}</p>
+        <p>{data && data.country}</p>
+        <p>{data && data.zipCode}</p>
       </div>
     </>
   )
