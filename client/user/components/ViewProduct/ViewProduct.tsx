@@ -1,11 +1,11 @@
 import { Product } from '../../../../models/Products'
 import StarRating from '../StarRating/StarRating'
 
-interface ProductPreviewProps {
+interface ViewProductProps {
   product: Product
 }
 
-function ViewProduct({ product }: ProductPreviewProps) {
+function ViewProduct({ product }: ViewProductProps) {
   return (
     <div
       className="flex items-center max-w-5xl"
