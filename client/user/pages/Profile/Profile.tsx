@@ -1,14 +1,22 @@
 import { useQuery } from 'react-query'
+import { useNavigate } from 'react-router-dom'
 
 import { fetchUser } from '../../../apis/users'
 
 import LoadError from '../../components/LoadError/LoadError'
 
 const Profile = () => {
+  const navigate = useNavigate()
+  function goTo(link: string) {
+    navigate(link)
+  }
+
   const { data, status } = useQuery('fetchUser', fetchUser)
 
   return (
     <div className="p-8">
+      <LoadError status={status} />
+
       <h1 className="text-3xl font-bold tracking-wider mb-8">
         Hello, {data?.firstName} {data?.lastName}!
       </h1>
@@ -33,7 +41,13 @@ const Profile = () => {
           <p>{data?.city}</p>
           <p>{data?.country}</p>
           <p>{data?.zipCode}</p>
-          <LoadError status={status} />
+
+          <button
+            onClick={() => goTo(`/edit-profile/${data?.userId}}`)}
+            className="mt-4 w-full py-2 bg-gray-400 text-white font-bold rounded-md transition-colors hover:bg-gray-100 hover:text-white focus:outline-none focus:ring focus:ring-black"
+          >
+            Edit Details
+          </button>
         </div>
       </div>
 
