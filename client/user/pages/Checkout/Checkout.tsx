@@ -8,6 +8,8 @@ import { moveCartToPurchases } from '../../../apis/purchases'
 import { UpdateUser } from '../../../../models/Users'
 import { modifyUserDetails } from '../../../apis/users'
 import { useNavigate } from 'react-router-dom'
+import PaymentInformation from '../../components/Checkout/PaymentInformation'
+import DeliveryAddress from './DeliveryAdress'
 
 function Checkout() {
   const navigate = useNavigate()
@@ -82,6 +84,7 @@ function Checkout() {
       ...userDetails,
       [name]: value,
     })
+    console.log(userDetails, 'I am the detail')
   }
 
   const subtotal = cartProducts.reduce(
@@ -103,76 +106,11 @@ function Checkout() {
       <div className=" text-black p-8">
         <div className="text-4xl font-bold mb-4">I am the Logo</div>
         <form onSubmit={handleSubmit}>
-          <div>
-            <h1 className="text-2xl font-semibold mb-4">PAYMENT INFORMATION</h1>
-          </div>
-          <div>
-            <input
-              type="text"
-              id="phoneNumber"
-              name="phoneNumber"
-              placeholder="PHONE"
-              className="border p-2 w-full mb-4"
-              onChange={handleUserDetailsChange}
-            />
-          </div>
-          <h1 className="text-2xl font-semibold mb-4">DELIVERY ADDRESS</h1>
-          <div className="flex flex-row">
-            <input
-              type="text"
-              name="firstName"
-              id="firstName"
-              placeholder="FIRST NAME"
-              className="border p-2 w-full mb-4 mr-6"
-              onChange={handleUserDetailsChange}
-            />
-            <input
-              type="text"
-              name="lastName"
-              id="lastName"
-              placeholder="LAST NAME"
-              className="border p-2 w-full mb-4"
-              onChange={handleUserDetailsChange}
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              name="address"
-              id="address"
-              placeholder="ADDRESS"
-              className="border p-2 w-full mb-4"
-              onChange={handleUserDetailsChange}
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              name="city"
-              id="city"
-              placeholder="CITY"
-              className="border p-2 w-full mb-4"
-              onChange={handleUserDetailsChange}
-            />
-          </div>
-          <div className="flex flex-row">
-            <input
-              type="text"
-              name="country"
-              id="country"
-              placeholder="COUNTRY"
-              className="border p-2 w-full mb-4 mr-6"
-              onChange={handleUserDetailsChange}
-            />
-            <input
-              type="text"
-              name="zipCode"
-              id="zipCode"
-              placeholder="ZIPCODE"
-              className="border p-2 w-full mb-4"
-              onChange={handleUserDetailsChange}
-            />
-          </div>
+          <PaymentInformation
+            handleUserDetailsChange={handleUserDetailsChange}
+          />
+          <DeliveryAddress handleUserDetailsChange={handleUserDetailsChange} />
+
           <div>
             <label htmlFor="payment" className="font-medium">
               SELECT PAYMENT METHOD
