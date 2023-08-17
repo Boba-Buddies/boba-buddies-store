@@ -8,12 +8,13 @@ import { moveCartToPurchases } from '../../../apis/purchases'
 import { UpdateUser } from '../../../../models/Users'
 import { modifyUserDetails } from '../../../apis/users'
 import { useNavigate } from 'react-router-dom'
-
-import PaymentInformation from '../../components/Checkout/PaymentInformation'
-import DeliveryAddress from '../../components/Checkout/DeliveryAdress'
-import PaymentMethod from '../../components/Checkout/PaymentMethod'
-import ShippingMethod from '../../components/Checkout/ShippingMethod'
-import OrderSummary from '../../components/Checkout/OrderSummary'
+import {
+  PaymentInformation,
+  DeliveryAddress,
+  PaymentMethod,
+  ShippingMethod,
+  OrderSummary,
+} from '../../components'
 
 function Checkout() {
   const navigate = useNavigate()
