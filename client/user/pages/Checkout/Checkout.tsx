@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom'
 import PaymentInformation from '../../components/Checkout/PaymentInformation'
 import DeliveryAddress from './DeliveryAdress'
 import PaymentMethod from './PaymentMethod'
+import ShippingMethod from './ShippingMethod'
 
 function Checkout() {
   const navigate = useNavigate()
@@ -25,6 +26,11 @@ function Checkout() {
     city: '',
     country: '',
     zipCode: '',
+  })
+  const [selectedShipping, setSelectedShipping] = useState({
+    id: 0,
+    type: '',
+    price: 0,
   })
 
   const purchaseMutation = useMutation(
@@ -55,12 +61,6 @@ function Checkout() {
     },
   })
 
-  const [selectedShipping, setSelectedShipping] = useState({
-    id: 0,
-    type: '',
-    price: 0,
-  })
-
   const ShippingQuery = useQuery(
     'fetchAllShippingOptions',
     fetchAllShippingOptions,
@@ -86,7 +86,6 @@ function Checkout() {
       ...userDetails,
       [name]: value,
     })
-    console.log(userDetails, 'I am the detail')
   }
 
   const subtotal = cartProducts.reduce(
@@ -113,27 +112,13 @@ function Checkout() {
           />
           <DeliveryAddress handleUserDetailsChange={handleUserDetailsChange} />
           <PaymentMethod />
+          {!ShippingQuery.isLoading && ShippingQuery.data && (
+            <ShippingMethod
+              shippingData={ShippingQuery.data}
+              handleShippingChange={handleShippingChange}
+            />
+          )}
 
-          <div>
-            <label htmlFor="shipping" className="font-medium">
-              SELECT SHIPPING METHOD
-            </label>
-            <select
-              name="shipping"
-              id="shipping"
-              className="border p-2 w-full mb-4"
-              onChange={handleShippingChange}
-            >
-              <option value="">Please Select the Shipping Type</option>
-              {!ShippingQuery.isLoading &&
-                ShippingQuery.data &&
-                ShippingQuery.data.map((option: ShippingOptions) => (
-                  <option value={option.id} key={option.id}>
-                    {option.shippingType}
-                  </option>
-                ))}
-            </select>
-          </div>
           <div>
             <h1 className="text-2xl font-semibold mb-4">ORDER SUMMARY</h1>
 
