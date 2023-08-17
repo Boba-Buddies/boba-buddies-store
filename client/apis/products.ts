@@ -43,10 +43,7 @@ export async function modifyProductById(
   updatedProduct: UpsertProduct,
 ) {
   try {
-    const response = await request
-      .patch(`${baseUrl}/${id}`)
-      .send(updatedProduct)
-    return response.body
+    await request.patch(`${baseUrl}/${id}`).send(updatedProduct)
   } catch (error) {
     console.error('Error modifying product by ID:', (error as Error).message)
     return { error: (error as Error).message }
@@ -56,8 +53,7 @@ export async function modifyProductById(
 //!ADMIN ONLY FUNCTION
 export async function createProduct(newProduct: UpsertProduct) {
   try {
-    const response = await request.post(baseUrl).send(newProduct)
-    return response.body
+    await request.post(baseUrl).send(newProduct)
   } catch (error) {
     console.error('Error creating product:', (error as Error).message)
     return { error: (error as Error).message }

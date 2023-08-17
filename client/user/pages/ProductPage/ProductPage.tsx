@@ -9,41 +9,62 @@ import {
   createReviewByUserId,
   deleteReviewByProductId,
 } from '../../../apis/reviews'
+import ViewProduct from '../../components/ViewProduct/ViewProduct'
+import LoadError from '../../components/LoadError/LoadError'
+import { ProductReviews } from '../../../../models/Reviews'
+import StarRating from '../../components/StarRating/StarRating'
+import { formatDateToDDMMYYYY } from '../../../utils/FormatDate/formatDate'
 
 const ProductPage = () => {
   const params = useParams()
   const id = Number(params.id)
 
-  const {
-    data: product,
-    isLoading,
-    isError,
-    error,
-  } = useQuery(['getProduct', id], async () => {
+  const { data: product, status } = useQuery(['getProduct', id], async () => {
     return await fetchProductById(id)
   })
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (isError) {
-    return <div>Error: {(error as { message: string }).message}</div>
-  }
+  const { data: reviews } = useQuery(['getReviews', id], async () => {
+    const fetchedReviews: ProductReviews = await fetchReviewsByProductId(id)
+    return fetchedReviews
+  })
 
   return (
     <>
+      <LoadError status={status} />
       {product && (
-        <div>
-          <p>{product.image}</p>
-          <div style={{ width: '100px', height: '100px' }}>
-            <img
-              src="/images/oolong-milk-tea.svg"
-              alt={product.name}
-              style={{ width: '100%' }}
-            />
+        <div
+          className="flex flex-col items-center w-full"
+          style={{ marginTop: '100px' }}
+        >
+          <ViewProduct product={product} />
+          <div
+            className="flex flex-col items-center max-w-5xl border border-black rounded"
+            style={{ marginTop: '30px' }}
+          >
+            {reviews &&
+              reviews.map((review) => {
+                return (
+                  <div
+                    key={review.userName}
+                    className="flex flex-col border border-black rounded"
+                    style={{ marginBottom: '30px' }}
+                  >
+                    <div
+                      className="flex flex-row justify-between font-bold"
+                      style={{ marginBottom: '5px' }}
+                    >
+                      <h2>{review.userName}</h2>
+                      <h2>{formatDateToDDMMYYYY(review.createdAt)}</h2>
+                    </div>
+                    <p style={{ marginBottom: '20px' }}>{review.description}</p>
+                    <div className="flex">
+                      <p>{review.rating}</p>
+                      <StarRating rating={review.rating} size={0.9} />
+                    </div>
+                  </div>
+                )
+              })}
           </div>
-          <div></div>
         </div>
       )}
     </>
