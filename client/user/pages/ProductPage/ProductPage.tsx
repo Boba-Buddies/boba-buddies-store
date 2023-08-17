@@ -39,11 +39,13 @@ const ProductPage = () => {
           <ViewProduct product={product} />
           <div
             className="flex flex-col items-center max-w-5xl"
-            style={{ marginTop: '30px' }}
+            style={{ marginTop: '40px' }}
           >
             <div
-            className="flex flex-row items-center max-w-5xl">
-              <h2 className="text-xl font-bold">Average Rating : </h2>
+            className="flex flex-row items-center max-w-5xl"
+            style={{ marginBottom: '20px' }}
+            >
+              <h2 className="text-3xl font-bold">{product.averageRating}</h2>
               <StarRating rating={product.averageRating} size={2} />
             </div>
 
@@ -64,8 +66,7 @@ const ProductPage = () => {
                     </div>
                     <p style={{ marginBottom: '20px' }}>{review.description}</p>
                     <div className="flex">
-                      <p>{review.rating}</p>
-                      <StarRating rating={review.rating} size={0.9} />
+                      <StarRating rating={review.rating} size={1} />
                     </div>
                   </div>
                 )
