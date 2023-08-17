@@ -7,7 +7,10 @@ interface ProductPreviewProps {
 
 function ViewProduct({ product }: ProductPreviewProps) {
   return (
-    <div className="flex items-center max-w-5xl border border-black rounded">
+    <div
+      className="flex items-center max-w-5xl"
+      style={{ padding: '10px' }}
+    >
       <div className="w-1/2">
         <img src={product.image} alt={product.name} className="w-full" />
       </div>
