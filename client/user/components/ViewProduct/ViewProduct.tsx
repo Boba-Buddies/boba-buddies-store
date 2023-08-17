@@ -15,8 +15,8 @@ function ViewProduct({ product }: ProductPreviewProps) {
         <img src={product.image} alt={product.name} className="w-full" />
       </div>
       <div className="w-1/2 ml-4">
-        <h1 className="text-xl font-bold">{product.name}</h1>
-        <h2 className="text-lg mt-2">${product.price}</h2>
+        <h1 className="text-3xl font-bold">{product.name}</h1>
+        <h2 className="text-xl font-bold">${product.price}</h2>
         <div className="flex">
           <StarRating rating={product.averageRating} size={1} />
           <p>{product.averageRating}</p>
