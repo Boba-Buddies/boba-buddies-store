@@ -4,7 +4,7 @@ interface StarRatingProps {
 }
 
 function StarRating({ rating, size }: StarRatingProps) {
-  rating = Math.round(rating * 2) / 2
+  rating = Math.floor(rating * 2) / 2 // Change this line
 
   const fullStars = Math.floor(rating)
   const halfStars = rating % 1 !== 0 ? 1 : 0
