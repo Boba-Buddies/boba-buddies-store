@@ -3,7 +3,7 @@ import { CartClient } from '../../models/Cart'
 
 const baseUrl = '/api/v1/cart'
 
-export async function addProductToCart(productId: number, quantity: number) {
+export async function addProductToCart(productId: number, quantity = 1) {
   try {
     const response = await request
       .post(`${baseUrl}/add-item`)
