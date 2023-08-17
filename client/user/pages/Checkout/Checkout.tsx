@@ -10,10 +10,10 @@ import { modifyUserDetails } from '../../../apis/users'
 import { useNavigate } from 'react-router-dom'
 
 import PaymentInformation from '../../components/Checkout/PaymentInformation'
-import DeliveryAddress from './DeliveryAdress'
-import PaymentMethod from './PaymentMethod'
-import ShippingMethod from './ShippingMethod'
-import OrderSummary from './OrderSummary'
+import DeliveryAddress from '../../components/Checkout/DeliveryAdress'
+import PaymentMethod from '../../components/Checkout/PaymentMethod'
+import ShippingMethod from '../../components/Checkout/ShippingMethod'
+import OrderSummary from '../../components/Checkout/OrderSummary'
 
 function Checkout() {
   const navigate = useNavigate()
