@@ -8,8 +8,10 @@ import { moveCartToPurchases } from '../../../apis/purchases'
 import { UpdateUser } from '../../../../models/Users'
 import { modifyUserDetails } from '../../../apis/users'
 import { useNavigate } from 'react-router-dom'
+
 import PaymentInformation from '../../components/Checkout/PaymentInformation'
 import DeliveryAddress from './DeliveryAdress'
+import PaymentMethod from './PaymentMethod'
 
 function Checkout() {
   const navigate = useNavigate()
@@ -110,21 +112,8 @@ function Checkout() {
             handleUserDetailsChange={handleUserDetailsChange}
           />
           <DeliveryAddress handleUserDetailsChange={handleUserDetailsChange} />
+          <PaymentMethod />
 
-          <div>
-            <label htmlFor="payment" className="font-medium">
-              SELECT PAYMENT METHOD
-            </label>
-            <select
-              name="payment"
-              id="payment"
-              className="border p-2 w-full mb-4"
-              onChange={handleShippingChange}
-            >
-              <option value="card">CREDIT</option>
-              <option value="visa">VISA</option>
-            </select>
-          </div>
           <div>
             <label htmlFor="shipping" className="font-medium">
               SELECT SHIPPING METHOD
