@@ -6,6 +6,6 @@ export async function moveCartToPurchases(shippingId: number) {
     await request.post(baseUrl).send({ shippingId })
   } catch (error) {
     console.error('Error creating new Purchase:', (error as Error).message)
-    return { error: (error as Error).message }
+    throw { error: (error as Error).message }
   }
 }

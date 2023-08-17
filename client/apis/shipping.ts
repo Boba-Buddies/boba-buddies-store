@@ -7,6 +7,6 @@ export async function fetchAllShippingOptions() {
     return response.body.shippingOptions
   } catch (error) {
     console.error('Error fetching all products:', (error as Error).message)
-    return { error: (error as Error).message }
+    throw { error: (error as Error).message }
   }
 }
