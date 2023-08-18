@@ -23,6 +23,12 @@ function ViewProductReviews({ product, reviews }: ProductReviewsProps) {
     setIsAddingReview(true)
   }
 
+  const handleCancelClick = () => {
+    setIsAddingReview(false)
+    setReviewDescription('')
+    setReviewRating(3)
+  }
+
   const handleSubmitReview = () => {
     if (reviewDescription.trim() === '') return
 
@@ -32,8 +38,7 @@ function ViewProductReviews({ product, reviews }: ProductReviewsProps) {
       rating: reviewRating,
     }
 
-    addReviewMutation.mutate(newReview, {
-    })
+    addReviewMutation.mutate(newReview)
 
     setReviewDescription('')
     setReviewRating(3)
@@ -76,14 +81,16 @@ function ViewProductReviews({ product, reviews }: ProductReviewsProps) {
             </div>
           )
         })}
-        {isAddingReview && (
+        {isAddingReview ? (
         <div className="flex flex-col" style={{ width: '400px' }}>
           <textarea onChange={(e) => setReviewDescription(e.target.value)} placeholder="Write your review here..." />
           <input type="range" min="0.5" max="5" step="0.5" value={reviewRating} onChange={(e) => setReviewRating(+e.target.value)} />
           <button onClick={handleSubmitReview} disabled={reviewDescription.trim() === ''}>Submit review</button>
+          <button onClick={handleCancelClick}>Cancel</button>
         </div>
+      ) : (
+        <button onClick={handleAddReviewClick}>Add review</button>
       )}
-      <button onClick={handleAddReviewClick}>Add review</button>
     </div>
   )
 }
