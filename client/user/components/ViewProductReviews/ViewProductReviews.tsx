@@ -1,7 +1,11 @@
-import { ProductReviews } from '../../../../models/Reviews'
+import { NewReview, ProductReviews } from '../../../../models/Reviews'
 import { Product } from '../../../../models/Products'
 import StarRating from '../StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../utils/FormatDate/formatDate'
+import { addReview } from '../../../apis/reviews'
+import { useState } from 'react'
+import { useMutation } from 'react-query'
+
 
 interface ProductReviewsProps {
   product: Product
@@ -9,6 +13,34 @@ interface ProductReviewsProps {
 }
 
 function ViewProductReviews({ product, reviews }: ProductReviewsProps) {
+  const [isAddingReview, setIsAddingReview] = useState(false)
+  const [reviewDescription, setReviewDescription] = useState('')
+  const [reviewRating, setReviewRating] = useState(3)
+
+  const addReviewMutation = useMutation((newReview: NewReview) => addReview(newReview))
+
+  const handleAddReviewClick = () => {
+    setIsAddingReview(true)
+  }
+
+  const handleSubmitReview = () => {
+    if (reviewDescription.trim() === '') return
+
+    const newReview = {
+      productId: product.id,
+      description: reviewDescription,
+      rating: reviewRating,
+    }
+
+    addReviewMutation.mutate(newReview, {
+    })
+
+    setReviewDescription('')
+    setReviewRating(3)
+    setIsAddingReview(false)
+  }
+
+
   return (
     <div
       className="flex flex-col items-center max-w-5xl"
@@ -44,6 +76,14 @@ function ViewProductReviews({ product, reviews }: ProductReviewsProps) {
             </div>
           )
         })}
+        {isAddingReview && (
+        <div className="flex flex-col" style={{ width: '400px' }}>
+          <textarea onChange={(e) => setReviewDescription(e.target.value)} placeholder="Write your review here..." />
+          <input type="range" min="0.5" max="5" step="0.5" value={reviewRating} onChange={(e) => setReviewRating(+e.target.value)} />
+          <button onClick={handleSubmitReview} disabled={reviewDescription.trim() === ''}>Submit review</button>
+        </div>
+      )}
+      <button onClick={handleAddReviewClick}>Add review</button>
     </div>
   )
 }
