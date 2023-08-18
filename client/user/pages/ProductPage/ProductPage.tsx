@@ -2,10 +2,7 @@ import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { fetchProductById } from '../../../apis/products'
 import {
-  fetchReviewsByProductId,
-  createReviewByUserId,
-  deleteReviewByProductId,
-} from '../../../apis/reviews'
+  fetchReviewsByProductId} from '../../../apis/reviews'
 import ViewProduct from '../../components/ViewProduct/ViewProduct'
 import LoadError from '../../components/LoadError/LoadError'
 import ViewProductReviews from '../../components/ViewProductReviews/ViewProductReviews'
