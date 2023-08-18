@@ -15,6 +15,7 @@ import {
   ShippingMethod,
   OrderSummary,
 } from '../../components'
+import LoadError from '../../components/LoadError/LoadError'
 
 function Checkout() {
   const navigate = useNavigate()
@@ -34,7 +35,19 @@ function Checkout() {
     type: '',
     price: 0,
   })
+  //Different Query
+  const ShippingQuery = useQuery(
+    'fetchAllShippingOptions',
+    fetchAllShippingOptions,
+  )
+  const CartQuery = useQuery('fetchCart', fetchCart, {
+    onSuccess: (data: CartClient[]) => {
+      setCartProduct(data)
+    },
+  })
+  const statuses = [ShippingQuery.status, CartQuery.status]
 
+  //Mutation of Different Query
   const purchaseMutation = useMutation(
     (shippingId: number) => moveCartToPurchases(shippingId),
     {
@@ -55,17 +68,6 @@ function Checkout() {
         queryClient.invalidateQueries('fetchUserName')
       },
     },
-  )
-
-  useQuery('fetchProfiles', fetchCart, {
-    onSuccess: (data: CartClient[]) => {
-      setCartProduct(data)
-    },
-  })
-
-  const ShippingQuery = useQuery(
-    'fetchAllShippingOptions',
-    fetchAllShippingOptions,
   )
 
   const handleShippingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -106,6 +108,7 @@ function Checkout() {
 
   return (
     <>
+      <LoadError status={statuses} />
       <div className=" text-black p-8">
         <div className="text-4xl font-bold mb-4">I am the Logo</div>
         <form onSubmit={handleSubmit}>
