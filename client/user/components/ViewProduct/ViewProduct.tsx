@@ -10,12 +10,10 @@ interface ViewProductProps {
 
 function ViewProduct({ product }: ViewProductProps) {
   const mutation = useMutation((productId: number) =>
-    addProductToCart(productId),
-  )
+    addProductToCart(productId))
   const [buttonText, setButtonText] = useState('Add to cart')
   const [buttonColor, setButtonColor] = useState(
-    'bg-blue-500 hover:bg-blue-700',
-  )
+    'bg-blue-500 hover:bg-blue-700')
 
   const handleAddToCart = () => {
     mutation.mutate(product.id, {
