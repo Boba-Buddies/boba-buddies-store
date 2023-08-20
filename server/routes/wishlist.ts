@@ -21,7 +21,7 @@ router.get('/status/:productId', async (req, res) => {
   const productId = Number(req.params.productId)
 
   try {
-    const status = await db.getWishlistStatusByProductId(productId)
+    const status = await db.getWishlistStatusByProductId(productId, userId)
     res.status(200).json({ status })
   } catch (error) {
     logError(error)

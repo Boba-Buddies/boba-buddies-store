@@ -15,9 +15,10 @@ export async function getWishlistByUserId(userId: string) {
     )) as WishlisthProduct
 }
 
-export async function getWishlistStatusByProductId(productId: number) {
+export async function getWishlistStatusByProductId(productId: number, userId : string) {
   const wishlistItem = await db('wishlist')
     .where('product_id', productId)
+    .where('user_id', userId)
     .select('product_id as productId')
     .first()
 
