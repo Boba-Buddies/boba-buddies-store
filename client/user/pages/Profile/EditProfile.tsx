@@ -1,7 +1,5 @@
 import { useMutation, useQueryClient, useQuery } from 'react-query'
-
 import { fetchUser, updateUserDetails } from '../../../apis/users'
-
 import { UpdateUser } from '../../../../models/Users'
 
 const EditProfile = () => {
@@ -12,20 +10,26 @@ const EditProfile = () => {
       return updateUserDetails(formData)
     },
     {
+      onMutate: (formData: UpdateUser) => {
+        queryClient.setQueryData('user', formData)
+        return formData
+      },
       onSuccess: () => {
         queryClient.invalidateQueries('user')
       },
     },
   )
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    mutation.mutate(formData)
-  }
-
   const { data: formData, isLoading } = useQuery('user', () => {
     return fetchUser()
   })
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (formData) {
+      mutation.mutate(formData)
+    }
+  }
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -41,15 +45,31 @@ const EditProfile = () => {
             type="text"
             id="firstName"
             name="firstName"
-            value={formData.firstName}
+            value={formData?.firstName || ''} // Provide a default value or use optional chaining
             onChange={(e) => {
-              // Update the formData immediately when the input changes
-              const { name, value } = e.target
-              mutation.setData({ ...formData, [name]: value })
+              if (formData) {
+                const { name, value } = e.target
+                mutation.mutate({ ...formData, [name]: value })
+              }
             }}
           />
         </div>
-        {/* Repeat similar fields for other form inputs */}
+        <div>
+          <label htmlFor="lastName">Last Name: </label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            value={formData?.lastName || ''}
+            onChange={(e) => {
+              if (formData) {
+                const { name, value } = e.target
+                mutation.mutate({ ...formData, [name]: value })
+              }
+            }}
+          />
+        </div>
+
         <div>
           <button type="submit" disabled={mutation.isLoading}>
             {mutation.isLoading ? 'Updating...' : 'Submit'}
