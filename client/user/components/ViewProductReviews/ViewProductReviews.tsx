@@ -1,23 +1,34 @@
+import React, { useState } from 'react'
+import { useMutation } from 'react-query'
 import { NewReview, ProductReviews } from '../../../../models/Reviews'
 import { Product } from '../../../../models/Products'
 import StarRating from '../StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../utils/FormatDate/formatDate'
 import { addReview } from '../../../apis/reviews'
-import { useState } from 'react'
-import { useMutation } from 'react-query'
-
 
 interface ProductReviewsProps {
   product: Product
   reviews: ProductReviews
+  refetch: () => void
 }
 
-function ViewProductReviews({ product, reviews }: ProductReviewsProps) {
+function ViewProductReviews({
+  product,
+  reviews,
+  refetch,
+}: ProductReviewsProps) {
   const [isAddingReview, setIsAddingReview] = useState(false)
   const [reviewDescription, setReviewDescription] = useState('')
   const [reviewRating, setReviewRating] = useState(3)
 
-  const addReviewMutation = useMutation((newReview: NewReview) => addReview(newReview))
+  const addReviewMutation = useMutation(
+    (newReview: NewReview) => addReview(newReview),
+    {
+      onSuccess: () => {
+        refetch()
+      },
+    },
+  )
 
   const handleAddReviewClick = () => {
     setIsAddingReview(true)
@@ -27,6 +38,14 @@ function ViewProductReviews({ product, reviews }: ProductReviewsProps) {
     setIsAddingReview(false)
     setReviewDescription('')
     setReviewRating(3)
+  }
+
+  const handleIncrementRating = () => {
+    if (reviewRating < 5) setReviewRating(reviewRating + 0.5)
+  }
+
+  const handleDecrementRating = () => {
+    if (reviewRating > 0.5) setReviewRating(reviewRating - 0.5)
   }
 
   const handleSubmitReview = () => {
@@ -44,7 +63,6 @@ function ViewProductReviews({ product, reviews }: ProductReviewsProps) {
     setReviewRating(3)
     setIsAddingReview(false)
   }
-
 
   return (
     <div
@@ -65,7 +83,7 @@ function ViewProductReviews({ product, reviews }: ProductReviewsProps) {
             <div
               key={review.userName}
               className="flex flex-col border border-black rounded"
-              style={{ marginBottom: '30px', padding: '10px', width : '400px'}}
+              style={{ marginBottom: '30px', padding: '10px', width: '400px' }}
             >
               <div
                 className="flex flex-row justify-between font-bold"
@@ -81,15 +99,62 @@ function ViewProductReviews({ product, reviews }: ProductReviewsProps) {
             </div>
           )
         })}
-        {isAddingReview ? (
+      {isAddingReview ? (
         <div className="flex flex-col" style={{ width: '400px' }}>
-          <textarea onChange={(e) => setReviewDescription(e.target.value)} placeholder="Write your review here..." />
-          <input type="range" min="0.5" max="5" step="0.5" value={reviewRating} onChange={(e) => setReviewRating(+e.target.value)} />
-          <button onClick={handleSubmitReview} disabled={reviewDescription.trim() === ''}>Submit review</button>
-          <button onClick={handleCancelClick}>Cancel</button>
+          <textarea
+            onChange={(e) => setReviewDescription(e.target.value)}
+            placeholder="Write your review here..."
+            className="min-w-full max-w-2xl p-4 mt-2 bg-white border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y transition duration-150 ease-in-out"
+            rows={5}
+          />
+          <div className="flex flex-col items-center">
+            <div>
+              <button
+                onClick={handleDecrementRating}
+                className="bg-red-500 hover:bg-red-700 text-white font-bold px-3 py-1 mt-2 rounded-full w-12 text-center"
+                disabled={reviewRating <= 0.5}
+              >
+                -
+              </button>
+              <div className="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mt-2 ml-2 mr-2 w-12 text-center">
+                {reviewRating}
+              </div>
+              <button
+                onClick={handleIncrementRating}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-3 py-1 mt-2 rounded-full  w-12 text-center"
+                disabled={reviewRating >= 5}
+              >
+                +
+              </button>
+            </div>
+          </div>
+          <div className="flex flex-col items-center space-y-4 mt-4">
+            <button
+              onClick={handleSubmitReview}
+              disabled={reviewDescription.trim() === ''}
+              className={`${
+                reviewDescription.trim() === ''
+                  ? 'bg-gray-300 cursor-not-allowed'
+                  : 'bg-green-500 hover:bg-green-700'
+              } text-white font-bold py-2 px-4 w-128 rounded-full`}
+            >
+              Submit
+            </button>
+            <button
+              onClick={handleCancelClick}
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 w-128 rounded-full"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       ) : (
-        <button onClick={handleAddReviewClick}>Add review</button>
+        <button
+          onClick={handleAddReviewClick}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-128 rounded-full mt-4"
+        >
+          Add review
+        </button>
       )}
     </div>
   )
