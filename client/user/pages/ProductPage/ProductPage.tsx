@@ -11,7 +11,7 @@ import { fetchWishlistStatusByProductId } from '../../../apis/wishlist'
 const ProductPage = () => {
   const params = useParams()
   const id = Number(params.id)
-  const { data: product, status: productStatus } = useQuery(
+  const { data: product, status: statusProductS } = useQuery(
     ['getProduct', id],
     async () => {
       return await fetchProductById(id)
@@ -21,7 +21,7 @@ const ProductPage = () => {
   const {
     data: reviews,
     refetch: refetchReviews,
-    status: reviewStatus,
+    status: statusReviews,
   } = useQuery(['getReviews', id], async () => {
     const fetchedReviews: ProductReviews = await fetchReviewsByProductId(id)
     return fetchedReviews
@@ -29,7 +29,8 @@ const ProductPage = () => {
 
   const {
     data: wishlistStatus = false,
-    refetch: refetchWishlistProductStatus
+    refetch: refetchWishlistProductStatus,
+    status : statusWishlist
   } = useQuery(['getWishlistStatus', id], async () => {
     const wishlistStatus: boolean = await fetchWishlistStatusByProductId(id)
       return wishlistStatus
@@ -37,7 +38,7 @@ const ProductPage = () => {
 
   return (
     <>
-      <LoadError status={[productStatus, reviewStatus]} />
+      <LoadError status={[statusProductS, statusReviews, statusWishlist]} />
       {product && reviews && (
         <div
           className="flex flex-col items-center w-full"
