@@ -27,7 +27,7 @@ const ProductPage = () => {
       {product && reviews && (
         <div
           className="flex flex-col items-center w-full"
-          style={{ marginTop: '100px' }}
+          style={{ marginTop: '100px', marginBottom: '150px' }}
         >
           <ViewProduct product={product} />
           <ViewProductReviews product={product} reviews={reviews}/>
