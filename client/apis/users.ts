@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { User } from '../../models/Users'
+import { UpdateUser, User } from '../../models/Users'
 
 const baseUrl = '/api/v1/users'
 
@@ -12,4 +12,23 @@ export async function fetchUser() {
     console.error('An error occurred:', (error as Error).message)
     throw { error: (error as Error).message }
   }
+}
+
+export async function updateUserDetails(
+  auth0Id: string,
+  updatedUserDetails: UpdateUser,
+) {
+  request
+    .patch(`${baseUrl}/edit-profile/${auth0Id}`)
+    .send(updatedUserDetails)
+    .then((response) => {
+      if (response.status === 200) {
+        console.log('User details updated successfully')
+      } else {
+        console.error('Unable to update user details')
+      }
+    })
+    .catch((error) => {
+      console.error('An error occurred:', error)
+    })
 }
