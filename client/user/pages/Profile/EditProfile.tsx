@@ -152,7 +152,11 @@ const EditProfile = () => {
         </div>
 
         <div>
-          <button type="submit" disabled={mutation.isLoading}>
+          <button
+            type="submit"
+            disabled={mutation.isLoading}
+            className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 focus:outline-none focus:ring focus:bg-blue-600"
+          >
             {mutation.isLoading ? 'Updating...' : 'Submit'}
           </button>
         </div>
