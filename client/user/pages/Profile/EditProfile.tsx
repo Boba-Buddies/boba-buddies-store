@@ -88,6 +88,70 @@ const EditProfile = () => {
         </div>
 
         <div>
+          <label htmlFor="address"> Address: </label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            value={formData?.address || ''}
+            onChange={(e) => {
+              if (formData) {
+                const { name, value } = e.target
+                mutation.mutate({ ...formData, [name]: value })
+              }
+            }}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="city"> City: </label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            value={formData?.city || ''}
+            onChange={(e) => {
+              if (formData) {
+                const { name, value } = e.target
+                mutation.mutate({ ...formData, [name]: value })
+              }
+            }}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="country"> Country: </label>
+          <input
+            type="text"
+            id="country"
+            name="country"
+            value={formData?.country || ''}
+            onChange={(e) => {
+              if (formData) {
+                const { name, value } = e.target
+                mutation.mutate({ ...formData, [name]: value })
+              }
+            }}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="zipCode"> Zip Code: </label>
+          <input
+            type="text"
+            id="zipCode"
+            name="zipCode"
+            value={formData?.zipCode || ''}
+            onChange={(e) => {
+              if (formData) {
+                const { name, value } = e.target
+                mutation.mutate({ ...formData, [name]: value })
+              }
+            }}
+          />
+        </div>
+
+        <div>
           <button type="submit" disabled={mutation.isLoading}>
             {mutation.isLoading ? 'Updating...' : 'Submit'}
           </button>
