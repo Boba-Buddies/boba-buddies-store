@@ -14,12 +14,9 @@ export async function fetchUser() {
   }
 }
 
-export async function updateUserDetails(
-  auth0Id: string,
-  updatedUserDetails: UpdateUser,
-) {
+export async function updateUserDetails(updatedUserDetails: UpdateUser) {
   request
-    .patch(`${baseUrl}/edit-profile/${auth0Id}`)
+    .patch(`${baseUrl}/edit-profile`)
     .send(updatedUserDetails)
     .then((response) => {
       if (response.status === 200) {
