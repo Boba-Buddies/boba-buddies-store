@@ -9,13 +9,13 @@ import { addReview } from '../../../apis/reviews'
 interface ProductReviewsProps {
   product: Product
   reviews: ProductReviews
-  refetch: () => void
+  refetchReviews: () => void
 }
 
 function ViewProductReviews({
   product,
   reviews,
-  refetch,
+  refetchReviews,
 }: ProductReviewsProps) {
   const [isAddingReview, setIsAddingReview] = useState(false)
   const [reviewDescription, setReviewDescription] = useState('')
@@ -25,7 +25,7 @@ function ViewProductReviews({
     (newReview: NewReview) => addReview(newReview),
     {
       onSuccess: () => {
-        refetch()
+        refetchReviews()
       },
     },
   )
