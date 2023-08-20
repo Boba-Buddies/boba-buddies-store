@@ -16,7 +16,7 @@ const ProductPage = () => {
     return await fetchProductById(id)
   })
 
-  const { data: reviews } = useQuery(['getReviews', id], async () => {
+  const { data: reviews, refetch } = useQuery(['getReviews', id], async () => {
     const fetchedReviews: ProductReviews = await fetchReviewsByProductId(id)
     return fetchedReviews
   })
@@ -30,7 +30,7 @@ const ProductPage = () => {
           style={{ marginTop: '100px', marginBottom: '150px' }}
         >
           <ViewProduct product={product} />
-          <ViewProductReviews product={product} reviews={reviews}/>
+          <ViewProductReviews product={product} reviews={reviews} refetch={refetch}/>
         </div>
       )}
     </>
