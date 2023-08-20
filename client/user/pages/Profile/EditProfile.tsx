@@ -45,7 +45,7 @@ const EditProfile = () => {
             type="text"
             id="firstName"
             name="firstName"
-            value={formData?.firstName || ''} // Provide a default value or use optional chaining
+            value={formData?.firstName || ''}
             onChange={(e) => {
               if (formData) {
                 const { name, value } = e.target
@@ -54,6 +54,7 @@ const EditProfile = () => {
             }}
           />
         </div>
+
         <div>
           <label htmlFor="lastName">Last Name: </label>
           <input
@@ -61,6 +62,22 @@ const EditProfile = () => {
             id="lastName"
             name="lastName"
             value={formData?.lastName || ''}
+            onChange={(e) => {
+              if (formData) {
+                const { name, value } = e.target
+                mutation.mutate({ ...formData, [name]: value })
+              }
+            }}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="phoneNumber"> Phone Number: </label>
+          <input
+            type="text"
+            id="phoneNumber"
+            name="phoneNumber"
+            value={formData?.phoneNumber || ''}
             onChange={(e) => {
               if (formData) {
                 const { name, value } = e.target
