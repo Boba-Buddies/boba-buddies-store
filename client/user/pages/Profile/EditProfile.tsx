@@ -36,11 +36,13 @@ const EditProfile = () => {
   }
 
   return (
-    <div>
-      <h2>Edit Profile</h2>
+    <div className="max-w-md mx-auto p-4 bg-gray-100 rounded shadow-lg">
+      <h2 className="text-2xl text-center mb-4">Edit Profile</h2>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="firstName">First Name: </label>
+        <div className="mb-4">
+          <label htmlFor="firstName" className="block font-semibold mb-1">
+            First Name:
+          </label>
           <input
             type="text"
             id="firstName"
@@ -52,6 +54,7 @@ const EditProfile = () => {
                 mutation.mutate({ ...formData, [name]: value })
               }
             }}
+            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
           />
         </div>
 
