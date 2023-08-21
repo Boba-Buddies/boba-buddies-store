@@ -3,7 +3,7 @@ import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useQuery } from 'react-query'
 import { fetchWishlist } from '../../../apis/wishlist'
 import LoadError from '../../components/LoadError/LoadError'
-import { WishlistProduct, WishlisthProduct } from '../../../../models/Wishlist'
+import { WishlistProduct } from '../../../../models/Wishlist'
 
 const Wishlist = () => {
   const { isLoading, data, status } = useQuery('fetchWishlist', fetchWishlist)

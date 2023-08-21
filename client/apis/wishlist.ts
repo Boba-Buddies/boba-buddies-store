@@ -1,17 +1,18 @@
 import request from 'superagent'
+import { WishlistProduct } from '../../models/Wishlist'
 
 const baseUrl = '/api/v1/wishlist'
 
 export async function fetchWishlist() {
   try {
     const response = await request.get(`${baseUrl}`)
-    return response.body
+    return response.body as WishlistProduct[]
   } catch (error) {
     console.error(
       'Error fetching wishlist by user ID:',
       (error as Error).message,
     )
-    return { error: (error as Error).message }
+    throw { error: (error as Error).message }
   }
 }
 
