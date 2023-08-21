@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-export const wishlisthProductSchema = z
+export const wishlistProductSchema = z
   .object({
     id: z.number(),
     productId: z.number(),
@@ -10,4 +10,4 @@ export const wishlisthProductSchema = z
   })
   .array()
 
-export type WishlisthProduct = z.infer<typeof wishlisthProductSchema>
+export type WishlisthProduct = z.infer<typeof wishlistProductSchema>

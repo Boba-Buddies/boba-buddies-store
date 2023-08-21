@@ -52,7 +52,7 @@ export async function fetchReviewById(id: number) {
   }
 }
 
-export async function createReviewByUserId(newReview: NewReview) {
+export async function addReview(newReview: NewReview) {
   try {
     const response = await request.post(`${baseUrl}/add`).send(newReview)
     return response.body

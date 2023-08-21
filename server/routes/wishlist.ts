@@ -16,6 +16,19 @@ router.get('/', async (req, res) => {
   }
 })
 
+// GET /api/v1/wishlist/status/:productId
+router.get('/status/:productId', async (req, res) => {
+  const productId = Number(req.params.productId)
+
+  try {
+    const status = await db.getWishlistStatusByProductId(productId, userId)
+    res.status(200).json({ status })
+  } catch (error) {
+    logError(error)
+    res.status(500).json({ message: 'Unable to get the wishlist status' })
+  }
+})
+
 //POST add Product to wishlist /api/v1/whishlist
 router.post('/', async (req, res) => {
   const { productId } = req.body
