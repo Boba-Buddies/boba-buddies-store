@@ -31,7 +31,7 @@ export async function fetchWishlistStatusByProductId(productId: number) {
 
 export async function addToWishlistByProductId(productId: number) {
   try {
-    const response = await request.post(`${baseUrl}/add`).send({ productId})
+    const response = await request.post(`${baseUrl}`).send({ productId : productId})
     return response.body
   } catch (error) {
     console.error('Error adding to wishlist:', (error as Error).message)
