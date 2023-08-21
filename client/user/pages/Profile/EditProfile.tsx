@@ -4,17 +4,16 @@ import { useNavigate } from 'react-router-dom'
 
 import { fetchUser, updateUserDetails } from '../../../apis/users'
 import { UpdateUser } from '../../../../models/Users'
+import LoadError from '../../components/LoadError/LoadError'
 
 const EditProfile = () => {
   const navigate = useNavigate()
 
   const queryClient = useQueryClient()
 
-  const { data: userData, isLoading } = useQuery('user', () => {
-    return fetchUser()
-  })
+  const { data: userData, status } = useQuery('fetchUser', fetchUser)
 
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     firstName: userData?.firstName || '',
     lastName: userData?.lastName || '',
     phoneNumber: userData?.phoneNumber || '',
@@ -22,7 +21,9 @@ const EditProfile = () => {
     city: userData?.city || '',
     country: userData?.country || '',
     zipCode: userData?.zipCode || '',
-  })
+  }
+
+  const [formData, setFormData] = useState(initialFormData)
 
   const mutation = useMutation(
     (formDataToUpdate: UpdateUser) => {
@@ -35,7 +36,6 @@ const EditProfile = () => {
       },
       onSuccess: () => {
         queryClient.invalidateQueries('user')
-
         navigate('/profile')
       },
     },
@@ -54,12 +54,9 @@ const EditProfile = () => {
     mutation.mutate(formData)
   }
 
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
   return (
     <div className="max-w-md mx-auto p-4 bg-gray-100 rounded shadow-lg mt-4">
+      <LoadError status={status} />
       <h2 className="text-2xl text-center mb-4">Edit Profile</h2>
 
       <form onSubmit={handleSubmit}>
@@ -167,7 +164,7 @@ const EditProfile = () => {
             disabled={mutation.isLoading}
             className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 focus:outline-none focus:ring focus:bg-blue-600"
           >
-            {mutation.isLoading ? 'Updating...' : 'Submit'}
+            Submit
           </button>
         </div>
       </form>

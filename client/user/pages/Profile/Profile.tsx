@@ -2,7 +2,6 @@ import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
 import { fetchUser } from '../../../apis/users'
-
 import LoadError from '../../components/LoadError/LoadError'
 
 const Profile = () => {
