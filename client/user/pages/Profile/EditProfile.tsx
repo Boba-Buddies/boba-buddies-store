@@ -36,8 +36,9 @@ const EditProfile = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-gray-100 rounded shadow-lg">
+    <div className="max-w-md mx-auto p-4 bg-gray-100 rounded shadow-lg mt-4">
       <h2 className="text-2xl text-center mb-4">Edit Profile</h2>
+
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="firstName" className="block font-semibold mb-1">
@@ -58,8 +59,10 @@ const EditProfile = () => {
           />
         </div>
 
-        <div>
-          <label htmlFor="lastName">Last Name: </label>
+        <div className="mb-4">
+          <label htmlFor="lastName" className="block font-semibold mb-1">
+            Last Name:{' '}
+          </label>
           <input
             type="text"
             id="lastName"
@@ -74,8 +77,11 @@ const EditProfile = () => {
           />
         </div>
 
-        <div>
-          <label htmlFor="phoneNumber"> Phone Number: </label>
+        <div className="mb-4">
+          <label htmlFor="phoneNumber" className="block font-semibold mb-1">
+            {' '}
+            Phone Number:{' '}
+          </label>
           <input
             type="text"
             id="phoneNumber"
@@ -90,8 +96,11 @@ const EditProfile = () => {
           />
         </div>
 
-        <div>
-          <label htmlFor="address"> Address: </label>
+        <div className="mb-4">
+          <label htmlFor="address" className="block font-semibold mb-1">
+            {' '}
+            Address:{' '}
+          </label>
           <input
             type="text"
             id="address"
@@ -106,8 +115,11 @@ const EditProfile = () => {
           />
         </div>
 
-        <div>
-          <label htmlFor="city"> City: </label>
+        <div className="mb-4">
+          <label htmlFor="city" className="block font-semibold mb-1">
+            {' '}
+            City:{' '}
+          </label>
           <input
             type="text"
             id="city"
@@ -122,8 +134,11 @@ const EditProfile = () => {
           />
         </div>
 
-        <div>
-          <label htmlFor="country"> Country: </label>
+        <div className="mb-4">
+          <label htmlFor="country" className="block font-semibold mb-1">
+            {' '}
+            Country:{' '}
+          </label>
           <input
             type="text"
             id="country"
@@ -138,8 +153,11 @@ const EditProfile = () => {
           />
         </div>
 
-        <div>
-          <label htmlFor="zipCode"> Zip Code: </label>
+        <div className="mb-4">
+          <label htmlFor="zipCode" className="block font-semibold mb-1">
+            {' '}
+            Zip Code:{' '}
+          </label>
           <input
             type="text"
             id="zipCode"
