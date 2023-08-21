@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
 // http://localhost:5173/api/v1/users/username/user_id_here
 
 router.get('/username/:userId', async (req, res) => {
-  const userId = req.params.userId
+  // const userId = req.params.userId
   try {
     if (!userId) {
       return res.status(400).json({ message: 'User ID is missing' })
@@ -65,10 +65,9 @@ router.get('/username/:userId', async (req, res) => {
 })
 
 // PATCH route to update the use details by user id
-// http://localhost:5173/api/v1/users/edit/user_id_here
+// http://localhost:5173/api/v1/users/edit
 
 router.patch('/edit', async (req, res) => {
-  // const userId = req.params.userId
   const updatedUserDetails = req.body
 
   try {
