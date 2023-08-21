@@ -38,10 +38,28 @@ const Profile = () => {
             <p>
               {data?.firstName} {data?.lastName}
             </p>
-            <p>{data?.address}</p>
-            <p>{data?.city}</p>
-            <p>{data?.country}</p>
-            <p>{data?.zipCode}</p>
+            <h3 className="font-semibold pt-6">Username: </h3>
+            <div className="pb-4">
+              <p>{data?.userName}</p>
+            </div>
+
+            <h3 className="font-semibold pt-6">Phone Number: </h3>
+            <div className="pb-4">
+              <p>{data?.phoneNumber}</p>
+            </div>
+
+            <h3 className="font-semibold pt-6">Email: </h3>
+            <div className="pb-4">
+              <p>{data?.emailAddress}</p>
+            </div>
+
+            <h3 className="font-semibold pt-6">Address: </h3>
+            <div className="pb-4">
+              <p>{data?.address}</p>
+              <p>{data?.city}</p>
+              <p>{data?.country}</p>
+              <p>{data?.zipCode}</p>
+            </div>
 
             <button
               onClick={() => goTo(`/edit-profile`)}
