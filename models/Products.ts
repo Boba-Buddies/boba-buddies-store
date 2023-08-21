@@ -1,6 +1,16 @@
 import * as z from 'zod'
 
-export const productsSchema = z.object({
+export const clientProductSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  image: z.string(),
+  price: z.number(),
+  description: z.string(),
+  stock: z.number(),
+  averageRating: z.number(),
+})
+
+export const adminProductSchema = z.object({
   id: z.number(),
   name: z.string(),
   image: z.string(),
@@ -8,16 +18,6 @@ export const productsSchema = z.object({
   description: z.string(),
   stock: z.number(),
   isEnabled: z.boolean(),
-  averageRating: z.number(),
-})
-
-export const productSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  image: z.string(),
-  price: z.number(),
-  description: z.string(),
-  stock: z.number(),
   averageRating: z.number(),
 })
 
@@ -36,7 +36,7 @@ export const upsertProductSchema = z.object({
   isEnabled: z.boolean(),
 })
 
-export type Products = z.infer<typeof productsSchema>
-export type Product = z.infer<typeof productSchema>
+export type ClientProduct = z.infer<typeof clientProductSchema>
+export type AdminProduct = z.infer<typeof adminProductSchema>
 export type LowStockProducts = z.infer<typeof lowStockProductsSchema>
 export type UpsertProduct = z.infer<typeof upsertProductSchema>
