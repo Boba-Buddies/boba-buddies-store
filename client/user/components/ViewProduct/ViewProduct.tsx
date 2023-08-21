@@ -3,17 +3,32 @@ import { Product } from '../../../../models/Products'
 import { addProductToCart } from '../../../apis/cart'
 import StarRating from '../StarRating/StarRating'
 import { useMutation } from 'react-query'
+import {
+  addToWishlistByProductId,
+  deleteFromWishlistByProductId,
+} from '../../../apis/wishlist'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'
 
 interface ViewProductProps {
   product: Product
+  wishlistStatus: boolean
+  refetchWishlistProductStatus: () => void
 }
 
-function ViewProduct({ product }: ViewProductProps) {
+function ViewProduct({
+  product,
+  wishlistStatus,
+  refetchWishlistProductStatus,
+}: ViewProductProps) {
   const mutation = useMutation((productId: number) =>
-    addProductToCart(productId))
+    addProductToCart(productId),
+  )
   const [buttonText, setButtonText] = useState('Add to cart')
   const [buttonColor, setButtonColor] = useState(
-    'bg-blue-500 hover:bg-blue-700')
+    'bg-blue-500 hover:bg-blue-700',
+  )
 
   const handleAddToCart = () => {
     mutation.mutate(product.id, {
@@ -29,13 +44,41 @@ function ViewProduct({ product }: ViewProductProps) {
     })
   }
 
+  const wishlistMutation = useMutation(
+    () => {
+      if (wishlistStatus) {
+        return deleteFromWishlistByProductId(product.id);
+      } else {
+        return addToWishlistByProductId(product.id);
+      }
+    },
+    {
+      onSuccess: () => refetchWishlistProductStatus(),
+    }
+  );
+
+  const handleWishlistClick = () => {
+    wishlistMutation.mutate();
+  }
+  
   return (
     <div className="flex items-center max-w-5xl" style={{ padding: '10px' }}>
       <div className="w-1/2">
         <img src={product.image} alt={product.name} className="w-full" />
       </div>
       <div className="w-1/2 ml-4">
-        <h1 className="text-3xl font-bold">{product.name}</h1>
+        <div className="flex items-center">
+          <h1 className="text-3xl font-bold">{product.name}</h1>
+          <button onClick={handleWishlistClick}>
+            <FontAwesomeIcon
+              icon={wishlistStatus ? solidHeart : regularHeart}
+              className={wishlistStatus ? 'text-red-500' : 'text-black'}
+            />
+            <span className="ml-2">
+              {wishlistStatus ? 'Remove from wishlist' : 'Add to wishlist'}
+            </span>
+          </button>
+        </div>
         <h2 className="text-xl font-bold">${product.price}</h2>
         <div className="flex">
           <StarRating rating={product.averageRating} size={1} />
