@@ -14,7 +14,7 @@ const router = Router()
 router.get('/admin', authorizeAdmin, async (req, res) => {
   try {
     const products: AdminProduct[] = await db.getAllProductsAdmin()
-    res.status(200).json({ products })
+    res.status(200).json(products)
   } catch (error) {
     logError(error)
     res.status(500).json({ message: 'Unable to get the data from database' })
@@ -25,7 +25,7 @@ router.get('/admin', authorizeAdmin, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const products: UserProduct[] = await db.getAllProductsUser()
-    res.status(200).json({ products })
+    res.status(200).json(products)
   } catch (error) {
     logError(error)
     res.status(500).json({ message: 'Unable to get the data from database' })
@@ -41,7 +41,7 @@ router.get('/admin/:id', authorizeAdmin, async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: 'Product not found' })
     }
-    res.status(200).json({ product })
+    res.status(200).json(product)
   } catch (error) {
     logError(error)
     res.status(500).json({ message: 'Unable to get the data from database' })
@@ -56,7 +56,7 @@ router.get('/:id', async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: 'Product not found' })
     }
-    res.status(200).json({ product })
+    res.status(200).json(product)
   } catch (error) {
     logError(error)
     res.status(500).json({ message: 'Unable to get the data from database' })

@@ -7,7 +7,7 @@ const baseUrl = '/api/v1/products'
 export async function fetchProductByIdAdmin(id: number) {
   try {
     const response = await request.get(`${baseUrl}/admin/${id}`)
-    return response.body.product as AdminProduct
+    return response.body as AdminProduct
   } catch (error) {
     console.error('Error fetching product by ID:', (error as Error).message)
     throw { error: (error as Error).message }
@@ -17,7 +17,7 @@ export async function fetchProductByIdAdmin(id: number) {
 export async function fetchProductByIdUser(id: number) {
   try {
     const response = await request.get(`${baseUrl}/${id}`)
-    return response.body.product as UserProduct
+    return response.body as UserProduct
   } catch (error) {
     console.error('Error fetching product by ID:', (error as Error).message)
     throw { error: (error as Error).message }
