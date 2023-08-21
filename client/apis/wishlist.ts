@@ -2,7 +2,7 @@ import request from 'superagent'
 
 const baseUrl = '/api/v1/wishlist'
 
-export async function fetchWishlistByUserId() {
+export async function fetchWishlist() {
   try {
     const response = await request.get(`${baseUrl}`)
     return response.body
@@ -14,7 +14,6 @@ export async function fetchWishlistByUserId() {
     return { error: (error as Error).message }
   }
 }
-
 
 export async function fetchWishlistStatusByProductId(productId: number) {
   try {
@@ -31,7 +30,9 @@ export async function fetchWishlistStatusByProductId(productId: number) {
 
 export async function addToWishlistByProductId(productId: number) {
   try {
-    const response = await request.post(`${baseUrl}`).send({ productId : productId})
+    const response = await request
+      .post(`${baseUrl}`)
+      .send({ productId: productId })
     return response.body
   } catch (error) {
     console.error('Error adding to wishlist:', (error as Error).message)
