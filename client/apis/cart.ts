@@ -37,9 +37,7 @@ export async function modifyCartProductQuantity(
   productId: number,
   quantity: number,
 ) {
-  const response = await request
+  await request
     .patch(`${baseUrl}/update-quantity`)
     .send({ productId, quantity })
-
-  return response.body.cart as CartClient[]
 }

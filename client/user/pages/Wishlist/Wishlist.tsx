@@ -1,12 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { fetchWishlist } from '../../../apis/wishlist'
 import LoadError from '../../components/LoadError/LoadError'
 import { WishlistProduct } from '../../../../models/Wishlist'
+import { modifyCartProductQuantity } from '../../../apis/cart'
 
 const Wishlist = () => {
   const { isLoading, data, status } = useQuery('fetchWishlist', fetchWishlist)
+  const cartMutation = useMutation(
+    ({ productId, quantity }: { productId: number; quantity: number }) =>
+      modifyCartProductQuantity(productId, quantity),
+  )
 
   return (
     <>
