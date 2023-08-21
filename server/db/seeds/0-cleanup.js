@@ -1,5 +1,6 @@
 exports.seed = async function (knex) {
   // Deletes ALL existing entries
+  await knex('wishlist').del()
   await knex('cart').del()
   await knex('reviews').del()
   await knex('purchases').del()
