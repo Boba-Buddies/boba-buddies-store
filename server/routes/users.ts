@@ -67,8 +67,8 @@ router.get('/username/:userId', async (req, res) => {
 // PATCH route to update the use details by user id
 // http://localhost:5173/api/v1/users/edit/user_id_here
 
-router.patch('/edit/:userId', async (req, res) => {
-  const userId = req.params.userId
+router.patch('/edit', async (req, res) => {
+  // const userId = req.params.userId
   const updatedUserDetails = req.body
 
   try {
