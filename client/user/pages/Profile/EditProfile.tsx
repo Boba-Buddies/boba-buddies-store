@@ -1,9 +1,13 @@
 import { useState } from 'react'
 import { useMutation, useQueryClient, useQuery } from 'react-query'
+import { useNavigate } from 'react-router-dom'
+
 import { fetchUser, updateUserDetails } from '../../../apis/users'
 import { UpdateUser } from '../../../../models/Users'
 
 const EditProfile = () => {
+  const navigate = useNavigate()
+
   const queryClient = useQueryClient()
 
   const { data: userData, isLoading } = useQuery('user', () => {
@@ -31,6 +35,8 @@ const EditProfile = () => {
       },
       onSuccess: () => {
         queryClient.invalidateQueries('user')
+
+        navigate('/profile')
       },
     },
   )
