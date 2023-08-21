@@ -61,7 +61,7 @@ const Profile = () => {
             </div>
 
             <button
-              onClick={() => goTo(`/edit-profile`)}
+              onClick={() => goTo(`/edit`)}
               className="mt-2 py-1 px-2 bg-gray-400 text-sm text-white font-semibold rounded-md transition duration-300 ease-in-out hover:bg-gray-500 hover:text-gray-100 focus:outline-none focus:ring focus:ring-gray-400"
             >
               Edit Details

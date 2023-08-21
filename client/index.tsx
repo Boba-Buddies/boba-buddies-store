@@ -50,7 +50,7 @@ export const routes = createRoutesFromElements(
       element={<UnprotectedComponent component={Profile} />}
     />
     <Route
-      path="edit-profile"
+      path="edit"
       element={<UnprotectedComponent component={EditProfile} />}
     />
     <Route

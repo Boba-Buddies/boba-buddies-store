@@ -1,70 +1,140 @@
+import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { fetchCart } from '../../../apis/cart'
+import { CartClient } from '../../../../models/Cart'
+import { fetchAllShippingOptions } from '../../../apis/shipping'
+import { ShippingOptions } from '../../../../models/ShippingOptions'
+import { useState } from 'react'
+import { moveCartToPurchases } from '../../../apis/purchases'
+import { UpdateUser } from '../../../../models/Users'
+import { modifyUserDetails } from '../../../apis/users'
+import { useNavigate } from 'react-router-dom'
+import {
+  PaymentInformation,
+  DeliveryAddress,
+  PaymentMethod,
+  ShippingMethod,
+  OrderSummary,
+} from '../../components'
+import LoadError from '../../components/LoadError/LoadError'
+
 function Checkout() {
+  const navigate = useNavigate()
+  const queryClient = useQueryClient()
+  const [cartProducts, setCartProduct] = useState([] as CartClient[])
+  const [userDetails, setUserDetails] = useState({
+    phoneNumber: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    city: '',
+    country: '',
+    zipCode: '',
+  })
+  const [selectedShipping, setSelectedShipping] = useState({
+    id: 0,
+    type: '',
+    price: 0,
+  })
+  //Different Query
+  const ShippingQuery = useQuery(
+    'fetchAllShippingOptions',
+    fetchAllShippingOptions,
+  )
+  const CartQuery = useQuery('fetchCart', fetchCart, {
+    onSuccess: (data: CartClient[]) => {
+      setCartProduct(data)
+    },
+  })
+  const statuses = [ShippingQuery.status, CartQuery.status]
+
+  //Mutation of Different Query
+  const purchaseMutation = useMutation(
+    (shippingId: number) => moveCartToPurchases(shippingId),
+    {
+      onSuccess: async () => {
+        //Need to check the api function
+        queryClient.invalidateQueries('fetchOrderByOrderId')
+        queryClient.invalidateQueries('fetchAllOrders')
+      },
+    },
+  )
+
+  const updateUserDataMutation = useMutation(
+    (updatedDetail: UpdateUser) => modifyUserDetails(updatedDetail),
+    {
+      onSuccess: async () => {
+        //Need to check the user api function
+        queryClient.invalidateQueries('fetchUser')
+        queryClient.invalidateQueries('fetchUserName')
+      },
+    },
+  )
+
+  const handleShippingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const shippingOption = ShippingQuery.data?.find(
+      (option: ShippingOptions) => option.id === Number(e.target.value),
+    )
+
+    if (shippingOption) {
+      setSelectedShipping({
+        id: shippingOption.id,
+        type: shippingOption.shippingType,
+        price: shippingOption.price,
+      })
+    }
+  }
+
+  function handleUserDetailsChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target
+    setUserDetails({
+      ...userDetails,
+      [name]: value,
+    })
+  }
+
+  const subtotal = cartProducts.reduce(
+    (total, product) => total + product.price * product.quantity,
+    0,
+  )
+  const total = subtotal + selectedShipping.price
+
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    updateUserDataMutation.mutate(userDetails)
+    const submittedShippingId = selectedShipping.id
+    purchaseMutation.mutate(submittedShippingId)
+    navigate('/thankyou')
+  }
+
   return (
     <>
-      <div>
-        <div>I am the Logo</div>
-        <form action="">
-          <div>
-            <h1>PAYMENT INFORMATION</h1>
-          </div>
-          <div>
-            <input type="text" id="phone" placeholder="PHONE" />
-          </div>
-          <h1>DELIEVERY ADDRESS</h1>
-          <div>
-            <input
-              type="text"
-              name="firtName"
-              id="firstName"
-              placeholder="FIRST NAME"
+      <LoadError status={statuses} />
+      <div className=" text-black p-8">
+        <div className="text-4xl font-bold mb-4">I am the Logo</div>
+        <form onSubmit={handleSubmit}>
+          <PaymentInformation
+            handleUserDetailsChange={handleUserDetailsChange}
+          />
+          <DeliveryAddress handleUserDetailsChange={handleUserDetailsChange} />
+          <PaymentMethod />
+          {!ShippingQuery.isLoading && ShippingQuery.data && (
+            <ShippingMethod
+              shippingData={ShippingQuery.data}
+              handleShippingChange={handleShippingChange}
             />
-            <input
-              type="text"
-              name="lastName"
-              id="lastName"
-              placeholder="LAST NAME"
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              name="address"
-              id="address"
-              placeholder="ADDRESS"
-            />
-          </div>
-          <div>
-            <input type="text" name="city" id="city" placeholder="CITY" />
-          </div>
-          <div>
-            <input
-              type="text"
-              name="country"
-              id="country"
-              placeholder="COUNTRY"
-            />
-            <input
-              type="text"
-              name="zipCode"
-              id="zipCode"
-              placeholder="ZIPCODE"
-            />
-          </div>
-          <div>
-            <label htmlFor="payment">SELECT PAYMENT METHOD</label>
-            <select name="payment" id="payment">
-              <option value="card">CREDIT</option>
-              <option value="visa">VISA</option>
-            </select>
-          </div>
-          <div>
-            <label htmlFor="shipping">SELECT SHIPPING METHOD</label>
-            <select name="shipping" id="shipping">
-              <option value="standard">Standard (3-7 working days)</option>
-              <option value="express">Express (2-4 working days)</option>
-              <option value="overnight">Overnight (1 working day)</option>
-            </select>
-          </div>
+          )}
+          <OrderSummary
+            cartProducts={cartProducts}
+            subtotal={subtotal}
+            selectedShipping={selectedShipping}
+            total={total}
+          />
+          <button
+            className="bg-black text-white p-4 w-full text-lg font-bold"
+            type="submit"
+          >
+            COMPLETE ORDER
+          </button>
         </form>
       </div>
     </>

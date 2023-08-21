@@ -14,18 +14,11 @@ export async function fetchUser() {
   }
 }
 
-export async function updateUserDetails(updatedUserDetails: UpdateUser) {
-  request
-    .patch(`${baseUrl}/edit-profile`)
-    .send(updatedUserDetails)
-    .then((response) => {
-      if (response.status === 200) {
-        console.log('User details updated successfully')
-      } else {
-        console.error('Unable to update user details')
-      }
-    })
-    .catch((error) => {
-      console.error('An error occurred:', error)
-    })
+export async function modifyUserDetails(updatedUser: UpdateUser) {
+  try {
+    await request.patch(`${baseUrl}/edit`).send(updatedUser)
+  } catch (error) {
+    console.error('Error modifying user details:', (error as Error).message)
+    return { error: (error as Error).message }
+  }
 }

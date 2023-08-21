@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useMutation, useQueryClient, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
-import { fetchUser, updateUserDetails } from '../../../apis/users'
+import { fetchUser, modifyUserDetails } from '../../../apis/users'
 import { UpdateUser } from '../../../../models/Users'
 import LoadError from '../../components/LoadError/LoadError'
 
@@ -27,7 +27,7 @@ const EditProfile = () => {
 
   const mutation = useMutation(
     (formDataToUpdate: UpdateUser) => {
-      return updateUserDetails(formDataToUpdate)
+      return modifyUserDetails(formDataToUpdate)
     },
     {
       onMutate: (formDataToUpdate: UpdateUser) => {
