@@ -46,7 +46,7 @@ export const routes = createRoutesFromElements(
       element={<UnprotectedComponent component={Checkout} />}
     />
     <Route
-      path="profile/:auth0Id"
+      path="profile"
       element={<UnprotectedComponent component={Profile} />}
     />
     <Route

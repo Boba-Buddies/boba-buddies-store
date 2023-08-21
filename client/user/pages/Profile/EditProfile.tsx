@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useMutation, useQueryClient, useQuery } from 'react-query'
 import { fetchUser, updateUserDetails } from '../../../apis/users'
 import { UpdateUser } from '../../../../models/Users'
@@ -5,14 +6,28 @@ import { UpdateUser } from '../../../../models/Users'
 const EditProfile = () => {
   const queryClient = useQueryClient()
 
+  const { data: userData, isLoading } = useQuery('user', () => {
+    return fetchUser()
+  })
+
+  const [formData, setFormData] = useState({
+    firstName: userData?.firstName || '',
+    lastName: userData?.lastName || '',
+    phoneNumber: userData?.phoneNumber || '',
+    address: userData?.address || '',
+    city: userData?.city || '',
+    country: userData?.country || '',
+    zipCode: userData?.zipCode || '',
+  })
+
   const mutation = useMutation(
-    (formData: UpdateUser) => {
-      return updateUserDetails(formData)
+    (formDataToUpdate: UpdateUser) => {
+      return updateUserDetails(formDataToUpdate)
     },
     {
-      onMutate: (formData: UpdateUser) => {
-        queryClient.setQueryData('user', formData)
-        return formData
+      onMutate: (formDataToUpdate: UpdateUser) => {
+        queryClient.setQueryData('user', formDataToUpdate)
+        return formDataToUpdate
       },
       onSuccess: () => {
         queryClient.invalidateQueries('user')
@@ -20,15 +35,17 @@ const EditProfile = () => {
     },
   )
 
-  const { data: formData, isLoading } = useQuery('user', () => {
-    return fetchUser()
-  })
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }))
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (formData) {
-      mutation.mutate(formData)
-    }
+    mutation.mutate(formData)
   }
 
   if (isLoading) {
@@ -48,132 +65,92 @@ const EditProfile = () => {
             type="text"
             id="firstName"
             name="firstName"
-            value={formData?.firstName || ''}
-            onChange={(e) => {
-              if (formData) {
-                const { name, value } = e.target
-                mutation.mutate({ ...formData, [name]: value })
-              }
-            }}
+            value={formData.firstName}
+            onChange={handleChange}
             className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
           />
         </div>
 
         <div className="mb-4">
           <label htmlFor="lastName" className="block font-semibold mb-1">
-            Last Name:{' '}
+            Last Name:
           </label>
           <input
             type="text"
             id="lastName"
             name="lastName"
-            value={formData?.lastName || ''}
-            onChange={(e) => {
-              if (formData) {
-                const { name, value } = e.target
-                mutation.mutate({ ...formData, [name]: value })
-              }
-            }}
+            value={formData.lastName}
+            onChange={handleChange}
             className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
           />
         </div>
 
         <div className="mb-4">
           <label htmlFor="phoneNumber" className="block font-semibold mb-1">
-            {' '}
-            Phone Number:{' '}
+            Phone Number:
           </label>
           <input
             type="text"
             id="phoneNumber"
             name="phoneNumber"
-            value={formData?.phoneNumber || ''}
-            onChange={(e) => {
-              if (formData) {
-                const { name, value } = e.target
-                mutation.mutate({ ...formData, [name]: value })
-              }
-            }}
+            value={formData.phoneNumber}
+            onChange={handleChange}
             className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
           />
         </div>
 
         <div className="mb-4">
           <label htmlFor="address" className="block font-semibold mb-1">
-            {' '}
-            Address:{' '}
+            Address:
           </label>
           <input
             type="text"
             id="address"
             name="address"
-            value={formData?.address || ''}
-            onChange={(e) => {
-              if (formData) {
-                const { name, value } = e.target
-                mutation.mutate({ ...formData, [name]: value })
-              }
-            }}
+            value={formData.address}
+            onChange={handleChange}
             className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
           />
         </div>
 
         <div className="mb-4">
           <label htmlFor="city" className="block font-semibold mb-1">
-            {' '}
-            City:{' '}
+            City:
           </label>
           <input
             type="text"
             id="city"
             name="city"
-            value={formData?.city || ''}
-            onChange={(e) => {
-              if (formData) {
-                const { name, value } = e.target
-                mutation.mutate({ ...formData, [name]: value })
-              }
-            }}
+            value={formData.city}
+            onChange={handleChange}
             className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
           />
         </div>
 
         <div className="mb-4">
           <label htmlFor="country" className="block font-semibold mb-1">
-            {' '}
-            Country:{' '}
+            Country:
           </label>
           <input
             type="text"
             id="country"
             name="country"
-            value={formData?.country || ''}
-            onChange={(e) => {
-              if (formData) {
-                const { name, value } = e.target
-                mutation.mutate({ ...formData, [name]: value })
-              }
-            }}
+            value={formData.country}
+            onChange={handleChange}
             className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
           />
         </div>
 
         <div className="mb-4">
           <label htmlFor="zipCode" className="block font-semibold mb-1">
-            {' '}
-            Zip Code:{' '}
+            Zip Code:
           </label>
           <input
             type="text"
             id="zipCode"
             name="zipCode"
-            value={formData?.zipCode || ''}
-            onChange={(e) => {
-              if (formData) {
-                const { name, value } = e.target
-                mutation.mutate({ ...formData, [name]: value })
-              }
-            }}
+            value={formData.zipCode}
+            onChange={handleChange}
             className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
           />
         </div>
