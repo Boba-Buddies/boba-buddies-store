@@ -19,25 +19,30 @@ const Shop = () => {
           {products.map((product) => (
             <div
               key={product.id}
-              className="border p-4 rounded-md"
-              style={{ maxWidth: '300px' }}
+              className="border p-4 rounded-md flex flex-col justify-between"
+              style={{ maxWidth: '350px' }}
             >
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-48 object-contain"
-              />
-              <h3 className="text-xl font-bold mt-2">{product.name}</h3>
-              <p className="text-lg text-gray-600">
-                ${product.price.toFixed(2)}
-              </p>
-              <div className="flex items-center mt-2">
-                <span className="text-yellow-400">
-                  <StarRating rating={product.averageRating} size={1.5} />
-                </span>
-                <span className="ml-2 text-sm text-gray-500">
-                  ({product.averageRating})
-                </span>
+              <div>
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-48 object-contain"
+                />
+              </div>
+
+              <div>
+                <h3 className="text-xl font-bold mt-2">{product.name}</h3>
+                <p className="text-lg text-gray-600">
+                  ${product.price.toFixed(2)}
+                </p>
+                <div className="flex items-center mt-2">
+                  <span className="text-yellow-400">
+                    <StarRating rating={product.averageRating} size={1.5} />
+                  </span>
+                  <span className="ml-2 text-sm text-gray-500">
+                    ({product.averageRating})
+                  </span>
+                </div>
               </div>
             </div>
           ))}
