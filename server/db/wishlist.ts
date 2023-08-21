@@ -29,10 +29,21 @@ export async function addToWishlistByProductId(
   productId: number,
   userId: string,
 ) {
-  return await db('wishlist').insert({
-    user_id: userId,
-    product_id: productId,
-  })
+  const existingItem = await db('wishlist')
+    .where({
+      user_id: userId,
+      product_id: productId,
+    })
+    .first();
+
+  if (!existingItem) {
+    return await db('wishlist').insert({
+      user_id: userId,
+      product_id: productId,
+    });
+  } else {
+    throw new Error('Item already in wishlist');
+  }
 }
 
 export async function removeFromWishlistByProductId(
