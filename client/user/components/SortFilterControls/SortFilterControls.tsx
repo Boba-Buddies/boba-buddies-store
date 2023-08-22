@@ -14,13 +14,14 @@ const SortFilterControls: React.FC<SortFilterControlsProps> = ({
   setSort,
 }) => {
   return (
-      <div style = {{marginTop : "10px", marginBottom : "60px"}}>
+      <div style = {{marginTop : "20px", marginBottom : "60px"}}>
         <label htmlFor="filter">Filter by: </label>
         <select
           name="filter"
           id="filter"
           onChange={(e) => setFilter(e.target.value)}
           value={filter}
+          className="border rounded-md"
         >
           <option value="">...</option>
           <option value="With pearls">With pearls</option>
@@ -40,6 +41,7 @@ const SortFilterControls: React.FC<SortFilterControlsProps> = ({
           id="sort"
           onChange={(e) => setSort(e.target.value)}
           value={sort}
+          className="border rounded-md"
         >
           <option value="">...</option>
           <option value="Price (Low to High)">Price (Low to High)</option>
