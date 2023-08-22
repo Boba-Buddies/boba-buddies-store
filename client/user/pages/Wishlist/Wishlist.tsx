@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { fetchWishlist } from '../../../apis/wishlist'
 import LoadError from '../../components/LoadError/LoadError'
 import { WishlistProduct } from '../../../../models/Wishlist'
@@ -8,11 +8,25 @@ import { modifyCartProductQuantity } from '../../../apis/cart'
 
 const Wishlist = () => {
   const { isLoading, data, status } = useQuery('fetchWishlist', fetchWishlist)
+  const queryClient = useQueryClient()
   const cartMutation = useMutation(
     ({ productId, quantity }: { productId: number; quantity: number }) =>
       modifyCartProductQuantity(productId, quantity),
+    {
+      onSuccess: async () => {
+        console.log('success!!! in the mutation')
+
+        queryClient.invalidateQueries('fetchCart')
+      },
+    },
   )
 
+  function handleCartDetails(productId: number) {
+    const quantity = 1
+    console.log(productId, 'I am the productId')
+
+    cartMutation.mutate({ productId, quantity })
+  }
   return (
     <>
       <LoadError status={status} />
@@ -35,7 +49,12 @@ const Wishlist = () => {
                 />
                 <h1>{item.productName}</h1>
                 <h1>${item.productPrice.toFixed(2)}</h1>
-                <button className="w-1/6">Add to Cart</button>
+                <button
+                  className="w-1/6"
+                  onClick={() => handleCartDetails(item.productId)}
+                >
+                  Add to Cart
+                </button>
                 <div className="flex flex-col items-center">
                   <FontAwesomeIcon icon={faHeart} />
                   <button>Remove</button>
