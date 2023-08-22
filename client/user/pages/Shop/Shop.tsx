@@ -3,7 +3,7 @@ import { fetchAllProductsUser } from '../../../apis/products'
 import StarRating from '../../components/StarRating/StarRating'
 import LoadError from '../../components/LoadError/LoadError'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const Shop = () => {
   const [filter, setFilter] = useState('')
