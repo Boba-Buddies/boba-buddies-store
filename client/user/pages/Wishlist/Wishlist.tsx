@@ -55,10 +55,10 @@ const Wishlist = () => {
                 >
                   Add to Cart
                 </button>
-                <div className="flex flex-col items-center">
+                <button className="flex flex-col items-center">
                   <FontAwesomeIcon icon={faHeart} />
-                  <button>Remove</button>
-                </div>
+                  <p>Remove</p>
+                </button>
               </div>
             ))}
         </div>
