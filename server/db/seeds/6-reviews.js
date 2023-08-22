@@ -362,5 +362,15 @@ exports.seed = async function (knex) {
       user_id: 'auth0|bcd34567',
       created_at: '2023-07-12 9:55:00',
     },
+    {
+      id: 41,
+      product_id: 21,
+      description:
+        'Disgusting. Tastes like blood and the pearls look like eye balls. I do not recommend!',
+      rating: 0.5,
+      is_enabled: true,
+      user_id: 'auth0|abc12345',
+      created_at: '2023-06-12 9:42:00',
+    },
   ])
 }

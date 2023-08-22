@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Product } from '../../../../models/Products'
+import { UserProduct } from '../../../../models/Products'
 import { addProductToCart } from '../../../apis/cart'
 import StarRating from '../StarRating/StarRating'
 import { useMutation } from 'react-query'
@@ -12,7 +12,7 @@ import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'
 
 interface ViewProductProps {
-  product: Product
+  product: UserProduct
   wishlistStatus: boolean
   refetchWishlistProductStatus: () => void
 }

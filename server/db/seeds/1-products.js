@@ -220,5 +220,16 @@ exports.seed = async function (knex) {
       is_enabled: true,
       average_rating: 3.75,
     },
+    {
+      id: 21,
+      name: 'Forbidden Liquid',
+      image: '/images/forbidden-liquid.svg',
+      price: 100,
+      description:
+        'This product is banned in all countries. If you are ever offered this product, do not drink it!',
+      stock: 200,
+      is_enabled: false,
+      average_rating: 0.5,
+    },
   ])
 }
