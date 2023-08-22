@@ -4,17 +4,6 @@ import StarRating from '../../components/StarRating/StarRating'
 import LoadError from '../../components/LoadError/LoadError'
 import { useState } from 'react'
 
-//For your reference:
-//   products: {
-//   id: number
-//   name: string
-//   image: string
-//   price: number
-//   description: string
-//   stock: number
-//   averageRating: number
-// }
-
 const Shop = () => {
   const [filter, setFilter] = useState('')
   const [sort, setSort] = useState('')
@@ -26,7 +15,6 @@ const Shop = () => {
     },
   )
 
-    // Filter the products based on the selected filter
     const filteredProducts = products ? products.filter((product) => {
       const lowerCaseName = product.name.toLowerCase();
       switch (filter) {
@@ -49,7 +37,6 @@ const Shop = () => {
       }
     }) : []
   
-    // Sort the filtered products based on the selected sort
     const sortedProducts = [...filteredProducts].sort((a, b) => {
       switch (sort) {
         case 'Price (ascending)':
@@ -70,7 +57,6 @@ const Shop = () => {
             <div className="bg-red">
               <h1 className="text-3xl font-bold mt-2">Shop for Bubble Tea</h1>
               <div>
-                {/* Filter */}
                 <label htmlFor="filter">Filter by: </label>
                 <select
                   name="filter"
@@ -88,7 +74,6 @@ const Shop = () => {
                   <option value="Dairy free">Dairy free</option>
                 </select>
 
-                {/* Sort */}
                 <label htmlFor="sort" className="ml-4">
                   Sort by:{' '}
                 </label>
