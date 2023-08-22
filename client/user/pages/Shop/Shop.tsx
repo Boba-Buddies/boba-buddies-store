@@ -26,6 +26,41 @@ const Shop = () => {
     },
   )
 
+    // Filter the products based on the selected filter
+    const filteredProducts = products ? products.filter((product) => {
+      const lowerCaseName = product.name.toLowerCase();
+      switch (filter) {
+        case 'With pearls':
+          return lowerCaseName.includes('pearl')
+        case 'Without pearls':
+          return !lowerCaseName.includes('pearl')
+        case 'Teas':
+          return lowerCaseName.includes('tea')
+        case 'Smoothies':
+          return lowerCaseName.includes('smoothie')
+        case 'Yogurts':
+          return lowerCaseName.includes('yogurt')
+        case 'Fruit Drinks':
+          return lowerCaseName.includes('drink')
+        case 'Dairy free':
+          return !lowerCaseName.includes('milk')
+        default:
+          return true
+      }
+    }) : []
+  
+    // Sort the filtered products based on the selected sort
+    const sortedProducts = [...filteredProducts].sort((a, b) => {
+      switch (sort) {
+        case 'Price (ascending)':
+          return a.price - b.price
+        case 'Price (descending)':
+          return b.price - a.price
+        default:
+          return 0
+      }
+    })
+
   return (
     <>
       <LoadError status={statusProducts} />
@@ -49,7 +84,7 @@ const Shop = () => {
                   <option value="Teas">Teas</option>
                   <option value="Smoothies">Smoothies</option>
                   <option value="Yogurts">Yogurts</option>
-                  <option value="Drinks">Drinks</option>
+                  <option value="Fruit Drinks">Fruit drinks</option>
                   <option value="Dairy free">Dairy free</option>
                 </select>
 
@@ -65,16 +100,16 @@ const Shop = () => {
                 >
                   <option value="">...</option>
                   <option value="Price (ascending)">Price (ascending)</option>
-                  <option value="Price (Descending)">Price (Descending)</option>
+                  <option value="Price (descending)">Price (descending)</option>
                 </select>
               </div>
             </div>
             <div className="grid grid-cols-3 gap-4">
-              {products.map((product) => (
+              {sortedProducts.map((product) => (
                 <div
                   key={product.id}
                   className="border p-4 rounded-md flex flex-col justify-between"
-                  style={{ maxWidth: '350px' }}
+                  style={{ width: '350px' }}
                 >
                   <div>
                     <img
