@@ -15,7 +15,6 @@ const SortFilterControls: React.FC<SortFilterControlsProps> = ({
 }) => {
   return (
     <div>
-      <h1 className="text-3xl font-bold mt-2">Shop for Bubble Tea</h1>
       <div>
         <label htmlFor="filter">Filter by: </label>
         <select

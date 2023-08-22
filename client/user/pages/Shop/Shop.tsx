@@ -61,6 +61,7 @@ const Shop = () => {
       {products && (
         <div className="flex flex-col items-center">
           <div>
+          <h1 className="text-3xl font-bold mt-2">Shop for Bubble Tea</h1>
             <SortFilterControls
               filter={filter}
               sort={sort}
