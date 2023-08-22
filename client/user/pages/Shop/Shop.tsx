@@ -47,6 +47,8 @@ const Shop = () => {
         return a.price - b.price
       case 'Price (High to Low)':
         return b.price - a.price
+      case 'Alphabetical (A to Z)':
+        return a.name.localeCompare(b.name)
       default:
         return 0
     }
@@ -88,8 +90,15 @@ const Shop = () => {
                   value={sort}
                 >
                   <option value="">...</option>
-                  <option value="Price (Low to High)">Price (Low to High)</option>
-                  <option value="Price (High to Low)">Price (High to Low)</option>
+                  <option value="Price (Low to High)">
+                    Price (Low to High)
+                  </option>
+                  <option value="Price (High to Low)">
+                    Price (High to Low)
+                  </option>
+                  <option value="Alphabetical (A to Z)">
+                    Alphabetical (A to Z)
+                  </option>{' '}
                 </select>
               </div>
             </div>
@@ -119,7 +128,9 @@ const Shop = () => {
                       className="text-xl font-bold mt-2 block cursor-pointer"
                       style={{
                         color:
-                          hoveredProductId === product.id ? '#1D4ED8' : 'inherit',
+                          hoveredProductId === product.id
+                            ? '#1D4ED8'
+                            : 'inherit',
                       }}
                     >
                       {product.name}
@@ -132,7 +143,9 @@ const Shop = () => {
                       className="text-lg text-gray-600 block cursor-pointer"
                       style={{
                         color:
-                          hoveredProductId === product.id ? '#1D4ED8' : 'inherit',
+                          hoveredProductId === product.id
+                            ? '#1D4ED8'
+                            : 'inherit',
                       }}
                     >
                       ${product.price.toFixed(2)}
