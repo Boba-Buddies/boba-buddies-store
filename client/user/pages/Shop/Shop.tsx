@@ -4,6 +4,7 @@ import StarRating from '../../components/StarRating/StarRating'
 import LoadError from '../../components/LoadError/LoadError'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import SortFilterControls from '../../components/SortFilterControls/SortFilterControls'
 
 const Shop = () => {
   const [filter, setFilter] = useState('')
@@ -60,48 +61,12 @@ const Shop = () => {
       {products && (
         <div className="flex flex-col items-center">
           <div>
-            <div className="bg-red">
-              <h1 className="text-3xl font-bold mt-2">Shop for Bubble Tea</h1>
-              <div>
-                <label htmlFor="filter">Filter by: </label>
-                <select
-                  name="filter"
-                  id="filter"
-                  onChange={(e) => setFilter(e.target.value)}
-                  value={filter}
-                >
-                  <option value="">...</option>
-                  <option value="With pearls">With pearls</option>
-                  <option value="Without pearls">Without pearls</option>
-                  <option value="Teas">Teas</option>
-                  <option value="Smoothies">Smoothies</option>
-                  <option value="Yogurts">Yogurts</option>
-                  <option value="Fruit Drinks">Fruit drinks</option>
-                  <option value="Dairy free">Dairy free</option>
-                </select>
-
-                <label htmlFor="sort" className="ml-4">
-                  Sort by:{' '}
-                </label>
-                <select
-                  name="sort"
-                  id="sort"
-                  onChange={(e) => setSort(e.target.value)}
-                  value={sort}
-                >
-                  <option value="">...</option>
-                  <option value="Price (Low to High)">
-                    Price (Low to High)
-                  </option>
-                  <option value="Price (High to Low)">
-                    Price (High to Low)
-                  </option>
-                  <option value="Alphabetical (A to Z)">
-                    Alphabetical (A to Z)
-                  </option>{' '}
-                </select>
-              </div>
-            </div>
+            <SortFilterControls
+              filter={filter}
+              sort={sort}
+              setFilter={setFilter}
+              setSort={setSort}
+            />
             <div className="grid grid-cols-3 gap-4">
               {sortedProducts.map((product) => (
                 <div
