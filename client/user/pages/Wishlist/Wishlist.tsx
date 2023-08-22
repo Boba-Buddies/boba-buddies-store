@@ -1,7 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { fetchWishlist } from '../../../apis/wishlist'
+import {
+  deleteFromWishlistByProductId,
+  fetchWishlist,
+} from '../../../apis/wishlist'
 import LoadError from '../../components/LoadError/LoadError'
 import { WishlistProduct } from '../../../../models/Wishlist'
 import { fetchCart, modifyCartProductQuantity } from '../../../apis/cart'
@@ -11,6 +14,8 @@ const Wishlist = () => {
   const cartQuery = useQuery('fetchCart', fetchCart)
   const queryClient = useQueryClient()
   const statuses = [wishListQuery.status, cartQuery.status]
+
+  //add to the cart mutation
   const cartMutation = useMutation(
     ({ productId, quantity }: { productId: number; quantity: number }) =>
       modifyCartProductQuantity(productId, quantity),
@@ -21,12 +26,27 @@ const Wishlist = () => {
     },
   )
 
+  // remove from the wishList mutation
+  const romoveMutation = useMutation(
+    (productId: number) => deleteFromWishlistByProductId(productId),
+    {
+      onSuccess: async () => {
+        console.log('delete Successfully!')
+
+        queryClient.invalidateQueries('fetchWishlist')
+      },
+    },
+  )
+
   function handleCartDetails(productId: number) {
     const product = cartQuery.data?.find((item) => item.productId === productId)
     const quantity = product ? product.quantity + 1 : 1
     cartMutation.mutate({ productId, quantity })
   }
 
+  function removeFromWishList(productId: number) {
+    romoveMutation.mutate(productId)
+  }
   return (
     <>
       <LoadError status={statuses} />
@@ -55,7 +75,10 @@ const Wishlist = () => {
                 >
                   Add to Cart
                 </button>
-                <button className="flex flex-col items-center">
+                <button
+                  className="flex flex-col items-center"
+                  onClick={() => removeFromWishList(item.productId)}
+                >
                   <FontAwesomeIcon icon={faHeart} />
                   <p>Remove</p>
                 </button>
