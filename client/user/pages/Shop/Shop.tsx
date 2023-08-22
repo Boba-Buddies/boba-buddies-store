@@ -43,9 +43,9 @@ const Shop = () => {
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sort) {
-      case 'Price (ascending)':
+      case 'Price (Low to High)':
         return a.price - b.price
-      case 'Price (descending)':
+      case 'Price (High to Low)':
         return b.price - a.price
       default:
         return 0
@@ -88,8 +88,8 @@ const Shop = () => {
                   value={sort}
                 >
                   <option value="">...</option>
-                  <option value="Price (ascending)">Price (ascending)</option>
-                  <option value="Price (descending)">Price (descending)</option>
+                  <option value="Price (Low to High)">Price (Low to High)</option>
+                  <option value="Price (High to Low)">Price (High to Low)</option>
                 </select>
               </div>
             </div>
