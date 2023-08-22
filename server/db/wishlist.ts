@@ -1,4 +1,4 @@
-import { WishlisthProduct } from '../../models/Wishlist'
+import { WishlistProduct } from '../../models/Wishlist'
 import db from './connection'
 
 export async function getWishlistByUserId(userId: string) {
@@ -12,10 +12,13 @@ export async function getWishlistByUserId(userId: string) {
       'products.name as productName',
       'products.image as productImage',
       'products.price as productPrice',
-    )) as WishlisthProduct
+    )) as WishlistProduct
 }
 
-export async function getWishlistStatusByProductId(productId: number, userId : string) {
+export async function getWishlistStatusByProductId(
+  productId: number,
+  userId: string,
+) {
   const wishlistItem = await db('wishlist')
     .where('product_id', productId)
     .where('user_id', userId)
@@ -34,15 +37,15 @@ export async function addToWishlistByProductId(
       user_id: userId,
       product_id: productId,
     })
-    .first();
+    .first()
 
   if (!existingItem) {
     return await db('wishlist').insert({
       user_id: userId,
       product_id: productId,
-    });
+    })
   } else {
-    throw new Error('Item already in wishlist');
+    throw new Error('Item already in wishlist')
   }
 }
 
