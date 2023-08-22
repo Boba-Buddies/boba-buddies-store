@@ -35,7 +35,7 @@ const Shop = () => {
           case 'Fruit Drinks':
             return lowerCaseName.includes('drink')
           case 'Dairy free':
-            return !lowerCaseName.includes('milk')
+            return !/milk|smoothie|yogurt/.test(lowerCaseName) //This is a regular expression
           default:
             return true
         }
@@ -59,10 +59,12 @@ const Shop = () => {
     <>
       <LoadError status={statusProducts} />
       {products && (
-        <div className="flex flex-col items-center"
-        style = {{marginTop : "60px", marginBottom : "100px"}}>
+        <div
+          className="flex flex-col items-center"
+          style={{ marginTop: '60px', marginBottom: '100px' }}
+        >
           <div>
-          <h1 className="text-3xl font-bold mt-2">Shop for Bubble Tea</h1>
+            <h1 className="text-3xl font-bold mt-2">Shop for Bubble Tea</h1>
             <SortFilterControls
               filter={filter}
               sort={sort}
