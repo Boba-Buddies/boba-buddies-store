@@ -59,7 +59,8 @@ const Shop = () => {
     <>
       <LoadError status={statusProducts} />
       {products && (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center"
+        style = {{marginTop : "60px", marginBottom : "100px"}}>
           <div>
           <h1 className="text-3xl font-bold mt-2">Shop for Bubble Tea</h1>
             <SortFilterControls

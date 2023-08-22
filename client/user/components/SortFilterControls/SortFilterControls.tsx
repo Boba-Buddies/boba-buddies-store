@@ -14,8 +14,7 @@ const SortFilterControls: React.FC<SortFilterControlsProps> = ({
   setSort,
 }) => {
   return (
-    <div>
-      <div>
+      <div style = {{marginTop : "10px", marginBottom : "60px"}}>
         <label htmlFor="filter">Filter by: </label>
         <select
           name="filter"
@@ -48,7 +47,6 @@ const SortFilterControls: React.FC<SortFilterControlsProps> = ({
           <option value="Alphabetical (A to Z)">Alphabetical (A to Z)</option>
         </select>
       </div>
-    </div>
   );
 };
 
