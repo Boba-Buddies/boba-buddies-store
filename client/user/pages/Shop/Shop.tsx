@@ -8,6 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 const Shop = () => {
   const [filter, setFilter] = useState('')
   const [sort, setSort] = useState('')
+  const [hoveredProductId, setHoveredProductId] = useState<number | null>(null)
 
   const { data: products, status: statusProducts } = useQuery(
     ['getAllProducts'],
@@ -113,13 +114,34 @@ const Shop = () => {
                   <div>
                     <Link
                       to={`/shop/${product.id}`}
+                      onMouseEnter={() => setHoveredProductId(product.id)}
+                      onMouseLeave={() => setHoveredProductId(null)}
                       className="text-xl font-bold mt-2 block cursor-pointer"
+                      style={{
+                        color:
+                          hoveredProductId === product.id ? '#1D4ED8' : 'inherit',
+                      }}
                     >
                       {product.name}
+                    </Link>
 
-                      <p className="text-lg text-gray-600">
-                        ${product.price.toFixed(2)}
-                      </p>
+                    <Link
+                      to={`/shop/${product.id}`}
+                      onMouseEnter={() => setHoveredProductId(product.id)}
+                      onMouseLeave={() => setHoveredProductId(null)}
+                      className="text-lg text-gray-600 block cursor-pointer"
+                      style={{
+                        color:
+                          hoveredProductId === product.id ? '#1D4ED8' : 'inherit',
+                      }}
+                    >
+                      ${product.price.toFixed(2)}
+                    </Link>
+
+                    <Link
+                      to={`/shop/${product.id}`}
+                      className="block cursor-pointer"
+                    >
                       <div className="flex items-center mt-2">
                         <span className="text-yellow-400">
                           <StarRating
