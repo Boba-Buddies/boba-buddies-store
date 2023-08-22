@@ -3,6 +3,7 @@ import { fetchAllProductsUser } from '../../../apis/products'
 import StarRating from '../../components/StarRating/StarRating'
 import LoadError from '../../components/LoadError/LoadError'
 import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Shop = () => {
   const [filter, setFilter] = useState('')
@@ -15,38 +16,40 @@ const Shop = () => {
     },
   )
 
-    const filteredProducts = products ? products.filter((product) => {
-      const lowerCaseName = product.name.toLowerCase();
-      switch (filter) {
-        case 'With pearls':
-          return lowerCaseName.includes('pearl')
-        case 'Without pearls':
-          return !lowerCaseName.includes('pearl')
-        case 'Teas':
-          return lowerCaseName.includes('tea')
-        case 'Smoothies':
-          return lowerCaseName.includes('smoothie')
-        case 'Yogurts':
-          return lowerCaseName.includes('yogurt')
-        case 'Fruit Drinks':
-          return lowerCaseName.includes('drink')
-        case 'Dairy free':
-          return !lowerCaseName.includes('milk')
-        default:
-          return true
-      }
-    }) : []
-  
-    const sortedProducts = [...filteredProducts].sort((a, b) => {
-      switch (sort) {
-        case 'Price (ascending)':
-          return a.price - b.price
-        case 'Price (descending)':
-          return b.price - a.price
-        default:
-          return 0
-      }
-    })
+  const filteredProducts = products
+    ? products.filter((product) => {
+        const lowerCaseName = product.name.toLowerCase()
+        switch (filter) {
+          case 'With pearls':
+            return lowerCaseName.includes('pearl')
+          case 'Without pearls':
+            return !lowerCaseName.includes('pearl')
+          case 'Teas':
+            return lowerCaseName.includes('tea')
+          case 'Smoothies':
+            return lowerCaseName.includes('smoothie')
+          case 'Yogurts':
+            return lowerCaseName.includes('yogurt')
+          case 'Fruit Drinks':
+            return lowerCaseName.includes('drink')
+          case 'Dairy free':
+            return !lowerCaseName.includes('milk')
+          default:
+            return true
+        }
+      })
+    : []
+
+  const sortedProducts = [...filteredProducts].sort((a, b) => {
+    switch (sort) {
+      case 'Price (ascending)':
+        return a.price - b.price
+      case 'Price (descending)':
+        return b.price - a.price
+      default:
+        return 0
+    }
+  })
 
   return (
     <>
@@ -96,27 +99,39 @@ const Shop = () => {
                   className="border p-4 rounded-md flex flex-col justify-between"
                   style={{ width: '350px' }}
                 >
-                  <div>
+                  <Link
+                    to={`/shop/${product.id}`}
+                    className="w-full h-48 block"
+                  >
                     <img
                       src={product.image}
                       alt={product.name}
                       className="w-full h-48 object-contain"
                     />
-                  </div>
+                  </Link>
 
                   <div>
-                    <h3 className="text-xl font-bold mt-2">{product.name}</h3>
-                    <p className="text-lg text-gray-600">
-                      ${product.price.toFixed(2)}
-                    </p>
-                    <div className="flex items-center mt-2">
-                      <span className="text-yellow-400">
-                        <StarRating rating={product.averageRating} size={1.5} />
-                      </span>
-                      <span className="ml-2 text-sm text-gray-500">
-                        ({product.averageRating})
-                      </span>
-                    </div>
+                    <Link
+                      to={`/shop/${product.id}`}
+                      className="text-xl font-bold mt-2 block cursor-pointer"
+                    >
+                      {product.name}
+
+                      <p className="text-lg text-gray-600">
+                        ${product.price.toFixed(2)}
+                      </p>
+                      <div className="flex items-center mt-2">
+                        <span className="text-yellow-400">
+                          <StarRating
+                            rating={product.averageRating}
+                            size={1.5}
+                          />
+                        </span>
+                        <span className="ml-2 text-sm text-gray-500">
+                          ({product.averageRating})
+                        </span>
+                      </div>
+                    </Link>
                   </div>
                 </div>
               ))}
