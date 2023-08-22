@@ -1,25 +1,48 @@
 import request from 'superagent'
-import { Product, UpsertProduct } from '../../models/Products'
+import { UserProduct, UpsertProduct, AdminProduct } from '../../models/Products'
 
 const baseUrl = '/api/v1/products'
 
-export async function fetchProductById(id: number) {
+//!ADMIN ONLY FUNCTION
+export async function fetchProductByIdAdmin(id: number) {
   try {
-    const response = await request.get(`${baseUrl}/${id}`)
-    return response.body.product as Product
+    const response = await request.get(`${baseUrl}/admin/${id}`)
+    return response.body as AdminProduct
   } catch (error) {
     console.error('Error fetching product by ID:', (error as Error).message)
     throw { error: (error as Error).message }
   }
 }
 
-export async function fetchAllProducts() {
+export async function fetchProductByIdUser(id: number) {
   try {
-    const response = await request.get(baseUrl)
-    return response.body
+    const response = await request.get(`${baseUrl}/${id}`)
+    return response.body as UserProduct
+  } catch (error) {
+    console.error('Error fetching product by ID:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
+}
+
+//!ADMIN ONLY FUNCTION
+export async function fetchAllProductsAdmin() {
+  try {
+    const response = await request.get(`${baseUrl}/admin`)
+    return response.body as AdminProduct[]
   } catch (error) {
     console.error('Error fetching all products:', (error as Error).message)
-    return { error: (error as Error).message }
+    throw { error: (error as Error).message }
+  }
+}
+
+
+export async function fetchAllProductsUser() {
+  try {
+    const response = await request.get(baseUrl)
+    return response.body as UserProduct[]
+  } catch (error) {
+    console.error('Error fetching all products:', (error as Error).message)
+    throw { error: (error as Error).message }
   }
 }
 

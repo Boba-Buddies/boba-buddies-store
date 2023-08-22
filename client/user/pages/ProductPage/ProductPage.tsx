@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { fetchProductById } from '../../../apis/products'
+import { fetchProductByIdUser } from '../../../apis/products'
 import { fetchReviewsByProductId } from '../../../apis/reviews'
 import ViewProduct from '../../components/ViewProduct/ViewProduct'
 import LoadError from '../../components/LoadError/LoadError'
@@ -14,7 +14,7 @@ const ProductPage = () => {
   const { data: product, status: statusProductS } = useQuery(
     ['getProduct', id],
     async () => {
-      return await fetchProductById(id)
+      return await fetchProductByIdUser(id)
     },
   )
 

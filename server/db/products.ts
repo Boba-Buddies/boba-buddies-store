@@ -1,28 +1,40 @@
 import {
   LowStockProducts,
-  Product,
-  Products,
+  AdminProduct,
   UpsertProduct,
+  UserProduct,
 } from '../../models/Products'
 import db from './connection'
 
-export async function getAllProducts() {
+export async function getAllProductsAdmin() {
   return (await db('products').select(
     'id',
     'name',
     'image',
     'price',
-    'price',
     'description',
     'stock',
     'is_enabled as isEnabled',
     'average_rating as averageRating',
-  )) as Products
+  )) as AdminProduct[]
 }
 
-export async function getProductById(id: number) {
+export async function getAllProductsUser() {
   return (await db('products')
-    .where('id', id)
+    .select(
+      'id',
+      'name',
+      'image',
+      'price',
+      'description',
+      'stock',
+      'average_rating as averageRating',
+    )
+    .where('is_enabled', true)) as UserProduct[]
+}
+
+export async function getProductByIdAdmin(id: number) {
+  return (await db('products')
     .select(
       'id',
       'name',
@@ -33,7 +45,24 @@ export async function getProductById(id: number) {
       'is_enabled as isEnabled',
       'average_rating as averageRating',
     )
-    .first()) as Product
+    .where('id', id)
+    .first()) as AdminProduct
+}
+
+export async function getProductByIdUser(id: number) {
+  return (await db('products')
+    .select(
+      'id',
+      'name',
+      'image',
+      'price',
+      'description',
+      'stock',
+      'average_rating as averageRating',
+    )
+    .where('id', id)
+    .where('is_enabled', true)
+    .first()) as UserProduct
 }
 
 export async function getAmountOfProductsBelowStockLevel(maxStock: number) {
