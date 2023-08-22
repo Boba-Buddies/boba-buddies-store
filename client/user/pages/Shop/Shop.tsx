@@ -64,7 +64,7 @@ const Shop = () => {
           style={{ marginTop: '60px', marginBottom: '100px' }}
         >
           <div>
-            <h1 className="text-3xl font-bold mt-2">Shop for Bubble Tea</h1>
+            <h1 className="text-4xl font-bold mt-2">Shop for Bubble Tea</h1>
             <SortFilterControls
               filter={filter}
               sort={sort}
