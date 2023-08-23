@@ -2,7 +2,9 @@ import { useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
 import { fetchUser } from '../../../apis/users'
+import { fetchUserReviews } from '../../../apis/reviews'
 import LoadError from '../../components/LoadError/LoadError'
+import { UserReview } from '../../../../models/Reviews'
 
 const Profile = () => {
   const navigate = useNavigate()
@@ -11,6 +13,11 @@ const Profile = () => {
   }
 
   const { data, status } = useQuery('fetchUser', fetchUser)
+
+  const { data: reviews, status: reviewsStatus } = useQuery(
+    'fetchUserReviews',
+    fetchUserReviews,
+  )
 
   return (
     <div className="flex justify-center items-center">
@@ -72,10 +79,20 @@ const Profile = () => {
         <section className="mt-8">
           <h2 className="text-xl font-semibold mb-4">Reviews</h2>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <li className="border p-2 rounded-md shadow-md">Review 1</li>
-            <li className="border p-2 rounded-md shadow-md">Review 2</li>
-            <li className="border p-2 rounded-md shadow-md">Review 3</li>
-            {/* Add more items as needed */}
+            {reviewsStatus === 'loading' ? (
+              <p>Loading reviews...</p>
+            ) : reviewsStatus === 'error' ? (
+              <p>Error loading reviews</p>
+            ) : (
+              reviews.map((review: UserReview) => (
+                <li
+                  key={review.productId}
+                  className="border p-2 rounded-md shadow-md"
+                >
+                  {review.productName}
+                </li>
+              ))
+            )}
           </ul>
         </section>
       </div>
