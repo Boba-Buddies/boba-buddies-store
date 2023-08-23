@@ -94,12 +94,13 @@ const Shop = () => {
               {getPaginatedProducts().map((product) => (
                 <div
                   key={product.id}
-                  className="border p-4 rounded-md flex flex-col justify-between"
-                  style={{ width: '350px' }}
+                  className="border p-4 rounded-md flex flex-col flex-top"
+                  style={{ width: '320px'}}
                 >
                   <Link
                     to={`/shop/${product.id}`}
                     className="w-full h-48 block"
+                    style={{marginBottom : "15px"}}
                   >
                     <img
                       src={product.image}
@@ -159,7 +160,7 @@ const Shop = () => {
                 </div>
               ))}
             </div>
-            <div className="flex mt-4 justify-center">
+            <div className="flex mt-4 justify-center" style = {{marginTop : "40px"}}>
               <button
                 className={`${
                   page === 1
