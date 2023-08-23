@@ -54,7 +54,7 @@ export const routes = createRoutesFromElements(
       element={<UnprotectedComponent component={EditProfile} />}
     />
     <Route
-      path="wishlist/:auth0Id"
+      path="wishlist"
       element={<UnprotectedComponent component={Wishlist} />}
     />
   </Route>,

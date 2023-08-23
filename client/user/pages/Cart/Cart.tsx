@@ -1,9 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
-import { useCartStore } from '../../../store/cart'
 import { CartClient } from '../../../../models/Cart'
-
 import {
   deleteProductFromCart,
   fetchCart,
@@ -12,14 +10,9 @@ import {
 import LoadError from '../../components/LoadError/LoadError'
 
 const Cart = () => {
-  const setCart = useCartStore((state) => state.setCart)
   const queryClient = useQueryClient()
 
-  const { data, status } = useQuery('fetchCart', fetchCart, {
-    onSuccess: (data) => {
-      setCart(data)
-    },
-  })
+  const { data, status } = useQuery('fetchCart', fetchCart)
 
   const navigate = useNavigate()
   function goTo(link: string) {
