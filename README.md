@@ -1,1 +1,1 @@
-# Bubble Tea Store
+# Boba Buddies Store
