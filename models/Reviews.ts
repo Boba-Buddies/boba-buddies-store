@@ -1,6 +1,6 @@
 import * as z from 'zod'
 
-export const productReviewsSchema = z
+export const productReviewSchema = z
   .object({
     productId: z.number(),
     userName: z.string(),
@@ -8,7 +8,18 @@ export const productReviewsSchema = z
     createdAt: z.string(),
     description: z.string(),
   })
-  .array()
+
+  export const userReviewSchema = z
+  .object({
+    productId: z.number(),
+    productName : z.string(),
+    productImage : z.string(),
+    reviewDescription: z.string(),
+    reviewerUserName: z.string(),
+    reviewRating: z.number(),
+    reviewCreatedAt: z.string(),
+
+  })
 
 export const reviewsSchema = z
   .object({
@@ -43,8 +54,9 @@ export const updatedReviewStatusSchema = z.object({
   isEnabled: z.boolean(),
 })
 
-export type ProductReviews = z.infer<typeof productReviewsSchema>
+export type ProductReview = z.infer<typeof productReviewSchema>
 export type Reviews = z.infer<typeof reviewsSchema>
 export type Review = z.infer<typeof reviewSchema>
 export type NewReview = z.infer<typeof newReviewSchema>
 export type UpdatedReviewStatus = z.infer<typeof updatedReviewStatusSchema>
+export type UserReview = z.infer<typeof userReviewSchema>
