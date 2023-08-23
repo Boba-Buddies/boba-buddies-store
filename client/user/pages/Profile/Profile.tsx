@@ -87,9 +87,30 @@ const Profile = () => {
               reviews.map((review: UserReview) => (
                 <li
                   key={review.productId}
-                  className="border p-2 rounded-md shadow-md"
+                  className="border p-4 rounded-md shadow-md hover:shadow-lg transition duration-300"
                 >
-                  {review.productName}
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-lg font-semibold">
+                      {review.productName}
+                    </h3>
+                    <span className="text-gray-500">
+                      {review.reviewCreatedAt}
+                    </span>
+                  </div>
+                  <p className="mb-4">{review.reviewDescription}</p>
+                  <div className="flex items-center">
+                    <span className="text-gray-600 text-sm mr-2">
+                      {review.reviewerUserName}
+                    </span>
+                    <div className="flex items-center">
+                      <span className="text-yellow-500">
+                        {'\u2605'.repeat(review.reviewRating)}
+                      </span>
+                      <span className="text-gray-400 ml-1">
+                        {'\u2605'.repeat(5 - review.reviewRating)}
+                      </span>
+                    </div>
+                  </div>
                 </li>
               ))
             )}
