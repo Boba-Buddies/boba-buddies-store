@@ -24,6 +24,11 @@ const Shop = () => {
     },
   );
 
+  const changePage = (newPage: number) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0});
+  };
+
   const filteredProducts = products
     ? products.filter((product) => {
         const lowerCaseName = product.name.toLowerCase();
@@ -147,9 +152,9 @@ const Shop = () => {
                 ))}
               </div>
               <div className="flex mt-4">
-                <button disabled={page === 1} onClick={() => setPage(page - 1)}>Previous Page</button>
+                <button disabled={page === 1} onClick={() => changePage(page - 1)}>Previous Page</button>
                 <span className="mx-4">{page}</span>
-                <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>Next Page</button>
+                <button disabled={page === totalPages} onClick={() => changePage(page + 1)}>Next Page</button>
               </div>
             </div>
           </div>
