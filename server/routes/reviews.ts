@@ -57,6 +57,19 @@ router.get('/by-review-id/:id', authorizeAdmin, async (req, res) => {
   }
 })
 
+
+//GET REVIEW BY USER ID
+//GET /api/v1/reviews/user
+router.get('/user', async (req, res) => {
+  try {
+    const userReviews = await db.getReviewsByUserId(userId)
+    res.status(200).json(userReviews)
+  } catch (error) {
+    logError(error)
+    res.status(500).json({ message: 'Unable to get user reviews' })
+  }
+})
+
 //ADD REVIEW
 //POST /api/v1/reviews/add
 router.post('/add', async (req, res) => {
