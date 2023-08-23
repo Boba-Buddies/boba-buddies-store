@@ -2,7 +2,10 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
 import { fetchUser } from '../../../apis/users'
-import { fetchUserReviews } from '../../../apis/reviews'
+import {
+  deleteReviewByProductId,
+  fetchUserReviews,
+} from '../../../apis/reviews'
 import LoadError from '../../components/LoadError/LoadError'
 import { UserReview } from '../../../../models/Reviews'
 
@@ -21,7 +24,7 @@ const Profile = () => {
   )
 
   const deleteReviewMutation = useMutation(
-    (productId: number) => deleteProductFromCart(productId),
+    (productId: number) => deleteReviewByProductId(productId),
     {
       onSuccess: () => {
         queryClient.invalidateQueries('fetchUserReviews')
@@ -121,7 +124,12 @@ const Profile = () => {
                       </span>
                     </div>
                   </div>
-                  <button className="mt-2 text-red-500 hover:text-red-600 cursor-pointer">
+                  <button
+                    onClick={() =>
+                      deleteReviewMutation.mutate(review.productId)
+                    }
+                    className="mt-2 text-red-500 hover:text-red-600 cursor-pointer"
+                  >
                     Delete
                   </button>
                 </li>
