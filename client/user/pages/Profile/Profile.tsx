@@ -111,11 +111,7 @@ const Profile = () => {
                       </span>
                     </div>
                   </div>
-
-                  <button
-                    className="absolute top-2 right-2 text-red-500 hover:text-red-600 cursor-pointer"
-                    onClick={() => handleDeleteReview(review.productId)}
-                  >
+                  <button className="mt-2 text-red-500 hover:text-red-600 cursor-pointer">
                     Delete
                   </button>
                 </li>
