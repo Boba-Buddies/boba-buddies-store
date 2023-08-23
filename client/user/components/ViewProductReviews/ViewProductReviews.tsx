@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
-import { NewReview, ProductReviews } from '../../../../models/Reviews'
+import { NewReview, ProductReview } from '../../../../models/Reviews'
 import { UserProduct } from '../../../../models/Products'
 import StarRating from '../StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../utils/FormatDate/formatDate'
@@ -8,7 +8,7 @@ import { addReview } from '../../../apis/reviews'
 
 interface ProductReviewsProps {
   product: UserProduct
-  reviews: ProductReviews
+  reviews: ProductReview[]
   refetchReviews: () => void
 }
 
