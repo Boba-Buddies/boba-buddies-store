@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
 import { fetchUser } from '../../../apis/users'
@@ -7,6 +7,7 @@ import LoadError from '../../components/LoadError/LoadError'
 import { UserReview } from '../../../../models/Reviews'
 
 const Profile = () => {
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
   function goTo(link: string) {
     navigate(link)
@@ -17,6 +18,15 @@ const Profile = () => {
   const { data: reviews, status: reviewsStatus } = useQuery(
     'fetchUserReviews',
     fetchUserReviews,
+  )
+
+  const deleteReviewMutation = useMutation(
+    (productId: number) => deleteProductFromCart(productId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('fetchUserReviews')
+      },
+    },
   )
 
   return (
