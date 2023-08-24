@@ -8,7 +8,6 @@ function StarRating({ rating, size }: StarRatingProps) {
 
   const fullStars = Math.floor(rating)
   const halfStars = rating % 1 !== 0 ? 1 : 0
-  const emptyStars = 5 - fullStars - halfStars
 
   const dimension = `${25 * size}px`
   const scaleValue = 1.2 * size
@@ -27,11 +26,11 @@ function StarRating({ rating, size }: StarRatingProps) {
       {...commonProps}
       key={key}
       fill="gold"
-      style={{ marginRight: `${-8 * size}px` }}
+      style={{ marginRight: `${-8 * size}px`, marginLeft: key === 0 ? `${-5 * size}px` : '0'}}
     >
       <path d="M0 0h24v24H0z" fill="none" />
       <path
-        transform={`translate(0, ${3.5 * size}) scale(${scaleValue})`} // Added translate to center the star vertically
+        transform={`translate(0, ${3.5 * size}) scale(${scaleValue})`} 
         d="M12 2c.4 0 .8.2 1 .6l1.2 3.4 3.7.3c.4 0 .8.2 1 .6s0 .8-.3 1.1l-2.7 2.5.6 3.7c.1.4 0 .8-.3 1.1s-.7.4-1.1.3l-3.3-1.7-3.3 1.7c-.2.1-.4.1-.6.1s-.4-.1-.6-.2c-.4-.2-.6-.6-.6-1l.6-3.7-2.7-2.5c-.2-.2-.4-.5-.3-.8s.3-.5.6-.7l3.7-.3 1.2-3.4c.2-.4.6-.6 1-.6z"
       />
     </svg>
