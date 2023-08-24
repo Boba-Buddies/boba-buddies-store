@@ -10,14 +10,14 @@ const Home = () => {
       <div className="max-w-screen-xl w-full p-8 flex flex-col items-center mb-60">
         {/* Welcome Card */}
         <div className="bg-white border shadow-md rounded-lg p-10 flex flex-col items-center mb-36 w-4/5">
-          <h1 className="text-6xl font-bold mb-40 text-center w-3/4">
+          <h1 className="text-6xl font-bold my-20  text-center w-3/4">
             Welcome to the Boba Buddies Store
           </h1>
           <button
             onClick={() => goTo('shop')}
             className="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-all"
           >
-            Buy some tea
+            Buy some tea!
           </button>
         </div>
 
