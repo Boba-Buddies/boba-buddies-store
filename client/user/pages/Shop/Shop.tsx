@@ -1,10 +1,10 @@
 import { useQuery } from 'react-query'
 import { fetchAllProductsUser } from '../../../apis/products'
-import StarRating from '../../components/StarRating/StarRating'
 import LoadError from '../../components/LoadError/LoadError'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 import SortFilterControls from '../../components/SortFilterControls/SortFilterControls'
+import ViewShopProducts from '../../components/ViewShopProducts/ViewShopProducts'
+import ShopPaginationControls from '../../components/ShopPaginationControls/ShopPaginationControls'
 
 const Shop = () => {
   const [filter, setFilter] = useState('')
@@ -90,103 +90,16 @@ const Shop = () => {
               setFilter={setFilter}
               setSort={setSort}
             />
-            <div className="grid grid-cols-3 gap-4">
-              {getPaginatedProducts().map((product) => (
-                <div
-                  key={product.id}
-                  className="border p-4 rounded-md flex flex-col flex-top"
-                  style={{ width: '320px'}}
-                >
-                  <Link
-                    to={`/shop/${product.id}`}
-                    className="w-full h-48 block"
-                    style={{marginBottom : "15px"}}
-                  >
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-48 object-contain"
-                    />
-                  </Link>
-
-                  <div>
-                    <Link
-                      to={`/shop/${product.id}`}
-                      onMouseEnter={() => setHoveredProductId(product.id)}
-                      onMouseLeave={() => setHoveredProductId(null)}
-                      className="text-xl font-bold mt-2 block cursor-pointer"
-                      style={{
-                        color:
-                          hoveredProductId === product.id
-                            ? '#1D4ED8'
-                            : 'inherit',
-                      }}
-                    >
-                      {product.name}
-                    </Link>
-
-                    <Link
-                      to={`/shop/${product.id}`}
-                      onMouseEnter={() => setHoveredProductId(product.id)}
-                      onMouseLeave={() => setHoveredProductId(null)}
-                      className="text-lg text-gray-600 block cursor-pointer"
-                      style={{
-                        color:
-                          hoveredProductId === product.id
-                            ? '#1D4ED8'
-                            : 'inherit',
-                      }}
-                    >
-                      ${product.price.toFixed(2)}
-                    </Link>
-
-                    <Link
-                      to={`/shop/${product.id}`}
-                      className="block cursor-pointer"
-                    >
-                      <div className="flex items-center mt-2">
-                        <span className="text-yellow-400">
-                          <StarRating
-                            rating={product.averageRating}
-                            size={1.5}
-                          />
-                        </span>
-                        <span className="ml-2 text-sm text-gray-500">
-                          ({product.averageRating})
-                        </span>
-                      </div>
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="flex mt-4 justify-center" style = {{marginTop : "40px"}}>
-              <button
-                className={`${
-                  page === 1
-                    ? 'bg-gray-300 cursor-default'
-                    : 'bg-blue-500 hover:bg-blue-700'
-                } text-white font-bold py-2 px-4 mt-2 rounded-full w-128`}
-                disabled={page === 1}
-                onClick={() => changePage(page - 1)}
-              >
-                Prev Page
-              </button>
-              <div className="inline-block bg-gray-100 rounded-full px-3 py-2 text-l font-bold text-gray-700 mt-2 ml-2 mr-2 w-12 text-center">
-                {page}
-              </div>
-              <button
-                className={`${
-                  page === totalPages
-                    ? 'bg-gray-300 cursor-default'
-                    : 'bg-blue-500 hover:bg-blue-700'
-                } text-white font-bold py-2 px-4 mt-2 rounded-full w-128`}
-                disabled={page === totalPages}
-                onClick={() => changePage(page + 1)}
-              >
-                Next Page
-              </button>
-            </div>
+            <ViewShopProducts
+              hoveredProductId={hoveredProductId}
+              setHoveredProductId={setHoveredProductId}
+              getPaginatedProducts={getPaginatedProducts}
+            />
+            <ShopPaginationControls
+              page={page}
+              totalPages={totalPages}
+              changePage={changePage}
+            />
           </div>
         </div>
       )}
