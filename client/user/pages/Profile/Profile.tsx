@@ -8,6 +8,8 @@ import {
 } from '../../../apis/reviews'
 import LoadError from '../../components/LoadError/LoadError'
 import { UserReview } from '../../../../models/Reviews'
+import { UserOrders } from '../../../../models/Purchases'
+import { fetchUserOrders } from '../../../apis/purchases'
 
 const Profile = () => {
   const queryClient = useQueryClient()
@@ -22,6 +24,19 @@ const Profile = () => {
     'fetchUserReviews',
     fetchUserReviews,
   )
+
+  const { data: orders, status: ordersStatus } = useQuery(
+    'fetchUserOrders',
+    fetchUserOrders,
+  )
+
+  function formatCurrency(amount: number) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(amount)
+  }
 
   const deleteReviewMutation = useMutation(
     (productId: number) => deleteReviewByProductId(productId),
@@ -45,10 +60,25 @@ const Profile = () => {
           <section className="border p-4 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">Orders</h2>
             <ul className="space-y-2">
-              <li className="border p-2">Order 1</li>
-              <li className="border p-2">Order 2</li>
-              <li className="border p-2">Order 3</li>
-              {/* Add more items as needed */}
+              {ordersStatus === 'loading' ? (
+                <p>Loading orders...</p>
+              ) : ordersStatus === 'error' ? (
+                <p>Error loading orders</p>
+              ) : orders && orders.length > 0 ? (
+                <ul className="space-y-2">
+                  {orders.map((order: UserOrders) => (
+                    <li key={order.orderId} className="border p-2">
+                      Order ID: {order.orderId}
+                      <br />
+                      Purchased At: {order.purchasedAt}
+                      <br />
+                      Total Amount: {formatCurrency(order.totalAmount)}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No orders available.</p>
+              )}
             </ul>
           </section>
 
