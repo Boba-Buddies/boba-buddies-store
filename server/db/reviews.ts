@@ -1,9 +1,10 @@
 import {
   NewReview,
-  ProductReviews,
+  ProductReview,
   Review,
   Reviews,
   UpdatedReviewStatus,
+  UserReview,
 } from '../../models/Reviews'
 import db from './connection'
 
@@ -17,7 +18,7 @@ export async function getReviewsByProductId(productId: number) {
       'reviews.rating',
       'reviews.created_at as createdAt',
       'users.user_name as userName',
-    )) as ProductReviews
+    )) as ProductReview[]
 }
 
 export async function getAmountOfReviewsByDate(date: string) {
@@ -96,6 +97,26 @@ export async function recalculateAverageRatingByProductId(productId: number) {
     return null
   }
 }
+
+export async function getReviewsByUserId(userId: string) {
+  const userReviews = (await db('reviews')
+    .where('reviews.user_id', userId)
+    .andWhere('reviews.is_enabled', true)
+    .join('users', 'reviews.user_id', 'users.auth0_id')
+    .join('products', 'reviews.product_id', 'products.id')
+    .select(
+      'products.id as productId',
+      'products.name as productName',
+      'products.image as productImage',
+      'reviews.description as reviewDescription',
+      'reviews.rating as reviewRating',
+      'users.user_name as reviewerUserName',
+      'reviews.created_at as reviewCreatedAt',
+    )) as UserReview[]
+
+  return userReviews
+}
+
 
 export async function addReviewByUserId(newReview: NewReview, userId: string) {
   await db('reviews').insert({

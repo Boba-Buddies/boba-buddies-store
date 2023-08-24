@@ -2,7 +2,7 @@ import { useQuery } from 'react-query'
 import { fetchAllProductsUser } from '../../../apis/products'
 import StarRating from '../../components/StarRating/StarRating'
 import LoadError from '../../components/LoadError/LoadError'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import SortFilterControls from '../../components/SortFilterControls/SortFilterControls'
 
@@ -10,6 +10,12 @@ const Shop = () => {
   const [filter, setFilter] = useState('')
   const [sort, setSort] = useState('')
   const [hoveredProductId, setHoveredProductId] = useState<number | null>(null)
+  const [page, setPage] = useState(1)
+  const productsPerPage = 15
+
+  useEffect(() => {
+    setPage(1)
+  }, [filter, sort])
 
   const { data: products, status: statusProducts } = useQuery(
     ['getAllProducts'],
@@ -17,6 +23,11 @@ const Shop = () => {
       return await fetchAllProductsUser()
     },
   )
+
+  const changePage = (newPage: number) => {
+    setPage(newPage)
+    window.scrollTo({ top: 0 })
+  }
 
   const filteredProducts = products
     ? products.filter((product) => {
@@ -35,7 +46,7 @@ const Shop = () => {
           case 'Fruit Drinks':
             return lowerCaseName.includes('drink')
           case 'Dairy free':
-            return !/milk|smoothie|yogurt/.test(lowerCaseName) //This is a regular expression
+            return !/milk|smoothie|yogurt/.test(lowerCaseName)
           default:
             return true
         }
@@ -55,6 +66,14 @@ const Shop = () => {
     }
   })
 
+  const totalPages = Math.ceil(sortedProducts.length / productsPerPage)
+
+  const getPaginatedProducts = () => {
+    const start = (page - 1) * productsPerPage
+    const end = start + productsPerPage
+    return sortedProducts.slice(start, end)
+  }
+
   return (
     <>
       <LoadError status={statusProducts} />
@@ -72,15 +91,16 @@ const Shop = () => {
               setSort={setSort}
             />
             <div className="grid grid-cols-3 gap-4">
-              {sortedProducts.map((product) => (
+              {getPaginatedProducts().map((product) => (
                 <div
                   key={product.id}
-                  className="border p-4 rounded-md flex flex-col justify-between"
-                  style={{ width: '350px' }}
+                  className="border p-4 rounded-md flex flex-col flex-top"
+                  style={{ width: '320px'}}
                 >
                   <Link
                     to={`/shop/${product.id}`}
                     className="w-full h-48 block"
+                    style={{marginBottom : "15px"}}
                   >
                     <img
                       src={product.image}
@@ -139,6 +159,33 @@ const Shop = () => {
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="flex mt-4 justify-center" style = {{marginTop : "40px"}}>
+              <button
+                className={`${
+                  page === 1
+                    ? 'bg-gray-300 cursor-default'
+                    : 'bg-blue-500 hover:bg-blue-700'
+                } text-white font-bold py-2 px-4 mt-2 rounded-full w-128`}
+                disabled={page === 1}
+                onClick={() => changePage(page - 1)}
+              >
+                Prev Page
+              </button>
+              <div className="inline-block bg-gray-100 rounded-full px-3 py-2 text-l font-bold text-gray-700 mt-2 ml-2 mr-2 w-12 text-center">
+                {page}
+              </div>
+              <button
+                className={`${
+                  page === totalPages
+                    ? 'bg-gray-300 cursor-default'
+                    : 'bg-blue-500 hover:bg-blue-700'
+                } text-white font-bold py-2 px-4 mt-2 rounded-full w-128`}
+                disabled={page === totalPages}
+                onClick={() => changePage(page + 1)}
+              >
+                Next Page
+              </button>
             </div>
           </div>
         </div>

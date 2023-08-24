@@ -16,6 +16,16 @@ export async function fetchReviewsByProductId(productId: number) {
   }
 }
 
+export async function fetchUserReviews() {
+  try {
+    const response = await request.get(`${baseUrl}/user`)
+    return response.body
+  } catch (error) {
+    console.error('Error fetching reviews of user', (error as Error).message)
+    return { error: (error as Error).message }
+  }
+}
+
 //!ADMIN ONLY FUNCTION
 export async function fetchAmountOfReviewsByDate(date: string) {
   try {

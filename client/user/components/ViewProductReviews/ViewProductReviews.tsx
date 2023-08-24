@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useMutation } from 'react-query'
-import { NewReview, ProductReviews } from '../../../../models/Reviews'
+import { NewReview, ProductReview } from '../../../../models/Reviews'
 import { UserProduct } from '../../../../models/Products'
 import StarRating from '../StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../utils/FormatDate/formatDate'
@@ -8,7 +8,7 @@ import { addReview } from '../../../apis/reviews'
 
 interface ProductReviewsProps {
   product: UserProduct
-  reviews: ProductReviews
+  reviews: ProductReview[]
   refetchReviews: () => void
 }
 
@@ -73,7 +73,7 @@ function ViewProductReviews({
         className="flex flex-row items-center max-w-5xl"
         style={{ marginBottom: '20px' }}
       >
-        <h2 className="text-3xl font-bold">{product.averageRating}</h2>
+        <h2 className="text-3xl font-bold mr-2">{product.averageRating}</h2>
         <StarRating rating={product.averageRating} size={2} />
       </div>
 

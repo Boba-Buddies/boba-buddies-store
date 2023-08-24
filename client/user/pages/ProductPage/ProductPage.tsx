@@ -5,7 +5,7 @@ import { fetchReviewsByProductId } from '../../../apis/reviews'
 import ViewProduct from '../../components/ViewProduct/ViewProduct'
 import LoadError from '../../components/LoadError/LoadError'
 import ViewProductReviews from '../../components/ViewProductReviews/ViewProductReviews'
-import { ProductReviews } from '../../../../models/Reviews'
+import { ProductReview } from '../../../../models/Reviews'
 import { fetchWishlistStatusByProductId } from '../../../apis/wishlist'
 
 const ProductPage = () => {
@@ -23,7 +23,7 @@ const ProductPage = () => {
     refetch: refetchReviews,
     status: statusReviews,
   } = useQuery(['getReviews', id], async () => {
-    const fetchedReviews: ProductReviews = await fetchReviewsByProductId(id)
+    const fetchedReviews: ProductReview[] = await fetchReviewsByProductId(id)
     return fetchedReviews
   })
 
