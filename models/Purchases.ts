@@ -1,12 +1,10 @@
 import * as z from 'zod'
 
-export const userOrdersSchema = z
-  .object({
-    orderId: z.number(),
-    purchasedAt: z.string(),
-    totalAmount: z.number(),
-  })
-  .array()
+export const userOrdersSchema = z.object({
+  orderId: z.number(),
+  purchasedAt: z.string(),
+  totalAmount: z.number(),
+})
 
 export const ordersSchema = z
   .object({

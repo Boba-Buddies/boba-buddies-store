@@ -16,7 +16,20 @@ export async function fetchLatestOrderId() {
     console.log('client- api:', res.body)
     return res.body
   } catch (error) {
-    console.error('Error fetching latest purchase order:', (error as Error).message)
+    console.error(
+      'Error fetching latest purchase order:',
+      (error as Error).message,
+    )
+    throw { error: (error as Error).message }
+  }
+}
+
+export async function fetchUserOrders() {
+  try {
+    const response = await request.get(`${baseUrl}/user-orders`)
+    return response.body.orders
+  } catch (error) {
+    console.error('Error fetching user orders:', (error as Error).message)
     throw { error: (error as Error).message }
   }
 }

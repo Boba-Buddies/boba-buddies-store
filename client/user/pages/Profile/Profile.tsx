@@ -1,16 +1,51 @@
-import { useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
 import { fetchUser } from '../../../apis/users'
+import {
+  deleteReviewByProductId,
+  fetchUserReviews,
+} from '../../../apis/reviews'
 import LoadError from '../../components/LoadError/LoadError'
+import { UserReview } from '../../../../models/Reviews'
+import { UserOrders } from '../../../../models/Purchases'
+import { fetchUserOrders } from '../../../apis/purchases'
 
 const Profile = () => {
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
   function goTo(link: string) {
     navigate(link)
   }
 
   const { data, status } = useQuery('fetchUser', fetchUser)
+
+  const { data: reviews, status: reviewsStatus } = useQuery(
+    'fetchUserReviews',
+    fetchUserReviews,
+  )
+
+  const { data: orders, status: ordersStatus } = useQuery(
+    'fetchUserOrders',
+    fetchUserOrders,
+  )
+
+  function formatCurrency(amount: number) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(amount)
+  }
+
+  const deleteReviewMutation = useMutation(
+    (productId: number) => deleteReviewByProductId(productId),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('fetchUserReviews')
+      },
+    },
+  )
 
   return (
     <div className="flex justify-center items-center">
@@ -23,13 +58,35 @@ const Profile = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <section className="border p-4 rounded-md shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Orders</h2>
-            <ul className="space-y-2">
-              <li className="border p-2">Order 1</li>
-              <li className="border p-2">Order 2</li>
-              <li className="border p-2">Order 3</li>
-              {/* Add more items as needed */}
-            </ul>
+            <h2 className="text-xl font-semibold mb-4">Order History</h2>
+            <div className="space-y-4">
+              {ordersStatus === 'loading' ? (
+                <p>Loading orders...</p>
+              ) : ordersStatus === 'error' ? (
+                <p className="text-red-600">Error loading orders</p>
+              ) : orders && orders.length > 0 ? (
+                <ul className="divide-y divide-gray-200">
+                  {orders.map((order: UserOrders) => (
+                    <li
+                      key={order.orderId}
+                      className="p-4 border border-gray-300 rounded-md mb-4"
+                    >
+                      <div className="flex justify-between">
+                        <div className="text-lg font-semibold">
+                          # {order.orderId}
+                        </div>
+                        <div className="text-gray-500">{order.purchasedAt}</div>
+                      </div>
+                      <div className="text-gray-600 mt-2">
+                        Total: {formatCurrency(order.totalAmount)}
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No orders available.</p>
+              )}
+            </div>
           </section>
 
           <section className="border p-4 rounded-md shadow-md">
@@ -72,10 +129,49 @@ const Profile = () => {
         <section className="mt-8">
           <h2 className="text-xl font-semibold mb-4">Reviews</h2>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <li className="border p-2 rounded-md shadow-md">Review 1</li>
-            <li className="border p-2 rounded-md shadow-md">Review 2</li>
-            <li className="border p-2 rounded-md shadow-md">Review 3</li>
-            {/* Add more items as needed */}
+            {reviewsStatus === 'loading' ? (
+              <p>Loading reviews...</p>
+            ) : reviewsStatus === 'error' ? (
+              <p>Error loading reviews</p>
+            ) : (
+              reviews.map((review: UserReview) => (
+                <li
+                  key={review.productId}
+                  className="border p-4 rounded-md shadow-md hover:shadow-lg transition duration-300"
+                >
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-lg font-semibold">
+                      {review.productName}
+                    </h3>
+                    <span className="text-gray-500">
+                      {review.reviewCreatedAt}
+                    </span>
+                  </div>
+                  <p className="mb-4">{review.reviewDescription}</p>
+                  <div className="flex items-center">
+                    <span className="text-gray-600 text-sm mr-2">
+                      {review.reviewerUserName}
+                    </span>
+                    <div className="flex items-center">
+                      <span className="text-yellow-500">
+                        {'\u2605'.repeat(review.reviewRating)}
+                      </span>
+                      <span className="text-gray-400 ml-1">
+                        {'\u2605'.repeat(5 - review.reviewRating)}
+                      </span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() =>
+                      deleteReviewMutation.mutate(review.productId)
+                    }
+                    className="mt-2 text-red-500 hover:text-red-600 cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </li>
+              ))
+            )}
           </ul>
         </section>
       </div>
