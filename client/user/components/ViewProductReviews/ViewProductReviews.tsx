@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useMutation } from 'react-query'
 import { NewReview, ProductReview } from '../../../../models/Reviews'
 import { UserProduct } from '../../../../models/Products'
