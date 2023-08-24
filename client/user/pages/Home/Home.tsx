@@ -22,7 +22,7 @@ const Home = () => {
         </div>
 
         {/* Contact and Admin Login Card */}
-        <div className="bg-white border shadow-md rounded-lg p-8 flex flex-row justify-between items-center w-4/5">
+        <div className="bg-white border shadow-md rounded-lg py-8 px-24 flex flex-row justify-between items-center w-4/5">
           <div className="w-1/4 ml-7">
             <img
               src="/images/bobaLogo.png"
@@ -30,20 +30,13 @@ const Home = () => {
               className="max-w-full h-auto"
             />
           </div>
-          <div className="flex gap-4">
-            <button
-              className="text-white bg-black px-4 py-2 rounded-lg hover:bg-gray-700 transition-all"
-              onClick={() => goTo('contact')}
-            >
-              Contact
-            </button>
-            <button
-              className="text-white bg-black px-4 py-2 rounded-lg hover:bg-gray-700 transition-all"
-              onClick={() => goTo('admin')}
-            >
-              Admin login
-            </button>
-          </div>
+
+          <button
+            className="text-white bg-black px-4 py-2 rounded-lg hover:bg-gray-700 transition-all"
+            onClick={() => goTo('admin')}
+          >
+            Admin login
+          </button>
         </div>
       </div>
     </div>
