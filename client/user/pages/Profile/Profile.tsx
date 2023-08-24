@@ -58,28 +58,35 @@ const Profile = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <section className="border p-4 rounded-md shadow-md">
-            <h2 className="text-xl font-semibold mb-4">Orders</h2>
-            <ul className="space-y-2">
+            <h2 className="text-xl font-semibold mb-4">Order History</h2>
+            <div className="space-y-4">
               {ordersStatus === 'loading' ? (
                 <p>Loading orders...</p>
               ) : ordersStatus === 'error' ? (
-                <p>Error loading orders</p>
+                <p className="text-red-600">Error loading orders</p>
               ) : orders && orders.length > 0 ? (
-                <ul className="space-y-2">
+                <ul className="divide-y divide-gray-200">
                   {orders.map((order: UserOrders) => (
-                    <li key={order.orderId} className="border p-2">
-                      Order ID: {order.orderId}
-                      <br />
-                      Purchased At: {order.purchasedAt}
-                      <br />
-                      Total Amount: {formatCurrency(order.totalAmount)}
+                    <li
+                      key={order.orderId}
+                      className="p-4 border border-gray-300 rounded-md mb-4"
+                    >
+                      <div className="flex justify-between">
+                        <div className="text-lg font-semibold">
+                          # {order.orderId}
+                        </div>
+                        <div className="text-gray-500">{order.purchasedAt}</div>
+                      </div>
+                      <div className="text-gray-600 mt-2">
+                        Total: {formatCurrency(order.totalAmount)}
+                      </div>
                     </li>
                   ))}
                 </ul>
               ) : (
                 <p>No orders available.</p>
               )}
-            </ul>
+            </div>
           </section>
 
           <section className="border p-4 rounded-md shadow-md">
