@@ -9,7 +9,7 @@ const Home = () => {
     <div className="bg-white text-black flex flex-col items-center font-sans py-8">
       <div className="max-w-screen-xl w-full p-8 flex flex-col items-center mb-60">
         {/* Welcome Card */}
-        <div className="bg-white border shadow-lg rounded-lg p-10 flex flex-col items-center mb-36 w-4/5">
+        <div className="bg-white border shadow-md rounded-lg p-10 flex flex-col items-center mb-36 w-4/5">
           <h1 className="text-6xl font-bold mb-40 text-center w-3/4">
             Welcome to the Boba Buddies Store
           </h1>
@@ -22,7 +22,7 @@ const Home = () => {
         </div>
 
         {/* Contact and Admin Login Card */}
-        <div className="bg-white border shadow-lg rounded-lg p-8 flex flex-row justify-between items-center w-4/5">
+        <div className="bg-white border shadow-md rounded-lg p-8 flex flex-row justify-between items-center w-4/5">
           <div className="w-1/4 ml-7">
             <img
               src="/images/bobaLogo.png"
