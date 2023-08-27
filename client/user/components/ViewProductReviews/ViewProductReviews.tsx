@@ -3,7 +3,7 @@ import { useMutation } from 'react-query'
 import { NewReview, ProductReview } from '../../../../models/Reviews'
 import { UserProduct } from '../../../../models/Products'
 import StarRating from '../StarRating/StarRating'
-import { formatDateToDDMMYYYY } from '../../../utils/FormatDate/formatDate'
+import { formatDateToDDMMYYYY } from '../../../utils/formatDate/formatDate'
 import { addReview } from '../../../apis/reviews'
 
 interface ProductReviewsProps {
