@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { fetchAllReviews } from '../../../apis/reviews'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { ReviewForTable } from '../../../../models/Reviews'
@@ -22,6 +22,10 @@ const Reviews = () => {
   const [sort, setSort] = useState('Newest first')
   const [currentPage, setCurrentPage] = useState(1)
   const reviewsPerPage = 20
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, filter, sort]);
 
 
   // Filter and sort the reviews based on the current settings
