@@ -3,7 +3,10 @@ import { useState } from 'react'
 import { fetchAllReviews } from '../../../apis/reviews'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { ReviewForTable } from '../../../../models/Reviews'
-import { formatDateToDDMMYYYY, format24HourTo12Hour } from '../../../utils/formatDate/formatDate'
+import {
+  formatDateToDDMMYYYY,
+  format24HourTo12Hour,
+} from '../../../utils/formatDate/formatDate'
 
 const Reviews = () => {
   const { data: reviews, status: statusReviews } = useQuery(
@@ -51,50 +54,74 @@ const Reviews = () => {
     <>
       <LoadError status={statusReviews} />
       {reviews && filteredAndSortedReviews && (
-        <div>
-          <input
-            type="text"
-            placeholder="Search for a product..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+        <div className = "flex justify-center">
+          <div className="p-4"
+          style = {{maxWidth : '1000px'}}>
+            <input
+              className="border p-2 rounded"
+              type="text"
+              placeholder="Search for a product..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
 
-          <select onChange={(e) => setFilter(e.target.value)} value={filter}>
-            <option value="all">All</option>
-            <option value="enabled">Enabled</option>
-            <option value="disabled">Disabled</option>
-          </select>
+            <select
+              className="border p-2 rounded ml-4"
+              onChange={(e) => setFilter(e.target.value)}
+              value={filter}
+            >
+              <option value="all">All</option>
+              <option value="enabled">Enabled</option>
+              <option value="disabled">Disabled</option>
+            </select>
 
-          <select onChange={(e) => setSort(e.target.value)} value={sort}>
-            <option value="...">...</option>
-            <option value="Newest first">Newest first</option>
-            <option value="Oldest first">Oldest first</option>
-            <option value="High to low rating">High to low rating</option>
-            <option value="Low to high rating">Low to high rating</option>
-          </select>
+            <select
+              className="border p-2 rounded ml-4"
+              onChange={(e) => setSort(e.target.value)}
+              value={sort}
+            >
+              <option value="...">...</option>
+              <option value="Newest first">Newest first</option>
+              <option value="Oldest first">Oldest first</option>
+              <option value="High to low rating">High to low rating</option>
+              <option value="Low to high rating">Low to high rating</option>
+            </select>
 
-          <table>
-            <thead>
-              <tr>
-                <th>UserName</th>
-                <th>ProductName</th>
-                <th>Rating</th>
-                <th>Status</th>
-                <th>Date Created</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredAndSortedReviews.map((review) => (
-                <tr key={review.id}>
-                  <td>{review.userName}</td>
-                  <td>{review.productName}</td>
-                  <td>{review.rating}</td>
-                  <td>{review.isEnabled ? 'Enabled' : 'Disabled'}</td>
-                  <td>{formatDateToDDMMYYYY(review.createdAt)} {format24HourTo12Hour(review.createdAt)}</td>
+            <table className="min-w-full bg-white mt-4 border border-gray-300">
+              <thead>
+                <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                  <th className="py-3 px-8 text-left">UserName</th>
+                  <th className="py-3 px-8 text-left">ProductName</th>
+                  <th className="py-3 px-8 text-left">Rating</th>
+                  <th className="py-3 px-8 text-left">Status</th>
+                  <th className="py-3 px-8 text-left">Date Created</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="text-gray-600 text-sm font-light">
+                {filteredAndSortedReviews.map((review) => (
+                  <tr
+                    key={review.id}
+                    className="border-b border-gray-200 hover:bg-gray-100"
+                  >
+                    <td className="py-3 px-8 text-left whitespace-nowrap">
+                      {review.userName}
+                    </td>
+                    <td className="py-3 px-8 text-left">
+                      {review.productName}
+                    </td>
+                    <td className="py-3 px-8 text-left">{review.rating}</td>
+                    <td className="py-3 px-8 text-left">
+                      {review.isEnabled ? 'Enabled' : 'Disabled'}
+                    </td>
+                    <td className="py-3 px-8 text-left">
+                      {formatDateToDDMMYYYY(review.createdAt)}{' '}
+                      {format24HourTo12Hour(review.createdAt)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </>
