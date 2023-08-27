@@ -9,11 +9,11 @@ export const AdminNavBar = () => {
   return (
     <div>
       AdminNavBar
-      <button onClick={() => goTo('admin/dashboard')}>Dashboard</button>
-      <button onClick={() => goTo('admin/inbox')}>Inbox</button>
-      <button onClick={() => goTo('admin/products-summary')}>Products</button>
-      <button onClick={() => goTo('admin/add-products')}>Add Products</button>
-      <button onClick={() => goTo('admin/reviews')}>Reviews</button>
+      <button onClick={() => goTo('/admin/dashboard')}>Dashboard</button>
+      <button onClick={() => goTo('/admin/inbox')}>Inbox</button>
+      <button onClick={() => goTo('/admin/products-summary')}>Products</button>
+      <button onClick={() => goTo('/admin/add-products')}>Add Products</button>
+      <button onClick={() => goTo('/admin/reviews')}>Reviews</button>
     </div>
   )
 }
