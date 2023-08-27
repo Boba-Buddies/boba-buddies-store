@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { fetchAllReviews } from '../../../apis/reviews'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { ReviewForTable } from '../../../../models/Reviews'
+import { formatDateToDDMMYYYY, format24HourTo12Hour } from '../../../utils/formatDate/formatDate'
 
 const Reviews = () => {
   const { data: reviews, status: statusReviews } = useQuery(
@@ -89,7 +90,7 @@ const Reviews = () => {
                   <td>{review.productName}</td>
                   <td>{review.rating}</td>
                   <td>{review.isEnabled ? 'Enabled' : 'Disabled'}</td>
-                  <td>{review.createdAt}</td>
+                  <td>{formatDateToDDMMYYYY(review.createdAt)} {format24HourTo12Hour(review.createdAt)}</td>
                 </tr>
               ))}
             </tbody>
