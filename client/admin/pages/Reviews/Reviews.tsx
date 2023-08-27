@@ -54,9 +54,8 @@ const Reviews = () => {
     <>
       <LoadError status={statusReviews} />
       {reviews && filteredAndSortedReviews && (
-        <div className = "flex justify-center">
-          <div className="p-4"
-          style = {{maxWidth : '1000px'}}>
+        <div className="flex justify-center">
+          <div className="p-4" style={{ maxWidth: '1000px' }}>
             <input
               className="border p-2 rounded"
               type="text"
@@ -114,8 +113,8 @@ const Reviews = () => {
                       {review.isEnabled ? 'Enabled' : 'Disabled'}
                     </td>
                     <td className="py-3 px-8 text-left">
-                      {formatDateToDDMMYYYY(review.createdAt)}{' '}
-                      {format24HourTo12Hour(review.createdAt)}
+                      {format24HourTo12Hour(review.createdAt)}{' '}
+                      {formatDateToDDMMYYYY(review.createdAt)}
                     </td>
                   </tr>
                 ))}
