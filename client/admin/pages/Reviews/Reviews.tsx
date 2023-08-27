@@ -1,39 +1,50 @@
-import { useQuery } from 'react-query';
-import { useState } from 'react';
-import { fetchAllReviews } from '../../../apis/reviews';
-import LoadError from '../../../user/components/LoadError/LoadError';
-import { ReviewForTable } from '../../../../models/Reviews';
-
+import { useQuery } from 'react-query'
+import { useState } from 'react'
+import { fetchAllReviews } from '../../../apis/reviews'
+import LoadError from '../../../user/components/LoadError/LoadError'
+import { ReviewForTable } from '../../../../models/Reviews'
 
 const Reviews = () => {
   const { data: reviews, status: statusReviews } = useQuery(
     ['getReviews'],
     async () => {
-      const fetchedReviews : ReviewForTable[] = await fetchAllReviews();
+      const fetchedReviews: ReviewForTable[] = await fetchAllReviews()
       return fetchedReviews
-    }
-  );
+    },
+  )
 
-  const [search, setSearch] = useState('');
-  const [filter, setFilter] = useState('all');
-  const [sort, setSort] = useState('Newest first');
+  const [search, setSearch] = useState('')
+  const [filter, setFilter] = useState('all')
+  const [sort, setSort] = useState('Newest first')
 
   // Filter and sort the reviews based on the current settings
   const filteredAndSortedReviews = reviews
     ?.filter((review) => {
-      if (filter === 'enabled') return review.isEnabled;
-      if (filter === 'disabled') return !review.isEnabled;
-      return true;
+      if (filter === 'enabled') return review.isEnabled
+      if (filter === 'disabled') return !review.isEnabled
+      return true
     })
     .filter((review) => {
-      return review.productName.toLowerCase().includes(search.toLowerCase());
+      return review.productName.toLowerCase().includes(search.toLowerCase())
     })
     .sort((a, b) => {
-      // Implement sorting logic here...
-      // For simplicity, let's use the createdAt as an example:
-      if (sort === 'Newest first') return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-      return 0; // Add more sorting logic as needed
-    });
+      switch (sort) {
+        case 'Newest first':
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          )
+        case 'Oldest first':
+          return (
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          )
+        case 'High to low rating':
+          return b.rating - a.rating
+        case 'Low to high rating':
+          return a.rating - b.rating
+        default:
+          return 0 // No sorting
+      }
+    })
 
   return (
     <>
@@ -54,6 +65,7 @@ const Reviews = () => {
           </select>
 
           <select onChange={(e) => setSort(e.target.value)} value={sort}>
+            <option value="...">...</option>
             <option value="Newest first">Newest first</option>
             <option value="Oldest first">Oldest first</option>
             <option value="High to low rating">High to low rating</option>
@@ -85,7 +97,7 @@ const Reviews = () => {
         </div>
       )}
     </>
-  );
-};
+  )
+}
 
-export default Reviews;
+export default Reviews
