@@ -24,6 +24,7 @@ import {
   Wishlist,
 } from './user/pages/index'
 import { Reviews } from './admin/pages/'
+import { AdminAppLayout } from './admin/components/AdminAppLayout/AdminAppLayout'
 
 export const routes = createRoutesFromElements(
   <Route path="/" element={<AppLayout />} errorElement={<ErrorPage />}>
@@ -61,6 +62,12 @@ export const routes = createRoutesFromElements(
     <Route
       path="admin/reviews"
       element={<UnprotectedComponent component={Reviews} />}
+    />
+
+    {/* temporary route!! */}
+    <Route
+      path="admin/temporary"
+      element={<UnprotectedComponent component={AdminAppLayout} />}
     />
   </Route>,
 )
