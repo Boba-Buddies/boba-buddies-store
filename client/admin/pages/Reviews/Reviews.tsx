@@ -24,9 +24,8 @@ const Reviews = () => {
   const reviewsPerPage = 20
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [search, filter, sort]);
-
+    setCurrentPage(1)
+  }, [search, filter, sort])
 
   // Filter and sort the reviews based on the current settings
   const filteredAndSortedReviews = reviews
@@ -57,69 +56,74 @@ const Reviews = () => {
       }
     })
 
-    const lastIndex = currentPage * reviewsPerPage
-    const firstIndex = lastIndex - reviewsPerPage
-    const currentReviews = filteredAndSortedReviews?.slice(firstIndex, lastIndex)
-  
+  const lastIndex = currentPage * reviewsPerPage
+  const firstIndex = lastIndex - reviewsPerPage
+  const currentReviews = filteredAndSortedReviews?.slice(firstIndex, lastIndex)
 
   return (
     <>
       <LoadError status={statusReviews} />
       {reviews && currentReviews && filteredAndSortedReviews && (
         <div className="flex justify-center">
-          <div className="p-4" style={{ maxWidth: '1000px' }}>
-            <div className="border p-2 rounded">
-            <input
-              className="border p-2 rounded"
-              type="text"
-              placeholder="Search for a product..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-
-            <select
-              className="border p-2 rounded ml-4"
-              onChange={(e) => setFilter(e.target.value)}
-              value={filter}
+          <div className="p-4" style={{ width: '1000px' }}>
+            <div
+              className="border p-2 rounded flex justify-between items-center"
             >
-              <option value="all">All</option>
-              <option value="enabled">Enabled</option>
-              <option value="disabled">Disabled</option>
-            </select>
+              <div>
+                <input
+                  className="border p-2 rounded"
+                  type="text"
+                  placeholder="Search for a product..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
 
-            <select
-              className="border p-2 rounded ml-4"
-              onChange={(e) => setSort(e.target.value)}
-              value={sort}
-            >
-              <option value="...">...</option>
-              <option value="Newest first">Newest first</option>
-              <option value="Oldest first">Oldest first</option>
-              <option value="High to low rating">High to low rating</option>
-              <option value="Low to high rating">Low to high rating</option>
-            </select>
+                <select
+                  className="border p-2 rounded ml-4"
+                  onChange={(e) => setFilter(e.target.value)}
+                  value={filter}
+                >
+                  <option value="all">All</option>
+                  <option value="enabled">Enabled</option>
+                  <option value="disabled">Disabled</option>
+                </select>
 
-          {/* Pagination */}
-          <div className="flex justify-between mt-4">
-              <button
-                className="bg-blue-500 text-white p-2 rounded"
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage(currentPage - 1)}
+                <select
+                  className="border p-2 rounded ml-4"
+                  onChange={(e) => setSort(e.target.value)}
+                  value={sort}
+                >
+                  <option value="...">...</option>
+                  <option value="Newest first">Newest first</option>
+                  <option value="Oldest first">Oldest first</option>
+                  <option value="High to low rating">High to low rating</option>
+                  <option value="Low to high rating">Low to high rating</option>
+                </select>
+              </div>
+
+              <div
+                className="flex"
               >
-                Previous Page
-              </button>
-              <span>
-                Showing {firstIndex + 1}-{Math.min(lastIndex, filteredAndSortedReviews.length)} of {filteredAndSortedReviews.length}
-              </span>
-              <button
-                className="bg-blue-500 text-white p-2 rounded"
-                disabled={lastIndex >= filteredAndSortedReviews.length}
-                onClick={() => setCurrentPage(currentPage + 1)}
-              >
-                Next Page
-              </button>
-            </div>
-
+                <div className="flex flex-col justify-center">
+                  Showing {firstIndex + 1}-
+                  {Math.min(lastIndex, filteredAndSortedReviews.length)} of{' '}
+                  {filteredAndSortedReviews.length}
+                </div>
+                <button
+                  className="bg-blue-500 text-white p-2 rounded mx-2"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage(currentPage - 1)}
+                >
+                  {'<'}
+                </button>
+                <button
+                  className="bg-blue-500 text-white p-2 rounded"
+                  disabled={lastIndex >= filteredAndSortedReviews.length}
+                  onClick={() => setCurrentPage(currentPage + 1)}
+                >
+                  {'>'}
+                </button>
+              </div>
             </div>
 
             <table className="min-w-full bg-white mt-4 border border-gray-300">
