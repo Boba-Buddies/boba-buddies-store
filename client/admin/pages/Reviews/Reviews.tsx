@@ -56,6 +56,7 @@ const Reviews = () => {
       {reviews && filteredAndSortedReviews && (
         <div className="flex justify-center">
           <div className="p-4" style={{ maxWidth: '1000px' }}>
+            <div className="border p-2 rounded">
             <input
               className="border p-2 rounded"
               type="text"
@@ -85,6 +86,7 @@ const Reviews = () => {
               <option value="High to low rating">High to low rating</option>
               <option value="Low to high rating">Low to high rating</option>
             </select>
+            </div>
 
             <table className="min-w-full bg-white mt-4 border border-gray-300">
               <thead>
