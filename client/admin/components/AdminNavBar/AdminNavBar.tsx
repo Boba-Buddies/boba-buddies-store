@@ -10,6 +10,7 @@ export const AdminNavBar = () => {
     <div>
       AdminNavBar
       <button onClick={() => goTo('admin/dashboard')}>Dashboard</button>
+      <button onClick={() => goTo('admin/inbox')}>Inbox</button>
     </div>
   )
 }
