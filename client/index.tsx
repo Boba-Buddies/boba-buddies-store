@@ -23,7 +23,7 @@ import {
   EditProfile,
   Wishlist,
 } from './user/pages/index'
-import { Reviews } from './admin/pages/'
+import { Reviews, Dashboard } from './admin/pages/'
 
 export const routes = createRoutesFromElements(
   <Route path="/" element={<AppLayout />} errorElement={<ErrorPage />}>
@@ -61,6 +61,10 @@ export const routes = createRoutesFromElements(
     <Route
       path="admin/reviews"
       element={<UnprotectedComponent component={Reviews} />}
+    />
+    <Route
+      path="admin"
+      element={<UnprotectedComponent component={Dashboard} />}
     />
   </Route>,
 )
