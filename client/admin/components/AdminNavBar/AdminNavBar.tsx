@@ -11,6 +11,7 @@ export const AdminNavBar = () => {
       AdminNavBar
       <button onClick={() => goTo('admin/dashboard')}>Dashboard</button>
       <button onClick={() => goTo('admin/inbox')}>Inbox</button>
+      <button onClick={() => goTo('admin/products-summary')}>Products</button>
     </div>
   )
 }
