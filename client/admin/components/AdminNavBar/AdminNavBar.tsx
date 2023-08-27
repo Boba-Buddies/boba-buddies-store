@@ -1,3 +1,15 @@
+import { useNavigate } from 'react-router-dom'
+
 export const AdminNavBar = () => {
-  return <div>AdminNavBar</div>
+  const navigate = useNavigate()
+  function goTo(link: string) {
+    navigate(link)
+  }
+
+  return (
+    <div>
+      AdminNavBar
+      <button onClick={() => goTo('admin/dashboard')}>Dashboard</button>
+    </div>
+  )
 }
