@@ -59,6 +59,9 @@ const Reviews = () => {
   const lastIndex = currentPage * reviewsPerPage
   const firstIndex = lastIndex - reviewsPerPage
   const currentReviews = filteredAndSortedReviews?.slice(firstIndex, lastIndex)
+  const totalPages = Math.ceil(
+    (filteredAndSortedReviews?.length ?? 0) / reviewsPerPage,
+  )
 
   return (
     <>
@@ -66,9 +69,9 @@ const Reviews = () => {
       {reviews && currentReviews && filteredAndSortedReviews && (
         <div className="flex justify-center">
           <div className="p-4" style={{ width: '1000px' }}>
-            <div
-              className="border p-2 rounded flex justify-between items-center"
-            >
+
+            {/*SEARCH, FILTER, SORT, PAGINATION*/}
+            <div className="border p-2 rounded flex justify-between items-center">
               <div>
                 <input
                   className="border p-2 rounded"
@@ -101,30 +104,38 @@ const Reviews = () => {
                 </select>
               </div>
 
-              <div
-                className="flex"
-              >
-                <div className="flex flex-col justify-center">
+              <div className="flex justify-between items-center">
+                <div className="flex flex-col justify-center mx-2">
                   Showing {firstIndex + 1}-
                   {Math.min(lastIndex, filteredAndSortedReviews.length)} of{' '}
                   {filteredAndSortedReviews.length}
                 </div>
-                <button
-                  className="bg-blue-500 text-white p-2 rounded mx-2"
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage(currentPage - 1)}
-                >
-                  {'<'}
-                </button>
-                <button
-                  className="bg-blue-500 text-white p-2 rounded"
-                  disabled={lastIndex >= filteredAndSortedReviews.length}
-                  onClick={() => setCurrentPage(currentPage + 1)}
-                >
-                  {'>'}
-                </button>
+                <div className="flex justify-center">
+                  <button
+                    className={`${
+                      currentPage === 1
+                        ? 'bg-gray-300 cursor-default'
+                        : 'bg-blue-500 hover:bg-blue-700'
+                    } text-white font-bold py-2 px-4 rounded`}
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage(currentPage - 1)}
+                  >
+                    {'<'}
+                  </button>
+                  <button
+                    className={`${
+                      currentPage === totalPages
+                        ? 'bg-gray-300 cursor-default'
+                        : 'bg-blue-500 hover:bg-blue-700'
+                    } text-white font-bold py-2 px-4 rounded ml-2`}
+                    disabled={lastIndex >= filteredAndSortedReviews.length}
+                    onClick={() => setCurrentPage(currentPage + 1)}
+                  >
+                    {'>'}
+                  </button>
+                </div>
               </div>
-            </div>
+            </div>  
 
             <table className="min-w-full bg-white mt-4 border border-gray-300">
               <thead>
