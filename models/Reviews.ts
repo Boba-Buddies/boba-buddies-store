@@ -30,7 +30,6 @@ export const reviewsSchema = z
     userName: z.string(),
     createdAt: z.string(),
   })
-  .array()
 
 export const reviewSchema = z.object({
   reviewId: z.number(),
