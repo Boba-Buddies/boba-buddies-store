@@ -15,7 +15,7 @@ export function format24HourTo12Hour(dateString: string) {
   const twelveHour = hour % 12 || 12
 
   // Determine whether it's AM or PM
-  const ampm = hour < 12 ? 'am' : 'pm'
+  const ampm = hour < 12 ? 'AM' : 'PM'
 
   // Pad the minute with a zero if it's less than 10
   const minuteString = minute < 10 ? `0${minute}` : minute
