@@ -7,6 +7,7 @@ module.exports = {
         'red-700': '#dc2626',
         'green-500': '#38a169', 
         'green-700': '#2f855a', 
+        'purple-700': '#9B99FF',
       },
       width: {
         '128': '128px', 
