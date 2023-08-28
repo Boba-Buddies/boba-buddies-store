@@ -1,36 +1,31 @@
 import * as z from 'zod'
 
-export const productReviewSchema = z
-  .object({
-    productId: z.number(),
-    userName: z.string(),
-    rating: z.number(),
-    createdAt: z.string(),
-    description: z.string(),
-  })
+export const productReviewSchema = z.object({
+  productId: z.number(),
+  userName: z.string(),
+  rating: z.number(),
+  createdAt: z.string(),
+  description: z.string(),
+})
 
-  export const userReviewSchema = z
-  .object({
-    productId: z.number(),
-    productName : z.string(),
-    productImage : z.string(),
-    reviewDescription: z.string(),
-    reviewerUserName: z.string(),
-    reviewRating: z.number(),
-    reviewCreatedAt: z.string(),
+export const userReviewSchema = z.object({
+  productId: z.number(),
+  productName: z.string(),
+  productImage: z.string(),
+  reviewDescription: z.string(),
+  reviewerUserName: z.string(),
+  reviewRating: z.number(),
+  reviewCreatedAt: z.string(),
+})
 
-  })
-
-export const reviewsSchema = z
-  .object({
-    id: z.number(),
-    productName: z.string(),
-    rating: z.number(),
-    isEnabled: z.boolean(),
-    userName: z.string(),
-    createdAt: z.string(),
-  })
-  .array()
+export const reviewForTableSchema = z.object({
+  id: z.number(),
+  productName: z.string(),
+  rating: z.number(),
+  isEnabled: z.boolean(),
+  userName: z.string(),
+  createdAt: z.string(),
+})
 
 export const reviewSchema = z.object({
   reviewId: z.number(),
@@ -55,7 +50,7 @@ export const updatedReviewStatusSchema = z.object({
 })
 
 export type ProductReview = z.infer<typeof productReviewSchema>
-export type Reviews = z.infer<typeof reviewsSchema>
+export type ReviewForTable = z.infer<typeof reviewForTableSchema>
 export type Review = z.infer<typeof reviewSchema>
 export type NewReview = z.infer<typeof newReviewSchema>
 export type UpdatedReviewStatus = z.infer<typeof updatedReviewStatusSchema>
