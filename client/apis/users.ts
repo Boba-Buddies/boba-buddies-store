@@ -14,6 +14,17 @@ export async function fetchUser() {
   }
 }
 
+export async function fetchIsUserAdmin() {
+  try {
+    const response = await request.get(`${baseUrl}/isAdmin`)
+    const isAdmin: boolean = response.body
+    return isAdmin
+  } catch (error) {
+    console.error('An error occurred:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
+}
+
 export async function modifyUserDetails(updatedUser: UpdateUser) {
   try {
     await request.patch(`${baseUrl}/edit`).send(updatedUser)
