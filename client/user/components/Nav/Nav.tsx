@@ -8,8 +8,8 @@ const Nav = () => {
     navigate(link)
   }
   return (
-    <div className="bg-black h-16 flex justify-between items-center">
-      <div className="flex align-center gap-4 text-white">
+    <nav className="bg-black h-16 flex justify-between items-center px-6 md:px-12 lg:px-16">
+      <div className="flex space-x-6 text-white">
         <button
           className="hover:text-purple-700 transition-colors duration-300"
           onClick={() => goTo('/')}
@@ -18,28 +18,42 @@ const Nav = () => {
         </button>
         <button
           className="hover:text-purple-700 transition-colors duration-300"
-          onClick={() => goTo('shop')}
+          onClick={() => goTo('/shop')}
         >
           Shop
         </button>
         <button
           className="hover:text-purple-700 transition-colors duration-300"
-          onClick={() => goTo('cart')}
+          onClick={() => goTo('/cart')}
         >
           Cart
         </button>
+      </div>
 
+      <div className="flex space-x-6 text-white">
         <button
           className="hover:text-purple-700 transition-colors duration-300"
-          onClick={() => goTo('profile')}
+          onClick={() => goTo('/login')}
         >
-          Account
+          Login
         </button>
         <div className="group relative">
           <button
-            className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => goTo('wishlist')}
+            className="hover:text-purple-700 transition-colors duration-300 flex items-center"
+            onClick={() => goTo('/profile')}
           >
+            <img
+              src="/images/user.svg"
+              alt="Profile Icon"
+              className="h-5 w-5 "
+            />
+          </button>
+          <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
+            Account
+          </span>
+        </div>
+        <div className="group relative">
+          <button onClick={() => goTo('/wishlist')}>
             <FontAwesomeIcon icon={faHeart} className="text-xl" />
           </button>
           <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
@@ -47,12 +61,7 @@ const Nav = () => {
           </span>
         </div>
       </div>
-      <div className="p-4" style={{ background: 'blue' }}>
-        <button className="text-white hover:text-purple-700 transition-colors duration-300">
-          Login
-        </button>
-      </div>
-    </div>
+    </nav>
   )
 }
 
