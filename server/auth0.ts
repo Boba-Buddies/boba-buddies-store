@@ -7,5 +7,4 @@ const authConfig = {
   issuerBaseURL: `https://${process.env.VITE_AUTH0_DOMAIN}/`,
   audience: process.env.VITE_AUTH0_AUDIENCE,
 }
-
 export const validateAccessToken = auth(authConfig)
