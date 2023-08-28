@@ -69,10 +69,9 @@ const Reviews = () => {
       {reviews && currentReviews && filteredAndSortedReviews && (
         <div className="flex justify-center">
           <div className="p-4" style={{ width: '1000px' }}>
-
-            {/*SEARCH, FILTER, SORT, PAGINATION*/}
+            {/* SEARCH */}
             <div className="border p-2 rounded flex justify-between items-center">
-              <div className = "flex items-center">
+              <div className="flex items-center">
                 <input
                   className="border p-2 rounded mr-2"
                   type="text"
@@ -80,7 +79,9 @@ const Reviews = () => {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
-                <p className = "mx-2 font-semibold">Showing:</p>
+
+                {/* FILTER */}
+                <p className="mx-2 font-semibold">Showing:</p>
                 <select
                   className="border p-2 rounded"
                   onChange={(e) => setFilter(e.target.value)}
@@ -90,7 +91,9 @@ const Reviews = () => {
                   <option value="enabled">Enabled</option>
                   <option value="disabled">Disabled</option>
                 </select>
-                <p className = "mx-2 font-semibold" >Filter by:</p>
+
+                {/* SORT */}
+                <p className="mx-2 font-semibold">Filter by:</p>
                 <select
                   className="border p-2 rounded"
                   onChange={(e) => setSort(e.target.value)}
@@ -104,6 +107,7 @@ const Reviews = () => {
                 </select>
               </div>
 
+              {/* PAGINATION */}
               <div className="flex justify-between items-center">
                 <div className="flex flex-col justify-center mx-2 font-semibold">
                   Showing {firstIndex + 1}-
@@ -135,42 +139,69 @@ const Reviews = () => {
                   </button>
                 </div>
               </div>
-            </div>  
+            </div>
 
-            <table className="min-w-full bg-white mt-4 border border-gray-300">
-              <thead>
-                <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                  <th className="py-3 px-8 text-left">UserName</th>
-                  <th className="py-3 px-8 text-left">Product</th>
-                  <th className="py-3 px-8 text-left">Rating</th>
-                  <th className="py-3 px-8 text-left">Status</th>
-                  <th className="py-3 px-8 text-left">Date Created</th>
-                </tr>
-              </thead>
-              <tbody className="text-gray-600 text-sm font-light">
+            {/* TABLE */}
+            <div className="divTable bg-white mt-4 border border-gray-300">
+              <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <div className="divCell py-3 px-8" style={{ minWidth: '200px' }}>
+                  UserName
+                </div>
+                <div className="divCell py-3 px-8" style={{ minWidth: '300px' }}>
+                  Product
+                </div>
+                <div className="divCell py-3 px-8" style={{ minWidth: '100px' }}>
+                  Rating
+                </div>
+                <div className="divCell py-3 px-8" style={{ minWidth: '100px' }}>
+                  Status
+                </div>
+                <div className="divCell py-3 px-8" style={{ minWidth: '200px' }}>
+                  Date Created
+                </div>
+              </div>
+
+              <div className="divBody text-gray-600 text-sm font-light">
                 {currentReviews.map((review) => (
-                  <tr
+                  <div
                     key={review.id}
-                    className="border-b border-gray-200 hover:bg-gray-100"
+                    className="divRow border-b border-gray-200 hover:bg-gray-100"
                   >
-                    <td className="py-3 px-8 text-left whitespace-nowrap">
+                    <div
+                      className="divCell py-3 px-8 text-left whitespace-nowrap"
+                      style={{ minWidth: '200px' }}
+                    >
                       {review.userName}
-                    </td>
-                    <td className="py-3 px-8 text-left">
+                    </div>
+                    <div
+                      className="divCell py-3 px-8 text-left"
+                      style={{ minWidth: '300px' }}
+                    >
                       {review.productName}
-                    </td>
-                    <td className="py-3 px-8 text-left">{review.rating}</td>
-                    <td className="py-3 px-8 text-left">
+                    </div>
+                    <div
+                      className="divCell py-3 px-8 text-left"
+                      style={{ minWidth: '100px' }}
+                    >
+                      {review.rating}
+                    </div>
+                    <div
+                      className="divCell py-3 px-8 text-left"
+                      style={{ minWidth: '100px' }}
+                    >
                       {review.isEnabled ? 'Enabled' : 'Disabled'}
-                    </td>
-                    <td className="py-3 px-8 text-left">
+                    </div>
+                    <div
+                      className="divCell py-3 px-8 text-left"
+                      style={{ minWidth: '200px' }}
+                    >
                       {format24HourTo12Hour(review.createdAt)}{' '}
                       {formatDateToDDMMYYYY(review.createdAt)}
-                    </td>
-                  </tr>
+                    </div>
+                  </div>
                 ))}
-              </tbody>
-            </table>
+              </div>
+            </div>
           </div>
         </div>
       )}
