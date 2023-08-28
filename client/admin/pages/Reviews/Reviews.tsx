@@ -72,17 +72,17 @@ const Reviews = () => {
 
             {/*SEARCH, FILTER, SORT, PAGINATION*/}
             <div className="border p-2 rounded flex justify-between items-center">
-              <div>
+              <div className = "flex items-center">
                 <input
-                  className="border p-2 rounded"
+                  className="border p-2 rounded mr-2"
                   type="text"
                   placeholder="Search for a product..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
-
+                <p className = "mx-2 font-semibold">Showing:</p>
                 <select
-                  className="border p-2 rounded ml-4"
+                  className="border p-2 rounded"
                   onChange={(e) => setFilter(e.target.value)}
                   value={filter}
                 >
@@ -90,9 +90,9 @@ const Reviews = () => {
                   <option value="enabled">Enabled</option>
                   <option value="disabled">Disabled</option>
                 </select>
-
+                <p className = "mx-2 font-semibold" >Filter by:</p>
                 <select
-                  className="border p-2 rounded ml-4"
+                  className="border p-2 rounded"
                   onChange={(e) => setSort(e.target.value)}
                   value={sort}
                 >
@@ -105,7 +105,7 @@ const Reviews = () => {
               </div>
 
               <div className="flex justify-between items-center">
-                <div className="flex flex-col justify-center mx-2">
+                <div className="flex flex-col justify-center mx-2 font-semibold">
                   Showing {firstIndex + 1}-
                   {Math.min(lastIndex, filteredAndSortedReviews.length)} of{' '}
                   {filteredAndSortedReviews.length}
