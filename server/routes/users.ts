@@ -11,7 +11,7 @@ const adminUserId = 'auth0|def67890'
 
 router.get('/isAdmin', async (req, res) => {
   try {
-    const isAdmin = await db.isUserAdmin(adminUserId)
+    const isAdmin = await db.isUserAdmin(userId)
     return res.status(200).json(isAdmin)
   } catch (error) {
     res.status(400).json({ error })
