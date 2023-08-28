@@ -141,7 +141,7 @@ const Reviews = () => {
               <thead>
                 <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
                   <th className="py-3 px-8 text-left">UserName</th>
-                  <th className="py-3 px-8 text-left">ProductName</th>
+                  <th className="py-3 px-8 text-left">Product</th>
                   <th className="py-3 px-8 text-left">Rating</th>
                   <th className="py-3 px-8 text-left">Status</th>
                   <th className="py-3 px-8 text-left">Date Created</th>
