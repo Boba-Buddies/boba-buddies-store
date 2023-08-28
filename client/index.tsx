@@ -24,6 +24,7 @@ import {
   Wishlist,
 } from './user/pages/index'
 import { Reviews, Dashboard } from './admin/pages/'
+import { AdminAppLayout } from './admin/components/AdminAppLayout/AdminAppLayout'
 
 export const routes = createRoutesFromElements(
   <Route path="/" element={<AppLayout />} errorElement={<ErrorPage />}>
@@ -66,6 +67,12 @@ export const routes = createRoutesFromElements(
       path="admin"
       element={<UnprotectedComponent component={Dashboard} />}
     />
+
+    {/* temporary route!! */}
+    <Route
+      path="admin/temporary"
+      element={<UnprotectedComponent component={AdminAppLayout} />}
+    />
   </Route>,
 )
 
@@ -76,8 +83,24 @@ function AppProvider() {
 document.addEventListener('DOMContentLoaded', () => {
   const queryClient = new QueryClient()
   createRoot(document.getElementById('app') as HTMLElement).render(
-    <QueryClientProvider client={queryClient}>
-      <AppProvider />
-    </QueryClientProvider>,
+    <Auth0Provider
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      domain={import.meta.env.VITE_AUTH0_DOMAIN as string}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      clientId={import.meta.env.VITE_AUTH0_CLIENT_ID as string}
+      cacheLocation="localstorage"
+      authorizationParams={{
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        audience: import.meta.env.VITE_AUTH0_AUDIENCE as string,
+        redirect_uri: window.location.origin,
+      }}
+    >
+      <QueryClientProvider client={queryClient}>
+        <AppProvider />
+      </QueryClientProvider>
+    </Auth0Provider>,
   )
 })

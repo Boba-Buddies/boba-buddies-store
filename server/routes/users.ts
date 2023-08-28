@@ -7,11 +7,12 @@ import { logError } from '../logger'
 const router = express.Router()
 
 const userId = 'auth0|abc12345'
+const adminUserId = 'auth0|def67890'
 
-router.get('/isAdmin/:auth0Id', async (req, res) => {
+router.get('/isAdmin', async (req, res) => {
   try {
-    const isAdmin = await db.isUserAdmin(req.params.auth0Id)
-    return res.status(200).json({ isAdmin })
+    const isAdmin = await db.isUserAdmin(adminUserId)
+    return res.status(200).json(isAdmin)
   } catch (error) {
     res.status(400).json({ error })
   }
