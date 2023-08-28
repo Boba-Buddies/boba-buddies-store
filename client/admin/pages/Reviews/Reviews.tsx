@@ -144,19 +144,19 @@ const Reviews = () => {
             {/* TABLE */}
             <div className="divTable bg-white mt-4 border border-gray-300">
               <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                <div className="divCell py-3 px-8" style={{ width: '200px' }}>
+                <div className="divCell py-3 px-8" style={{ minWidth: '200px' }}>
                   UserName
                 </div>
-                <div className="divCell py-3 px-8" style={{ width: '300px' }}>
+                <div className="divCell py-3 px-8" style={{ minWidth: '300px' }}>
                   Product
                 </div>
-                <div className="divCell py-3 px-8" style={{ width: '100px' }}>
+                <div className="divCell py-3 px-8" style={{ minWidth: '100px' }}>
                   Rating
                 </div>
-                <div className="divCell py-3 px-8" style={{ width: '100px' }}>
+                <div className="divCell py-3 px-8" style={{ minWidth: '100px' }}>
                   Status
                 </div>
-                <div className="divCell py-3 px-8" style={{ width: '200px' }}>
+                <div className="divCell py-3 px-8" style={{ minWidth: '200px' }}>
                   Date Created
                 </div>
               </div>
@@ -169,31 +169,31 @@ const Reviews = () => {
                   >
                     <div
                       className="divCell py-3 px-8 text-left whitespace-nowrap"
-                      style={{ width: '200px' }}
+                      style={{ minWidth: '200px' }}
                     >
                       {review.userName}
                     </div>
                     <div
                       className="divCell py-3 px-8 text-left"
-                      style={{ width: '300px' }}
+                      style={{ minWidth: '300px' }}
                     >
                       {review.productName}
                     </div>
                     <div
                       className="divCell py-3 px-8 text-left"
-                      style={{ width: '100px' }}
+                      style={{ minWidth: '100px' }}
                     >
                       {review.rating}
                     </div>
                     <div
                       className="divCell py-3 px-8 text-left"
-                      style={{ width: '100px' }}
+                      style={{ minWidth: '100px' }}
                     >
                       {review.isEnabled ? 'Enabled' : 'Disabled'}
                     </div>
                     <div
                       className="divCell py-3 px-8 text-left"
-                      style={{ width: '200px' }}
+                      style={{ minWidth: '200px' }}
                     >
                       {format24HourTo12Hour(review.createdAt)}{' '}
                       {formatDateToDDMMYYYY(review.createdAt)}
