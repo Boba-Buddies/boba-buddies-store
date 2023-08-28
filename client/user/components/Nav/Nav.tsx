@@ -1,12 +1,26 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useNavigate } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const Nav = () => {
   const navigate = useNavigate()
   function goTo(link: string) {
     navigate(link)
   }
+
+  const { isAuthenticated } = useAuth0()
+
+  const handleProfileClick = () => {
+    if (isAuthenticated) {
+      // If the user is authenticated, redirect them to the '/profile' route.
+      goTo('/profile')
+    } else {
+      // If the user is not authenticated, redirect them to the Auth0 login page.
+      window.location.href = 'YOUR_AUTH0_LOGIN_URL_HERE'
+    }
+  }
+
   return (
     <nav className="bg-black h-16 flex justify-between items-center px-6 md:px-12 lg:px-16">
       <div className="flex space-x-6 text-white">
@@ -31,16 +45,10 @@ const Nav = () => {
       </div>
 
       <div className="flex space-x-6 text-white">
-        <button
-          className="hover:text-purple-700 transition-colors duration-300"
-          onClick={() => goTo('/login')}
-        >
-          Login
-        </button>
         <div className="group relative">
           <button
             className="hover:text-purple-700 transition-colors duration-300 flex items-center"
-            onClick={() => goTo('/profile')}
+            onClick={handleProfileClick}
           >
             <img
               src="/images/user.svg"
@@ -52,6 +60,7 @@ const Nav = () => {
             Account
           </span>
         </div>
+
         <div className="group relative">
           <button onClick={() => goTo('/wishlist')}>
             <FontAwesomeIcon icon={faHeart} className="text-xl" />
