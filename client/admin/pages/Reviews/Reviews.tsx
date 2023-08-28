@@ -70,7 +70,7 @@ const Reviews = () => {
         <div className="flex justify-center">
           <div className="p-4" style={{ width: '1000px' }}>
 
-            {/*SEARCH, FILTER, SORT, PAGINATION*/}
+            {/* SEARCH */}
             <div className="border p-2 rounded flex justify-between items-center">
               <div className = "flex items-center">
                 <input
@@ -80,6 +80,8 @@ const Reviews = () => {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
+
+                {/* FILTER */}
                 <p className = "mx-2 font-semibold">Showing:</p>
                 <select
                   className="border p-2 rounded"
@@ -90,6 +92,8 @@ const Reviews = () => {
                   <option value="enabled">Enabled</option>
                   <option value="disabled">Disabled</option>
                 </select>
+
+                {/* SORT */}
                 <p className = "mx-2 font-semibold" >Filter by:</p>
                 <select
                   className="border p-2 rounded"
@@ -104,6 +108,7 @@ const Reviews = () => {
                 </select>
               </div>
 
+              {/* PAGINATION */}
               <div className="flex justify-between items-center">
                 <div className="flex flex-col justify-center mx-2 font-semibold">
                   Showing {firstIndex + 1}-
@@ -136,7 +141,8 @@ const Reviews = () => {
                 </div>
               </div>
             </div>  
-
+            
+            {/* TABLE */}
             <table className="min-w-full bg-white mt-4 border border-gray-300">
               <thead>
                 <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
