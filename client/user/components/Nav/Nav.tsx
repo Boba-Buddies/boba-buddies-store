@@ -1,55 +1,76 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useNavigate } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const Nav = () => {
   const navigate = useNavigate()
   function goTo(link: string) {
     navigate(link)
   }
+
+  const { isAuthenticated } = useAuth0()
+
+  const handleProfileClick = () => {
+    if (isAuthenticated) {
+      // If the user is authenticated, redirect them to the '/profile' route.
+      goTo('/profile')
+    } else {
+      // If the user is not authenticated, redirect them to the Auth0 login page.
+      window.location.href = 'YOUR_AUTH0_LOGIN_URL_HERE'
+    }
+  }
+
   return (
-    <div className="bg-white flex flex-row justify-end items-center py-4 px-8">
-      <div className="w-1/4 my-2">
-        <img src="/images/bobaLogo.png" alt="logo" className="w-11/12 px-8" />
-      </div>
-      <div className="flex flex-row justify-end gap-6 text-sm mr-7">
+    <nav className="bg-black h-16 flex justify-between items-center px-6 md:px-12 lg:px-16">
+      <div className="flex space-x-6 text-white">
         <button
-          className="text-white bg-black border rounded border-slate-900 px-4 py-1 hover:shadow-lg transition-all ease-in-out duration-300"
+          className="hover:text-purple-700 transition-colors duration-300"
           onClick={() => goTo('/')}
         >
           Home
         </button>
-
         <button
-          className="text-white bg-black border rounded border-slate-900 px-4 py-1 hover:shadow-lg transition-all ease-in-out duration-300"
-          onClick={() => goTo('shop')}
+          className="hover:text-purple-700 transition-colors duration-300"
+          onClick={() => goTo('/shop')}
         >
           Shop
         </button>
         <button
-          className="text-white bg-black border rounded border-slate-900 px-4 py-1 hover:shadow-lg transition-all ease-in-out duration-300"
-          onClick={() => goTo('cart')}
+          className="hover:text-purple-700 transition-colors duration-300"
+          onClick={() => goTo('/cart')}
         >
           Cart
         </button>
-        <button
-          className="text-black px-4 py-1 hover:text-rose-600 transition-all ease-in-out duration-300"
-          onClick={() => goTo('wishlist')}
-        >
-          <FontAwesomeIcon icon={faHeart} className="text-2xl" />
-        </button>
-
-        <button
-          className="text-white bg-black border rounded border-slate-900 px-4 py-1 hover:shadow-lg transition-all ease-in-out duration-300"
-          onClick={() => goTo('profile')}
-        >
-          Account
-        </button>
-        <button className="text-white bg-black border rounded border-slate-900 px-4 py-1 hover:shadow-lg transition-all ease-in-out duration-300">
-          Login
-        </button>
       </div>
-    </div>
+
+      <div className="flex space-x-6 text-white">
+        <div className="group relative">
+          <button
+            className="hover:text-purple-700 transition-colors duration-300 flex items-center"
+            onClick={handleProfileClick}
+          >
+            <img
+              src="/images/user.svg"
+              alt="Profile Icon"
+              className="h-5 w-5 "
+            />
+          </button>
+          <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
+            Account
+          </span>
+        </div>
+
+        <div className="group relative">
+          <button onClick={() => goTo('/wishlist')}>
+            <FontAwesomeIcon icon={faHeart} className="text-xl" />
+          </button>
+          <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
+            Wishlist
+          </span>
+        </div>
+      </div>
+    </nav>
   )
 }
 
