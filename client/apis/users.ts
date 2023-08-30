@@ -3,9 +3,12 @@ import { UpdateUser, User } from '../../models/Users'
 
 const baseUrl = '/api/v1/users'
 
-export async function fetchUser() {
+export async function fetchUser(token: string) {
   try {
-    const response = await request.get(`${baseUrl}`)
+    const response = await request
+      .get(`${baseUrl}`)
+      .set('Authorization', `Bearer ${token}`)
+
     const userData = response.body as User
     return userData
   } catch (error) {
