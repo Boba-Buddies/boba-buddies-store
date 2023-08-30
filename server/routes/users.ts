@@ -1,16 +1,18 @@
 import express from 'express'
-
 import * as db from '../db/users'
-// import { validateAccessToken } from '../auth0'
 import { logError } from '../logger'
 import { validateAccessToken } from '../auth0'
 
 const router = express.Router()
 
-const userId = 'auth0|abc12345'
-
-
+// GET /api/v1/users/isAdmin
 router.get('/isAdmin', validateAccessToken, async (req, res) => {
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
+  }
   try {
     const isAdmin = await db.isUserAdmin(userId)
     return res.status(200).json(isAdmin)
@@ -19,10 +21,15 @@ router.get('/isAdmin', validateAccessToken, async (req, res) => {
   }
 })
 
-// GET /api/v1/users?userId=your_user_id_here
+// GET /api/v1/users
 
 router.get('/', validateAccessToken, async (req, res) => {
-  // const userId = req.query.userId as string
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
+  }
   try {
     if (!userId) {
       return res.status(400).json({ message: 'User ID is missing' })
@@ -43,10 +50,15 @@ router.get('/', validateAccessToken, async (req, res) => {
 })
 
 // GET userName by userId
-// http://localhost:5173/api/v1/users/username/user_id_here
+// /api/v1/users/username
 
-router.get('/username/:userId', validateAccessToken, async (req, res) => {
-  // const userId = req.params.userId
+router.get('/username', validateAccessToken, async (req, res) => {
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
+  }
   try {
     if (!userId) {
       return res.status(400).json({ message: 'User ID is missing' })
@@ -67,10 +79,17 @@ router.get('/username/:userId', validateAccessToken, async (req, res) => {
 })
 
 // PATCH route to update the use details by user id
-// http://localhost:5173/api/v1/users/edit
+// /api/v1/users/edit
 
 router.patch('/edit', validateAccessToken, async (req, res) => {
   const updatedUserDetails = req.body
+
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
+  }
 
   try {
     await db.updateUserDetailsById(userId, updatedUserDetails)
@@ -82,17 +101,17 @@ router.patch('/edit', validateAccessToken, async (req, res) => {
 })
 
 // GET: checkIfUserExists(userId:string)
-// http://localhost:5173/api/v1/users/check/user_id_here
+// /api/v1/users/check
 
 router.get('/check', validateAccessToken, async (req, res) => {
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
+  }
   try {
-    const auth0Id = req.body.auth0Id
-
-    if (!auth0Id) {
-      return res.status(400).json({ message: 'Auth0 ID is required' })
-    }
-
-    const userExists = await db.checkIfUserExists(auth0Id)
+    const userExists = await db.checkIfUserExists(userId)
     res.json(userExists)
   } catch (error) {
     logError(error)
@@ -100,17 +119,16 @@ router.get('/check', validateAccessToken, async (req, res) => {
   }
 })
 
-// JSON
-
-// {
-//   "auth0Id": "auth0|abc1234"
-// }
-
-// POST: addNewUser(newUser:Object)
-// http://localhost:5173/api/v1/users
-
+// POST : addUser
+// /api/v1/users
 router.post('/', validateAccessToken, async (req, res) => {
   try {
+    const userId = req.auth?.payload.sub
+
+    if (!userId) {
+      res.status(400).json({ message: 'Please provide an id' })
+      return
+    }
     const newUser = req.body
 
     await db.addUser(newUser)
