@@ -13,24 +13,26 @@ import { fetchUserOrders } from '../../../apis/purchases'
 import { useAuth0 } from '@auth0/auth0-react'
 
 const Profile = () => {
-  const { logout } = useAuth0()
+  const { logout, getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   function goTo(link: string) {
     navigate(link)
   }
+  const { data, status } = useQuery('fetchUser', async () => {
+    const token = await getAccessTokenSilently()
+    return await fetchUser(token)
+  })
 
-  const { data, status } = useQuery('fetchUser', fetchUser)
+  // const { data: reviews, status: reviewsStatus } = useQuery(
+  //   'fetchUserReviews',
+  //   fetchUserReviews,
+  // )
 
-  const { data: reviews, status: reviewsStatus } = useQuery(
-    'fetchUserReviews',
-    fetchUserReviews,
-  )
-
-  const { data: orders, status: ordersStatus } = useQuery(
-    'fetchUserOrders',
-    fetchUserOrders,
-  )
+  // const { data: orders, status: ordersStatus } = useQuery(
+  //   'fetchUserOrders',
+  //   fetchUserOrders,
+  // )
 
   function formatCurrency(amount: number) {
     return new Intl.NumberFormat('en-US', {
@@ -56,21 +58,22 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center items-center">
-      <button
-        className="mt-2 py-1 px-2 bg-gray-400 text-sm text-white font-semibold rounded-md transition duration-300 ease-in-out hover:bg-gray-500 hover:text-gray-100 focus:outline-none focus:ring focus:ring-gray-400"
-        onClick={handleLogout}
-      >
-        Logout
-      </button>
       <div className="p-8 w-4/5">
         <LoadError status={status} />
+
+        <button
+          className="mt-2 py-1 px-2 bg-gray-400 text-sm text-white font-semibold rounded-md transition duration-300 ease-in-out hover:bg-gray-500 hover:text-gray-100 focus:outline-none focus:ring focus:ring-gray-400"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
 
         <h1 className="text-3xl font-bold tracking-wider mb-8">
           Hello, {data?.firstName} {data?.lastName}!
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <section className="border p-4 rounded-md shadow-md">
+          {/* <section className="border p-4 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">Order History</h2>
             <div className="space-y-4">
               {ordersStatus === 'loading' ? (
@@ -100,7 +103,7 @@ const Profile = () => {
                 <p>No orders available.</p>
               )}
             </div>
-          </section>
+          </section> */}
 
           <section className="border p-4 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">Account Details</h2>
@@ -139,7 +142,7 @@ const Profile = () => {
           </section>
         </div>
 
-        <section className="mt-8">
+        {/* <section className="mt-8">
           <h2 className="text-xl font-semibold mb-4">Reviews</h2>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {reviewsStatus === 'loading' ? (
@@ -186,7 +189,7 @@ const Profile = () => {
               ))
             )}
           </ul>
-        </section>
+        </section> */}
       </div>
     </div>
   )
