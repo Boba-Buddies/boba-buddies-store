@@ -6,12 +6,12 @@ import {
   UserProduct,
   upsertProductSchema,
 } from '../../models/Products'
-import { authorizeAdmin } from '../adminAuthorization'
+import { validateAccessToken } from '../auth0'
 const router = Router()
 
 //!ADMIN ONLY
 // GET /api/v1/products/admin
-router.get('/admin', authorizeAdmin, async (req, res) => {
+router.get('/admin', validateAccessToken, async (req, res) => {
   try {
     const products: AdminProduct[] = await db.getAllProductsAdmin()
     res.status(200).json(products)
@@ -22,7 +22,7 @@ router.get('/admin', authorizeAdmin, async (req, res) => {
 })
 
 // GET /api/v1/products
-router.get('/', async (req, res) => {
+router.get('/', validateAccessToken, async (req, res) => {
   try {
     const products: UserProduct[] = await db.getAllProductsUser()
     res.status(200).json(products)
@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
 
 //!ADMIN ONLY
 // GET /api/v1/products/admin/:id
-router.get('/admin/:id', authorizeAdmin, async (req, res) => {
+router.get('/admin/:id', validateAccessToken, async (req, res) => {
   const productId = Number(req.params.id)
   try {
     const product: AdminProduct = await db.getProductByIdAdmin(productId)
@@ -49,7 +49,7 @@ router.get('/admin/:id', authorizeAdmin, async (req, res) => {
 })
 
 // GET /api/v1/products/:id
-router.get('/:id', async (req, res) => {
+router.get('/:id', validateAccessToken, async (req, res) => {
   const productId = Number(req.params.id)
   try {
     const product: UserProduct = await db.getProductByIdUser(productId)
@@ -65,7 +65,7 @@ router.get('/:id', async (req, res) => {
 
 //!ADMIN ONLY
 // GET /api/v1/products/lowstock/:maxStock
-router.get('/lowstock/:maxStock', authorizeAdmin, async (req, res) => {
+router.get('/lowstock/:maxStock', validateAccessToken, async (req, res) => {
   const maxStock = Number(req.params.maxStock)
   try {
     // here need to check the user's auth0_id be the admin auth0_id,will update when the user db function is ready
@@ -81,7 +81,7 @@ router.get('/lowstock/:maxStock', authorizeAdmin, async (req, res) => {
 
 //!ADMIN ONLY
 //POST add new Product /api/v1/products
-router.post('/', authorizeAdmin, async (req, res) => {
+router.post('/', validateAccessToken, async (req, res) => {
   const form = req.body
 
   if (!form) {
@@ -109,7 +109,7 @@ router.post('/', authorizeAdmin, async (req, res) => {
 
 //!ADMIN ONLY
 //Patch  updateProduct /api/v1/products/:id
-router.patch('/:id', authorizeAdmin, async (req, res) => {
+router.patch('/:id', validateAccessToken, async (req, res) => {
   const form = req.body
   const productId = Number(req.params.id)
 
