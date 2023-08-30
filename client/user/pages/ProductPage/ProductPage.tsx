@@ -7,9 +7,11 @@ import LoadError from '../../components/LoadError/LoadError'
 import ViewProductReviews from '../../components/ViewProductReviews/ViewProductReviews'
 import { ProductReview } from '../../../../models/Reviews'
 import { fetchWishlistStatusByProductId } from '../../../apis/wishlist'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const ProductPage = () => {
   const params = useParams()
+  const { getAccessTokenSilently } = useAuth0()
   const id = Number(params.id)
   const { data: product, status: statusProductS } = useQuery(
     ['getProduct', id],
@@ -30,10 +32,14 @@ const ProductPage = () => {
   const {
     data: wishlistStatus = false,
     refetch: refetchWishlistProductStatus,
-    status : statusWishlist
+    status: statusWishlist,
   } = useQuery(['getWishlistStatus', id], async () => {
-    const wishlistStatus: boolean = await fetchWishlistStatusByProductId(id)
-      return wishlistStatus
+    const token = await getAccessTokenSilently()
+    const wishlistStatus: boolean = await fetchWishlistStatusByProductId(
+      id,
+      token,
+    )
+    return wishlistStatus
   })
 
   return (
