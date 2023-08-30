@@ -1,12 +1,14 @@
 import { Router } from 'express'
 import * as db from '../db/wishlist'
 import { logError } from '../logger'
+import { validateAccessToken } from '../auth0'
 const adminUserId = 'auth0|def67890'
 const userId = 'auth0|abc12345'
 
+
 const router = Router()
 
-router.get('/', async (req, res) => {
+router.get('/', validateAccessToken, async (req, res) => {
   try {
     const user = await db.getWishlistByUserId(userId)
     res.status(200).json(user)
@@ -17,7 +19,7 @@ router.get('/', async (req, res) => {
 })
 
 // GET /api/v1/wishlist/status/:productId
-router.get('/status/:productId', async (req, res) => {
+router.get('/status/:productId', validateAccessToken, async (req, res) => {
   const productId = Number(req.params.productId)
 
   try {
@@ -30,7 +32,7 @@ router.get('/status/:productId', async (req, res) => {
 })
 
 //POST add Product to wishlist /api/v1/whishlist
-router.post('/', async (req, res) => {
+router.post('/', validateAccessToken, async (req, res) => {
   const { productId } = req.body
   // for the testing purpose, will give a variable after set up the authO
 
@@ -46,7 +48,7 @@ router.post('/', async (req, res) => {
 })
 
 //DELETE /api/v1/wishlist/:id
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', validateAccessToken, async (req, res) => {
   const productId = Number(req.params.id)
 
   try {
