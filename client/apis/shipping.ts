@@ -6,6 +6,7 @@ export async function fetchAllShippingOptions(token: string) {
     const response = await request
       .get(baseUrl)
       .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
     return response.body.shippingOptions
   } catch (error) {
     console.error('Error fetching all products:', (error as Error).message)

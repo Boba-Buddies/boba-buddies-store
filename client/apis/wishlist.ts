@@ -3,9 +3,12 @@ import { WishlistProduct } from '../../models/Wishlist'
 
 const baseUrl = '/api/v1/wishlist'
 
-export async function fetchWishlist() {
+export async function fetchWishlist(token: string) {
   try {
-    const response = await request.get(`${baseUrl}`)
+    const response = await request
+      .get(`${baseUrl}`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
     return response.body as WishlistProduct[]
   } catch (error) {
     console.error(
@@ -16,9 +19,15 @@ export async function fetchWishlist() {
   }
 }
 
-export async function fetchWishlistStatusByProductId(productId: number) {
+export async function fetchWishlistStatusByProductId(
+  productId: number,
+  token: string,
+) {
   try {
-    const response = await request.get(`${baseUrl}/status/${productId}`)
+    const response = await request
+      .get(`${baseUrl}/status/${productId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
     return response.body.status
   } catch (error) {
     console.error(
@@ -29,10 +38,15 @@ export async function fetchWishlistStatusByProductId(productId: number) {
   }
 }
 
-export async function addToWishlistByProductId(productId: number) {
+export async function addToWishlistByProductId(
+  productId: number,
+  token: string,
+) {
   try {
     const response = await request
       .post(`${baseUrl}`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
       .send({ productId: productId })
     return response.body
   } catch (error) {
@@ -41,9 +55,15 @@ export async function addToWishlistByProductId(productId: number) {
   }
 }
 
-export async function deleteFromWishlistByProductId(productId: number) {
+export async function deleteFromWishlistByProductId(
+  productId: number,
+  token: string,
+) {
   try {
-    const response = await request.delete(`${baseUrl}/${productId}`)
+    const response = await request
+      .delete(`${baseUrl}/${productId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
     return response.body
   } catch (error) {
     console.error('Error removing from wishlist:', (error as Error).message)

@@ -8,12 +8,18 @@ import {
 import LoadError from '../../components/LoadError/LoadError'
 import { WishlistProduct } from '../../../../models/Wishlist'
 import { fetchCart, modifyCartProductQuantity } from '../../../apis/cart'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const Wishlist = () => {
+  const { getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
 
   //fetch query
-  const wishListQuery = useQuery('fetchWishlist', fetchWishlist)
+  const wishListQuery = useQuery('fetchWishlist', async () => {
+    const token = await getAccessTokenSilently()
+    return await fetchWishlist(token)
+  })
+
   const cartQuery = useQuery('fetchCart', fetchCart)
 
   const statuses = [wishListQuery.status, cartQuery.status]
@@ -31,11 +37,10 @@ const Wishlist = () => {
 
   // remove from the wishList mutation
   const romoveMutation = useMutation(
-    (productId: number) => deleteFromWishlistByProductId(productId),
+    ({ productId, token }: { productId: number; token: string }) =>
+      deleteFromWishlistByProductId(productId, token),
     {
       onSuccess: async () => {
-        console.log('delete Successfully!')
-
         queryClient.invalidateQueries('fetchWishlist')
       },
     },
@@ -47,8 +52,10 @@ const Wishlist = () => {
     cartMutation.mutate({ productId, quantity })
   }
 
-  function removeFromWishList(productId: number) {
-    romoveMutation.mutate(productId)
+  async function removeFromWishList(productId: number) {
+    const token = await getAccessTokenSilently()
+
+    romoveMutation.mutate({ productId, token })
   }
   return (
     <>
