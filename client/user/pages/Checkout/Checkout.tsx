@@ -52,7 +52,8 @@ function Checkout() {
 
   //Mutation of Different Query
   const purchaseMutation = useMutation(
-    (shippingId: number) => moveCartToPurchases(shippingId),
+    ({ shippingId, token }: { shippingId: number; token: string }) =>
+      moveCartToPurchases(shippingId, token),
     {
       onSuccess: async () => {
         //Need to check the api function
@@ -101,11 +102,12 @@ function Checkout() {
   )
   const total = subtotal + selectedShipping.price
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     updateUserDataMutation.mutate(userDetails)
-    const submittedShippingId = selectedShipping.id
-    purchaseMutation.mutate(submittedShippingId)
+    const shippingId = selectedShipping.id
+    const token = await getAccessTokenSilently()
+    purchaseMutation.mutate({ shippingId, token })
     navigate('/thankyou')
   }
 

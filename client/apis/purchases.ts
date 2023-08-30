@@ -1,19 +1,25 @@
 import request from 'superagent'
 const baseUrl = '/api/v1/purchases'
 
-export async function moveCartToPurchases(shippingId: number) {
+export async function moveCartToPurchases(shippingId: number, token: string) {
   try {
-    await request.post(baseUrl).send({ shippingId })
+    await request
+      .post(baseUrl)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+      .send({ shippingId })
   } catch (error) {
     console.error('Error creating new Purchase:', (error as Error).message)
     throw { error: (error as Error).message }
   }
 }
 
-export async function fetchLatestOrderId() {
+export async function fetchLatestOrderId(token: string) {
   try {
-    const res = await request.get(baseUrl + '/latest-order')
-    console.log('client- api:', res.body)
+    const res = await request
+      .get(baseUrl + '/latest-order')
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
     return res.body
   } catch (error) {
     console.error(
@@ -24,9 +30,12 @@ export async function fetchLatestOrderId() {
   }
 }
 
-export async function fetchUserOrders() {
+export async function fetchUserOrders(token: string) {
   try {
-    const response = await request.get(`${baseUrl}/user-orders`)
+    const response = await request
+      .get(`${baseUrl}/user-orders`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
     return response.body.orders
   } catch (error) {
     console.error('Error fetching user orders:', (error as Error).message)
