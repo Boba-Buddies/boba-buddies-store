@@ -3,13 +3,14 @@ import express from 'express'
 import * as db from '../db/users'
 // import { validateAccessToken } from '../auth0'
 import { logError } from '../logger'
+import { validateAccessToken } from '../auth0'
 
 const router = express.Router()
 
 const userId = 'auth0|abc12345'
-const adminUserId = 'auth0|def67890'
 
-router.get('/isAdmin', async (req, res) => {
+
+router.get('/isAdmin', validateAccessToken, async (req, res) => {
   try {
     const isAdmin = await db.isUserAdmin(userId)
     return res.status(200).json(isAdmin)
@@ -20,7 +21,7 @@ router.get('/isAdmin', async (req, res) => {
 
 // GET /api/v1/users?userId=your_user_id_here
 
-router.get('/', async (req, res) => {
+router.get('/', validateAccessToken, async (req, res) => {
   // const userId = req.query.userId as string
   try {
     if (!userId) {
@@ -44,7 +45,7 @@ router.get('/', async (req, res) => {
 // GET userName by userId
 // http://localhost:5173/api/v1/users/username/user_id_here
 
-router.get('/username/:userId', async (req, res) => {
+router.get('/username/:userId', validateAccessToken, async (req, res) => {
   // const userId = req.params.userId
   try {
     if (!userId) {
@@ -68,7 +69,7 @@ router.get('/username/:userId', async (req, res) => {
 // PATCH route to update the use details by user id
 // http://localhost:5173/api/v1/users/edit
 
-router.patch('/edit', async (req, res) => {
+router.patch('/edit', validateAccessToken, async (req, res) => {
   const updatedUserDetails = req.body
 
   try {
@@ -83,7 +84,7 @@ router.patch('/edit', async (req, res) => {
 // GET: checkIfUserExists(userId:string)
 // http://localhost:5173/api/v1/users/check/user_id_here
 
-router.get('/check', async (req, res) => {
+router.get('/check', validateAccessToken, async (req, res) => {
   try {
     const auth0Id = req.body.auth0Id
 
@@ -108,7 +109,7 @@ router.get('/check', async (req, res) => {
 // POST: addNewUser(newUser:Object)
 // http://localhost:5173/api/v1/users
 
-router.post('/', async (req, res) => {
+router.post('/', validateAccessToken, async (req, res) => {
   try {
     const newUser = req.body
 

@@ -1,15 +1,23 @@
 import { Router } from 'express'
 import * as db from '../db/purchases'
 import { logError } from '../logger'
-import { authorizeAdmin } from '../adminAuthorization'
+import { validateAccessToken } from '../auth0'
+import { isUserAdmin } from '../db/users'
 const router = Router()
-const userId = 'auth0|abc12345'
+
 
 //!CHANGE SCHEMA FOR REQ.BODY's, SO USERID DOESN'T NEED TO BE PASSED FROM THE FRONT END
 
 //GET LATEST ORDER BY USER ID
 //GET /api/v1/purchases/latest-order
-router.get('/latest-order', async (req, res) => {
+router.get('/latest-order', validateAccessToken, async (req, res) => {
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
+  }
+  
   try {
     const orderId = await db.getLatestOrderIdByUserId(userId)
     res.status(200).json({ orderId })
@@ -23,7 +31,13 @@ router.get('/latest-order', async (req, res) => {
 
 //TRANSFER USER'S CART TO PURCHASES
 //POST /api/v1/purchases
-router.post('/', async (req, res) => {
+router.post('/', validateAccessToken, async (req, res) => {
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
+  }
   try {
     const shippingId = req.body.shippingId as number
     const cartTransferInfo = { userId, shippingId }
@@ -37,21 +51,40 @@ router.post('/', async (req, res) => {
 
 //GET ALL ORDERS BY DATE
 //GET /api/v1/purchases/orders-by-date/:date
-router.get('/orders-by-date/:date', authorizeAdmin, async (req, res) => {
-  try {
-    const amountOfOrders = await db.getAmountOfOrdersByDate(req.params.date)
-    res.status(200).json({ amountOfOrders })
-  } catch (error) {
-    logError(error)
-    res
-      .status(500)
-      .json({ message: 'Unable to get the amount of orders by date' })
+//!ADMIN ONLY
+router.get('/orders-by-date/:date', validateAccessToken, async (req, res) => {
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
   }
+
+  if (await isUserAdmin(userId)) {
+    try {
+      const amountOfOrders = await db.getAmountOfOrdersByDate(req.params.date)
+      res.status(200).json({ amountOfOrders })
+    } catch (error) {
+      logError(error)
+      res
+        .status(500)
+        .json({ message: 'Unable to get the amount of orders by date' })
+    }
+  } else {
+      res.status(401).json({ message: 'user is not authorized as admin' })
+    }
+  
 })
 
 //GET ORDERS BY USER
 //GET /api/v1/purchases/user-orders
-router.get('/user-orders', async (req, res) => {
+router.get('/user-orders', validateAccessToken, async (req, res) => {
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
+  }
   try {
     const orders = await db.getOrdersByUserId(userId)
     res.status(200).json({ orders })
@@ -63,28 +96,55 @@ router.get('/user-orders', async (req, res) => {
 
 //GET ALL ORDERS
 //GET /api/v1/purchases
-router.get('/', authorizeAdmin, async (req, res) => {
-  try {
-    const orders = await db.getAllOrders()
-    res.status(200).json({ orders })
-  } catch (error) {
-    logError(error)
-    res.status(500).json({ message: 'Unable to get all orders from database' })
+//!ADMIN ONLY
+router.get('/', validateAccessToken, async (req, res) => {
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
   }
+
+  if (await isUserAdmin(userId)) {
+    try {
+      const orders = await db.getAllOrders()
+      res.status(200).json({ orders })
+    } catch (error) {
+      logError(error)
+      res.status(500).json({ message: 'Unable to get all orders from database' })
+    }
+  } else {
+      res.status(401).json({ message: 'user is not authorized as admin' })
+    }
+  
 })
 
 //GET ORDER BY ORDER ID
 //GET /api/v1/purchases/order
-router.get('/order/:orderId', authorizeAdmin, async (req, res) => {
-  try {
-    const order = await db.getOrderByOrderId(req.params.orderId)
-    res.status(200).json({ order })
-  } catch (error) {
-    logError(error)
-    res
-      .status(500)
-      .json({ message: 'Unable to get order by orderId from database' })
+//!ADMIN ONLY
+router.get('/order/:orderId', validateAccessToken, async (req, res) => {
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
   }
+
+  if (await isUserAdmin(userId)) {
+    try {
+      const order = await db.getOrderByOrderId(req.params.orderId)
+      res.status(200).json({ order })
+    } catch (error) {
+      logError(error)
+      res
+        .status(500)
+        .json({ message: 'Unable to get order by orderId from database' })
+    }
+  } else {
+      res.status(401).json({ message: 'user is not authorized as admin' })
+    }
+
+  
 })
 
 export default router

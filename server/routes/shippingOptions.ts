@@ -1,10 +1,12 @@
 import { Router } from 'express'
 import * as db from '../db/shippingOptions'
 import { logError } from '../logger'
+import { validateAccessToken } from '../auth0'
 const router = Router()
 
+
 // GET /api/v1/shippings/
-router.get('/', async (req, res) => {
+router.get('/', validateAccessToken, async (req, res) => {
   try {
     const shippingOptions = await db.getAllShippingOptions()
     res.status(200).json({ shippingOptions })

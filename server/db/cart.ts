@@ -18,21 +18,35 @@ export async function getCartByUserId(userId: string, db = connection) {
 
 //POST:addProductToCartByUserId(userId: string, productId: number, quantity:number)
 
+export async function checkIsUserInCart(userId: string, db = connection) {
+  const userInCart = await db('cart').where({ user_id: userId }).first()
+
+  return !!userInCart
+}
+
 export async function addProductToCartByUserId(
   newItem: CartItem,
   db = connection,
 ) {
-  const existingCartItem = await db('cart')
-    .where({ user_id: newItem.userId, product_id: newItem.productId })
-    .first()
+  const isUserInCart: boolean = await checkIsUserInCart(newItem.userId)
 
-  if (existingCartItem) {
-    // If the product is already in the cart, update its quantity
-    await db('cart')
+  if (isUserInCart) {
+    const existingCartItem = await db('cart')
       .where({ user_id: newItem.userId, product_id: newItem.productId })
-      .update({ quantity: existingCartItem.quantity + newItem.quantity })
+      .first()
+    if (existingCartItem) {
+      // If the product is already in the cart, update its quantity
+      await db('cart')
+        .where({ user_id: newItem.userId, product_id: newItem.productId })
+        .update({ quantity: existingCartItem.quantity + newItem.quantity })
+    } else {
+      await db('cart').insert({
+        user_id: newItem.userId,
+        product_id: newItem.productId,
+        quantity: newItem.quantity,
+      })
+    }
   } else {
-    // If the product is not in the cart, insert a new cart item
     await db('cart').insert({
       user_id: newItem.userId,
       product_id: newItem.productId,

@@ -1,22 +1,25 @@
 import { Router } from 'express'
 import * as db from '../db/cart'
 import { logError } from '../logger'
+import { validateAccessToken } from '../auth0'
 const router = Router()
 
 // GETs the cart by user id
 
-const userId = 'auth0|abc12345'
-
 // http://localhost:5173/api/v1/cart
 
-router.get('/', async (req, res) => {
-  // const userId = req.query.userId as string
-  try {
-    if (!userId) {
-      return res.status(400).json({ message: 'User ID is missing' })
-    }
+router.get('/', validateAccessToken, async (req, res) => {
+  const auth0Id = req.auth?.payload.sub
 
-    const cart = await db.getCartByUserId(userId)
+  console.log(auth0Id)
+
+  if (!auth0Id) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
+  }
+
+  try {
+    const cart = await db.getCartByUserId(auth0Id)
     res.status(200).json({ cart })
   } catch (error) {
     logError(error)
@@ -30,13 +33,20 @@ router.get('/', async (req, res) => {
 
 // http://localhost:5173/api/v1/cart/add-item
 
-router.post('/add-item', async (req, res) => {
+router.post('/add-item', validateAccessToken, async (req, res) => {
   const { productId, quantity } = req.body
 
   if (!productId || !quantity) {
     return res.status(400).json({
       message: 'Missing required fields (productId, quantity).',
     })
+  }
+
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
   }
 
   try {
@@ -54,7 +64,14 @@ router.post('/add-item', async (req, res) => {
 
 // http://localhost:5173/api/v1/cart/update-quantity
 
-router.patch('/update-quantity', async (req, res) => {
+router.patch('/update-quantity', validateAccessToken, async (req, res) => {
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
+  }
+
   try {
     const { productId, quantity } = req.body
 
@@ -78,19 +95,21 @@ router.patch('/update-quantity', async (req, res) => {
 
 // http://localhost:5173/api/v1/cart/:productId
 
-router.delete('/:productId', async (req, res) => {
+router.delete('/:productId', validateAccessToken, async (req, res) => {
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
+  }
+
   try {
     const { productId } = req.params
 
     if (!productId) {
       return res.status(400).json({ message: 'Missing required fields' })
     }
-
-    console.log('Deleting product with ID:', productId)
-
     await db.removeCartItemByProductId(userId, Number(productId))
-
-    console.log('Product deleted!')
 
     res.status(200).json({ message: 'Cart item removed successfully' })
   } catch (error) {
@@ -103,7 +122,14 @@ router.delete('/:productId', async (req, res) => {
 
 // http://localhost:5173/api/v1/cart/:userId
 
-router.delete('/', async (req, res) => {
+router.delete('/', validateAccessToken, async (req, res) => {
+  const userId = req.auth?.payload.sub
+
+  if (!userId) {
+    res.status(400).json({ message: 'Please provide an id' })
+    return
+  }
+
   try {
     await db.clearCartByUserId(userId)
     res.status(200).json({ message: 'Successfully cleared cart.' })

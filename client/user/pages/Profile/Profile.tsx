@@ -10,8 +10,10 @@ import LoadError from '../../components/LoadError/LoadError'
 import { UserReview } from '../../../../models/Reviews'
 import { UserOrders } from '../../../../models/Purchases'
 import { fetchUserOrders } from '../../../apis/purchases'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const Profile = () => {
+  const { logout } = useAuth0()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   function goTo(link: string) {
@@ -47,8 +49,19 @@ const Profile = () => {
     },
   )
 
+  function handleLogout() {
+    logout({ logoutParams: { returnTo: window.location.origin } })
+    console.log(window.location.origin)
+  }
+
   return (
     <div className="flex justify-center items-center">
+      <button
+        className="mt-2 py-1 px-2 bg-gray-400 text-sm text-white font-semibold rounded-md transition duration-300 ease-in-out hover:bg-gray-500 hover:text-gray-100 focus:outline-none focus:ring focus:ring-gray-400"
+        onClick={handleLogout}
+      >
+        Logout
+      </button>
       <div className="p-8 w-4/5">
         <LoadError status={status} />
 
