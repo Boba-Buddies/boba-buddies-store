@@ -39,8 +39,7 @@ export async function addProductToCartByUserId(
       await db('cart')
         .where({ user_id: newItem.userId, product_id: newItem.productId })
         .update({ quantity: existingCartItem.quantity + newItem.quantity })
-    }
-    else {
+    } else {
       await db('cart').insert({
         user_id: newItem.userId,
         product_id: newItem.productId,
@@ -54,7 +53,6 @@ export async function addProductToCartByUserId(
       quantity: newItem.quantity,
     })
   }
-
 }
 
 //PATCH: updateCartItemQuantityByUserId(userId : string, productId : number, updatedQuantity : number)
