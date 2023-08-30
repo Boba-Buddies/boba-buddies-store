@@ -16,8 +16,10 @@ import {
   OrderSummary,
 } from '../../components'
 import LoadError from '../../components/LoadError/LoadError'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function Checkout() {
+  const { getAccessTokenSilently } = useAuth0()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const [cartProducts, setCartProduct] = useState([] as CartClient[])
@@ -36,10 +38,11 @@ function Checkout() {
     price: 0,
   })
   //Different Query
-  const ShippingQuery = useQuery(
-    'fetchAllShippingOptions',
-    fetchAllShippingOptions,
-  )
+  const ShippingQuery = useQuery('fetchAllShippingOptions', async () => {
+    const token = await getAccessTokenSilently()
+    return await fetchAllShippingOptions(token)
+  })
+
   const CartQuery = useQuery('fetchCart', fetchCart, {
     onSuccess: (data: CartClient[]) => {
       setCartProduct(data)

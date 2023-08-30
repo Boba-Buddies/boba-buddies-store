@@ -1,9 +1,11 @@
 import request from 'superagent'
 const baseUrl = '/api/v1/shipping-options'
 
-export async function fetchAllShippingOptions() {
+export async function fetchAllShippingOptions(token: string) {
   try {
-    const response = await request.get(baseUrl)
+    const response = await request
+      .get(baseUrl)
+      .set('Authorization', `Bearer ${token}`)
     return response.body.shippingOptions
   } catch (error) {
     console.error('Error fetching all products:', (error as Error).message)
