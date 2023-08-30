@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'
+import { useAuth0 } from '@auth0/auth0-react'
 
 interface ViewProductProps {
   product: UserProduct
@@ -22,40 +23,46 @@ function ViewProduct({
   wishlistStatus,
   refetchWishlistProductStatus,
 }: ViewProductProps) {
-  const mutation = useMutation((productId: number) =>
-    addProductToCart(productId),
-  )
   const [buttonText, setButtonText] = useState('Add to cart')
   const [buttonColor, setButtonColor] = useState(
     'bg-blue-500 hover:bg-blue-700',
   )
+  const { getAccessTokenSilently } = useAuth0() // Use Auth0 to get the access token
 
-  const handleAddToCart = () => {
-    mutation.mutate(product.id, {
+  const cartMutation = useMutation(
+    async (productId: number) => {
+      const token = await getAccessTokenSilently()
+      return addProductToCart(productId, token)
+    },
+    {
       onSuccess: () => {
         setButtonText('Item added')
         setButtonColor('bg-gray-500')
-
         setTimeout(() => {
           setButtonText('Add to cart')
           setButtonColor('bg-blue-500 hover:bg-blue-700')
         }, 1000)
       },
-    })
-  }
+    },
+  )
 
   const wishlistMutation = useMutation(
-    () => {
+    async () => {
+      const token = await getAccessTokenSilently()
       if (wishlistStatus) {
-        return deleteFromWishlistByProductId(product.id)
+        return deleteFromWishlistByProductId(product.id, token)
       } else {
-        return addToWishlistByProductId(product.id)
+        return addToWishlistByProductId(product.id, token)
       }
     },
     {
       onSuccess: () => refetchWishlistProductStatus(),
     },
   )
+
+  const handleAddToCart = () => {
+    cartMutation.mutate(product.id)
+  }
 
   const handleWishlistClick = () => {
     wishlistMutation.mutate()
@@ -70,7 +77,7 @@ function ViewProduct({
         <div className="flex items-center">
           <h1 className="text-3xl font-bold">{product.name}</h1>
           <button
-            className="flex items-center" // Added flex and items-center here
+            className="flex items-center"
             onClick={handleWishlistClick}
           >
             <FontAwesomeIcon
@@ -94,11 +101,11 @@ function ViewProduct({
         <button
           className={`${buttonColor} text-white font-bold py-2 px-4 mt-2 rounded`}
           onClick={handleAddToCart}
-          disabled={mutation.isLoading}
+          disabled={cartMutation.isLoading}
         >
           {buttonText}
         </button>
-        {mutation.isError ? <p>Error adding product to cart</p> : null}
+        {cartMutation.isError ? <p>Error adding product to cart</p> : null}
       </div>
     </div>
   )
