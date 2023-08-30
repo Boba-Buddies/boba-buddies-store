@@ -13,7 +13,7 @@ import { fetchUserOrders } from '../../../apis/purchases'
 import { useAuth0 } from '@auth0/auth0-react'
 
 const Profile = () => {
-  const { logout } = useAuth0()
+  const { logout, getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   function goTo(link: string) {
@@ -29,7 +29,10 @@ const Profile = () => {
 
   const { data: orders, status: ordersStatus } = useQuery(
     'fetchUserOrders',
-    fetchUserOrders,
+    async () => {
+      const token = await getAccessTokenSilently()
+      return await fetchUserOrders(token)
+    },
   )
 
   function formatCurrency(amount: number) {
