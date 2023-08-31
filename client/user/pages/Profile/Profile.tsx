@@ -11,6 +11,7 @@ import { UserReview } from '../../../../models/Reviews'
 import { UserOrders } from '../../../../models/Purchases'
 import { fetchUserOrders } from '../../../apis/purchases'
 import { useAuth0 } from '@auth0/auth0-react'
+import StarRating from '../../components/StarRating/StarRating'
 
 const Profile = () => {
   const { logout, getAccessTokenSilently } = useAuth0()
@@ -19,12 +20,17 @@ const Profile = () => {
   function goTo(link: string) {
     navigate(link)
   }
-
-  const { data, status } = useQuery('fetchUser', fetchUser)
+  const { data, status } = useQuery('fetchUser', async () => {
+    const token = await getAccessTokenSilently()
+    return await fetchUser(token)
+  })
 
   const { data: reviews, status: reviewsStatus } = useQuery(
     'fetchUserReviews',
-    fetchUserReviews,
+    async () => {
+      const token = await getAccessTokenSilently()
+      return await fetchUserReviews(token)
+    },
   )
 
   const { data: orders, status: ordersStatus } = useQuery(
@@ -44,7 +50,10 @@ const Profile = () => {
   }
 
   const deleteReviewMutation = useMutation(
-    (productId: number) => deleteReviewByProductId(productId),
+    async (productId: number) => {
+      const token = await getAccessTokenSilently()
+      return deleteReviewByProductId(productId, token)
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('fetchUserReviews')
@@ -59,14 +68,15 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center items-center">
-      <button
-        className="mt-2 py-1 px-2 bg-gray-400 text-sm text-white font-semibold rounded-md transition duration-300 ease-in-out hover:bg-gray-500 hover:text-gray-100 focus:outline-none focus:ring focus:ring-gray-400"
-        onClick={handleLogout}
-      >
-        Logout
-      </button>
       <div className="p-8 w-4/5">
         <LoadError status={status} />
+
+        <button
+          className="mt-2 py-1 px-2 bg-gray-400 text-sm text-white font-semibold rounded-md transition duration-300 ease-in-out hover:bg-gray-500 hover:text-gray-100 focus:outline-none focus:ring focus:ring-gray-400"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
 
         <h1 className="text-3xl font-bold tracking-wider mb-8">
           Hello, {data?.firstName} {data?.lastName}!
@@ -169,12 +179,7 @@ const Profile = () => {
                       {review.reviewerUserName}
                     </span>
                     <div className="flex items-center">
-                      <span className="text-yellow-500">
-                        {'\u2605'.repeat(review.reviewRating)}
-                      </span>
-                      <span className="text-gray-400 ml-1">
-                        {'\u2605'.repeat(5 - review.reviewRating)}
-                      </span>
+                      <StarRating rating={review.reviewRating} size={1} />
                     </div>
                   </div>
                   <button
