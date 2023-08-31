@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 
 import { CartClient } from '../../../../models/Cart'
 import {
@@ -10,9 +11,13 @@ import {
 import LoadError from '../../components/LoadError/LoadError'
 
 const Cart = () => {
+  const { getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
 
-  const { data, status } = useQuery('fetchCart', fetchCart)
+  const { data, status } = useQuery('fetchCart', async () => {
+    const token = await getAccessTokenSilently()
+    return await fetchCart(token)
+  })
 
   const navigate = useNavigate()
   function goTo(link: string) {

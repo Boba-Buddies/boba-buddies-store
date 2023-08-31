@@ -20,26 +20,51 @@ export async function addProductToCart(productId: number, quantity = 1) {
   }
 }
 
-export async function fetchCart() {
-  const response = await request.get(`${baseUrl}`)
-  return response.body.cart as CartClient[]
+export async function fetchCart(token: string) {
+  try {
+    const response = await request
+      .get(`${baseUrl}/cart`)
+      .set('Authorization', `Bearer ${token}`)
+
+    const cartData = response.body as CartClient[]
+    return cartData
+  } catch (error) {
+    console.error('An error occurred:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
 }
 
-export async function deleteProductFromCart(productId: number) {
-  const response = await request
-    .delete(`${baseUrl}/${productId}`)
-    .set('Content-Type', 'application/json')
+export async function deleteProductFromCart(productId: number, token: string) {
+  try {
+    const response = await request
+      .delete(`${baseUrl}/cart/${productId}`) // Adjust the URL as needed for your specific API
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${token}`)
 
-  return response.body.cart as CartClient[]
+    const cartData = response.body as CartClient[]
+    return cartData
+  } catch (error) {
+    console.error('An error occurred:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
 }
 
 export async function modifyCartProductQuantity(
   productId: number,
   quantity: number,
+  token: string,
 ) {
-  const response = await request
-    .patch(`${baseUrl}/update-quantity`)
-    .send({ productId, quantity })
+  try {
+    const response = await request
+      .patch(`${baseUrl}/update-quantity`)
+      .send({ productId, quantity })
+      .set('Content-Type', 'application/json')
+      .set('Authorization', `Bearer ${token}`)
 
-  return response.body.cart as CartClient[]
+    const cartData = response.body as CartClient[]
+    return cartData
+  } catch (error) {
+    console.error('An error occurred:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
 }
