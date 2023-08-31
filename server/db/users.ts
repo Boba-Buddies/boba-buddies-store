@@ -1,21 +1,18 @@
 import db from './connection'
 import { User, UpdateUser, NewUserBackend } from '../../models/Users'
-const adminUserId = 'auth0|def67890'
-const userId = 'auth0|abc12345'
 
-export async function isUserAdmin(auth0Id : string) {
+export async function isUserAdmin(auth0Id: string) {
   const user = await db('users') // assuming the table name is 'users'
-      .select('is_admin')
-      .where('auth0_id', auth0Id)
-      .first();
+    .select('is_admin')
+    .where('auth0_id', auth0Id)
+    .first()
 
   if (!user) {
-      throw new Error('User not found');
+    throw new Error('User not found')
   }
-  
-  return user.is_admin === 1; // considering SQLite3 uses 1 for true and 0 for false
-}
 
+  return user.is_admin === 1 // considering SQLite3 uses 1 for true and 0 for false
+}
 
 //GET: getUserById(userId : string)
 export async function getUserById(userId: string) {
