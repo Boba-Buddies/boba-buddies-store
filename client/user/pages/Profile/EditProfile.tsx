@@ -31,8 +31,9 @@ const EditProfile = () => {
   const [formData, setFormData] = useState(initialFormData)
 
   const mutation = useMutation(
-    (formDataToUpdate: UpdateUser) => {
-      return modifyUserDetails(formDataToUpdate)
+    async (formDataToUpdate: UpdateUser) => {
+      const token = await getAccessTokenSilently()
+      return modifyUserDetails(formDataToUpdate, token)
     },
     {
       onMutate: (formDataToUpdate: UpdateUser) => {
