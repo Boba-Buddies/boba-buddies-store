@@ -1,8 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
+import { useAuth0 } from '@auth0/auth0-react'
 
 import { CartClient } from '../../../../models/Cart'
 import {
+  deleteCartItems,
   deleteProductFromCart,
   fetchCart,
   modifyCartProductQuantity,
@@ -10,9 +12,13 @@ import {
 import LoadError from '../../components/LoadError/LoadError'
 
 const Cart = () => {
+  const { getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
 
-  const { data, status } = useQuery('fetchCart', fetchCart)
+  const { data, status } = useQuery('fetchCart', async () => {
+    const token = await getAccessTokenSilently()
+    return await fetchCart(token)
+  })
 
   const navigate = useNavigate()
   function goTo(link: string) {
@@ -20,11 +26,14 @@ const Cart = () => {
   }
 
   const modifyQuantityMutation = useMutation<
-    CartClient[],
+    void,
     Error,
     { productId: number; quantity: number }
   >(
-    ({ productId, quantity }) => modifyCartProductQuantity(productId, quantity),
+    async ({ productId, quantity }) => {
+      const token = await getAccessTokenSilently()
+      await modifyCartProductQuantity(productId, token, quantity)
+    },
     {
       onSuccess: async () => {
         queryClient.invalidateQueries('fetchCart')
@@ -33,7 +42,22 @@ const Cart = () => {
   )
 
   const deleteProductMutation = useMutation(
-    (productId: number) => deleteProductFromCart(productId),
+    async (productId: number) => {
+      const token = await getAccessTokenSilently()
+      await deleteProductFromCart(productId, token)
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('fetchCart')
+      },
+    },
+  )
+
+  const deleteCartItemsMutation = useMutation(
+    async () => {
+      const token = await getAccessTokenSilently()
+      await deleteCartItems(token)
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('fetchCart')
@@ -106,6 +130,12 @@ const Cart = () => {
                   </div>
                 ))}
             </div>
+            <button
+              onClick={() => deleteCartItemsMutation.mutate()}
+              className="mt-3 px-3 py-1 text-sm bg-gray-500 text-white rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300"
+            >
+              Clear Cart
+            </button>
           </div>
 
           <div className="w-1/3 pl-6 mt-14">
