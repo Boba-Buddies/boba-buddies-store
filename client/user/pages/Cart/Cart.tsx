@@ -24,14 +24,13 @@ const Cart = () => {
     navigate(link)
   }
 
-  const modifyQuantityMutation = useMutation<
-    CartClient[],
-    Error,
-    { productId: number; quantity: number }
-  >(
+  const modifyQuantityMutation = useMutation<{
+    productId: number
+    quantity: number
+  }>(
     async ({ productId, quantity }) => {
       const token = await getAccessTokenSilently()
-      return modifyCartProductQuantity(productId, quantity, token)
+      return modifyCartProductQuantity(productId, token, quantity)
     },
     {
       onSuccess: async () => {
