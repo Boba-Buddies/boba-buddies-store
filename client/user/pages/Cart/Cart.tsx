@@ -29,7 +29,10 @@ const Cart = () => {
     Error,
     { productId: number; quantity: number }
   >(
-    ({ productId, quantity }) => modifyCartProductQuantity(productId, quantity),
+    async ({ productId, quantity }) => {
+      const token = await getAccessTokenSilently()
+      return modifyCartProductQuantity(productId, quantity, token)
+    },
     {
       onSuccess: async () => {
         queryClient.invalidateQueries('fetchCart')
@@ -38,7 +41,10 @@ const Cart = () => {
   )
 
   const deleteProductMutation = useMutation(
-    (productId: number) => deleteProductFromCart(productId),
+    async (productId: number) => {
+      const token = await getAccessTokenSilently()
+      return deleteProductFromCart(productId, token)
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('fetchCart')

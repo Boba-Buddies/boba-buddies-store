@@ -37,7 +37,7 @@ export async function fetchCart(token: string) {
 export async function deleteProductFromCart(productId: number, token: string) {
   try {
     const response = await request
-      .delete(`${baseUrl}/cart/${productId}`) // Adjust the URL as needed for your specific API
+      .delete(`${baseUrl}/cart/${productId}`)
       .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${token}`)
 
