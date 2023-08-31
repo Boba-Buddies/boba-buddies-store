@@ -32,13 +32,13 @@ const Profile = () => {
   //   },
   // )
 
-  // const { data: orders, status: ordersStatus } = useQuery(
-  //   'fetchUserOrders',
-  //   async () => {
-  //     const token = await getAccessTokenSilently()
-  //     return await fetchUserOrders(token)
-  //   },
-  // )
+  const { data: orders, status: ordersStatus } = useQuery(
+    'fetchUserOrders',
+    async () => {
+      const token = await getAccessTokenSilently()
+      return await fetchUserOrders(token)
+    },
+  )
 
   function formatCurrency(amount: number) {
     return new Intl.NumberFormat('en-US', {
@@ -79,7 +79,7 @@ const Profile = () => {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* <section className="border p-4 rounded-md shadow-md">
+          <section className="border p-4 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">Order History</h2>
             <div className="space-y-4">
               {ordersStatus === 'loading' ? (
@@ -109,7 +109,7 @@ const Profile = () => {
                 <p>No orders available.</p>
               )}
             </div>
-          </section> */}
+          </section>
 
           <section className="border p-4 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">Account Details</h2>

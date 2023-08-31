@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'
+import { useAuth0 } from '@auth0/auth0-react'
 
 interface ViewProductProps {
   product: UserProduct
@@ -22,6 +23,7 @@ function ViewProduct({
   wishlistStatus,
   refetchWishlistProductStatus,
 }: ViewProductProps) {
+  const { getAccessTokenSilently } = useAuth0()
   const mutation = useMutation((productId: number) =>
     addProductToCart(productId),
   )
@@ -45,11 +47,11 @@ function ViewProduct({
   }
 
   const wishlistMutation = useMutation(
-    () => {
+    ({ token }: { token: string }) => {
       if (wishlistStatus) {
-        return deleteFromWishlistByProductId(product.id)
+        return deleteFromWishlistByProductId(product.id, token)
       } else {
-        return addToWishlistByProductId(product.id)
+        return addToWishlistByProductId(product.id, token)
       }
     },
     {
@@ -57,10 +59,10 @@ function ViewProduct({
     },
   )
 
-  const handleWishlistClick = () => {
-    wishlistMutation.mutate()
+  const handleWishlistClick = async () => {
+    const token = await getAccessTokenSilently()
+    wishlistMutation.mutate({ token })
   }
-
   return (
     <div className="flex items-center max-w-5xl" style={{ padding: '10px' }}>
       <div className="w-1/2">
