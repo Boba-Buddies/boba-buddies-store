@@ -5,13 +5,18 @@ import { useNavigate } from 'react-router-dom'
 import { fetchUser, modifyUserDetails } from '../../../apis/users'
 import { UpdateUser } from '../../../../models/Users'
 import LoadError from '../../components/LoadError/LoadError'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const EditProfile = () => {
+  const { getAccessTokenSilently } = useAuth0()
   const navigate = useNavigate()
 
   const queryClient = useQueryClient()
 
-  const { data: userData, status } = useQuery('fetchUser', fetchUser)
+  const { data: userData, status } = useQuery('fetchUser', async () => {
+    const token = await getAccessTokenSilently()
+    return await fetchUser(token)
+  })
 
   const initialFormData = {
     firstName: userData?.firstName || '',
@@ -26,8 +31,9 @@ const EditProfile = () => {
   const [formData, setFormData] = useState(initialFormData)
 
   const mutation = useMutation(
-    (formDataToUpdate: UpdateUser) => {
-      return modifyUserDetails(formDataToUpdate)
+    async (formDataToUpdate: UpdateUser) => {
+      const token = await getAccessTokenSilently()
+      return modifyUserDetails(formDataToUpdate, token)
     },
     {
       onMutate: (formDataToUpdate: UpdateUser) => {
