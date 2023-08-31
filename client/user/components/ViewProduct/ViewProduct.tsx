@@ -23,31 +23,32 @@ function ViewProduct({
   wishlistStatus,
   refetchWishlistProductStatus,
 }: ViewProductProps) {
-  const { getAccessTokenSilently } = useAuth0()
-  const mutation = useMutation((productId: number) =>
-    addProductToCart(productId),
-  )
   const [buttonText, setButtonText] = useState('Add to cart')
   const [buttonColor, setButtonColor] = useState(
     'bg-blue-500 hover:bg-blue-700',
   )
+  const { getAccessTokenSilently } = useAuth0() // Use Auth0 to get the access token
 
-  const handleAddToCart = () => {
-    mutation.mutate(product.id, {
+  const cartMutation = useMutation(
+    async (productId: number) => {
+      const token = await getAccessTokenSilently()
+      return addProductToCart(productId, token)
+    },
+    {
       onSuccess: () => {
         setButtonText('Item added')
         setButtonColor('bg-gray-500')
-
         setTimeout(() => {
           setButtonText('Add to cart')
           setButtonColor('bg-blue-500 hover:bg-blue-700')
         }, 1000)
       },
-    })
-  }
+    },
+  )
 
   const wishlistMutation = useMutation(
-    ({ token }: { token: string }) => {
+    async () => {
+      const token = await getAccessTokenSilently()
       if (wishlistStatus) {
         return deleteFromWishlistByProductId(product.id, token)
       } else {
@@ -59,10 +60,14 @@ function ViewProduct({
     },
   )
 
-  const handleWishlistClick = async () => {
-    const token = await getAccessTokenSilently()
-    wishlistMutation.mutate({ token })
+  const handleAddToCart = () => {
+    cartMutation.mutate(product.id)
   }
+
+  const handleWishlistClick = () => {
+    wishlistMutation.mutate()
+  }
+
   return (
     <div className="flex items-center max-w-5xl" style={{ padding: '10px' }}>
       <div className="w-1/2">
@@ -71,10 +76,7 @@ function ViewProduct({
       <div className="w-1/2 ml-4">
         <div className="flex items-center">
           <h1 className="text-3xl font-bold">{product.name}</h1>
-          <button
-            className="flex items-center" // Added flex and items-center here
-            onClick={handleWishlistClick}
-          >
+          <button className="flex items-center" onClick={handleWishlistClick}>
             <FontAwesomeIcon
               icon={wishlistStatus ? solidHeart : regularHeart}
               className={wishlistStatus ? 'text-red-500' : 'text-black'}
@@ -96,11 +98,11 @@ function ViewProduct({
         <button
           className={`${buttonColor} text-white font-bold py-2 px-4 mt-2 rounded`}
           onClick={handleAddToCart}
-          disabled={mutation.isLoading}
+          disabled={cartMutation.isLoading}
         >
           {buttonText}
         </button>
-        {mutation.isError ? <p>Error adding product to cart</p> : null}
+        {cartMutation.isError ? <p>Error adding product to cart</p> : null}
       </div>
     </div>
   )

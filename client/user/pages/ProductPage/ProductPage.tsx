@@ -10,13 +10,15 @@ import { fetchWishlistStatusByProductId } from '../../../apis/wishlist'
 import { useAuth0 } from '@auth0/auth0-react'
 
 const ProductPage = () => {
+  const { getAccessTokenSilently } = useAuth0() // Use Auth0 hook
   const params = useParams()
-  const { getAccessTokenSilently } = useAuth0()
   const id = Number(params.id)
+
   const { data: product, status: statusProductS } = useQuery(
     ['getProduct', id],
     async () => {
-      return await fetchProductByIdUser(id)
+      const token = await getAccessTokenSilently()
+      return await fetchProductByIdUser(id, token)
     },
   )
 
@@ -25,7 +27,11 @@ const ProductPage = () => {
     refetch: refetchReviews,
     status: statusReviews,
   } = useQuery(['getReviews', id], async () => {
-    const fetchedReviews: ProductReview[] = await fetchReviewsByProductId(id)
+    const token = await getAccessTokenSilently()
+    const fetchedReviews: ProductReview[] = await fetchReviewsByProductId(
+      id,
+      token,
+    )
     return fetchedReviews
   })
 

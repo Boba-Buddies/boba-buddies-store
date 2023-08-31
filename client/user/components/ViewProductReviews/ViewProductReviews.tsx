@@ -5,6 +5,7 @@ import { UserProduct } from '../../../../models/Products'
 import StarRating from '../StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate/formatDate'
 import { addReview } from '../../../apis/reviews'
+import { useAuth0 } from '@auth0/auth0-react'
 
 interface ProductReviewsProps {
   product: UserProduct
@@ -21,8 +22,13 @@ function ViewProductReviews({
   const [reviewDescription, setReviewDescription] = useState('')
   const [reviewRating, setReviewRating] = useState(3)
 
+  const { getAccessTokenSilently } = useAuth0()
+
   const addReviewMutation = useMutation(
-    (newReview: NewReview) => addReview(newReview),
+    async (newReview: NewReview) => {
+      const token = await getAccessTokenSilently()
+      return addReview(newReview, token)
+    },
     {
       onSuccess: () => {
         refetchReviews()
