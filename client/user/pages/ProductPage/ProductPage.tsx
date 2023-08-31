@@ -28,17 +28,23 @@ const ProductPage = () => {
     status: statusReviews,
   } = useQuery(['getReviews', id], async () => {
     const token = await getAccessTokenSilently()
-    const fetchedReviews: ProductReview[] = await fetchReviewsByProductId(id, token)
+    const fetchedReviews: ProductReview[] = await fetchReviewsByProductId(
+      id,
+      token,
+    )
     return fetchedReviews
   })
 
   const {
     data: wishlistStatus = false,
     refetch: refetchWishlistProductStatus,
-    status : statusWishlist
+    status: statusWishlist,
   } = useQuery(['getWishlistStatus', id], async () => {
     const token = await getAccessTokenSilently()
-    const wishlistStatus: boolean = await fetchWishlistStatusByProductId(id, token)
+    const wishlistStatus: boolean = await fetchWishlistStatusByProductId(
+      id,
+      token,
+    )
     return wishlistStatus
   })
 
