@@ -10,8 +10,6 @@ export async function fetchUser(token: string) {
       .set('Authorization', `Bearer ${token}`)
 
     const userData = response.body as User
-    console.log('API Response Data:', userData)
-
     return userData
   } catch (error) {
     console.error('An error occurred:', (error as Error).message)

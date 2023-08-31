@@ -26,12 +26,18 @@ const Profile = () => {
 
   // const { data: reviews, status: reviewsStatus } = useQuery(
   //   'fetchUserReviews',
-  //   fetchUserReviews,
+  //   async () => {
+  //     const token = await getAccessTokenSilently()
+  //     return await fetchUserReviews(token)
+  //   },
   // )
 
   // const { data: orders, status: ordersStatus } = useQuery(
   //   'fetchUserOrders',
-  //   fetchUserOrders,
+  //   async () => {
+  //     const token = await getAccessTokenSilently()
+  //     return await fetchUserOrders(token)
+  //   },
   // )
 
   function formatCurrency(amount: number) {
