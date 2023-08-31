@@ -11,6 +11,7 @@ import { UserReview } from '../../../../models/Reviews'
 import { UserOrders } from '../../../../models/Purchases'
 import { fetchUserOrders } from '../../../apis/purchases'
 import { useAuth0 } from '@auth0/auth0-react'
+import StarRating from '../../components/StarRating/StarRating'
 
 const Profile = () => {
   const { logout, getAccessTokenSilently } = useAuth0()
@@ -24,13 +25,13 @@ const Profile = () => {
     return await fetchUser(token)
   })
 
-  // const { data: reviews, status: reviewsStatus } = useQuery(
-  //   'fetchUserReviews',
-  //   async () => {
-  //     const token = await getAccessTokenSilently()
-  //     return await fetchUserReviews(token)
-  //   },
-  // )
+  const { data: reviews, status: reviewsStatus } = useQuery(
+    'fetchUserReviews',
+    async () => {
+      const token = await getAccessTokenSilently()
+      return await fetchUserReviews(token)
+    },
+  )
 
   const { data: orders, status: ordersStatus } = useQuery(
     'fetchUserOrders',
@@ -49,7 +50,10 @@ const Profile = () => {
   }
 
   const deleteReviewMutation = useMutation(
-    (productId: number) => deleteReviewByProductId(productId),
+    async (productId: number) => {
+      const token = await getAccessTokenSilently()
+      return deleteReviewByProductId(productId, token)
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('fetchUserReviews')
@@ -148,7 +152,7 @@ const Profile = () => {
           </section>
         </div>
 
-        {/* <section className="mt-8">
+        <section className="mt-8">
           <h2 className="text-xl font-semibold mb-4">Reviews</h2>
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {reviewsStatus === 'loading' ? (
@@ -175,12 +179,7 @@ const Profile = () => {
                       {review.reviewerUserName}
                     </span>
                     <div className="flex items-center">
-                      <span className="text-yellow-500">
-                        {'\u2605'.repeat(review.reviewRating)}
-                      </span>
-                      <span className="text-gray-400 ml-1">
-                        {'\u2605'.repeat(5 - review.reviewRating)}
-                      </span>
+                      <StarRating rating={review.reviewRating} size={1} />
                     </div>
                   </div>
                   <button
@@ -195,7 +194,7 @@ const Profile = () => {
               ))
             )}
           </ul>
-        </section> */}
+        </section>
       </div>
     </div>
   )
