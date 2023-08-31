@@ -6,8 +6,6 @@ const router = Router()
 
 // GETs the cart by user id
 
-// http://localhost:5173/api/v1/cart
-
 router.get('/', validateAccessToken, async (req, res) => {
   const auth0Id = req.auth?.payload.sub
 
@@ -30,8 +28,6 @@ router.get('/', validateAccessToken, async (req, res) => {
 })
 
 // POST route to add a product to the user's cart
-
-// http://localhost:5173/api/v1/cart/add-item
 
 router.post('/add-item', validateAccessToken, async (req, res) => {
   const { productId, quantity } = req.body
@@ -62,8 +58,6 @@ router.post('/add-item', validateAccessToken, async (req, res) => {
 
 // PATCH route to update the cart item quantity by user id
 
-// http://localhost:5173/api/v1/cart/update-quantity
-
 router.patch('/update-quantity', validateAccessToken, async (req, res) => {
   const userId = req.auth?.payload.sub
 
@@ -93,8 +87,6 @@ router.patch('/update-quantity', validateAccessToken, async (req, res) => {
 
 // DELETE route to delete cart item by product id
 
-// http://localhost:5173/api/v1/cart/:productId
-
 router.delete('/:productId', validateAccessToken, async (req, res) => {
   const userId = req.auth?.payload.sub
 
@@ -119,8 +111,6 @@ router.delete('/:productId', validateAccessToken, async (req, res) => {
 })
 
 // DELETE route to clear cart by user id
-
-// http://localhost:5173/api/v1/cart/:userId
 
 router.delete('/', validateAccessToken, async (req, res) => {
   const userId = req.auth?.payload.sub

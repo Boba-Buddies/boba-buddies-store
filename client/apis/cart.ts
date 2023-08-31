@@ -33,7 +33,6 @@ export async function fetchCart(token: string) {
       .set('Authorization', `Bearer ${token}`)
 
     const cartData = response.body.cart as CartClient[]
-    console.log(cartData)
     return cartData
   } catch (error) {
     console.error('An error occurred:', (error as Error).message)
@@ -44,9 +43,17 @@ export async function fetchCart(token: string) {
 export async function deleteProductFromCart(productId: number, token: string) {
   try {
     await request
-      .delete(`${baseUrl}/cart/${productId}`)
-      .set('Content-Type', 'application/json')
+      .delete(`${baseUrl}/${productId}`)
       .set('Authorization', `Bearer ${token}`)
+  } catch (error) {
+    console.error('An error occurred:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
+}
+
+export async function deleteCartItems(token: string) {
+  try {
+    await request.delete(`${baseUrl}`).set('Authorization', `Bearer ${token}`)
   } catch (error) {
     console.error('An error occurred:', (error as Error).message)
     throw { error: (error as Error).message }
@@ -62,7 +69,6 @@ export async function modifyCartProductQuantity(
     await request
       .patch(`${baseUrl}/update-quantity`)
       .send({ productId, quantity })
-      .set('Content-Type', 'application/json')
       .set('Authorization', `Bearer ${token}`)
   } catch (error) {
     console.error('An error occurred:', (error as Error).message)

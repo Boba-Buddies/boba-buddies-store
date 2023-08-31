@@ -24,13 +24,14 @@ const Cart = () => {
     navigate(link)
   }
 
-  const modifyQuantityMutation = useMutation<{
-    productId: number
-    quantity: number
-  }>(
+  const modifyQuantityMutation = useMutation<
+    void,
+    Error,
+    { productId: number; quantity: number }
+  >(
     async ({ productId, quantity }) => {
       const token = await getAccessTokenSilently()
-      return modifyCartProductQuantity(productId, token, quantity)
+      await modifyCartProductQuantity(productId, token, quantity)
     },
     {
       onSuccess: async () => {
@@ -42,7 +43,19 @@ const Cart = () => {
   const deleteProductMutation = useMutation(
     async (productId: number) => {
       const token = await getAccessTokenSilently()
-      return deleteProductFromCart(productId, token)
+      await deleteProductFromCart(productId, token)
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('fetchCart')
+      },
+    },
+  )
+
+  const deleteProductMutation = useMutation(
+    async (productId: number) => {
+      const token = await getAccessTokenSilently()
+      await deleteProductFromCart(productId, token)
     },
     {
       onSuccess: () => {
@@ -116,6 +129,12 @@ const Cart = () => {
                   </div>
                 ))}
             </div>
+            <button
+              onClick={() => deleteCartItemsMutation.mutate()}
+              className="mt-3 px-3 py-1 text-sm bg-gray-500 text-white rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300"
+            >
+              Clear Cart
+            </button>
           </div>
 
           <div className="w-1/3 pl-6 mt-14">
