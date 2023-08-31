@@ -4,6 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 import { CartClient } from '../../../../models/Cart'
 import {
+  deleteCartItems,
   deleteProductFromCart,
   fetchCart,
   modifyCartProductQuantity,
@@ -52,10 +53,10 @@ const Cart = () => {
     },
   )
 
-  const deleteProductMutation = useMutation(
-    async (productId: number) => {
+  const deleteCartItemsMutation = useMutation(
+    async () => {
       const token = await getAccessTokenSilently()
-      await deleteProductFromCart(productId, token)
+      await deleteCartItems(token)
     },
     {
       onSuccess: () => {
