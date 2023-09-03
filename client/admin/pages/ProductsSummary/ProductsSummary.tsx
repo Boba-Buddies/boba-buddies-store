@@ -2,11 +2,11 @@ import { useQuery } from 'react-query'
 import { useAuth0 } from '@auth0/auth0-react'
 import { fetchAllProductsAdmin } from '../../../apis/products'
 import { useEffect, useState } from 'react'
-import SortFilterControls from '../../../user/components/SortFilterControls/SortFilterControls'
 import ShopPaginationControls from '../../../user/components/ShopPaginationControls/ShopPaginationControls'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import ViewProducts from '../../components/ViewProducts/ViewProducts'
 import ProductSearchBar from '../../components/ProductSearchBar/ProductSearchBar'
+import AdminSortFilterControls from '../../components/AdminSortFilterControls/AdminSortFilterControls'
 
 const ProductsSummary = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -37,22 +37,15 @@ const ProductsSummary = () => {
 
   const filteredProducts = products
     ? products.filter((product) => {
-      const lowerCaseName = product.name.toLowerCase()
       switch (filter) {
-        case 'With pearls':
-          return lowerCaseName.includes('pearl')
-        case 'Without pearls':
-          return !lowerCaseName.includes('pearl')
-        case 'Teas':
-          return lowerCaseName.includes('tea')
-        case 'Smoothies':
-          return lowerCaseName.includes('smoothie')
-        case 'Yogurts':
-          return lowerCaseName.includes('yogurt')
-        case 'Fruit Drinks':
-          return lowerCaseName.includes('drink')
-        case 'Dairy free':
-          return !/milk|smoothie|yogurt/.test(lowerCaseName)
+        case 'Low Stock':
+          return product.stock < 5
+        case 'Enabled':
+          return product.isEnabled
+        case 'Disabled':
+          return !product.isEnabled
+        case 'All':
+          return true
         default:
           return true
       }
@@ -67,6 +60,14 @@ const ProductsSummary = () => {
         return b.price - a.price
       case 'Alphabetical (A to Z)':
         return a.name.localeCompare(b.name)
+      case 'Stock (Low to High)':
+        return a.stock - b.stock
+      case 'Stock (High to Low)':
+        return b.stock - a.stock
+      case 'Rating (Low to High)':
+        return a.averageRating - b.averageRating
+      case 'Rating (High to Low)':
+        return b.averageRating - a.averageRating
       default:
         return 0
     }
@@ -99,7 +100,7 @@ const ProductsSummary = () => {
       >
         <ProductSearchBar setSearchProductIdHanlder={setSearchProductIdHandler} />
 
-        <SortFilterControls
+        <AdminSortFilterControls
           filter={filter}
           sort={sort}
           setFilter={setFilter}
