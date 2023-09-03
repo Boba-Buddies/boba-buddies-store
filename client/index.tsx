@@ -23,7 +23,7 @@ import {
   EditProfile,
   Wishlist,
 } from './user/pages/index'
-import { Reviews, Dashboard, ProductsSummary } from './admin/pages/'
+import { Reviews, Dashboard, ProductsSummary, IndividualProduct } from './admin/pages/'
 import { AdminAppLayout } from './admin/components/AdminAppLayout/AdminAppLayout'
 import Redirect from './user/pages/Redirect/Redirect'
 
@@ -76,6 +76,10 @@ export const routes = createRoutesFromElements(
     <Route
       path="admin/productsSummary"
       element={<UnprotectedComponent component={ProductsSummary} />}
+    />
+    <Route
+      path="admin/:id"
+      element={<UnprotectedComponent component={IndividualProduct} />}
     />
 
     {/* temporary route!! */}
