@@ -1,9 +1,17 @@
+import { useAuth0 } from '@auth0/auth0-react'
 import { useNavigate } from 'react-router-dom'
 
 export const AdminNavBar = () => {
+  const { logout } = useAuth0()
   const navigate = useNavigate()
   function goTo(link: string) {
     navigate(link)
+  }
+
+  function handleLogout() {
+    logout({
+      logoutParams: { returnTo: `${window.location.origin}` },
+    })
   }
 
   return (
@@ -38,6 +46,12 @@ export const AdminNavBar = () => {
           className="font-bold text-white hover:bg-gray-400 px-4 py-2 rounded"
         >
           Reviews
+        </button>
+        <button
+          onClick={handleLogout}
+          className="font-bold text-white hover:bg-gray-400 px-4 py-2 rounded border"
+        >
+          Logout
         </button>
       </div>
     </div>
