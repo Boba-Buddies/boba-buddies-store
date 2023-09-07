@@ -3,12 +3,12 @@ import { useQuery, useQueryClient } from 'react-query'
 import { AllOrders } from './AllOrders'
 
 export const Orders = () => {
-  const { getAccessTokenSilently } = useAuth0()
-  const queryClient = useQueryClient()
-
   return (
-    <div>
-      <AllOrders />
+    <div className="p-4">
+      <div className="w-3/4 mx-auto">
+        <h1 className="text-2xl font-semibold mb-4">Orders</h1>
+        <AllOrders />
+      </div>
     </div>
   )
 }
