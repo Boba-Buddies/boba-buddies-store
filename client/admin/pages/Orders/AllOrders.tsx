@@ -39,7 +39,6 @@ export const AllOrders = () => {
 
             <div className="divBody text-gray-600 text-sm font-light">
               {orders.map((order: Orders) => (
-                // Wrap the entire row in a Link component
                 <Link
                   key={order.orderId}
                   to={`/admin/orders/${order.orderId}`}
