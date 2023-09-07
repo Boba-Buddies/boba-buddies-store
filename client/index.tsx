@@ -26,6 +26,7 @@ import {
 import { Reviews, Dashboard } from './admin/pages/'
 import { AdminAppLayout } from './admin/components/AdminAppLayout/AdminAppLayout'
 import Redirect from './user/pages/Redirect/Redirect'
+import { Orders } from './admin/pages/Orders/Orders'
 
 export const routes = createRoutesFromElements(
   <Route path="/" element={<AppLayout />} errorElement={<ErrorPage />}>
@@ -74,10 +75,9 @@ export const routes = createRoutesFromElements(
       element={<UnprotectedComponent component={Dashboard} />}
     />
 
-    {/* temporary route!! */}
     <Route
-      path="admin/temporary"
-      element={<UnprotectedComponent component={AdminAppLayout} />}
+      path="admin/orders"
+      element={<UnprotectedComponent component={Orders} />}
     />
   </Route>,
 )
