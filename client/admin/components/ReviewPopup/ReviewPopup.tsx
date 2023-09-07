@@ -23,6 +23,7 @@ const ReviewPopup = ({ review, onClose, onToggle }: ReviewPopupProps) => {
         justifyContent: 'center',
         alignItems: 'center',
       }}
+      className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50"
     >
       <div
         style={{
@@ -34,11 +35,17 @@ const ReviewPopup = ({ review, onClose, onToggle }: ReviewPopupProps) => {
           maxWidth: '500px',
           minHeight: '400px',
         }}
-        className = "flex flex-col justify-between"
+        className="flex flex-col justify-between"
       >
         <div>
-        <button style = {{marginBottom : '20px'}}onClick={onClose}>Back to reviews</button>
-          <div className="flex justify-between">
+          <button 
+            onClick={onClose}
+            style={{ marginBottom: '20px' }}
+            className="px-2 py-1 text-white bg-blue-600 rounded hover:bg-blue-700"
+          >
+            Back to reviews
+          </button>
+          <div className="flex justify-between font-bold text-lg">
             <h2>{review.reviewerUserName}</h2>
             <p>{formatDateToDDMMYYYY(review.reviewCreatedAt)}</p>
           </div>
@@ -52,25 +59,25 @@ const ReviewPopup = ({ review, onClose, onToggle }: ReviewPopupProps) => {
           </div>
         </div>
         <div>
-          <div className="flex gap-4 mt-4">
-            <p>Rating:</p>
+          <div className="flex gap-4 mt-4 mb-2">
+            <p className = "font-bold">Rating:</p>
             <StarRating rating={review.reviewRating} size={1} />
             <p>({review.reviewRating})</p>
           </div>
-          <h2>Description:</h2>
+          <h2 className='font-bold'>Description:</h2>
           <p>{review.reviewDescription}</p>
-          
         </div>
         <button
-            style={{
-              backgroundColor: review.reviewIsEnabled ? 'green' : 'red',
-              marginTop : '30px',
-              width: '80px'
-            }}
-            onClick={() => onToggle(review.reviewId, !review.reviewIsEnabled)}
-          >
-            {review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
-          </button>
+          style={{
+            backgroundColor: review.reviewIsEnabled ? 'green' : 'red',
+            marginTop: '30px',
+            width: '80px'
+          }}
+          onClick={() => onToggle(review.reviewId, !review.reviewIsEnabled)}
+          className="px-2 py-1 text-white rounded"
+        >
+          {review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
+        </button>
       </div>
     </div>
   )
