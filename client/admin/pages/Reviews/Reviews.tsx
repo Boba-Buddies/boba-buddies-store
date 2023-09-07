@@ -1,16 +1,24 @@
 import { useQuery } from 'react-query'
 import { useEffect, useState } from 'react'
-import { fetchAllReviews } from '../../../apis/reviews'
+import { fetchAllReviews, fetchReviewById, modifyReviewStatusById } from '../../../apis/reviews'
 import LoadError from '../../../user/components/LoadError/LoadError'
-import { ReviewForTable } from '../../../../models/Reviews'
+import { Review, ReviewForTable } from '../../../../models/Reviews'
 import {
   formatDateToDDMMYYYY,
   format24HourTo12Hour,
 } from '../../../utils/formatDate/formatDate'
 import { useAuth0 } from '@auth0/auth0-react'
+import ReviewPopup from '../../components/ReviewPopup/ReviewPopup'
 
 const Reviews = () => {
   const { getAccessTokenSilently } = useAuth0()
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null)
+  const [search, setSearch] = useState('')
+  const [filter, setFilter] = useState('all')
+  const [sort, setSort] = useState('Newest first')
+  const [currentPage, setCurrentPage] = useState(1)
+  const reviewsPerPage = 20
+
   const { data: reviews, status: statusReviews } = useQuery(
     ['getReviews'],
     async () => {
@@ -20,11 +28,19 @@ const Reviews = () => {
     },
   )
 
-  const [search, setSearch] = useState('')
-  const [filter, setFilter] = useState('all')
-  const [sort, setSort] = useState('Newest first')
-  const [currentPage, setCurrentPage] = useState(1)
-  const reviewsPerPage = 20
+  const fetchAndShowReviewDetails = async (reviewId: number) => {
+    const token = await getAccessTokenSilently();
+    const review = await fetchReviewById(reviewId, token);
+    setSelectedReview(review);
+  };
+
+  const toggleReviewStatus = async (reviewId: number, isEnabled: boolean) => {
+    const token = await getAccessTokenSilently();
+    await modifyReviewStatusById({ id: reviewId, isEnabled }, token);
+    // Refresh reviews or modify state as needed
+  };
+
+
 
   useEffect(() => {
     setCurrentPage(1)
@@ -68,6 +84,13 @@ const Reviews = () => {
 
   return (
     <>
+    {selectedReview && (
+  <ReviewPopup
+    review={selectedReview}
+    onClose={() => setSelectedReview(null)}
+    onToggle={toggleReviewStatus}
+  />
+)}
       <LoadError status={statusReviews} />
       {reviews && currentReviews && filteredAndSortedReviews && (
         <div className="flex justify-center">
@@ -169,6 +192,7 @@ const Reviews = () => {
                   <div
                     key={review.id}
                     className="divRow border-b border-gray-200 hover:bg-gray-100"
+                    onClick={() => fetchAndShowReviewDetails(review.id)}
                   >
                     <div
                       className="divCell py-3 px-8 text-left whitespace-nowrap"
