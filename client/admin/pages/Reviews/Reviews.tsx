@@ -7,12 +7,15 @@ import {
   formatDateToDDMMYYYY,
   format24HourTo12Hour,
 } from '../../../utils/formatDate/formatDate'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const Reviews = () => {
+  const { getAccessTokenSilently } = useAuth0()
   const { data: reviews, status: statusReviews } = useQuery(
     ['getReviews'],
     async () => {
-      const fetchedReviews: ReviewForTable[] = await fetchAllReviews()
+      const token = await getAccessTokenSilently()
+      const fetchedReviews: ReviewForTable[] = await fetchAllReviews(token)
       return fetchedReviews
     },
   )
