@@ -15,6 +15,14 @@ export const AllOrders = () => {
     },
   )
 
+  function formatCurrency(amount: number) {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+    }).format(amount)
+  }
+
   console.log(orders)
   return (
     <>
@@ -29,14 +37,14 @@ export const AllOrders = () => {
             {orders.map((order: Orders) => (
               <li
                 key={order.orderId}
-                className="p-4 border border-gray-300 rounded-md mb-4"
+                className="p-4 border border-gray-400 rounded-md mb-4"
               >
                 <div className="flex justify-between">
                   <div className="text-lg font-semibold"># {order.orderId}</div>
                   <div className="text-gray-500">{order.purchasedAt}</div>
                 </div>
                 <div className="text-gray-600 mt-2">
-                  {/* Total: {formatCurrency(order.totalSale)} */}
+                  Total: {formatCurrency(order.totalSale)}
                 </div>
               </li>
             ))}
