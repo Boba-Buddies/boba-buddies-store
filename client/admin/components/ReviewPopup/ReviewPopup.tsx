@@ -1,86 +1,88 @@
+import React from 'react';
+import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { Review } from '../../../../models/Reviews'
 import StarRating from '../../../user/components/StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate/formatDate'
+import { fetchReviewById, modifyReviewStatusById } from '../../../apis/reviews'
+import { useAuth0 } from '@auth0/auth0-react'
+import LoadError from '../../../user/components/LoadError/LoadError'
 
 interface ReviewPopupProps {
-  review: Review
-  onClose: () => void
-  onToggle: (id: number, isEnabled: boolean) => void
+  reviewId: number;
 }
 
-const ReviewPopup = ({ review, onClose, onToggle }: ReviewPopupProps) => {
+const ReviewPopup = ({ reviewId }: ReviewPopupProps) => {
+  const queryClient = useQueryClient();
+  const { getAccessTokenSilently } = useAuth0()
+
+  const { data: review, status, refetch } = useQuery(
+    ['getReviewById', reviewId],
+    async () => {
+      const token = await getAccessTokenSilently()
+      return await fetchReviewById(reviewId, token)
+    },
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const mutation = useMutation(
+    async (data: { reviewId: number, isEnabled: boolean }) => {
+      const token = await getAccessTokenSilently();
+      return await modifyReviewStatusById({id : data.reviewId, isEnabled : data.isEnabled}, token);
+    },
+    {
+      onSuccess: () => {
+        // Invalidate to refetch something when a mutation is successful
+        refetch();
+      },
+    }
+  );
+
+  const onToggle = async (reviewId: number, isEnabled: boolean) => {
+    mutation.mutate({ reviewId, isEnabled });
+  }
+
   return (
-    <div
-      style={{
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        zIndex: 1000,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-      className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50"
-    >
-      <div
-        style={{
-          backgroundColor: 'white',
-          padding: '20px',
-          borderRadius: '10px',
-          zIndex: 1001,
-          width: '80%',
-          maxWidth: '500px',
-          minHeight: '400px',
-        }}
-        className="flex flex-col justify-between"
-      >
-        <div>
-          <button 
-            onClick={onClose}
-            style={{ marginBottom: '20px' }}
-            className="px-2 py-1 text-white bg-blue-600 rounded hover:bg-blue-700"
-          >
-            Back to reviews
-          </button>
-          <div className="flex justify-between font-bold text-lg">
-            <h2>{review.reviewerUserName}</h2>
-            <p>{formatDateToDDMMYYYY(review.reviewCreatedAt)}</p>
-          </div>
-          <div className="flex mt-8 items-center">
-            <img
-              style={{ maxWidth: '150px' }}
-              src={review.productImage}
-              alt={review.productName}
-            />
-            <h2>{review.productName}</h2>
+    <>
+      <LoadError status={status} />
+      {status === 'success' && review && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+          <div className="bg-white p-5 rounded-lg flex flex-col justify-between w-4/5 max-w-lg min-h-[400px]">
+            <div>
+              <button onClick={() => window.location.reload()} className="px-2 py-1 text-white bg-blue-600 rounded hover:bg-blue-700 mb-5">
+                Back to reviews
+              </button>
+              <div className="flex justify-between font-bold text-lg">
+                <h2>{review.reviewerUserName}</h2>
+                <p>{formatDateToDDMMYYYY(review.reviewCreatedAt)}</p>
+              </div>
+              <div className="flex mt-8 items-center">
+                <img className="max-w-[150px]" src={review.productImage} alt={review.productName} />
+                <h2>{review.productName}</h2>
+              </div>
+            </div>
+            <div>
+              <div className="flex gap-4 mt-4 mb-2">
+                <p className="font-bold">Rating:</p>
+                <StarRating rating={review.reviewRating} size={1} />
+                <p>({review.reviewRating})</p>
+              </div>
+              <h2 className="font-bold">Description:</h2>
+              <p>{review.reviewDescription}</p>
+            </div>
+            <button 
+              onClick={() => onToggle(review.reviewId, !review.reviewIsEnabled)} 
+              className="px-2 py-1 text-white rounded mt-7 w-[80px]"
+              style={{backgroundColor: review.reviewIsEnabled ? 'green' : 'red'}}
+            >
+              {review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
+            </button>
           </div>
         </div>
-        <div>
-          <div className="flex gap-4 mt-4 mb-2">
-            <p className = "font-bold">Rating:</p>
-            <StarRating rating={review.reviewRating} size={1} />
-            <p>({review.reviewRating})</p>
-          </div>
-          <h2 className='font-bold'>Description:</h2>
-          <p>{review.reviewDescription}</p>
-        </div>
-        <button
-          style={{
-            backgroundColor: review.reviewIsEnabled ? 'green' : 'red',
-            marginTop: '30px',
-            width: '80px'
-          }}
-          onClick={() => onToggle(review.reviewId, !review.reviewIsEnabled)}
-          className="px-2 py-1 text-white rounded"
-        >
-          {review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
-        </button>
-      </div>
-    </div>
+      )}
+    </>
   )
 }
 
-export default ReviewPopup
+export default ReviewPopup;

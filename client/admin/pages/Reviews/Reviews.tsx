@@ -1,6 +1,10 @@
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { useEffect, useState } from 'react'
-import { fetchAllReviews, fetchReviewById, modifyReviewStatusById } from '../../../apis/reviews'
+import {
+  fetchAllReviews,
+  fetchReviewById,
+  modifyReviewStatusById,
+} from '../../../apis/reviews'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { Review, ReviewForTable } from '../../../../models/Reviews'
 import {
@@ -12,6 +16,7 @@ import ReviewPopup from '../../components/ReviewPopup/ReviewPopup'
 
 const Reviews = () => {
   const { getAccessTokenSilently } = useAuth0()
+  const queryClient = useQueryClient()
   const [selectedReview, setSelectedReview] = useState<Review | null>(null)
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all')
@@ -29,17 +34,10 @@ const Reviews = () => {
   )
 
   const fetchAndShowReviewDetails = async (reviewId: number) => {
-    const token = await getAccessTokenSilently();
-    const review = await fetchReviewById(reviewId, token);
-    setSelectedReview(review);
-  };
-
-  const toggleReviewStatus = async (reviewId: number, isEnabled: boolean) => {
-    const token = await getAccessTokenSilently();
-    await modifyReviewStatusById({ id: reviewId, isEnabled }, token);
-    // Refresh reviews or modify state as needed
-  };
-
+    const token = await getAccessTokenSilently()
+    const review = await fetchReviewById(reviewId, token)
+    setSelectedReview(review)
+  }
 
 
   useEffect(() => {
@@ -84,13 +82,11 @@ const Reviews = () => {
 
   return (
     <>
-    {selectedReview && (
-  <ReviewPopup
-    review={selectedReview}
-    onClose={() => setSelectedReview(null)}
-    onToggle={toggleReviewStatus}
-  />
-)}
+      {selectedReview && (
+        <ReviewPopup
+          reviewId={selectedReview.reviewId}
+        />
+      )}
       <LoadError status={statusReviews} />
       {reviews && currentReviews && filteredAndSortedReviews && (
         <div className="flex justify-center">
@@ -170,19 +166,34 @@ const Reviews = () => {
             {/* TABLE */}
             <div className="divTable bg-white mt-4 border border-gray-300">
               <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                <div className="divCell py-3 px-8" style={{ minWidth: '200px' }}>
+                <div
+                  className="divCell py-3 px-8"
+                  style={{ minWidth: '200px' }}
+                >
                   UserName
                 </div>
-                <div className="divCell py-3 px-8" style={{ minWidth: '300px' }}>
+                <div
+                  className="divCell py-3 px-8"
+                  style={{ minWidth: '300px' }}
+                >
                   Product
                 </div>
-                <div className="divCell py-3 px-8" style={{ minWidth: '100px' }}>
+                <div
+                  className="divCell py-3 px-8"
+                  style={{ minWidth: '100px' }}
+                >
                   Rating
                 </div>
-                <div className="divCell py-3 px-8" style={{ minWidth: '100px' }}>
+                <div
+                  className="divCell py-3 px-8"
+                  style={{ minWidth: '100px' }}
+                >
                   Status
                 </div>
-                <div className="divCell py-3 px-8" style={{ minWidth: '200px' }}>
+                <div
+                  className="divCell py-3 px-8"
+                  style={{ minWidth: '200px' }}
+                >
                   Date Created
                 </div>
               </div>
