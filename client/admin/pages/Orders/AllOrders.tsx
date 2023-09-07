@@ -28,23 +28,38 @@ export const AllOrders = () => {
       <LoadError status={ordersStatus} />
       {orders && (
         <>
-          <h1>Order History</h1>
-          <div className="space-y-4">
-            {orders.map((order: Orders) => (
-              <div
-                key={order.orderId}
-                className="p-4 border border-gray-400 rounded-md mb-4"
-              >
-                <div className="flex justify-between">
-                  <p className="text-lg font-semibold"># {order.orderId}</p>
-                  <p className="text-gray-500">{order.userName}</p>
-                  <p className="text-gray-500">{order.purchasedAt}</p>
-                </div>
-                <div className="text-gray-600 mt-2">
-                  Total: {formatCurrency(order.totalSale)}
-                </div>
+          <div className="p-4">
+            <h1>Orders</h1>
+            <div className="divTable bg-white mt-4 border border-gray-300">
+              <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                <div className="divCell py-3 px-8">Order ID</div>
+                <div className="divCell py-3 px-8">User Name</div>
+                <div className="divCell py-3 px-8">Purchase Date</div>
+                <div className="divCell py-3 px-8">Total Sale</div>
               </div>
-            ))}
+
+              <div className="divBody text-gray-600 text-sm font-light">
+                {orders.map((order: Orders) => (
+                  <div
+                    key={order.orderId}
+                    className="divRow border-b border-gray-200 hover:bg-gray-100"
+                  >
+                    <div className="divCell py-3 px-8 text-left whitespace-nowrap">
+                      {order.orderId}
+                    </div>
+                    <div className="divCell py-3 px-8 text-left">
+                      {order.userName}
+                    </div>
+                    <div className="divCell py-3 px-8 text-left">
+                      {order.purchasedAt}
+                    </div>
+                    <div className="divCell py-3 px-8 text-left">
+                      {formatCurrency(order.totalSale)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </>
       )}
