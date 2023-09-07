@@ -24,7 +24,7 @@ const Reviews = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const reviewsPerPage = 20
 
-  const { data: reviews, status: statusReviews } = useQuery(
+  const { data: reviews, status: statusReviews, refetch } = useQuery(
     ['getReviews'],
     async () => {
       const token = await getAccessTokenSilently()
@@ -80,11 +80,17 @@ const Reviews = () => {
     (filteredAndSortedReviews?.length ?? 0) / reviewsPerPage,
   )
 
+  const closeReviewPopup = () => {
+    setSelectedReview(null);
+    refetch()
+  }
+
   return (
     <>
       {selectedReview && (
         <ReviewPopup
           reviewId={selectedReview.reviewId}
+          closeReviewPopup={closeReviewPopup}
         />
       )}
       <LoadError status={statusReviews} />

@@ -9,9 +9,10 @@ import LoadError from '../../../user/components/LoadError/LoadError'
 
 interface ReviewPopupProps {
   reviewId: number;
+  closeReviewPopup : () => void
 }
 
-const ReviewPopup = ({ reviewId }: ReviewPopupProps) => {
+const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
   const queryClient = useQueryClient();
   const { getAccessTokenSilently } = useAuth0()
 
@@ -43,6 +44,8 @@ const ReviewPopup = ({ reviewId }: ReviewPopupProps) => {
     mutation.mutate({ reviewId, isEnabled });
   }
 
+
+
   return (
     <>
       <LoadError status={status} />
@@ -50,7 +53,7 @@ const ReviewPopup = ({ reviewId }: ReviewPopupProps) => {
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div className="bg-white p-5 rounded-lg flex flex-col justify-between w-4/5 max-w-lg min-h-[400px]">
             <div>
-              <button onClick={() => window.location.reload()} className="px-2 py-1 text-white bg-blue-600 rounded hover:bg-blue-700 mb-5">
+              <button onClick={closeReviewPopup} className="px-2 py-1 text-white bg-blue-600 rounded hover:bg-blue-700 mb-5">
                 Back to reviews
               </button>
               <div className="flex justify-between font-bold text-lg">
