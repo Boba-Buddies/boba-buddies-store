@@ -30,10 +30,25 @@ export async function fetchLatestOrderId(token: string) {
   }
 }
 
+// fetches orders by user id
 export async function fetchUserOrders(token: string) {
   try {
     const response = await request
       .get(`${baseUrl}/user-orders`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+    return response.body.orders
+  } catch (error) {
+    console.error('Error fetching user orders:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
+}
+
+// fetches all orders
+export async function fetchAllOrders(token: string) {
+  try {
+    const response = await request
+      .get(`${baseUrl}`)
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
     return response.body.orders

@@ -6,14 +6,12 @@ export const userOrdersSchema = z.object({
   totalAmount: z.number(),
 })
 
-export const ordersSchema = z
-  .object({
-    userName: z.string(),
-    orderId: z.number(),
-    totalSale: z.number(),
-    purchasedAt: z.string(),
-  })
-  .array()
+export const ordersSchema = z.object({
+  userName: z.string(),
+  orderId: z.number(),
+  totalSale: z.number(),
+  purchasedAt: z.string(),
+})
 
 export const orderSchema = z.object({
   orderId: z.number(),
