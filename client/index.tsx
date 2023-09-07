@@ -24,7 +24,6 @@ import {
   Wishlist,
 } from './user/pages/index'
 import { Reviews, Dashboard } from './admin/pages/'
-import { AdminAppLayout } from './admin/components/AdminAppLayout/AdminAppLayout'
 import Redirect from './user/pages/Redirect/Redirect'
 import { Orders } from './admin/pages/Orders/Orders'
 
