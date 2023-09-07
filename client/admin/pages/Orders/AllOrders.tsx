@@ -31,18 +31,19 @@ export const AllOrders = () => {
           <h1>Order History</h1>
           <div className="space-y-4">
             {orders.map((order: Orders) => (
-              <li
+              <div
                 key={order.orderId}
                 className="p-4 border border-gray-400 rounded-md mb-4"
               >
                 <div className="flex justify-between">
-                  <div className="text-lg font-semibold"># {order.orderId}</div>
-                  <div className="text-gray-500">{order.purchasedAt}</div>
+                  <p className="text-lg font-semibold"># {order.orderId}</p>
+                  <p className="text-gray-500">{order.userName}</p>
+                  <p className="text-gray-500">{order.purchasedAt}</p>
                 </div>
                 <div className="text-gray-600 mt-2">
                   Total: {formatCurrency(order.totalSale)}
                 </div>
-              </li>
+              </div>
             ))}
           </div>
         </>
