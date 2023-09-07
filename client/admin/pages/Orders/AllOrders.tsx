@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from 'react-query'
 
 import { fetchAllOrders } from '../../../apis/purchases'
 import { Orders } from '../../../../models/Purchases'
+import LoadError from '../../../user/components/LoadError/LoadError'
 
 export const AllOrders = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -22,18 +23,13 @@ export const AllOrders = () => {
       minimumFractionDigits: 2,
     }).format(amount)
   }
-
-  console.log(orders)
   return (
     <>
-      <h1>Order History</h1>
-      <div className="space-y-4">
-        {ordersStatus === 'loading' ? (
-          <p>Loading orders...</p>
-        ) : ordersStatus === 'error' ? (
-          <p className="text-red-600">Error loading orders</p>
-        ) : orders && orders.length > 0 ? (
-          <ul className="divide-y divide-gray-200">
+      <LoadError status={ordersStatus} />
+      {orders && (
+        <>
+          <h1>Order History</h1>
+          <div className="space-y-4">
             {orders.map((order: Orders) => (
               <li
                 key={order.orderId}
@@ -48,11 +44,9 @@ export const AllOrders = () => {
                 </div>
               </li>
             ))}
-          </ul>
-        ) : (
-          <p>No orders available.</p>
-        )}
-      </div>
+          </div>
+        </>
+      )}
     </>
   )
 }
