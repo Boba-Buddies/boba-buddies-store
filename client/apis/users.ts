@@ -1,5 +1,5 @@
 import request from 'superagent'
-import { UpdateUser, User } from '../../models/Users'
+import { NewUser, UpdateUser, User } from '../../models/Users'
 
 const baseUrl = '/api/v1/users'
 
@@ -17,12 +17,24 @@ export async function fetchUser(token: string) {
   }
 }
 
+export async function fetchCheckIfUserExists(token: string) {
+  try {
+    const response = await request
+      .get(`${baseUrl}/check`)
+      .set('Authorization', `Bearer ${token}`)
+    return response.body
+  } catch (error) {
+    console.error('An error occurred:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
+}
+
+
 export async function fetchIsUserAdmin(token: string) {
   try {
     const response = await request
       .get(`${baseUrl}/isAdmin`)
       .set('Authorization', `Bearer ${token}`)
-
     const isAdmin: boolean = response.body
     return isAdmin
   } catch (error) {
@@ -40,6 +52,21 @@ export async function modifyUserDetails(
       .patch(`${baseUrl}/edit`)
       .set('Authorization', `Bearer ${token}`)
       .send(updatedUser)
+  } catch (error) {
+    console.error('Error modifying user details:', (error as Error).message)
+    return { error: (error as Error).message }
+  }
+}
+
+export async function insertUser(
+  newUser: NewUser,
+  token: string,
+) {
+  try {
+    await request
+      .post(`${baseUrl}/`)
+      .set('Authorization', `Bearer ${token}`)
+      .send(newUser)
   } catch (error) {
     console.error('Error modifying user details:', (error as Error).message)
     return { error: (error as Error).message }

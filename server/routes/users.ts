@@ -2,6 +2,7 @@ import express from 'express'
 import * as db from '../db/users'
 import { logError } from '../logger'
 import { validateAccessToken } from '../auth0'
+import { NewUser } from '../../models/Users'
 
 const router = express.Router()
 
@@ -11,7 +12,7 @@ router.get('/isAdmin', validateAccessToken, async (req, res) => {
 
   if (!userId) {
     res.status(400).json({ message: 'Please provide an id' })
-    return
+    return false
   }
   try {
     const isAdmin = await db.isUserAdmin(userId)
@@ -108,6 +109,7 @@ router.get('/check', validateAccessToken, async (req, res) => {
 
   if (!userId) {
     res.status(400).json({ message: 'Please provide an id' })
+    res.json(false)
     return
   }
   try {
@@ -129,9 +131,9 @@ router.post('/', validateAccessToken, async (req, res) => {
       res.status(400).json({ message: 'Please provide an id' })
       return
     }
-    const newUser = req.body
+    const newUser : NewUser = req.body
 
-    await db.addUser(newUser)
+    await db.addUser({auth0Id : userId, ...newUser})
 
     res.sendStatus(200)
   } catch (error) {
