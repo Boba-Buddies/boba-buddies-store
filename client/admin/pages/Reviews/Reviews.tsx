@@ -1,33 +1,48 @@
 import { useQuery } from 'react-query'
 import { useEffect, useState } from 'react'
-import { fetchAllReviews } from '../../../apis/reviews'
+import {
+  fetchAllReviews,
+  fetchReviewById,
+} from '../../../apis/reviews'
 import LoadError from '../../../user/components/LoadError/LoadError'
-import { ReviewForTable } from '../../../../models/Reviews'
+import { Review, ReviewForTable } from '../../../../models/Reviews'
 import {
   formatDateToDDMMYYYY,
   format24HourTo12Hour,
 } from '../../../utils/formatDate/formatDate'
+import { useAuth0 } from '@auth0/auth0-react'
+import ReviewPopup from '../../components/ReviewPopup/ReviewPopup'
 
 const Reviews = () => {
-  const { data: reviews, status: statusReviews } = useQuery(
-    ['getReviews'],
-    async () => {
-      const fetchedReviews: ReviewForTable[] = await fetchAllReviews()
-      return fetchedReviews
-    },
-  )
-
+  const { getAccessTokenSilently } = useAuth0()
+  const [selectedReview, setSelectedReview] = useState<Review | null>(null)
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all')
   const [sort, setSort] = useState('Newest first')
   const [currentPage, setCurrentPage] = useState(1)
   const reviewsPerPage = 20
 
+  const { data: reviews, status: statusReviews, refetch } = useQuery(
+    ['getReviews'],
+    async () => {
+      const token = await getAccessTokenSilently()
+      const fetchedReviews: ReviewForTable[] = await fetchAllReviews(token)
+      return fetchedReviews
+    },
+  )
+
+  const fetchAndShowReviewDetails = async (reviewId: number) => {
+    const token = await getAccessTokenSilently()
+    const review = await fetchReviewById(reviewId, token)
+    setSelectedReview(review)
+  }
+
+
   useEffect(() => {
     setCurrentPage(1)
   }, [search, filter, sort])
 
-  // Filter and sort the reviews based on the current settings
+
   const filteredAndSortedReviews = reviews
     ?.filter((review) => {
       if (filter === 'enabled') return review.isEnabled
@@ -52,7 +67,7 @@ const Reviews = () => {
         case 'Low to high rating':
           return a.rating - b.rating
         default:
-          return 0 // No sorting
+          return 0 
       }
     })
 
@@ -63,8 +78,19 @@ const Reviews = () => {
     (filteredAndSortedReviews?.length ?? 0) / reviewsPerPage,
   )
 
+  const closeReviewPopup = () => {
+    setSelectedReview(null);
+    refetch()
+  }
+
   return (
     <>
+      {selectedReview && (
+        <ReviewPopup
+          reviewId={selectedReview.reviewId}
+          closeReviewPopup={closeReviewPopup}
+        />
+      )}
       <LoadError status={statusReviews} />
       {reviews && currentReviews && filteredAndSortedReviews && (
         <div className="flex justify-center">
@@ -144,19 +170,34 @@ const Reviews = () => {
             {/* TABLE */}
             <div className="divTable bg-white mt-4 border border-gray-300">
               <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                <div className="divCell py-3 px-8" style={{ minWidth: '200px' }}>
+                <div
+                  className="divCell py-3 px-8"
+                  style={{ minWidth: '200px' }}
+                >
                   UserName
                 </div>
-                <div className="divCell py-3 px-8" style={{ minWidth: '300px' }}>
+                <div
+                  className="divCell py-3 px-8"
+                  style={{ minWidth: '300px' }}
+                >
                   Product
                 </div>
-                <div className="divCell py-3 px-8" style={{ minWidth: '100px' }}>
+                <div
+                  className="divCell py-3 px-8"
+                  style={{ minWidth: '100px' }}
+                >
                   Rating
                 </div>
-                <div className="divCell py-3 px-8" style={{ minWidth: '100px' }}>
+                <div
+                  className="divCell py-3 px-8"
+                  style={{ minWidth: '100px' }}
+                >
                   Status
                 </div>
-                <div className="divCell py-3 px-8" style={{ minWidth: '200px' }}>
+                <div
+                  className="divCell py-3 px-8"
+                  style={{ minWidth: '200px' }}
+                >
                   Date Created
                 </div>
               </div>
@@ -165,7 +206,8 @@ const Reviews = () => {
                 {currentReviews.map((review) => (
                   <div
                     key={review.id}
-                    className="divRow border-b border-gray-200 hover:bg-gray-100"
+                    className="divRow border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
+                    onClick={() => fetchAndShowReviewDetails(review.id)}
                   >
                     <div
                       className="divCell py-3 px-8 text-left whitespace-nowrap"
