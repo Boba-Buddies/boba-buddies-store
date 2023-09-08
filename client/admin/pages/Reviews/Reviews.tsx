@@ -1,9 +1,8 @@
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery } from 'react-query'
 import { useEffect, useState } from 'react'
 import {
   fetchAllReviews,
   fetchReviewById,
-  modifyReviewStatusById,
 } from '../../../apis/reviews'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { Review, ReviewForTable } from '../../../../models/Reviews'
@@ -43,7 +42,7 @@ const Reviews = () => {
     setCurrentPage(1)
   }, [search, filter, sort])
 
-  // Filter and sort the reviews based on the current settings
+
   const filteredAndSortedReviews = reviews
     ?.filter((review) => {
       if (filter === 'enabled') return review.isEnabled
@@ -68,7 +67,7 @@ const Reviews = () => {
         case 'Low to high rating':
           return a.rating - b.rating
         default:
-          return 0 // No sorting
+          return 0 
       }
     })
 

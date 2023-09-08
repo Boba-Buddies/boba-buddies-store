@@ -1,6 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { useQuery, useMutation, useQueryClient } from 'react-query'
-import { Review } from '../../../../models/Reviews'
+import { useQuery, useMutation } from 'react-query'
 import StarRating from '../../../user/components/StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate/formatDate'
 import { fetchReviewById, modifyReviewStatusById } from '../../../apis/reviews'
@@ -48,7 +47,6 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
     },
     {
       onSuccess: () => {
-        // Invalidate to refetch something when a mutation is successful
         refetch();
       },
     }
