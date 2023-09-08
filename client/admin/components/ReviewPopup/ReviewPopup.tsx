@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query'
 import { Review } from '../../../../models/Reviews'
 import StarRating from '../../../user/components/StarRating/StarRating'
@@ -13,8 +13,22 @@ interface ReviewPopupProps {
 }
 
 const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
-  const queryClient = useQueryClient();
   const { getAccessTokenSilently } = useAuth0()
+
+  const popupRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+        closeReviewPopup();
+      }
+    }
+
+    window.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      window.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [closeReviewPopup]);
 
   const { data: review, status, refetch } = useQuery(
     ['getReviewById', reviewId],
@@ -51,7 +65,7 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
       <LoadError status={status} />
       {status === 'success' && review && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-white p-5 rounded-lg flex flex-col justify-between w-4/5 max-w-lg min-h-[400px]">
+          <div ref={popupRef} className="bg-white p-5 rounded-lg flex flex-col justify-between w-4/5 max-w-lg min-h-[400px]">
             <div>
               <button onClick={closeReviewPopup} className="px-2 py-1 text-white bg-blue-600 rounded hover:bg-blue-700 mb-5">
                 Back to reviews

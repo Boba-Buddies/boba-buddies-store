@@ -16,7 +16,6 @@ import ReviewPopup from '../../components/ReviewPopup/ReviewPopup'
 
 const Reviews = () => {
   const { getAccessTokenSilently } = useAuth0()
-  const queryClient = useQueryClient()
   const [selectedReview, setSelectedReview] = useState<Review | null>(null)
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all')
