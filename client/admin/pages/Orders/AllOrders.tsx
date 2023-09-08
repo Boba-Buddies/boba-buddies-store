@@ -47,9 +47,8 @@ export const AllOrders = () => {
 
             <div className="divBody text-gray-600 text-sm font-light">
               {orders.map((order: Orders) => (
-                <Link
+                <div
                   key={order.orderId}
-                  to={`/admin/orders/${order.orderId}`}
                   className="divRow border-b border-gray-200 hover:bg-gray-100"
                 >
                   <div className="divCell py-3 px-8 text-left whitespace-nowrap">
@@ -64,7 +63,7 @@ export const AllOrders = () => {
                   <div className="divCell py-3 px-8 text-left">
                     {formatCurrency(order.totalSale)}
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           </div>
