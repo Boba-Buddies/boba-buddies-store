@@ -1,13 +1,16 @@
 import { useAuth0 } from '@auth0/auth0-react'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
+import { Link } from 'react-router-dom'
 
 import { fetchAllOrders } from '../../../apis/purchases'
-import { Orders } from '../../../../models/Purchases'
+import { Order, Orders } from '../../../../models/Purchases'
 import LoadError from '../../../user/components/LoadError/LoadError'
-import { Link } from 'react-router-dom'
+import OrderDetails from './OrderDetails'
 
 export const AllOrders = () => {
   const { getAccessTokenSilently } = useAuth0()
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
 
   const { data: orders, status: ordersStatus } = useQuery(
     'fetchAllOrders',
@@ -24,6 +27,11 @@ export const AllOrders = () => {
       minimumFractionDigits: 2,
     }).format(amount)
   }
+
+  const handleOrderCellClick = (order: Order) => {
+    setSelectedOrder(order)
+  }
+
   return (
     <>
       <LoadError status={ordersStatus} />
@@ -61,6 +69,14 @@ export const AllOrders = () => {
             </div>
           </div>
         </>
+      )}
+
+      {selectedOrder && (
+        <div className="order-details-popup">
+          <button onClick={() => setSelectedOrder(null)}>Close</button>
+
+          <OrderDetails order={selectedOrder} />
+        </div>
       )}
     </>
   )
