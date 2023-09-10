@@ -4,15 +4,15 @@ import {
   formatDateToDDMMYYYY,
 } from '../../../utils/formatDate/formatDate'
 
-interface DisplayReviewsProps {
+interface DisplayCurrentReviewsProps {
   currentReviews: ReviewForTable[]
   fetchAndShowReviewDetails: (reviewId: number) => void
 }
 
-const DisplayReviews = ({
+const DisplayCurrentReviews = ({
   currentReviews,
   fetchAndShowReviewDetails,
-}: DisplayReviewsProps) => {
+}: DisplayCurrentReviewsProps) => {
   return (
     <div className="divBody text-gray-600 text-sm font-light">
       {currentReviews.map((review) => (
@@ -58,4 +58,4 @@ const DisplayReviews = ({
   )
 }
 
-export default DisplayReviews
+export default DisplayCurrentReviews

@@ -11,7 +11,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import ReviewPopup from '../../components/ReviewPopup/ReviewPopup'
 import ReviewSortingControls from '../../components/ReviewSortingControls/ReviewSortingControls'
 import ReviewColumnTitles from '../../components/ReviewColumnTitles/ReviewColumnTitles'
-import DisplayReviews from '../../components/DisplayReviews/DisplayReviews'
+import DisplayCurrentReviews from '../../components/DisplayCurrentReviews/DisplayCurrentReviews'
 
 const Reviews = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -110,7 +110,7 @@ const Reviews = () => {
             {/* TABLE */}
             <div className="divTable bg-white mt-4 border border-gray-300">
               <ReviewColumnTitles/>
-              <DisplayReviews 
+              <DisplayCurrentReviews 
               currentReviews = {currentReviews}
               fetchAndShowReviewDetails={fetchAndShowReviewDetails}/>
             </div>
