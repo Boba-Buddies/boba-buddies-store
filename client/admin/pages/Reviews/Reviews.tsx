@@ -12,6 +12,7 @@ import {
 } from '../../../utils/formatDate/formatDate'
 import { useAuth0 } from '@auth0/auth0-react'
 import ReviewPopup from '../../components/ReviewPopup/ReviewPopup'
+import ReviewSortingControls from '../../components/ReviewSortingControls/ReviewSortingControls'
 
 const Reviews = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -96,76 +97,18 @@ const Reviews = () => {
         <div className="flex justify-center">
           <div className="p-4" style={{ width: '1000px' }}>
             {/* SEARCH */}
-            <div className="border p-2 rounded flex justify-between items-center">
-              <div className="flex items-center">
-                <input
-                  className="border p-2 rounded mr-2"
-                  type="text"
-                  placeholder="Search for a product..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                />
-
-                {/* FILTER */}
-                <p className="mx-2 font-semibold">Showing:</p>
-                <select
-                  className="border p-2 rounded"
-                  onChange={(e) => setFilter(e.target.value)}
-                  value={filter}
-                >
-                  <option value="all">All</option>
-                  <option value="enabled">Enabled</option>
-                  <option value="disabled">Disabled</option>
-                </select>
-
-                {/* SORT */}
-                <p className="mx-2 font-semibold">Filter by:</p>
-                <select
-                  className="border p-2 rounded"
-                  onChange={(e) => setSort(e.target.value)}
-                  value={sort}
-                >
-                  <option value="...">...</option>
-                  <option value="Newest first">Newest first</option>
-                  <option value="Oldest first">Oldest first</option>
-                  <option value="High to low rating">High to low rating</option>
-                  <option value="Low to high rating">Low to high rating</option>
-                </select>
-              </div>
-
-              {/* PAGINATION */}
-              <div className="flex justify-between items-center">
-                <div className="flex flex-col justify-center mx-2 font-semibold">
-                  Showing {firstIndex + 1}-
-                  {Math.min(lastIndex, filteredAndSortedReviews.length)} of{' '}
-                  {filteredAndSortedReviews.length}
-                </div>
-                <div className="flex justify-center">
-                  <button
-                    className={`${
-                      currentPage === 1
-                        ? 'bg-gray-300 cursor-default'
-                        : 'bg-blue-500 hover:bg-blue-700'
-                    } text-white font-bold py-2 px-4 rounded`}
-                    disabled={currentPage === 1}
-                    onClick={() => setCurrentPage(currentPage - 1)}
-                  >
-                    {'<'}
-                  </button>
-                  <button
-                    className={`${
-                      currentPage === totalPages
-                        ? 'bg-gray-300 cursor-default'
-                        : 'bg-blue-500 hover:bg-blue-700'
-                    } text-white font-bold py-2 px-4 rounded ml-2`}
-                    disabled={lastIndex >= filteredAndSortedReviews.length}
-                    onClick={() => setCurrentPage(currentPage + 1)}
-                  >
-                    {'>'}
-                  </button>
-                </div>
-              </div>
-            </div>
+            <ReviewSortingControls
+              search={search}
+              setSearch={setSearch}
+              filter={filter}
+              setFilter={setFilter}
+              sort={sort}
+              setSort={setSort}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
+              totalReviews={filteredAndSortedReviews.length}
+            />
 
             {/* TABLE */}
             <div className="divTable bg-white mt-4 border border-gray-300">
