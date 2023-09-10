@@ -33,7 +33,7 @@ function EditProduct({
       const modal: UpsertProduct = {
         description: editedProduct.description,
         image: editedProduct.image,
-        isEnabled: editedProduct.isEnabled,
+        isEnabled: true,  // how to solve editedProduct.isEnabled = 1 ???
         name: editedProduct.name,
         price: editedProduct.price,
         stock: editedProduct.stock

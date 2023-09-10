@@ -57,8 +57,6 @@ const IndividualProduct = () => {
         >
           <EditProduct
             product={product}
-            wishlistStatus={wishlistStatus}
-            refetchWishlistProductStatus={refetchWishlistProductStatus}
           />
         </div>
       )}
