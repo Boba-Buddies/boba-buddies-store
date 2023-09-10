@@ -10,6 +10,7 @@ import {
 import { useAuth0 } from '@auth0/auth0-react'
 import ReviewPopup from '../../components/ReviewPopup/ReviewPopup'
 import ReviewSortingControls from '../../components/ReviewSortingControls/ReviewSortingControls'
+import ReviewColumnTitles from '../../components/ReviewColumnTitles/ReviewColumnTitles'
 
 const Reviews = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -107,38 +108,7 @@ const Reviews = () => {
 
             {/* TABLE */}
             <div className="divTable bg-white mt-4 border border-gray-300">
-              <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-                <div
-                  className="divCell py-3 px-8"
-                  style={{ minWidth: '200px' }}
-                >
-                  UserName
-                </div>
-                <div
-                  className="divCell py-3 px-8"
-                  style={{ minWidth: '300px' }}
-                >
-                  Product
-                </div>
-                <div
-                  className="divCell py-3 px-8"
-                  style={{ minWidth: '100px' }}
-                >
-                  Rating
-                </div>
-                <div
-                  className="divCell py-3 px-8"
-                  style={{ minWidth: '100px' }}
-                >
-                  Status
-                </div>
-                <div
-                  className="divCell py-3 px-8"
-                  style={{ minWidth: '200px' }}
-                >
-                  Date Created
-                </div>
-              </div>
+              <ReviewColumnTitles/>
 
               <div className="divBody text-gray-600 text-sm font-light">
                 {currentReviews.map((review) => (
