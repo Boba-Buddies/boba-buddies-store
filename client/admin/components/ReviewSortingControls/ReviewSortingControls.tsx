@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface ReviewSortingControlsProps {
   search: string
   setSearch: React.Dispatch<React.SetStateAction<string>>
