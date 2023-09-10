@@ -3,10 +3,6 @@ import { useEffect, useState } from 'react'
 import { fetchAllReviews, fetchReviewById } from '../../../apis/reviews'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { Review, ReviewForTable } from '../../../../models/Reviews'
-import {
-  formatDateToDDMMYYYY,
-  format24HourTo12Hour,
-} from '../../../utils/formatDate/formatDate'
 import { useAuth0 } from '@auth0/auth0-react'
 import ReviewPopup from '../../components/ReviewPopup/ReviewPopup'
 import ReviewSortingControls from '../../components/ReviewSortingControls/ReviewSortingControls'
