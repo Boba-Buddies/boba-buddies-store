@@ -1,9 +1,6 @@
 import { useQuery } from 'react-query'
 import { useEffect, useState } from 'react'
-import {
-  fetchAllReviews,
-  fetchReviewById,
-} from '../../../apis/reviews'
+import { fetchAllReviews, fetchReviewById } from '../../../apis/reviews'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { Review, ReviewForTable } from '../../../../models/Reviews'
 import {
@@ -23,14 +20,15 @@ const Reviews = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const reviewsPerPage = 20
 
-  const { data: reviews, status: statusReviews, refetch } = useQuery(
-    ['getReviews'],
-    async () => {
-      const token = await getAccessTokenSilently()
-      const fetchedReviews: ReviewForTable[] = await fetchAllReviews(token)
-      return fetchedReviews
-    },
-  )
+  const {
+    data: reviews,
+    status: statusReviews,
+    refetch,
+  } = useQuery(['getReviews'], async () => {
+    const token = await getAccessTokenSilently()
+    const fetchedReviews: ReviewForTable[] = await fetchAllReviews(token)
+    return fetchedReviews
+  })
 
   const fetchAndShowReviewDetails = async (reviewId: number) => {
     const token = await getAccessTokenSilently()
@@ -38,11 +36,9 @@ const Reviews = () => {
     setSelectedReview(review)
   }
 
-
   useEffect(() => {
     setCurrentPage(1)
   }, [search, filter, sort])
-
 
   const filteredAndSortedReviews = reviews
     ?.filter((review) => {
@@ -68,7 +64,7 @@ const Reviews = () => {
         case 'Low to high rating':
           return a.rating - b.rating
         default:
-          return 0 
+          return 0
       }
     })
 
@@ -80,7 +76,7 @@ const Reviews = () => {
   )
 
   const closeReviewPopup = () => {
-    setSelectedReview(null);
+    setSelectedReview(null)
     refetch()
   }
 
@@ -96,7 +92,6 @@ const Reviews = () => {
       {reviews && currentReviews && filteredAndSortedReviews && (
         <div className="flex justify-center">
           <div className="p-4" style={{ width: '1000px' }}>
-            {/* SEARCH */}
             <ReviewSortingControls
               search={search}
               setSearch={setSearch}
