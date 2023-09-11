@@ -58,14 +58,19 @@ export async function fetchAllOrders(token: string) {
   }
 }
 
-
-export async function fetchOrderById(token: string) {
+export async function fetchOrderById(orderId: number, token: string) {
   try {
     const response = await request
-      .get(`${baseUrl}`)
+      .get(`${baseUrl}/order/${orderId}`)
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
-    return response.body.orders
+
+    if (response.status === 200) {
+      return response.body.order
+    } else {
+      console.error('Error fetching order by ID:', response.text)
+      throw { error: response.text }
+    }
   } catch (error) {
     console.error('Error fetching user orders:', (error as Error).message)
     throw { error: (error as Error).message }
