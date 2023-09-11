@@ -13,7 +13,7 @@ const ProductsSummary = () => {
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState('')
   const [filter, setFilter] = useState('')
-  const productsPerPage = 15
+  const productsPerPage = 20
   const [hoveredProductId, setHoveredProductId] = useState<number | null>(null)
   const [searchProductId, setSearchProductId] = useState<number | null>(null);
 
@@ -25,7 +25,6 @@ const ProductsSummary = () => {
     ['getAllProducts'],
     async () => {
       const token = await getAccessTokenSilently()
-      // return await fetchAllProductsUser(token)
       return await fetchAllProductsAdmin(token)
     },
   )
