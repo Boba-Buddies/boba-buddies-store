@@ -130,7 +130,7 @@ const ViewProducts = ({
             </div>
 
             <div className='flex-col w-1/4'>
-              <Link
+              {product.stock && product.stock < 5 && <Link
                 to={`/admin/${product.id}`}
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId(null)}
@@ -142,8 +142,8 @@ const ViewProducts = ({
                       : 'inherit',
                 }}
               >
-                {product.stock && product.stock < 5 && <span className='text-red-500'>LOW STOCK</span>}
-              </Link>
+                <span className='text-red-500'>LOW STOCK</span>
+              </Link>}
 
               <Link
                 to={`/admin/${product.id}`}
