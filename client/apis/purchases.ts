@@ -57,3 +57,17 @@ export async function fetchAllOrders(token: string) {
     throw { error: (error as Error).message }
   }
 }
+
+
+export async function fetchOrderById(token: string) {
+  try {
+    const response = await request
+      .get(`${baseUrl}`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+    return response.body.orders
+  } catch (error) {
+    console.error('Error fetching user orders:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
+}

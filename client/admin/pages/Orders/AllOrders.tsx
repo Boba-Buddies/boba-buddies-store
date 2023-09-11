@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import { fetchAllOrders } from '../../../apis/purchases'
 import { Order, Orders } from '../../../../models/Purchases'
 import LoadError from '../../../user/components/LoadError/LoadError'
-import OrderDetails from './OrderDetails'
+import OrderDetails from './OrderPopup'
 
 export const AllOrders = () => {
   const { getAccessTokenSilently } = useAuth0()
