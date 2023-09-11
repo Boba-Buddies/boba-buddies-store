@@ -7,6 +7,7 @@ import {
 } from '../../../apis/users'
 import { useNavigate } from 'react-router-dom'
 import { NewUser } from '../../../../models/Users'
+import { useEffect } from 'react'
 
 const Redirect = () => {
   const { getAccessTokenSilently, user } = useAuth0()
@@ -32,43 +33,32 @@ const Redirect = () => {
   )
 
   const addUserMutation = useMutation(async (newUser: NewUser) => {
-    console.log(99)
     const token = await getAccessTokenSilently()
     return insertUser(newUser, token)
   })
 
-  console.log(user)
-
-  if (ifUserExists) {
-    if (isAdmin) {
-      console.log(1)
-      goTo('/admin')
-    } else {
-      console.log(2)
-      goTo('/profile')
+  useEffect(() => {
+    if (statusUserExists === 'success' && statusIsAdmin === 'success') {
+      if (ifUserExists) {
+        if (isAdmin) {
+          goTo('/admin')
+        } else {
+          goTo('/profile')
+        }
+      } else if (user && user.nickname && user.email) {
+        const newUser = {
+          firstName: '',
+          lastName: '',
+          userName: user.nickname,
+          emailAddress: user.email,
+        }
+        addUserMutation.mutate(newUser)
+        goTo('/edit')
+      }
     }
-  } 
-    const newUser = {
-      firstName: '',
-      lastName: '',
-      userName: user?.nickname || 'defaultUsername',
-      emailAddress: user?.email || 'defaultEmail@example.com',
-    }
-    addUserMutation.mutate(newUser)
-    goTo('/edit')
+  }, [ifUserExists, isAdmin, user, goTo])
 
-    return (
-      <div>Redirecting...</div>
-    )
-  }
-
-
-
-
-//Check if user exists
-//If they don't exist we add them to the database. Then we redirect them to the home page.
-//If they do exist, we check if they are admin.
-//If they are admin, redirect to dashboard.
-//If they are not admin, redirect to profile page.
+  return <div>Redirecting...</div>
+}
 
 export default Redirect
