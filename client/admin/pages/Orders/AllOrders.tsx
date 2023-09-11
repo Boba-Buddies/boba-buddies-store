@@ -1,12 +1,11 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { Link } from 'react-router-dom'
 
-import { fetchAllOrders } from '../../../apis/purchases'
+import { fetchAllOrders, fetchOrderById } from '../../../apis/purchases'
 import { Order, Orders } from '../../../../models/Purchases'
 import LoadError from '../../../user/components/LoadError/LoadError'
-import OrderDetails from './OrderPopup'
+import OrderPopup from './OrderPopup'
 
 export const AllOrders = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -28,8 +27,14 @@ export const AllOrders = () => {
     }).format(amount)
   }
 
-  const handleOrderCellClick = (order: Order) => {
-    setSelectedOrder(order)
+  const handleOrderCellClick = async (orderId: number) => {
+    try {
+      const token = await getAccessTokenSilently()
+      const order = await fetchOrderById(orderId, token)
+      setSelectedOrder(order)
+    } catch (error) {
+      console.error('Error fetching order details:', error)
+    }
   }
 
   return (
@@ -50,6 +55,7 @@ export const AllOrders = () => {
                 <div
                   key={order.orderId}
                   className="divRow border-b border-gray-200 hover:bg-gray-100"
+                  onClick={() => handleOrderCellClick(order.orderId)}
                 >
                   <div className="divCell py-3 px-8 text-left whitespace-nowrap">
                     {order.orderId}
@@ -73,8 +79,11 @@ export const AllOrders = () => {
       {selectedOrder && (
         <div className="order-details-popup">
           <button onClick={() => setSelectedOrder(null)}>Close</button>
-
-          <OrderDetails order={selectedOrder} />
+          <OrderPopup
+            orderId={selectedOrder.orderId}
+            order={selectedOrder}
+            closeOrderPopup={() => setSelectedOrder(null)}
+          />
         </div>
       )}
     </>
