@@ -26,6 +26,8 @@ import {
 import { Reviews, Dashboard } from './admin/pages/'
 import { AdminAppLayout } from './admin/components/AdminAppLayout/AdminAppLayout'
 import Redirect from './user/pages/Redirect/Redirect'
+import AdiminComponent from './UI/AdiminComponent'
+import ProtectedComponent from './UI/ProtectedComponent'
 
 export const routes = createRoutesFromElements(
   <Route path="/" element={<AppLayout />} errorElement={<ErrorPage />}>
@@ -43,7 +45,7 @@ export const routes = createRoutesFromElements(
     />
     <Route
       path="thankyou"
-      element={<UnprotectedComponent component={ThankYou} />}
+      element={<ProtectedComponent component={ThankYou} />}
     />
     <Route
       path="contact"
@@ -51,33 +53,30 @@ export const routes = createRoutesFromElements(
     />
     <Route
       path="checkout"
-      element={<UnprotectedComponent component={Checkout} />}
+      element={<ProtectedComponent component={Checkout} />}
     />
     <Route
       path="profile"
-      element={<UnprotectedComponent component={Profile} />}
+      element={<ProtectedComponent component={Profile} />}
     />
     <Route
       path="edit"
-      element={<UnprotectedComponent component={EditProfile} />}
+      element={<ProtectedComponent component={EditProfile} />}
     />
     <Route
       path="wishlist"
-      element={<UnprotectedComponent component={Wishlist} />}
+      element={<ProtectedComponent component={Wishlist} />}
     />
     <Route
       path="admin/reviews"
-      element={<UnprotectedComponent component={Reviews} />}
+      element={<AdiminComponent component={Reviews} />}
     />
-    <Route
-      path="admin"
-      element={<UnprotectedComponent component={Dashboard} />}
-    />
+    <Route path="admin" element={<AdiminComponent component={Dashboard} />} />
 
     {/* temporary route!! */}
     <Route
       path="admin/temporary"
-      element={<UnprotectedComponent component={AdminAppLayout} />}
+      element={<AdiminComponent component={AdminAppLayout} />}
     />
   </Route>,
 )
