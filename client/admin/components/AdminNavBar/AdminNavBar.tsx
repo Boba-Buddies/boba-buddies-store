@@ -18,7 +18,7 @@ export const AdminNavBar = () => {
     <div className="bg-gray-500 py-4 text-center">
       <div className="inline-block space-x-4">
         <button
-          onClick={() => goTo('/admin/dashboard')}
+          onClick={() => goTo('/admin')}
           className="font-bold text-white hover:bg-gray-400 px-4 py-2 rounded"
         >
           Dashboard
