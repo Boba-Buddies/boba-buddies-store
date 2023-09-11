@@ -14,7 +14,7 @@ const AdminSortFilterControls: React.FC<AdminSortFilterControlsProps> = ({
   setSort,
 }) => {
   return (
-    <div style={{ marginTop: "20px", marginBottom: "60px" }}>
+    <div style={{ marginTop: "20px", marginBottom: "20px" }}>
       <label htmlFor="filter" className={'font-bold'}>View by: </label>
       <select
         name="filter"
@@ -44,6 +44,10 @@ const AdminSortFilterControls: React.FC<AdminSortFilterControlsProps> = ({
         <option value="Price (Low to High)">Price (Low to High)</option>
         <option value="Price (High to Low)">Price (High to Low)</option>
         <option value="Alphabetical (A to Z)">Alphabetical (A to Z)</option>
+        <option value="Stock (Low to High)">Stock (Low to High)</option>
+        <option value="Stock (High to Low)">Stock (High to Low)</option>
+        <option value="Rating (Low to High)">Rating (Low to High)</option>
+        <option value="Rating (High to Low)">Rating (High to Low)</option>
       </select>
     </div>
   );

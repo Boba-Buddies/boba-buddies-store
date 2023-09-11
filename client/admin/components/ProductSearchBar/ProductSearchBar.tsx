@@ -17,11 +17,11 @@ const ProductSearchBar = ({ setSearchProductIdHanlder }: ProductSearchBarProps) 
   }
 
   return (
-    <div className="w-full max-w-xl flex mx-auto p-20 text-xl">
+    <div className="w-full max-w-xl flex mx-auto text-l">
       <input
         type="text"
-        className="w-full placeholder-gray-400 text-gray-900 p-4"
-        placeholder="Search"
+        className="w-full placeholder-gray-400 text-gray-900 p-4 border"
+        placeholder="Search product id"
         onChange={search}
         value={searchValue}
       />

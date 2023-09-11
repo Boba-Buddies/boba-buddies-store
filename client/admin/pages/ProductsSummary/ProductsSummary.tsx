@@ -95,20 +95,19 @@ const ProductsSummary = () => {
       <LoadError status={statusProducts} />
       {products && <div
         className="flex flex-col items-center"
-        style={{ marginTop: '60px', marginBottom: '100px' }}
+        style={{ marginTop: '20px', marginBottom: '100px' }}
       >
         <ProductSearchBar setSearchProductIdHanlder={setSearchProductIdHandler} />
 
-        <AdminSortFilterControls
-          filter={filter}
-          sort={sort}
-          setFilter={setFilter}
-          setSort={setSort}
-        />
         <ViewProducts
           hoveredProductId={hoveredProductId}
           setHoveredProductId={setHoveredProductId}
           getPaginatedProducts={getPaginatedProducts}
+          filter={filter}
+          sort={sort}
+          setFilter={setFilter}
+          setSort={setSort}
+          totalproducts={sortedProducts.length}
         />
         <ShopPaginationControls
           page={page}

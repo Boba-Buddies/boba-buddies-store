@@ -1,21 +1,46 @@
 import { Link } from 'react-router-dom'
 import { AdminProduct } from '../../../../models/Products'
 import StarRating from '../../../user/components/StarRating/StarRating'
+import AdminSortFilterControls from '../AdminSortFilterControls/AdminSortFilterControls'
 
 
 interface ViewProductsProps {
   hoveredProductId: number | null
   setHoveredProductId: (id: number | null) => void
   getPaginatedProducts: () => AdminProduct[]
+  filter: string
+  sort: string
+  setFilter: (value: string) => void
+  setSort: (value: string) => void
+  totalproducts: number
 }
 
 const ViewProducts = ({
   hoveredProductId,
   setHoveredProductId,
   getPaginatedProducts,
+  filter,
+  setFilter,
+  setSort,
+  sort,
+  totalproducts
 }: ViewProductsProps) => {
   return (
     <div className="flex flex-col flex-wrap">
+      <div className='self-end'>
+        <AdminSortFilterControls
+          filter={filter}
+          sort={sort}
+          setFilter={setFilter}
+          setSort={setSort}
+        />
+      </div>
+
+
+      <div className='self-end mb-5 mr-2'>
+        showing 1 - {getPaginatedProducts().length} of {totalproducts}
+      </div>
+
       {getPaginatedProducts().map((product) => (
         <div key={product.id} className={product.stock < 5 && 'bg-red-300' || ''} style={{ width: 'auto' }}>
           <div
@@ -92,7 +117,7 @@ const ViewProducts = ({
                 to={`/admin/${product.id}`}
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId(null)}
-                className="text-xl font-bold mt-2 block cursor-pointer"
+                className="text-xl font-bold block cursor-pointer"
                 style={{
                   color:
                     hoveredProductId === product.id
@@ -109,7 +134,7 @@ const ViewProducts = ({
                 to={`/admin/${product.id}`}
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId(null)}
-                className="text-xl font-bold mt-2 block cursor-pointer"
+                className="text-xl font-bold mt-2 block cursor-pointer pb-24"
                 style={{
                   color:
                     hoveredProductId === product.id
