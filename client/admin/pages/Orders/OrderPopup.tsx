@@ -11,6 +11,15 @@ interface OrderPopupProps {
   closeOrderPopup: () => void
 }
 
+function formatCurrency(amount: number) {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
+  }).format(amount);
+}
+
+
 const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
   const { getAccessTokenSilently } = useAuth0()
 
@@ -101,11 +110,9 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
                     <td className="py-2 px-4 border">Total Cost:</td>
                     <td className="py-2 px-4 border"></td>
                     <td className="py-2 px-4 border">
-                      ${' '}
-                      {order.orderItems.reduce(
-                        (total, item) => total + item.productSale,
-                        0,
-                      )}
+                    {formatCurrency(
+                order.orderItems.reduce((total, item) => total + item.productSale, 0)
+              )}
                     </td>
                   </tr>
                 </tfoot>
