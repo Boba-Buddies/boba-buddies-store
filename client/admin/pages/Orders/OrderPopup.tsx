@@ -58,14 +58,14 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
             <div className="mb-4">
               <h3 className="text-lg font-semibold">User Information:</h3>
               <p>
-                User Name: {order.userFirstName} {order.userLastName}
+                Name: {order.userFirstName} {order.userLastName}
               </p>
-              <p>User Address: {order.userAddress}</p>
-              <p>User City: {order.userCity}</p>
-              <p>User Country: {order.userCountry}</p>
-              <p>User Zip Code: {order.userZipCode}</p>
-              <p>User Email: {order.userEmail}</p>
-              <p>User Phone Number: {order.userPhoneNumber}</p>
+              <p>Address: {order.userAddress}</p>
+              <p>City: {order.userCity}</p>
+              <p>Country: {order.userCountry}</p>
+              <p>Zip Code: {order.userZipCode}</p>
+              <p>Email: {order.userEmail}</p>
+              <p>Phone Number: {order.userPhoneNumber}</p>
             </div>
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Order Items:</h3>
