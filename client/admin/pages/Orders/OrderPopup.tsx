@@ -50,7 +50,7 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
             ref={popupRef}
-            className="bg-white p-8 rounded-lg w-96 max-w-full max-h-full overflow-y-auto shadow-xl"
+            className="bg-white p-8 w-[70%] max-w-full max-h-[80%] overflow-y-auto shadow-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <div className="mb-4">
               <h2 className="text-xl font-semibold">Order Details</h2>
@@ -60,12 +60,12 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
               <p>
                 User Name: {order.userFirstName} {order.userLastName}
               </p>
-              <p>User Email: {order.userEmail}</p>
-              <p>User Phone Number: {order.userPhoneNumber}</p>
               <p>User Address: {order.userAddress}</p>
               <p>User City: {order.userCity}</p>
               <p>User Country: {order.userCountry}</p>
               <p>User Zip Code: {order.userZipCode}</p>
+              <p>User Email: {order.userEmail}</p>
+              <p>User Phone Number: {order.userPhoneNumber}</p>
             </div>
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Order Items:</h3>
