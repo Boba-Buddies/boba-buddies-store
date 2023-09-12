@@ -53,10 +53,10 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
             className="bg-white p-8 w-[70%] max-w-full max-h-[80%] overflow-y-auto shadow-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <div className="mb-4">
-              <h2 className="text-xl font-semibold">Order Details</h2>
+              <h2 className="text-xl font-semibold">Order #{order.orderId}</h2>
             </div>
             <div className="mb-4">
-              <h3 className="text-lg font-semibold">User Information:</h3>
+              <h3 className="text-lg font-semibold">Information:</h3>
               <p>
                 Name: {order.userFirstName} {order.userLastName}
               </p>
