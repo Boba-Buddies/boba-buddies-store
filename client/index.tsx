@@ -24,8 +24,8 @@ import {
   Wishlist,
 } from './user/pages/index'
 import { Reviews, Dashboard } from './admin/pages/'
-import { AdminAppLayout } from './admin/components/AdminAppLayout/AdminAppLayout'
 import Redirect from './user/pages/Redirect/Redirect'
+import { Orders } from './admin/pages/Orders/Orders'
 import AdiminComponent from './UI/AdiminComponent'
 import ProtectedComponent from './UI/ProtectedComponent'
 
@@ -73,10 +73,9 @@ export const routes = createRoutesFromElements(
     />
     <Route path="admin" element={<AdiminComponent component={Dashboard} />} />
 
-    {/* temporary route!! */}
     <Route
-      path="admin/temporary"
-      element={<AdiminComponent component={AdminAppLayout} />}
+      path="admin/orders"
+      element={<AdiminComponent component={Orders} />}
     />
   </Route>,
 )
