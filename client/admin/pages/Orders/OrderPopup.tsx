@@ -67,19 +67,51 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
               <p>Email: {order.userEmail}</p>
               <p>Phone Number: {order.userPhoneNumber}</p>
             </div>
+
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Order Items:</h3>
-              <ul>
-                {order.orderItems.map((item) => (
-                  <li key={item.productSale} className="mb-2">
-                    <p>Product Name: {item.productName}</p>
-                    <p>Product Sale: {item.productSale}</p>
-                    <p>Product Image: {item.productImage}</p>
-                    <p>Item Quantity: {item.itemQuantity}</p>
-                  </li>
-                ))}
-              </ul>
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="bg-gray-200">
+                    <th className="py-2 px-4 border">Product Name</th>
+                    <th className="py-2 px-4 border">Item Quantity</th>
+                    <th className="py-2 px-4 border">Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {order.orderItems.map((item) => (
+                    <tr key={item.productSale} className="border-b">
+                      <td className="py-2 px-4 border">
+                        <div className="flex items-center">
+                          <img
+                            src={item.productImage}
+                            alt={item.productName}
+                            className="w-16 h-16 object-contain mr-2"
+                          />
+                          {item.productName}
+                        </div>
+                      </td>
+                      <td className="py-2 px-4 border">{item.itemQuantity}</td>
+                      <td className="py-2 px-4 border">$ {item.productSale}</td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot>
+                  <tr className="bg-gray-200">
+                    <td className="py-2 px-4 border">Total Cost:</td>
+                    <td className="py-2 px-4 border"></td>
+                    <td className="py-2 px-4 border">
+                      ${' '}
+                      {order.orderItems.reduce(
+                        (total, item) => total + item.productSale,
+                        0,
+                      )}
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
             </div>
+
             <hr className="border-t border-gray-300" />
             <div className="mt-4 text-right">
               <button
