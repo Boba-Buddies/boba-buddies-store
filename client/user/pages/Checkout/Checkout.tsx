@@ -74,7 +74,10 @@ function Checkout() {
   )
 
   const updateUserDataMutation = useMutation(
-    (updatedDetail: UpdateUser) => modifyUserDetails(updatedDetail),
+    async (updatedDetail: UpdateUser) => {
+      const token = await getAccessTokenSilently()
+      return modifyUserDetails(updatedDetail, token)
+    },
     {
       onSuccess: async () => {
         //Need to check the user api function
