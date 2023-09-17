@@ -2,10 +2,11 @@ import { Orders } from '../../../../models/Purchases'
 
 interface OrderTableProps {
   orders: Orders[]
-  currentPage: number
   itemsPerPage: number
   handleOrderCellClick: (orderId: number) => void
   formatCurrency: (amount: number) => string
+  currentPage: number
+  totalPages: number
 }
 
 function OrderTable({
