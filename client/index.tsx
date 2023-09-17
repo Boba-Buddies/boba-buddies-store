@@ -26,7 +26,7 @@ import {
 import { Reviews, Dashboard } from './admin/pages/'
 import Redirect from './user/pages/Redirect/Redirect'
 import { Orders } from './admin/pages/Orders/Orders'
-import AdiminComponent from './UI/AdiminComponent'
+import AdiminComponent from './UI/AdminComponent'
 import ProtectedComponent from './UI/ProtectedComponent'
 
 export const routes = createRoutesFromElements(

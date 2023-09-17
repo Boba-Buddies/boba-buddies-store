@@ -43,6 +43,9 @@ function ViewProduct({
           setButtonColor('bg-blue-500 hover:bg-blue-700')
         }, 1000)
       },
+      onError: (error) => {
+        console.error("An error occurred:", error)
+      }
     },
   )
 
@@ -57,6 +60,9 @@ function ViewProduct({
     },
     {
       onSuccess: () => refetchWishlistProductStatus(),
+      onError: (error) => {
+        console.error("An error occurred:", error)
+      }
     },
   )
 
@@ -102,7 +108,7 @@ function ViewProduct({
         >
           {buttonText}
         </button>
-        {cartMutation.isError ? <p>Error adding product to cart</p> : null}
+        {cartMutation.isError ? <p>Please login to add to cart</p> : null}
       </div>
     </div>
   )
