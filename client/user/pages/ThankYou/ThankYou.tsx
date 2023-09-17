@@ -10,7 +10,8 @@ const ThankYou = () => {
   const navigate = useNavigate()
 
   const { data: user, status } = useQuery(['getUser'], async () => {
-    return await fetchUser()
+    const token = await getAccessTokenSilently()
+    return await fetchUser(token)
   })
 
   const { data: orderId, status: statusOrderId } = useQuery(
