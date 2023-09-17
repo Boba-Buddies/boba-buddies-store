@@ -1,12 +1,10 @@
-import React from 'react';
-
 interface OrderSortingControlsProps {
-  search: string;
-  setSearch: React.Dispatch<React.SetStateAction<string>>;
-  sort: string;
-  setSort: React.Dispatch<React.SetStateAction<string>>;
-  oldestFirst: boolean;
-  setOldestFirst: React.Dispatch<React.SetStateAction<boolean>>;
+  search: string
+  setSearch: React.Dispatch<React.SetStateAction<string>>
+  sort: string
+  setSort: React.Dispatch<React.SetStateAction<string>>
+  oldestFirst: boolean
+  setOldestFirst: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 function OrderSortingControls({
@@ -14,8 +12,6 @@ function OrderSortingControls({
   setSearch,
   sort,
   setSort,
-  oldestFirst,
-  setOldestFirst,
 }: OrderSortingControlsProps) {
   return (
     <div className="border p-2 rounded flex justify-between items-center">
@@ -39,21 +35,9 @@ function OrderSortingControls({
           <option value="newest">Newest first</option>
           <option value="oldest">Oldest first</option>
         </select>
-
-        {/* OLDEST FIRST */}
-        <div className="ml-4 flex items-center">
-          <input
-            type="checkbox"
-            id="oldestFirstCheckbox"
-            checked={oldestFirst}
-            onChange={() => setOldestFirst(!oldestFirst)}
-            className="mr-2"
-          />
-          <label htmlFor="oldestFirstCheckbox">Oldest First</label>
-        </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default OrderSortingControls;
+export default OrderSortingControls
