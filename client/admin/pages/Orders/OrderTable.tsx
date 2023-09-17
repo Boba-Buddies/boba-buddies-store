@@ -1,4 +1,5 @@
 import { Orders } from '../../../../models/Purchases'
+import { format24HourTo12Hour, formatDateToDDMMYYYY } from '../../../utils/formatDate/formatDate'
 
 interface OrderTableProps {
   orders: Orders[]
@@ -40,7 +41,8 @@ function OrderTable({
             </div>
             <div className="divCell py-3 px-8 text-left">{order.userName}</div>
             <div className="divCell py-3 px-8 text-left">
-              {order.purchasedAt}
+              {format24HourTo12Hour(order.purchasedAt)}{' '}
+              {formatDateToDDMMYYYY(order.purchasedAt)}
             </div>
             <div className="divCell py-3 px-8 text-left">
               {formatCurrency(order.totalSale + order.shippingPrice)}
