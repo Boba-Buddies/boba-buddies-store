@@ -67,7 +67,7 @@ export const AllOrders = () => {
                     {order.purchasedAt}
                   </div>
                   <div className="divCell py-3 px-8 text-left">
-                    {formatCurrency(order.totalSale)}
+                    {formatCurrency(order.totalSale + order.shippingPrice)}
                   </div>
                 </div>
               ))}
