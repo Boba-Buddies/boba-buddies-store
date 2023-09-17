@@ -2,6 +2,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
 import { fetchAmountOfOrdersByDate } from '../../../apis/purchases'
 import { fetchUser } from '../../../apis/users'
+import { fetchAmountOfUnreadEmailsByToday } from '../../../apis/emails'
 
 const Dashboard = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -10,13 +11,17 @@ const Dashboard = () => {
 
   const orderAmountQuery = useQuery('fetchAmountOfOrdersByDate', async () => {
     const token = await getAccessTokenSilently()
-
     return await fetchAmountOfOrdersByDate(formattedDate, token)
   })
+
   const profileQuery = useQuery('fetchUser', async () => {
     const token = await getAccessTokenSilently()
-
     return await fetchUser(token)
+  })
+
+  const emailQuery = useQuery('fetchAmountOfUnreadEmailsByToday', async () => {
+    const token = await getAccessTokenSilently()
+    return await fetchAmountOfUnreadEmailsByToday(token)
   })
 
   return (
@@ -52,7 +57,7 @@ const Dashboard = () => {
         {/* Emails  */}
         <div className="bg-gray-100 p-4 rounded">
           <h1 className="text-2xl text-center">
-            You have ### new emails today
+            You have {emailQuery.data} new emails today
           </h1>
           <div className="flex flex-row justify-end pr-4">
             <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32">
