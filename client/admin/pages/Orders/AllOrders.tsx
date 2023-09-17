@@ -68,6 +68,7 @@ export const AllOrders = () => {
       return 0
     })
 
+  const totalRows = filteredAndSortedOrders.length
   return (
     <div className="w-1/2 mx-auto pt-4">
       <OrderSortingControls
@@ -80,6 +81,7 @@ export const AllOrders = () => {
         currentPage={currentPage}
         totalPages={totalPages}
         setCurrentPage={setCurrentPage}
+        totalRows={totalRows}
       />
       <LoadError status={ordersStatus} />
       <OrderTable
