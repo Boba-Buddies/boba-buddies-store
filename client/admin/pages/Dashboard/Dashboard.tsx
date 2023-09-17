@@ -4,6 +4,8 @@ import { fetchAmountOfOrdersByDate } from '../../../apis/purchases'
 import { fetchUser } from '../../../apis/users'
 import { fetchAmountOfUnreadEmailsByToday } from '../../../apis/emails'
 import { fetchAmountOfReviewsByDate } from '../../../apis/reviews'
+import { fetchAmountOfProductsBelowStockLevel } from '../../../apis/products'
+import { AdminProduct } from '../../../../models/Products'
 
 const Dashboard = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -30,6 +32,15 @@ const Dashboard = () => {
     return await fetchAmountOfReviewsByDate(formattedDate, token)
   })
 
+  const lowStockQuery = useQuery(
+    'fetchAmountOfProductsBelowStockLevel',
+    async () => {
+      const token = await getAccessTokenSilently()
+      const maxStock = 5
+      return await fetchAmountOfProductsBelowStockLevel(maxStock, token)
+    },
+  )
+
   return (
     <div className="bg-white text-black">
       <div className="text-xl p-4">Hi {profileQuery.data?.firstName}</div>
@@ -49,10 +60,19 @@ const Dashboard = () => {
         <div className="bg-gray-100 p-4 rounded">
           <h1 className="text-2xl text-center">Low Stock Alert!</h1>
           <div className="flex flex-row justify-center gap-7">
-            <div>image1</div>
-            <div>image2</div>
-            <div>image3</div>
-            <div>image4</div>
+            {lowStockQuery.data?.lowStockProducts.map(
+              (product: AdminProduct) => {
+                return (
+                  <div key={product.id}>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-28"
+                    />
+                  </div>
+                )
+              },
+            )}
           </div>
           <div className="flex flex-row justify-end pr-4">
             <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32">
