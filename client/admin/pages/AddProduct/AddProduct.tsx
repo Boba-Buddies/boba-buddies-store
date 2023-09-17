@@ -16,7 +16,7 @@ const AddProduct = () => {
   })
   
   const [isFormComplete, setIsFormComplete] = useState(false)
-  
+
   const { getAccessTokenSilently } = useAuth0()
   const navigate = useNavigate()
   function goTo(link: string) {
@@ -34,6 +34,20 @@ const AddProduct = () => {
       },
     },
   )
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target
+    setNewProduct((prevProduct) => ({ ...prevProduct, [name]: value }))
+  }
+  
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target
+    setNewProduct((prevProduct) => ({ ...prevProduct, isEnabled: checked }))
+  }
+
+  const handleSubmit = () => {
+    addProductMutation.mutate(newProduct)
+  }
 
   return <div>AddProduct</div>
 }
