@@ -69,7 +69,7 @@ export const AllOrders = () => {
     })
 
   return (
-    <>
+    <div className="w-1/2 mx-auto pt-4">
       <OrderSortingControls
         search={search}
         setSearch={setSearch}
@@ -100,7 +100,7 @@ export const AllOrders = () => {
           />
         </div>
       )}
-    </>
+    </div>
   )
 }
 
