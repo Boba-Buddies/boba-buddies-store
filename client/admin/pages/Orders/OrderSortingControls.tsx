@@ -3,8 +3,9 @@ interface OrderSortingControlsProps {
   setSearch: React.Dispatch<React.SetStateAction<string>>
   sort: string
   setSort: React.Dispatch<React.SetStateAction<string>>
-  oldestFirst: boolean
-  setOldestFirst: React.Dispatch<React.SetStateAction<boolean>>
+  currentPage: number 
+  totalPages: number 
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>> // 
 }
 
 function OrderSortingControls({
