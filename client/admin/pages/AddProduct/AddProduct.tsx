@@ -9,7 +9,7 @@ import LoadError from '../../../user/components/LoadError/LoadError'
 const AddProduct = () => {
   const [newProduct, setNewProduct] = useState<UpsertProduct>({
     image: '',
-    isEnabled: false,
+    isEnabled: true,
     name: '',
     price: 0,
     description: '',
@@ -56,11 +56,9 @@ const AddProduct = () => {
     setNewProduct((prevProduct) => ({ ...prevProduct, [name]: finalValue }))
   }
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = event.target
-    setNewProduct((prevProduct) => ({ ...prevProduct, isEnabled: checked }))
+  const toggleEnabled = () => {
+    setNewProduct((prevProduct) => ({ ...prevProduct, isEnabled: !prevProduct.isEnabled }));
   }
-
   const handleSubmit = () => {
     addProductMutation.mutate(newProduct)
   }
@@ -137,17 +135,21 @@ const AddProduct = () => {
               className="w-24"
             />
           </div>
-          <div className="mb-4 flex">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Enabled:
+          <div className="mb-4 flex items-center">
+            <label className="block text-gray-700 text-sm font-bold mb-2 mr-4">
+              Click to change status:
             </label>
-            <input
-              className="mr-2 leading-tight"
-              type="checkbox"
-              checked={newProduct.isEnabled}
-              onChange={handleCheckboxChange}
-            />
+            <button
+              className={`font-bold py-2 px-4 rounded ${
+                newProduct.isEnabled ? 'bg-green-500' : 'bg-red-500'
+              }`}
+              type="button"
+              onClick={toggleEnabled}
+            >
+              {newProduct.isEnabled ? 'Enabled' : 'Disabled'}
+            </button>
           </div>
+
           
           
           
