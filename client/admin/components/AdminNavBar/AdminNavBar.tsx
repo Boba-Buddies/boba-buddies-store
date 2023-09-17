@@ -42,10 +42,10 @@ export const AdminNavBar = () => {
           Products
         </button>
         <button
-          onClick={() => goTo('/admin/add-products')}
+          onClick={() => goTo('/admin/add-product')}
           className="font-bold text-white hover:bg-gray-400 px-4 py-2 rounded"
         >
-          Add Products
+          Add Product
         </button>
         <button
           onClick={() => goTo('/admin/reviews')}
