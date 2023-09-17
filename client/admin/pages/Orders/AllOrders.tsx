@@ -10,6 +10,11 @@ import OrderPopup from './OrderPopup'
 export const AllOrders = () => {
   const { getAccessTokenSilently } = useAuth0()
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const itemsPerPage = 10
+
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
 
   const { data: orders, status: ordersStatus } = useQuery(
     'fetchAllOrders',
@@ -51,7 +56,7 @@ export const AllOrders = () => {
             </div>
 
             <div className="divBody text-gray-600 text-sm font-light">
-              {orders.map((order: Orders) => (
+              {orders.slice(startIndex, endIndex).map((order: Orders) => (
                 <div
                   key={order.orderId}
                   className="divRow border-b border-gray-200 hover:bg-gray-100"
