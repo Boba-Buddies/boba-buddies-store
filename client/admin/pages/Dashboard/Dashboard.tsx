@@ -6,6 +6,7 @@ import { fetchAmountOfUnreadEmailsByToday } from '../../../apis/emails'
 import { fetchAmountOfReviewsByDate } from '../../../apis/reviews'
 import { fetchAmountOfProductsBelowStockLevel } from '../../../apis/products'
 import { AdminProduct } from '../../../../models/Products'
+import LoadError from '../../../user/components/LoadError/LoadError'
 
 const Dashboard = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -40,70 +41,80 @@ const Dashboard = () => {
       return await fetchAmountOfProductsBelowStockLevel(maxStock, token)
     },
   )
+  const statuses = [
+    orderAmountQuery.status,
+    profileQuery.status,
+    emailQuery.status,
+    reviewAmountQuery.status,
+    lowStockQuery.status,
+  ]
 
   return (
-    <div className="bg-white text-black">
-      <div className="text-xl p-4">Hi {profileQuery.data?.firstName}</div>
-      <div className="flex flex-col gap-10 px-5 ">
-        {/* Orders  */}
-        <div className="bg-gray-100 p-4 rounded">
-          <h1 className="text-2xl text-center">
-            You have {orderAmountQuery.data} orders today
-          </h1>
-          <div className="flex flex-row justify-end pr-4">
-            <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32">
-              View Orders
-            </button>
+    <>
+      <LoadError status={statuses} />
+      <div className="bg-white text-black">
+        <div className="text-xl p-4">Hi {profileQuery.data?.firstName}</div>
+        <div className="flex flex-col gap-10 px-5 ">
+          {/* Orders  */}
+          <div className="bg-gray-100 p-4 rounded">
+            <h1 className="text-2xl text-center">
+              You have {orderAmountQuery.data} orders today
+            </h1>
+            <div className="flex flex-row justify-end pr-4">
+              <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32">
+                View Orders
+              </button>
+            </div>
           </div>
-        </div>
-        {/* Low Stock */}
-        <div className="bg-gray-100 p-4 rounded">
-          <h1 className="text-2xl text-center">Low Stock Alert!</h1>
-          <div className="flex flex-row justify-center gap-7">
-            {lowStockQuery.data?.lowStockProducts.map(
-              (product: AdminProduct) => {
-                return (
-                  <div key={product.id}>
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="h-28"
-                    />
-                  </div>
-                )
-              },
-            )}
+          {/* Low Stock */}
+          <div className="bg-gray-100 p-4 rounded">
+            <h1 className="text-2xl text-center">Low Stock Alert!</h1>
+            <div className="flex flex-row justify-center gap-7">
+              {lowStockQuery.data?.lowStockProducts.map(
+                (product: AdminProduct) => {
+                  return (
+                    <div key={product.id}>
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="h-28"
+                      />
+                    </div>
+                  )
+                },
+              )}
+            </div>
+            <div className="flex flex-row justify-end pr-4">
+              <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32">
+                Restock
+              </button>
+            </div>
           </div>
-          <div className="flex flex-row justify-end pr-4">
-            <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32">
-              Restock
-            </button>
+          {/* Emails  */}
+          <div className="bg-gray-100 p-4 rounded">
+            <h1 className="text-2xl text-center">
+              You have {emailQuery.data} new emails today
+            </h1>
+            <div className="flex flex-row justify-end pr-4">
+              <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32">
+                View Emails
+              </button>
+            </div>
           </div>
-        </div>
-        {/* Emails  */}
-        <div className="bg-gray-100 p-4 rounded">
-          <h1 className="text-2xl text-center">
-            You have {emailQuery.data} new emails today
-          </h1>
-          <div className="flex flex-row justify-end pr-4">
-            <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32">
-              View Emails
-            </button>
-          </div>
-        </div>
-        {/* Reviews  */}
-        <div className="bg-gray-100 p-4 rounded">
-          <h1 className="text-2xl text-center">
-            You have {reviewAmountQuery.data?.reviewCount} reviews today
-          </h1>
-          <div className="flex flex-row justify-end pr-4">
-            <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32 ">
-              View Reviews
-            </button>
+          {/* Reviews  */}
+          <div className="bg-gray-100 p-4 rounded">
+            <h1 className="text-2xl text-center">
+              You have {reviewAmountQuery.data?.reviewCount} reviews today
+            </h1>
+            <div className="flex flex-row justify-end pr-4">
+              <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32 ">
+                View Reviews
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
