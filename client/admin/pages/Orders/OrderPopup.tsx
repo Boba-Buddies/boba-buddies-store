@@ -107,7 +107,8 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
                 <tfoot>
                   <tr className="bg-gray-200">
                     <td className="py-2 px-4 border">
-                      Shipping Type: {order.shippingType}
+                      <span className="font-bold">Shipping: </span>
+                      {order.shippingType}
                     </td>
                     <td className="py-2 px-4 border"></td>
                     <td className="py-2 px-4 border">
