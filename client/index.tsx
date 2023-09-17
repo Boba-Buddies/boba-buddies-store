@@ -25,7 +25,7 @@ import {
 } from './user/pages/index'
 import { Reviews, Dashboard } from './admin/pages/'
 import Redirect from './user/pages/Redirect/Redirect'
-import { Orders } from './admin/pages/Orders/Orders'
+import Orders from './admin/pages/Orders/Orders'
 import AdiminComponent from './UI/AdiminComponent'
 import ProtectedComponent from './UI/ProtectedComponent'
 
