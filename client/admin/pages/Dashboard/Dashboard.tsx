@@ -7,10 +7,14 @@ import { fetchAmountOfReviewsByDate } from '../../../apis/reviews'
 import { fetchAmountOfProductsBelowStockLevel } from '../../../apis/products'
 import { AdminProduct } from '../../../../models/Products'
 import LoadError from '../../../user/components/LoadError/LoadError'
+import { useNavigate } from 'react-router-dom'
 
 const Dashboard = () => {
   const { getAccessTokenSilently } = useAuth0()
-
+  const navigate = useNavigate()
+  function goTo(link: string) {
+    navigate(link)
+  }
   const formattedDate = new Date().toISOString().split('T')[0]
 
   const orderAmountQuery = useQuery('fetchAmountOfOrdersByDate', async () => {
@@ -61,7 +65,10 @@ const Dashboard = () => {
               You have {orderAmountQuery.data} orders today
             </h1>
             <div className="flex flex-row justify-end pr-4">
-              <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32">
+              <button
+                className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32"
+                onClick={() => goTo('/admin/orders')}
+              >
                 View Orders
               </button>
             </div>
@@ -85,7 +92,10 @@ const Dashboard = () => {
               )}
             </div>
             <div className="flex flex-row justify-end pr-4">
-              <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32">
+              <button
+                className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32"
+                onClick={() => goTo('/admin/products-summary')}
+              >
                 Restock
               </button>
             </div>
@@ -96,7 +106,10 @@ const Dashboard = () => {
               You have {emailQuery.data} new emails today
             </h1>
             <div className="flex flex-row justify-end pr-4">
-              <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32">
+              <button
+                className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32"
+                onClick={() => goTo('/admin/emails')}
+              >
                 View Emails
               </button>
             </div>
@@ -107,7 +120,10 @@ const Dashboard = () => {
               You have {reviewAmountQuery.data?.reviewCount} reviews today
             </h1>
             <div className="flex flex-row justify-end pr-4">
-              <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32 ">
+              <button
+                className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32 "
+                onClick={() => goTo('/admin/reviews')}
+              >
                 View Reviews
               </button>
             </div>
