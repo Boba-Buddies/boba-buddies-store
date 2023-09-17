@@ -35,14 +35,7 @@ router.get('/admin', validateAccessToken, async (req, res) => {
 })
 
 // GET /api/v1/products
-router.get('/', validateAccessToken, async (req, res) => {
-  const userId = req.auth?.payload.sub
-
-  if (!userId) {
-    res.status(400).json({ message: 'Please provide an id' })
-    return
-  }
-
+router.get('/', async (req, res) => {
   try {
     const products: UserProduct[] = await db.getAllProductsUser()
     res.status(200).json(products)
@@ -81,15 +74,9 @@ router.get('/admin/:id', validateAccessToken, async (req, res) => {
 })
 
 // GET /api/v1/products/:id
-router.get('/:id', validateAccessToken, async (req, res) => {
+router.get('/:id', async (req, res) => {
   const productId = Number(req.params.id)
 
-  const userId = req.auth?.payload.sub
-
-  if (!userId) {
-    res.status(400).json({ message: 'Please provide an id' })
-    return
-  }
 
   try {
     const product: UserProduct = await db.getProductByIdUser(productId)

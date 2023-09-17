@@ -13,20 +13,12 @@ const router = Router()
 //GET /api/v1/reviews/by-product-id/:productId
 router.get(
   '/by-product-id/:productId',
-  validateAccessToken,
   async (req, res) => {
-    const userId = req.auth?.payload.sub
-
-    if (!userId) {
-      res.status(400).json({ message: 'Please provide an id' })
-      return
-    }
 
     try {
       const reviews = await db.getReviewsByProductId(
         Number(req.params.productId),
       )
-      console.log('In the try')
       res.status(200).json(reviews)
     } catch (error) {
       logError(error)

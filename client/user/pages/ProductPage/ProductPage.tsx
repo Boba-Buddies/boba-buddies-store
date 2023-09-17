@@ -17,8 +17,7 @@ const ProductPage = () => {
   const { data: product, status: statusProductS } = useQuery(
     ['getProduct', id],
     async () => {
-      const token = await getAccessTokenSilently()
-      return await fetchProductByIdUser(id, token)
+      return await fetchProductByIdUser(id)
     },
   )
 
@@ -27,10 +26,8 @@ const ProductPage = () => {
     refetch: refetchReviews,
     status: statusReviews,
   } = useQuery(['getReviews', id], async () => {
-    const token = await getAccessTokenSilently()
     const fetchedReviews: ProductReview[] = await fetchReviewsByProductId(
-      id,
-      token,
+      id
     )
     return fetchedReviews
   })
@@ -40,12 +37,17 @@ const ProductPage = () => {
     refetch: refetchWishlistProductStatus,
     status: statusWishlist,
   } = useQuery(['getWishlistStatus', id], async () => {
-    const token = await getAccessTokenSilently()
+    try {
+      const token = await getAccessTokenSilently()
     const wishlistStatus: boolean = await fetchWishlistStatusByProductId(
       id,
       token,
     )
     return wishlistStatus
+    } catch (error) {
+      console.error("An error occurred:", error)
+    }
+    
   })
 
   return (

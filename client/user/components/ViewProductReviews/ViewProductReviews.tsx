@@ -33,6 +33,9 @@ function ViewProductReviews({
       onSuccess: () => {
         refetchReviews()
       },
+      onError: (error) => {
+        console.error("An error occurred:", error)
+      }
     },
   )
 
