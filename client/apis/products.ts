@@ -16,11 +16,10 @@ export async function fetchProductByIdAdmin(id: number, token: string) {
   }
 }
 
-export async function fetchProductByIdUser(id: number, token: string) {
+export async function fetchProductByIdUser(id: number) {
   try {
     const response = await request
       .get(`${baseUrl}/${id}`)
-      .set('Authorization', `Bearer ${token}`)
     return response.body as UserProduct
   } catch (error) {
     console.error('Error fetching product by ID:', (error as Error).message)
@@ -41,11 +40,10 @@ export async function fetchAllProductsAdmin(token: string) {
   }
 }
 
-export async function fetchAllProductsUser(token: string) {
+export async function fetchAllProductsUser() {
   try {
     const response = await request
       .get(baseUrl)
-      .set('Authorization', `Bearer ${token}`)
     return response.body as UserProduct[]
   } catch (error) {
     console.error('Error fetching all products:', (error as Error).message)
