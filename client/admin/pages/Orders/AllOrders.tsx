@@ -105,6 +105,18 @@ export const AllOrders = () => {
           />
         </div>
       )}
+
+      <div className="pagination">
+        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
+          {' < '}
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+          {' > '}
+        </button>
+      </div>
     </>
   )
 }
