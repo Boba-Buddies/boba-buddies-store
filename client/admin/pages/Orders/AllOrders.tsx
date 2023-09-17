@@ -1,4 +1,4 @@
-import{ useState } from 'react'
+import { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
 import { fetchAllOrders, fetchOrderById } from '../../../apis/purchases'
@@ -89,6 +89,9 @@ export const AllOrders = () => {
         setSort={setSort}
         oldestFirst={oldestFirst}
         setOldestFirst={setOldestFirst}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
       />
       <LoadError status={ordersStatus} />
       <OrderTable
@@ -97,6 +100,7 @@ export const AllOrders = () => {
         itemsPerPage={itemsPerPage}
         handleOrderCellClick={handleOrderCellClick}
         formatCurrency={formatCurrency}
+        totalPages={0}
       />
       {selectedOrder && (
         <div className="order-details-popup">
