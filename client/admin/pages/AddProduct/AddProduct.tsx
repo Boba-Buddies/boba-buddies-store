@@ -48,9 +48,12 @@ const AddProduct = () => {
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
-    const { name, value } = event.target
-    setNewProduct((prevProduct) => ({ ...prevProduct, [name]: value }))
-  }
+    const { name, value } = event.target;
+  
+    const finalValue = (name === 'price' || name === 'stock') ? parseFloat(value) : value;
+  
+    setNewProduct((prevProduct) => ({ ...prevProduct, [name]: finalValue }));
+  };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { checked } = event.target
