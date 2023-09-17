@@ -9,7 +9,7 @@ interface Props {
 
 // This is a very handy wrapper component that will redirect the user to the login page
 // if they are not logged in
-export const AdiminComponent = ({ component }: Props) => {
+export const AdminComponent = ({ component }: Props) => {
   const { getAccessTokenSilently } = useAuth0()
   const { data: isAdmin, status: statusIsAdmin } = useQuery(
     ['fetchIsUserAdmin'],
@@ -34,4 +34,4 @@ export const AdiminComponent = ({ component }: Props) => {
     </>
   )
 }
-export default AdiminComponent
+export default AdminComponent
