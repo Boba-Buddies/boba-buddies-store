@@ -3,7 +3,7 @@ import { UpsertProduct } from '../../../../models/Products'
 import { createProduct } from '../../../apis/products'
 import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import LoadError from '../../../user/components/LoadError/LoadError'
 
 const AddProduct = () => {
@@ -35,6 +35,15 @@ const AddProduct = () => {
       },
     },
   )
+
+  useEffect(() => {
+    const { image, name, price, description, stock } = newProduct
+    if (image && name && price && description && stock) {
+      setIsFormComplete(true)
+    } else {
+      setIsFormComplete(false)
+    }
+  }, [newProduct])
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
