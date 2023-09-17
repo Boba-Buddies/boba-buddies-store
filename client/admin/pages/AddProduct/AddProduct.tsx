@@ -16,6 +16,8 @@ const AddProduct = () => {
     stock: 0,
   })
 
+  const placeholderImage = 'http://bit.ly/3ZjozLG'
+
   const [isFormComplete, setIsFormComplete] = useState(false)
 
   const { getAccessTokenSilently } = useAuth0()
@@ -116,25 +118,25 @@ const AddProduct = () => {
               onChange={handleChange}
             />
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Image URL:
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              name="image"
-              value={newProduct.image}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-4">
-            <img
-              src={newProduct.image}
-              alt="Product preview"
-              className="w-24"
-            />
-          </div>
+      <div className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          Image URL:
+        </label>
+        <input
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type="text"
+          name="image"
+          value={newProduct.image}
+          onChange={handleChange}
+        />
+      </div>
+      <div className="mb-4">
+        <img
+          src={newProduct.image ? newProduct.image : placeholderImage}
+          alt="Product preview"
+          className="w-24"
+        />
+      </div>
           <div className="mb-4 flex items-center">
             <label className="block text-gray-700 text-sm font-bold mb-2 mr-4">
               Click to change status:
