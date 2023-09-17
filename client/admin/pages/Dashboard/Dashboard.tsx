@@ -1,6 +1,7 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
 import { fetchAmountOfOrdersByDate } from '../../../apis/purchases'
+import { fetchUser } from '../../../apis/users'
 
 const Dashboard = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -12,10 +13,15 @@ const Dashboard = () => {
 
     return await fetchAmountOfOrdersByDate(formattedDate, token)
   })
+  const profileQuery = useQuery('fetchUser', async () => {
+    const token = await getAccessTokenSilently()
+
+    return await fetchUser(token)
+  })
 
   return (
     <div className="bg-white text-black">
-      <div className="text-xl p-4">Hi userName</div>
+      <div className="text-xl p-4">Hi {profileQuery.data?.firstName}</div>
       <div className="flex flex-col gap-10 px-5 ">
         {/* Orders  */}
         <div className="bg-gray-100 p-4 rounded">
