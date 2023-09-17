@@ -61,6 +61,7 @@ export async function fetchAllOrders(token: string) {
 export async function fetchOrderById(orderId: number, token: string) {
   try {
     const response = await request
+
       .get(`${baseUrl}/order/${orderId}`)
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
@@ -85,7 +86,8 @@ export async function fetchAmountOfOrdersByDate(date: string, token: string) {
       .get(`${baseUrl}/orders-by-date/${date}`)
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
-    return response.body.orders
+
+    return response.body.amountOfOrders
   } catch (error) {
     console.error('Error fetching user orders:', (error as Error).message)
     throw { error: (error as Error).message }

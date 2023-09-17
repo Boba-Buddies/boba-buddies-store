@@ -1,11 +1,27 @@
+import { useAuth0 } from '@auth0/auth0-react'
+import { useQuery } from 'react-query'
+import { fetchAmountOfOrdersByDate } from '../../../apis/purchases'
+
 const Dashboard = () => {
+  const { getAccessTokenSilently } = useAuth0()
+
+  const formattedDate = new Date().toISOString().split('T')[0]
+
+  const orderAmountQuery = useQuery('fetchAmountOfOrdersByDate', async () => {
+    const token = await getAccessTokenSilently()
+
+    return await fetchAmountOfOrdersByDate(formattedDate, token)
+  })
+
   return (
     <div className="bg-white text-black">
       <div className="text-xl p-4">Hi userName</div>
       <div className="flex flex-col gap-10 px-5 ">
         {/* Orders  */}
         <div className="bg-gray-100 p-4 rounded">
-          <h1 className="text-2xl text-center">You have ### orders today</h1>
+          <h1 className="text-2xl text-center">
+            You have {orderAmountQuery.data} orders today
+          </h1>
           <div className="flex flex-row justify-end pr-4">
             <button className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32">
               View Orders
