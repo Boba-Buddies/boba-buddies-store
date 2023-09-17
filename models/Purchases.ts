@@ -11,6 +11,7 @@ export const ordersSchema = z.object({
   orderId: z.number(),
   totalSale: z.number(),
   purchasedAt: z.string(),
+  shippingPrice: z.number(),
 })
 
 export const orderSchema = z.object({
