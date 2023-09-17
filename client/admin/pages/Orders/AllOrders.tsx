@@ -46,18 +46,6 @@ export const AllOrders = () => {
 
   const totalPages = Math.ceil((orders?.length || 0) / itemsPerPage)
 
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1)
-    }
-  }
-
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1)
-    }
-  }
-
   // Check if orders is undefined before filtering and sorting
   if (orders === undefined) {
     return <div>Loading...</div>
@@ -112,18 +100,6 @@ export const AllOrders = () => {
           />
         </div>
       )}
-
-      <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={currentPage === 1}>
-          {' < '}
-        </button>
-        <span>
-          Page {currentPage} of {totalPages}
-        </span>
-        <button onClick={handleNextPage} disabled={currentPage === totalPages}>
-          {' > '}
-        </button>
-      </div>
     </>
   )
 }
