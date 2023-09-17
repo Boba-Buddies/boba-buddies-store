@@ -170,14 +170,3 @@ const AddProduct = () => {
 }
 
 export default AddProduct
-
-/*
-UpsertProduct: {
-    image: string;
-    isEnabled: boolean;
-    name: string;
-    price: number;
-    description: string;
-    stock: number;
-}
-*/
