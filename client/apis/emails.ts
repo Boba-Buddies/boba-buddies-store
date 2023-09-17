@@ -34,3 +34,19 @@ export async function createNewEmail(newEmail: NewEmail, token: string) {
     return { error: (error as Error).message }
   }
 }
+
+// fetchEmailbyToday
+
+export async function fetchAmountOfUnreadEmailsByToday(token: string) {
+  try {
+    const response = await request
+      .get(`${rootUrl}/emails/today`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+
+    return response.body.unreadEmailCount
+  } catch (error) {
+    console.error('Error fetching user email', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
+}

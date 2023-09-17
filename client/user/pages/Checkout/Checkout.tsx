@@ -22,6 +22,7 @@ function Checkout() {
   const { getAccessTokenSilently } = useAuth0()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
+
   const [cartProducts, setCartProduct] = useState([] as CartClient[])
   const [userDetails, setUserDetails] = useState({
     phoneNumber: '',
@@ -43,11 +44,20 @@ function Checkout() {
     return await fetchAllShippingOptions(token)
   })
 
-  const CartQuery = useQuery('fetchCart', fetchCart, {
-    onSuccess: (data: CartClient[]) => {
-      setCartProduct(data)
+  const CartQuery = useQuery(
+    'fetchCart',
+    async () => {
+      const token = await getAccessTokenSilently()
+      const cartData = await fetchCart(token)
+      return cartData
     },
-  })
+    {
+      onSuccess: (data: CartClient[]) => {
+        setCartProduct(data)
+      },
+    },
+  )
+
   const statuses = [ShippingQuery.status, CartQuery.status]
 
   //Mutation of Different Query
@@ -64,7 +74,10 @@ function Checkout() {
   )
 
   const updateUserDataMutation = useMutation(
-    (updatedDetail: UpdateUser) => modifyUserDetails(updatedDetail),
+    async (updatedDetail: UpdateUser) => {
+      const token = await getAccessTokenSilently()
+      return modifyUserDetails(updatedDetail, token)
+    },
     {
       onSuccess: async () => {
         //Need to check the user api function
