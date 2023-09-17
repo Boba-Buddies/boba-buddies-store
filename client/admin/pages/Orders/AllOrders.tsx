@@ -44,6 +44,17 @@ export const AllOrders = () => {
 
   const totalPages = Math.ceil((orders?.length || 0) / itemsPerPage)
 
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+    }
+  }
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1)
+    }
+  }
 
   return (
     <>
