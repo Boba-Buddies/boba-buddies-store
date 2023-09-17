@@ -42,6 +42,9 @@ export const AllOrders = () => {
     }
   }
 
+  const totalPages = Math.ceil((orders?.length || 0) / itemsPerPage)
+
+
   return (
     <>
       <LoadError status={ordersStatus} />
