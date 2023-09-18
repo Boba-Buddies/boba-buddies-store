@@ -50,11 +50,15 @@ const AddProduct = () => {
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = event.target
-
-    const finalValue =
-      name === 'price' || name === 'stock' ? parseFloat(value) : value
-
-    setNewProduct((prevProduct) => ({ ...prevProduct, [name]: finalValue }))
+  
+    let finalValue : number | string
+    if (name === 'price' || name === 'stock') {
+      finalValue = Math.max(parseFloat(value), 0);
+    } else {
+      finalValue = value;
+    }
+  
+    setNewProduct((prevProduct) => ({ ...prevProduct, [name]: finalValue }));
   }
 
   const toggleEnabled = () => {
