@@ -9,7 +9,7 @@ const Nav = () => {
     navigate(link)
   }
 
-  const { isAuthenticated, loginWithRedirect } = useAuth0()
+  const { loginWithRedirect } = useAuth0()
 
   const handleProfileClick = () => {
     loginWithRedirect({
@@ -17,13 +17,6 @@ const Nav = () => {
         redirect_uri: `${window.location.origin}/redirect`,
       },
     })
-    if (isAuthenticated) {
-      // If the user is authenticated, redirect them to the '/profile' route.
-      goTo('/profile')
-    } else {
-      // If the user is not authenticated, redirect them to the Auth0 login page.
-      window.location.href = 'YOUR_AUTH0_LOGIN_URL_HERE'
-    }
   }
 
   return (
