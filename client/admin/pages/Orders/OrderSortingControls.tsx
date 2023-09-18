@@ -8,6 +8,7 @@ interface OrderSortingControlsProps {
   currentPage: number
   totalPages: number
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+  totalRows: number
 }
 
 function OrderSortingControls({
@@ -18,7 +19,11 @@ function OrderSortingControls({
   currentPage,
   totalPages,
   setCurrentPage,
+  totalRows,
 }: OrderSortingControlsProps) {
+  const lastIndex = currentPage * 10
+  const firstIndex = lastIndex - 10
+
   return (
     <div className="border p-2 rounded flex justify-between items-center">
       <div className="flex items-center">
@@ -44,7 +49,12 @@ function OrderSortingControls({
       </div>
 
       {/* PAGINATION */}
+      {/* Total Rows */}
       <div className="flex justify-between items-center">
+        <div className="flex flex-col justify-center mx-2 font-semibold">
+          Showing {firstIndex + 1}-{Math.min(lastIndex, totalRows)} of{' '}
+          {totalRows}
+        </div>
         <button
           className={`${
             currentPage === 1
