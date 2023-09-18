@@ -106,21 +106,21 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
                 </tbody>
                 <tfoot>
                   <tr className="bg-gray-200">
-                    <td className="py-2 px-4 border">Shipping Type:</td>
-                    <td className="py-2 px-4 border"></td>
-                    <td className="py-2 px-4 border">{order.shippingType}</td>
-                  </tr>
-                  <tr className="bg-gray-200">
-                    <td className="py-2 px-4 border">Shipping Price:</td>
+                    <td className="py-2 px-4 border">
+                      <span className="font-bold">Shipping: </span>
+                      {order.shippingType}
+                    </td>
                     <td className="py-2 px-4 border"></td>
                     <td className="py-2 px-4 border">
                       {formatCurrency(order.shippingPrice)}
                     </td>
                   </tr>
                   <tr className="bg-gray-200">
-                    <td className="py-2 px-4 border">Total Cost:</td>
+                    <td className="py-2 px-4 border font-bold text-xl">
+                      Total Cost:
+                    </td>
                     <td className="py-2 px-4 border"></td>
-                    <td className="py-2 px-4 border">
+                    <td className="bg-gray-300 py-2 px-4 border">
                       {formatCurrency(
                         order.orderItems.reduce(
                           (total, item) => total + item.productSale,
