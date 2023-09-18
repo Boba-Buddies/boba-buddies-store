@@ -104,6 +104,7 @@ const AddProduct = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="number"
               name="price"
+              min="0"
               value={newProduct.price}
               onChange={handleChange}
             />
@@ -116,6 +117,7 @@ const AddProduct = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               type="number"
               name="stock"
+              min="0"
               value={newProduct.stock}
               onChange={handleChange}
             />
