@@ -1,8 +1,8 @@
-import { ReviewForTable } from '../../../../models/Reviews'
+import { ReviewForTable } from '../../../../../models/Reviews'
 import {
   format24HourTo12Hour,
   formatDateToDDMMYYYY,
-} from '../../../utils/formatDate/formatDate'
+} from '../../../../utils/formatDate/formatDate'
 
 interface DisplayCurrentReviewsProps {
   currentReviews: ReviewForTable[]

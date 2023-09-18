@@ -15,6 +15,10 @@ module.exports = {
       spacing: {
         '128': '128px',
       },
+      maxWidth: {
+        '1/2': '50%',
+        '3/5' : '60%',
+      },
     },
   },
   plugins: [

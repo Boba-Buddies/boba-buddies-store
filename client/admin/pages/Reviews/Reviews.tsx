@@ -4,10 +4,10 @@ import { fetchAllReviews, fetchReviewById } from '../../../apis/reviews'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { Review, ReviewForTable } from '../../../../models/Reviews'
 import { useAuth0 } from '@auth0/auth0-react'
-import ReviewPopup from '../../components/ReviewPopup/ReviewPopup'
-import ReviewSortingControls from '../../components/ReviewSortingControls/ReviewSortingControls'
-import ReviewColumnTitles from '../../components/ReviewColumnTitles/ReviewColumnTitles'
-import DisplayCurrentReviews from '../../components/DisplayCurrentReviews/DisplayCurrentReviews'
+import ReviewPopup from '../../components/ReviewsComponents/ReviewPopup/ReviewPopup'
+import ReviewSortingControls from '../../components/ReviewsComponents/ReviewSortingControls/ReviewSortingControls'
+import ReviewColumnTitles from '../../components/ReviewsComponents/ReviewColumnTitles/ReviewColumnTitles'
+import DisplayCurrentReviews from '../../components/ReviewsComponents/DisplayCurrentReviews/DisplayCurrentReviews'
 
 const Reviews = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -105,10 +105,11 @@ const Reviews = () => {
 
             {/* TABLE */}
             <div className="divTable bg-white mt-4 border border-gray-300">
-              <ReviewColumnTitles/>
-              <DisplayCurrentReviews 
-              currentReviews = {currentReviews}
-              fetchAndShowReviewDetails={fetchAndShowReviewDetails}/>
+              <ReviewColumnTitles />
+              <DisplayCurrentReviews
+                currentReviews={currentReviews}
+                fetchAndShowReviewDetails={fetchAndShowReviewDetails}
+              />
             </div>
           </div>
         </div>
