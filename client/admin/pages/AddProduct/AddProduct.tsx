@@ -16,7 +16,7 @@ const AddProduct = () => {
     stock: 0,
   })
 
-  const placeholderImage = 'http://bit.ly/3ZjozLG'
+  const placeholderImage = '/images/placeholder-image.png'
 
   const [isFormComplete, setIsFormComplete] = useState(false)
 
