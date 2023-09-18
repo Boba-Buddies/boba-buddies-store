@@ -34,6 +34,15 @@ const AddProduct = () => {
     {
       onSuccess: () => {
         setButtonText('Product Added')
+        setNewProduct({
+          image: '',
+          isEnabled: true,
+          name: '',
+          price: 0,
+          description: '',
+          stock: 0,
+        })
+        localStorage.removeItem('newProduct')
         setTimeout(() => {
           setButtonText('Add Product')
         }, 2000)
