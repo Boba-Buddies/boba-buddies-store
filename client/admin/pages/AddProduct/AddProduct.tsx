@@ -2,7 +2,6 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { UpsertProduct } from '../../../../models/Products'
 import { createProduct } from '../../../apis/products'
 import { useMutation } from 'react-query'
-import { useNavigate } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 import LoadError from '../../../user/components/LoadError/LoadError'
 
@@ -22,10 +21,6 @@ const AddProduct = () => {
   const [isFormComplete, setIsFormComplete] = useState(false)
 
   const { getAccessTokenSilently } = useAuth0()
-  const navigate = useNavigate()
-  function goTo(link: string) {
-    navigate(link)
-  }
 
   const addProductMutation = useMutation(
     async (newProduct: UpsertProduct) => {
