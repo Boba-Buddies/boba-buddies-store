@@ -6,18 +6,14 @@ interface DisplayCurrentEmailsProps {
 
 const DisplayCurrentEmails = ({ currentEmails }: DisplayCurrentEmailsProps) => {
   return (
-    <div className="divBody text-gray-600 text-sm font-light">
+    <div className="text-gray-600 text-sm font-light">
       {currentEmails.map((email) => (
-        <div key={email.id} className="divRow border-b">
-          <div className="divCell py-3 px-8 text-left whitespace-nowrap border-r w-1/4">
+        <div key={email.id} className="flex border border-gray-300 ">
+          <div className="flex-1 py-3 px-8 text-left whitespace-nowrap">
             {email.userName}
           </div>
-          <div className="divCell py-3 px-8 text-left border-r w-1/4">
-            {email.title}
-          </div>
-          <div className="divCell py-3 px-8 text-left w-1/4">
-            {email.createdAt}
-          </div>
+          <div className="flex-1 py-3 px-8 text-left">{email.title}</div>
+          <div className="flex-1 py-3 px-8 text-left">{email.createdAt}</div>
         </div>
       ))}
     </div>
