@@ -16,6 +16,10 @@ const AddProduct = () => {
     stock: 0,
   })
 
+  const saveToLocalStorage = (state: UpsertProduct) => {
+    localStorage.setItem('newProduct', JSON.stringify(state))
+  }
+
   const placeholderImage = '/images/placeholder-image.png'
 
   const [isFormComplete, setIsFormComplete] = useState(false)
@@ -38,12 +42,21 @@ const AddProduct = () => {
   )
 
   useEffect(() => {
+    const savedProduct = localStorage.getItem('newProduct')
+    if (savedProduct) {
+      setNewProduct(JSON.parse(savedProduct) as UpsertProduct)
+    }
+  }, [])
+
+  useEffect(() => {
     const { image, name, price, description, stock } = newProduct
     if (image && name && price && description && stock) {
       setIsFormComplete(true)
     } else {
       setIsFormComplete(false)
     }
+    // Save form state to localStorage
+    saveToLocalStorage(newProduct)
   }, [newProduct])
 
   const handleChange = (
