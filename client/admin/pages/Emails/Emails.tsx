@@ -15,7 +15,6 @@ const Emails = () => {
     const token = await getAccessTokenSilently()
     return await fetchAllEmails(token)
   })
-  console.log(fetchedmails)
 
   return (
     <>
