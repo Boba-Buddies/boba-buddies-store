@@ -83,10 +83,7 @@ export const routes = createRoutesFromElements(
       element={<AdminComponent component={AddProduct} />}
     />
 
-    <Route
-      path="admin/inbox"
-      element={<AdiminComponent component={Emails} />}
-    />
+    <Route path="admin/inbox" element={<AdminComponent component={Emails} />} />
   </Route>,
 )
 
