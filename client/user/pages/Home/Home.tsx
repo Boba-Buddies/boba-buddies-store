@@ -7,7 +7,7 @@ const Home = () => {
   }
   return (
     <div
-      className="items-center font-sans py-8"
+      className="font-sans py-8"
       style={{ background: '#FFC5C7' }}
     >
       <div className="max-w-screen-xl w-full p-8 flex flex-col items-center mb-60">
@@ -18,7 +18,7 @@ const Home = () => {
             alt="Boba Buddies Logo"
             className="max-w-full h-auto"
           />
-          <div className="flex flex-col text-white">
+          <div className="flex flex-col text-white space-y-4 p-4">
             <img
               src="/images/home-title.svg"
               alt="Boba Buddies Logo"
@@ -31,7 +31,7 @@ const Home = () => {
 
             <button
               onClick={() => goTo('shop')}
-              className="border text-white px-6 py-2 rounded-lg hover:bg-white transition-all"
+              className="w-60 border border-white border-2 text-white px-6 py-2 rounded-lg hover:bg-white hover:text-rose-300 transition-all"
             >
               Shop
             </button>
