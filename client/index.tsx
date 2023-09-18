@@ -26,7 +26,7 @@ import {
 import { Reviews, Dashboard } from './admin/pages/'
 import Redirect from './user/pages/Redirect/Redirect'
 import AllOrders from './admin/pages/Orders/AllOrders'
-import AdiminComponent from './UI/AdiminComponent'
+import AdminComponent from './UI/AdminComponent'
 import ProtectedComponent from './UI/ProtectedComponent'
 
 export const routes = createRoutesFromElements(
@@ -69,13 +69,13 @@ export const routes = createRoutesFromElements(
     />
     <Route
       path="admin/reviews"
-      element={<AdiminComponent component={Reviews} />}
+      element={<AdminComponent component={Reviews} />}
     />
-    <Route path="admin" element={<AdiminComponent component={Dashboard} />} />
+    <Route path="admin" element={<AdminComponent component={Dashboard} />} />
 
     <Route
       path="admin/orders"
-      element={<AdiminComponent component={AllOrders} />}
+      element={<AdminComponent component={AllOrders} />}
     />
   </Route>,
 )
