@@ -50,3 +50,21 @@ export async function fetchAmountOfUnreadEmailsByToday(token: string) {
     throw { error: (error as Error).message }
   }
 }
+
+//fetchEmailbyId
+export async function fetchEmailById(token: string, emailId: number) {
+  try {
+    const response = await request
+      .get(`${rootUrl}/emails/${emailId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+
+    return response.body.email
+  } catch (error) {
+    console.error(
+      'Error fetching user email by email id',
+      (error as Error).message,
+    )
+    throw { error: (error as Error).message }
+  }
+}
