@@ -3,10 +3,10 @@ import { useAuth0 } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
 import { fetchAllOrders, fetchOrderById } from '../../../apis/purchases'
 import { Order, Orders } from '../../../../models/Purchases'
-import OrderSortingControls from './OrderSortingControls'
+import OrderSortingControls from '../../components/OrdersComponents/OrderSortingControls/OrderSortingControls'
 import LoadError from '../../../user/components/LoadError/LoadError'
-import OrderPopup from './OrderPopup'
-import OrderTable from './OrderTable'
+import OrderPopup from '../../components/OrdersComponents/OrderPopup/OrderPopup'
+import OrderTable from '../../components/OrdersComponents/OrderTable/OrderTable'
 
 const itemsPerPage = 10
 
