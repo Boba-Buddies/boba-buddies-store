@@ -36,7 +36,7 @@ function OrderTable({
         {orders.slice(startIndex, endIndex).map((order: Orders) => (
           <div
             key={order.orderId}
-            className="divRow border-b border-gray-200 hover:bg-gray-100"
+            className="divRow border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
             onClick={() => handleOrderCellClick(order.orderId)}
           >
             <div className="divCell py-3 px-8 text-left whitespace-nowrap">
