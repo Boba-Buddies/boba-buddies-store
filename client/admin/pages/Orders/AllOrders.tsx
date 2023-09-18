@@ -70,7 +70,7 @@ export const AllOrders = () => {
 
   const totalRows = filteredAndSortedOrders.length
   return (
-    <div className="w-1/2 max-w-lg mx-auto pt-4">
+    <div className="w-1/2 mx-auto pt-4" style={{ minWidth: '700px' }}>
       <OrderSortingControls
         search={search}
         setSearch={setSearch}
