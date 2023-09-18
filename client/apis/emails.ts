@@ -15,7 +15,7 @@ export async function fetchAllEmails(token: string) {
       .get(rootUrl + '/emails')
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
-    return res.body
+    return res.body.emails
   } catch (error) {
     console.error('Error fetching all emails:', (error as Error).message)
     return { error: (error as Error).message }
