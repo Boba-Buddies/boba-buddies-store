@@ -8,15 +8,15 @@ import LoadError from '../../../user/components/LoadError/LoadError'
 import OrderPopup from './OrderPopup'
 import OrderTable from './OrderTable'
 
-export const AllOrders = () => {
+const itemsPerPage = 10
+
+function AllOrders() {
   const { getAccessTokenSilently } = useAuth0()
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sort, setSort] = useState<string>('newest')
   const [oldestFirst, setOldestFirst] = useState<boolean>(false)
-
-  const itemsPerPage = 10
 
   const { data: orders, status: ordersStatus } = useQuery(
     'fetchAllOrders',
@@ -46,12 +46,10 @@ export const AllOrders = () => {
 
   const totalPages = Math.ceil((orders?.length || 0) / itemsPerPage)
 
-  // Check if orders is undefined before filtering and sorting
   if (orders === undefined) {
     return <div>Loading...</div>
   }
 
-  // Filter and sort orders based on search and sort criteria
   const filteredAndSortedOrders = orders
     .filter((order: Orders) =>
       order.orderId.toString().includes(search.toLowerCase()),
@@ -69,6 +67,7 @@ export const AllOrders = () => {
     })
 
   const totalRows = filteredAndSortedOrders.length
+
   return (
     <div className="w-1/2 mx-auto pt-4" style={{ minWidth: '700px' }}>
       <OrderSortingControls
@@ -90,7 +89,7 @@ export const AllOrders = () => {
         itemsPerPage={itemsPerPage}
         handleOrderCellClick={handleOrderCellClick}
         formatCurrency={formatCurrency}
-        totalPages={0}
+        totalPages={totalPages}
       />
       {selectedOrder && (
         <div className="order-details-popup">
