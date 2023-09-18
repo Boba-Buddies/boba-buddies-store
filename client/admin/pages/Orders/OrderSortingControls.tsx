@@ -49,7 +49,6 @@ function OrderSortingControls({
       </div>
 
       {/* PAGINATION */}
-      {/* Total Rows */}
       <div className="flex justify-between items-center">
         <div className="flex flex-col justify-center mx-2 font-semibold">
           Showing {firstIndex + 1}-{Math.min(lastIndex, totalRows)} of{' '}
@@ -70,7 +69,7 @@ function OrderSortingControls({
           className={`${
             currentPage === totalPages
               ? 'bg-gray-300 cursor-default'
-              : 'bg-blue-500 hover:bg-blue-700'
+              : 'bg-blue-500 hover.bg-blue-700'
           } text-white font-bold py-2 px-4 rounded ml-2`}
           disabled={currentPage === totalPages}
           onClick={() => setCurrentPage(currentPage + 1)}
