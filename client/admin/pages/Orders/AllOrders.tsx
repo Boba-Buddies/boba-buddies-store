@@ -1,15 +1,22 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import { useState } from 'react'
+import { useAuth0 } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
-
 import { fetchAllOrders, fetchOrderById } from '../../../apis/purchases'
 import { Order, Orders } from '../../../../models/Purchases'
+import OrderSortingControls from './OrderSortingControls'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import OrderPopup from './OrderPopup'
+import OrderTable from './OrderTable'
 
 export const AllOrders = () => {
   const { getAccessTokenSilently } = useAuth0()
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [search, setSearch] = useState<string>('')
+  const [sort, setSort] = useState<string>('newest')
+  const [oldestFirst, setOldestFirst] = useState<boolean>(false)
+
+  const itemsPerPage = 10
 
   const { data: orders, status: ordersStatus } = useQuery(
     'fetchAllOrders',
@@ -37,45 +44,54 @@ export const AllOrders = () => {
     }
   }
 
+  const totalPages = Math.ceil((orders?.length || 0) / itemsPerPage)
+
+  // Check if orders is undefined before filtering and sorting
+  if (orders === undefined) {
+    return <div>Loading...</div>
+  }
+
+  // Filter and sort orders based on search and sort criteria
+  const filteredAndSortedOrders = orders
+    .filter((order: Orders) =>
+      order.orderId.toString().includes(search.toLowerCase()),
+    )
+    .sort((a: Orders, b: Orders) => {
+      const dateA = new Date(a.purchasedAt)
+      const dateB = new Date(b.purchasedAt)
+
+      if (sort === 'newest') {
+        return dateB.getTime() - dateA.getTime()
+      } else if (sort === 'oldest') {
+        return dateA.getTime() - dateB.getTime()
+      }
+      return 0
+    })
+
+  const totalRows = filteredAndSortedOrders.length
   return (
-    <>
+    <div className="w-1/2 mx-auto pt-4">
+      <OrderSortingControls
+        search={search}
+        setSearch={setSearch}
+        sort={sort}
+        setSort={setSort}
+        oldestFirst={oldestFirst}
+        setOldestFirst={setOldestFirst}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        setCurrentPage={setCurrentPage}
+        totalRows={totalRows}
+      />
       <LoadError status={ordersStatus} />
-      {orders && (
-        <>
-          <div className="divTable bg-white mt-4 border border-gray-300">
-            <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-              <div className="divCell py-3 px-8">Order ID</div>
-              <div className="divCell py-3 px-8">User Name</div>
-              <div className="divCell py-3 px-8">Purchase Date</div>
-              <div className="divCell py-3 px-8">Total Sale</div>
-            </div>
-
-            <div className="divBody text-gray-600 text-sm font-light">
-              {orders.map((order: Orders) => (
-                <div
-                  key={order.orderId}
-                  className="divRow border-b border-gray-200 hover:bg-gray-100"
-                  onClick={() => handleOrderCellClick(order.orderId)}
-                >
-                  <div className="divCell py-3 px-8 text-left whitespace-nowrap">
-                    {order.orderId}
-                  </div>
-                  <div className="divCell py-3 px-8 text-left">
-                    {order.userName}
-                  </div>
-                  <div className="divCell py-3 px-8 text-left">
-                    {order.purchasedAt}
-                  </div>
-                  <div className="divCell py-3 px-8 text-left">
-                    {formatCurrency(order.totalSale)}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </>
-      )}
-
+      <OrderTable
+        orders={filteredAndSortedOrders}
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
+        handleOrderCellClick={handleOrderCellClick}
+        formatCurrency={formatCurrency}
+        totalPages={0}
+      />
       {selectedOrder && (
         <div className="order-details-popup">
           <button onClick={() => setSelectedOrder(null)}>Close</button>
@@ -86,6 +102,8 @@ export const AllOrders = () => {
           />
         </div>
       )}
-    </>
+    </div>
   )
 }
+
+export default AllOrders

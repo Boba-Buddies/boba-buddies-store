@@ -25,9 +25,10 @@ import {
 } from './user/pages/index'
 import { Reviews, Dashboard, Emails } from './admin/pages/'
 import Redirect from './user/pages/Redirect/Redirect'
-import { Orders } from './admin/pages/Orders/Orders'
-import AdiminComponent from './UI/AdminComponent'
+import AllOrders from './admin/pages/Orders/AllOrders'
+import AdminComponent from './UI/AdminComponent'
 import ProtectedComponent from './UI/ProtectedComponent'
+import AddProduct from './admin/pages/AddProduct/AddProduct'
 
 export const routes = createRoutesFromElements(
   <Route path="/" element={<AppLayout />} errorElement={<ErrorPage />}>
@@ -69,13 +70,17 @@ export const routes = createRoutesFromElements(
     />
     <Route
       path="admin/reviews"
-      element={<AdiminComponent component={Reviews} />}
+      element={<AdminComponent component={Reviews} />}
     />
-    <Route path="admin" element={<AdiminComponent component={Dashboard} />} />
+    <Route path="admin" element={<AdminComponent component={Dashboard} />} />
 
     <Route
       path="admin/orders"
-      element={<AdiminComponent component={Orders} />}
+      element={<AdminComponent component={AllOrders} />}
+    />
+    <Route
+      path="admin/add-product"
+      element={<AdminComponent component={AddProduct} />}
     />
 
     <Route

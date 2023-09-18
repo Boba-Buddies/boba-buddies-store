@@ -45,9 +45,7 @@ export async function clearCartByUserId(userId: string) {
   await db('cart').where('user_id', userId).delete()
 }
 
-export async function getAmountOfOrdersByDate(
-  date: string,
-) {
+export async function getAmountOfOrdersByDate(date: string) {
   //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
@@ -88,7 +86,15 @@ export async function getAllOrders() {
   const orders = await db('purchases')
     .join('users', 'purchases.user_id', 'users.auth0_id')
     .join('products', 'purchases.product_id', 'products.id')
+    .join(
+      'shipping_options',
+      'purchases.shipping_id',
+      '=',
+      'shipping_options.id',
+    )
     .select(
+      'shipping_options.shipping_type as shippingType',
+      'shipping_options.price as shippingPrice',
       'users.user_name as userName',
       'purchases.order_id as orderId',
       db.raw('ROUND(SUM(products.price * purchases.quantity), 2) as totalSale'),
@@ -100,7 +106,7 @@ export async function getAllOrders() {
   return orders
 }
 
-export async function getOrderByOrderId( orderId: string) {
+export async function getOrderByOrderId(orderId: string) {
   //Check if user is authorised. If they are not:
   //return "User is not authorized"
 
