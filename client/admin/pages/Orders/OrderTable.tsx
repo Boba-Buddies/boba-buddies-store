@@ -1,5 +1,8 @@
 import { Orders } from '../../../../models/Purchases'
-import { format24HourTo12Hour, formatDateToDDMMYYYY } from '../../../utils/formatDate/formatDate'
+import {
+  format24HourTo12Hour,
+  formatDateToDDMMYYYY,
+} from '../../../utils/formatDate/formatDate'
 
 interface OrderTableProps {
   orders: Orders[]
