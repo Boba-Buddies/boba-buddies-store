@@ -79,17 +79,30 @@ const AddProduct = () => {
       <div className="container mx-auto mt-12" style={{ maxWidth: '500px' }}>
         <h1 className="text-3xl font-semibold mb-4">Add Product</h1>
         <form>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Name:
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              name="name"
-              value={newProduct.name}
-              onChange={handleChange}
-            />
+          <div className="flex space-x-4 mb-4">
+            <div className="mb-4 w-1/2">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Name:
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="text"
+                name="name"
+                value={newProduct.name}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="flex items-center w-1/2 mt-2">
+              <button
+                className={`font-bold text-white py-2 px-4 rounded ${
+                  newProduct.isEnabled ? 'bg-green-500' : 'bg-red-500'
+                }`}
+                type="button"
+                onClick={toggleEnabled}
+              >
+                {newProduct.isEnabled ? 'Enabled' : 'Disabled'}
+              </button>
+            </div>
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -102,65 +115,58 @@ const AddProduct = () => {
               onChange={handleChange}
             ></textarea>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Price:
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="number"
-              name="price"
-              min="0"
-              value={newProduct.price}
-              onChange={handleChange}
-            />
+          <div className="flex space-x-4 mb-4">
+            <div className="w-1/2">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Price:
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="number"
+                name="price"
+                min="0"
+                value={newProduct.price}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="w-1/2">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Stock:
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="number"
+                name="stock"
+                min="0"
+                step="1"
+                value={newProduct.stock}
+                onChange={handleChange}
+              />
+            </div>
           </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Stock:
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="number"
-              name="stock"
-              min="0"
-              step="1"
-              value={newProduct.stock}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
-              Image URL:
-            </label>
-            <input
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              name="image"
-              value={newProduct.image}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-4">
-            <img
-              src={newProduct.image ? newProduct.image : placeholderImage}
-              alt="Product preview"
-              className="w-24"
-            />
-          </div>
-          <div className="mb-4 flex items-center">
-            <label className="block text-gray-700 text-sm font-bold mb-2 mr-4">
-              Click to change status:
-            </label>
-            <button
-              className={`font-bold text-white py-2 px-4 rounded ${
-                newProduct.isEnabled ? 'bg-green-500' : 'bg-red-500'
-              }`}
-              type="button"
-              onClick={toggleEnabled}
+          <div className="flex space-x-4 mb-4">
+            <div className="w-1/2 flex flex-col justify-center">
+              <label className="block text-gray-700 text-sm font-bold mb-2">
+                Image URL:
+              </label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="text"
+                name="image"
+                value={newProduct.image}
+                onChange={handleChange}
+              />
+            </div>
+            <div
+              className="w-1/2 flex justify-center items-center mt-2"
+              style={{ maxHeight: '200px' }}
             >
-              {newProduct.isEnabled ? 'Enabled' : 'Disabled'}
-            </button>
+              <img
+                src={newProduct.image ? newProduct.image : placeholderImage}
+                alt="Product preview"
+                style={{ maxHeight: '200px' }}
+              />
+            </div>
           </div>
 
           <div className="mb-4">
