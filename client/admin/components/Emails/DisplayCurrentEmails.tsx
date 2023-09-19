@@ -21,26 +21,29 @@ const DisplayCurrentEmails = ({
         <div
           key={email.id}
           onClick={() => fetchAndShowEmailDetails(email.id)}
-          className="flex border border-gray-300 cursor-pointer"
+          className="flex border border-gray-300 cursor-pointer "
         >
-          <div className="pl-5 flex flex-col items-center justify-center">
-            {email.isRead ? (
-              <FontAwesomeIcon
-                icon={faEnvelopeOpen}
-                className="text-xl align-middle m-1"
-              />
-            ) : (
-              <FontAwesomeIcon
-                icon={faEnvelope}
-                className="text-xl align-middle m-1"
-              />
-            )}
+          <div className="pl-1 flex flex-col items-center justify-center ">
+            <div>
+              {email.isRead ? (
+                <FontAwesomeIcon
+                  icon={faEnvelopeOpen}
+                  className="text-xl align-middle m-1"
+                />
+              ) : (
+                <FontAwesomeIcon
+                  icon={faEnvelope}
+                  className="text-xl align-middle m-1"
+                />
+              )}
+            </div>
           </div>
-          <div className="flex-1 py-3 px-8 text-left whitespace-nowrap">
+
+          <div className="flex-1 py-3 px-1 text-left whitespace-nowrap">
             {email.userName}
           </div>
-          <div className="flex-1 py-3 px-8 text-left">{email.title}</div>
-          <div className="flex-1 py-3 px-8 text-left">
+          <div className="flex-1 py-3 text-left">{email.title}</div>
+          <div className="flex-1 py-3 pl-6 text-left">
             {format24HourTo12Hour(email.createdAt)}{' '}
             {formatDateToDDMMYYYY(email.createdAt)}
           </div>
