@@ -3,6 +3,8 @@ import {
   format24HourTo12Hour,
   formatDateToDDMMYYYY,
 } from '../../../utils/formatDate/formatDate'
+import { faEnvelope, faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface DisplayCurrentEmailsProps {
   currentEmails: Email[]
@@ -21,6 +23,19 @@ const DisplayCurrentEmails = ({
           onClick={() => fetchAndShowEmailDetails(email.id)}
           className="flex border border-gray-300 cursor-pointer"
         >
+          <div className="pl-5 flex flex-col items-center justify-center">
+            {email.isRead ? (
+              <FontAwesomeIcon
+                icon={faEnvelopeOpen}
+                className="text-xl align-middle m-1"
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={faEnvelope}
+                className="text-xl align-middle m-1"
+              />
+            )}
+          </div>
           <div className="flex-1 py-3 px-8 text-left whitespace-nowrap">
             {email.userName}
           </div>
