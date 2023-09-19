@@ -40,11 +40,11 @@ const Emails = () => {
     <>
       <LoadError status={emailStatus} />
       {/* SortingControl */}
-      {/* 
-      <EmailsSortingControls /> */}
+
       <LoadError status={emailStatus} />
       <div className="flex justify-center overflow-x-auto">
         <div className="p-4 w-full lg:w-11/12">
+          <EmailsSortingControls />
           <div className="w-full bg-white mt-4 border border-gray-300">
             <EmailsColumnTitles />
             {!isLoading && fetchedmails && (
