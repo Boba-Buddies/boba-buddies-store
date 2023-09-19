@@ -16,14 +16,16 @@ const Home = () => {
           <img
             src="/images/home-tea.svg"
             alt="Boba Buddies Logo"
-            className="max-w-full h-auto"
-            style={{ width: '50%', maxWidth: '50%' }}
+            className="max-w-full h-auto pr-10"
+            style={{ width: '65%', maxWidth: '100%' }}
           />
-          <div className="flex flex-col text-white text-xl space-y-4 p-10">
+
+          <div className=" flex flex-col text-white text-xl space-y-8 p-10">
             <img
               src="/images/home-title.svg"
               alt="Boba Buddies Logo"
               className="max-w-full h-auto"
+              style={{ width: '90%', maxWidth: '100%' }}
             />
             <p>
               Dive into our colorful world of delicious flavors, hand-shaken to
