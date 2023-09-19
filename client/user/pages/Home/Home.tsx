@@ -7,18 +7,19 @@ const Home = () => {
   }
   return (
     <div
-      className="font-sans min-h-screen flex items-center justify-center"
+      className=" flex items-center justify-center"
       style={{ background: '#FFC5C7' }}
     >
-      <div className="max-w-screen-xl w-full p-8 flex flex-col items-center mb-60">
+      <div className="max-w-screen-xl flex flex-col items-center p-2">
         {/* Welcome Card */}
-        <div className=" p-10 flex flex-row items-center mb-36 w-4/5">
+        <div className=" p-10 space-y-12 flex flex-row items-center w-4/5">
           <img
             src="/images/home-tea.svg"
             alt="Boba Buddies Logo"
             className="max-w-full h-auto"
+            style={{ width: '50%', maxWidth: '50%' }}
           />
-          <div className="flex flex-col text-white space-y-4 p-10">
+          <div className="flex flex-col text-white text-xl space-y-4 p-10">
             <img
               src="/images/home-title.svg"
               alt="Boba Buddies Logo"
