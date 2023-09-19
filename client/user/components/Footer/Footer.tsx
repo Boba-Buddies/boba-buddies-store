@@ -18,31 +18,30 @@ const Footer = () => {
   }
 
   return (
-    <footer className="bg-black text-white py-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <div>&copy; {new Date().getFullYear()} Boba Buddies</div>
+    <footer className="text-white py-2" style={{ background: '#9B99FF' }}>
+      <div className="flex justify-end pr-12">
         <div className="space-x-4">
           <div className="flex space-x-6 text-white">
             <button
-              className="hover:text-purple-700 transition-colors duration-300"
+              className="hover:text-rose-200 transition-colors duration-300"
               onClick={() => goTo('/')}
             >
               Home
             </button>
             <button
-              className="hover:text-purple-700 transition-colors duration-300"
+              className="hover:text-rose-200 transition-colors duration-300"
               onClick={() => goTo('/shop')}
             >
               Shop
             </button>
             <button
-              className="hover:text-purple-700 transition-colors duration-300"
+              className="hover:text-rose-200 transition-colors duration-300"
               onClick={() => goTo('/contact')}
             >
               Contact
             </button>
             <button
-              className="hover:text-purple-700 transition-colors duration-300"
+              className="hover:text-rose-200 transition-colors duration-300"
               onClick={handleLoginClick}
             >
               Admin
