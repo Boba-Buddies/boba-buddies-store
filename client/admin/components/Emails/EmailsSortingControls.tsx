@@ -19,6 +19,8 @@ const EmailsSortingControls: React.FC<EmailSortingControlsProps> = ({
   totalPages,
   totalEmails,
 }) => {
+  const lastIndex = currentPage * 10
+  const firstIndex = lastIndex - 10
   return (
     <div className="border p-2 rounded flex flex-row justify-between items-center">
       <div className="flex items-center">
@@ -27,6 +29,7 @@ const EmailsSortingControls: React.FC<EmailSortingControlsProps> = ({
         <select
           className="border p-2 rounded"
           onChange={(e) => setFilter(e.target.value)}
+          value={filter}
         >
           <option value="all">All emails</option>
           <option value="unread">unread Emails</option>
@@ -48,7 +51,8 @@ const EmailsSortingControls: React.FC<EmailSortingControlsProps> = ({
       {/* PAGINATION */}
       <div className="flex justify-between items-center">
         <div className="flex flex-col justify-center mx-2 font-semibold">
-          Showing 1-10 of 100
+          Showing {firstIndex + 1}-{Math.min(lastIndex, totalEmails)} of{' '}
+          {totalEmails}
         </div>
         <div className="flex justify-center">
           <button
