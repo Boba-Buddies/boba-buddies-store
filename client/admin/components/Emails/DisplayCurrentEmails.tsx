@@ -1,4 +1,8 @@
 import { Email } from '../../../../models/Emails'
+import {
+  format24HourTo12Hour,
+  formatDateToDDMMYYYY,
+} from '../../../utils/formatDate/formatDate'
 
 interface DisplayCurrentEmailsProps {
   currentEmails: Email[]
@@ -13,7 +17,10 @@ const DisplayCurrentEmails = ({ currentEmails }: DisplayCurrentEmailsProps) => {
             {email.userName}
           </div>
           <div className="flex-1 py-3 px-8 text-left">{email.title}</div>
-          <div className="flex-1 py-3 px-8 text-left">{email.createdAt}</div>
+          <div className="flex-1 py-3 px-8 text-left">
+            {format24HourTo12Hour(email.createdAt)}{' '}
+            {formatDateToDDMMYYYY(email.createdAt)}
+          </div>
         </div>
       ))}
     </div>
