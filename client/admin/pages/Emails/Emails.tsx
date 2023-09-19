@@ -12,7 +12,7 @@ const Emails = () => {
   const { getAccessTokenSilently } = useAuth0()
   const [filter, setFilter] = useState('all')
   const [sort, setSort] = useState('Newest first')
-  const [sortedEmails, setSortedEmails] = useState<Email[]>([])
+
   const [currentPage, setCurrentPage] = useState(1)
   // the 10 just for testing if the filter work or not
   const emailsPerPage = 10
@@ -26,12 +26,6 @@ const Emails = () => {
     const token = await getAccessTokenSilently()
     return (await fetchAllEmails(token)) as Email[]
   })
-
-  useEffect(() => {
-    if (!isLoading && fetchedmails) {
-      setSortedEmails(fetchedmails)
-    }
-  }, [sort, fetchedmails, isLoading])
 
   const filteredAndSortedEmails = fetchedmails
     ?.filter((email) => {
@@ -83,8 +77,7 @@ const Emails = () => {
               />
               <div className="w-full bg-white mt-4 border border-gray-300">
                 <EmailsColumnTitles />
-
-                <DisplayCurrentEmails currentEmails={sortedEmails} />
+                <DisplayCurrentEmails currentEmails={currentEmails} />
               </div>
             </div>
           </div>
