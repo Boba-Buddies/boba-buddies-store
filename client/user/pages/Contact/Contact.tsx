@@ -103,7 +103,7 @@ function Contact() {
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.06300832411!2d174.7764339931746!3d-36.8649106243409!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d0d47c43b7c00a3%3A0x4abe94b659ab7fb0!2sDev%20Academy%20Aotearoa%20-%20Auckland%20Campus!5e0!3m2!1sen!2snz!4v1695091841249!5m2!1sen!2snz"
           title="map"
           width="830"
-          height="450"
+          height="400"
           style={{ border: 0 }}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
