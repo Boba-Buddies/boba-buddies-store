@@ -33,7 +33,7 @@ function Contact() {
     event.preventDefault()
 
     if (!newEmail.title || !newEmail.description) {
-      alert('Title and description both are required')
+      alert('Please fill out empty fields!')
       return
     }
 
@@ -55,46 +55,50 @@ function Contact() {
   }, [alertMessage])
 
   return (
-    <>
-      <div className="mt-8 text-2xl text-center font-bold">Contact Admin</div>
+    <div className="mx-auto max-w-4xl p-8">
+      <div className="text-2xl text-center font-bold">Contact</div>
       {alertMessage && (
         <div className="bg-green-200 text-green-800 p-2 mt-2 rounded">
           {alertMessage}
         </div>
       )}
-      <form className="flex flex-col">
-        <label htmlFor="title" className="mt-8 ml-2 text-2xl">
-          Title
-        </label>
-        <input
-          className="mt-2 ml-2 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
-          type="text"
-          name="title"
-          onChange={handleChange}
-          value={newEmail.title}
-          required
-        />
-        <label htmlFor="description" className="mt-8 ml-2 text-2xl">
-          Message(description)
-        </label>
-        <textarea
-          className="mt-6 ml-2 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black"
-          name="description"
-          onChange={handleMessageChange}
-          value={newEmail.description}
-          placeholder="Try your message here"
-          rows={6}
-          required
-        />
+      <form className="mt-6 space-y-4">
+        <div className="mb-4">
+          <label htmlFor="title" className="block text-lg font-semibold">
+            Topic:
+          </label>
+          <input
+            className="mt-2 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black w-full"
+            type="text"
+            name="title"
+            onChange={handleChange}
+            value={newEmail.title}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="description" className="block text-lg font-semibold">
+            Message:
+          </label>
+          <textarea
+            className="mt-2 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black w-full"
+            name="description"
+            onChange={handleMessageChange}
+            value={newEmail.description}
+            placeholder="Try your message here"
+            rows={6}
+            required
+          />
+        </div>
         <button
-          className="ml-2 mr-2 mt-6 rounded-md bg-black text-white p-4 w-full text-2xl font-bold"
+          className="bg-black text-white py-2 px-4 rounded-md w-full text-lg font-semibold"
           type="button"
           onClick={handleSubmit}
         >
           Submit
         </button>
       </form>
-    </>
+    </div>
   )
 }
 
