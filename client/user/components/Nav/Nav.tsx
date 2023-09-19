@@ -20,7 +20,10 @@ const Nav = () => {
   }
 
   return (
-    <nav className="bg-black h-16 flex justify-between items-center px-6 md:px-12 lg:px-16">
+    <nav
+      className="h-16 flex justify-between items-center px-6 md:px-12 lg:px-16"
+      style={{ background: '#323232' }}
+    >
       <div className="flex space-x-6 text-white">
         <button
           className="hover:text-purple-700 transition-colors duration-300"
