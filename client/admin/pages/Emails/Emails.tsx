@@ -27,6 +27,10 @@ const Emails = () => {
     return (await fetchAllEmails(token)) as Email[]
   })
 
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [filter, sort])
+
   const filteredAndSortedEmails = fetchedmails
     ?.filter((email) => {
       if (filter === 'all') return true
