@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import LoadError from '../../components/LoadError/LoadError'
 
 const Home = () => {
   const navigate = useNavigate()
