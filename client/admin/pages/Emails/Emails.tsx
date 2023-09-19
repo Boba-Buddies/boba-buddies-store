@@ -12,6 +12,7 @@ const Emails = () => {
   const { getAccessTokenSilently } = useAuth0()
   const [filter, setFilter] = useState('all')
   const [sort, setSort] = useState('Newest first')
+  const [selectedEmail, setSelectedEmail] = useState<Email | null>(null)
 
   const [currentPage, setCurrentPage] = useState(1)
   // the 10 just for testing if the filter work or not
@@ -22,10 +23,17 @@ const Emails = () => {
     data: fetchedmails,
     status: emailStatus,
     isLoading,
+    refetch,
   } = useQuery(['getEmails'], async () => {
     const token = await getAccessTokenSilently()
     return (await fetchAllEmails(token)) as Email[]
   })
+
+  const fetchAndShowEmailDetails = async (emailId: number) => {
+    const token = await getAccessTokenSilently()
+    const email = await fetchEmailById(token, emailId)
+    setSelectedEmail(email)
+  }
 
   useEffect(() => {
     setCurrentPage(1)
@@ -58,9 +66,20 @@ const Emails = () => {
   const totalPages = Math.ceil(
     (filteredAndSortedEmails?.length ?? 0) / emailsPerPage,
   )
+
+  const closeEmailPopup = () => {
+    setSelectedEmail(null)
+    refetch()
+  }
   return (
     <>
       <LoadError status={emailStatus} />
+      {selectedEmail && (
+        <EmailPopup
+          EmailId={selectedEmail.id}
+          closeReviewPopup={closeEmailPopup}
+        />
+      )}
 
       {!isLoading &&
         fetchedmails &&
@@ -81,7 +100,10 @@ const Emails = () => {
               />
               <div className="w-full bg-white mt-4 border border-gray-300">
                 <EmailsColumnTitles />
-                <DisplayCurrentEmails currentEmails={currentEmails} />
+                <DisplayCurrentEmails
+                  currentEmails={currentEmails}
+                  fetchAndShowEmailDetails={fetchAndShowEmailDetails}
+                />
               </div>
             </div>
           </div>
