@@ -21,7 +21,7 @@ export async function getEmailById(id: number) {
     .where('id', id)
     .select(
       'emails.id',
-      'users.auth0_id as userName',
+      'users.user_name as userName',
       'emails.title',
       'emails.created_at as createdAt',
       'emails.description',
