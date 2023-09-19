@@ -1,4 +1,24 @@
-const EmailsSortingControls = () => {
+interface EmailSortingControlsProps {
+  filter: string
+  setFilter: React.Dispatch<React.SetStateAction<string>>
+  sort: string
+  setSort: React.Dispatch<React.SetStateAction<string>>
+  currentPage: number
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+  totalPages: number
+  totalEmails: number
+}
+
+const EmailsSortingControls: React.FC<EmailSortingControlsProps> = ({
+  filter,
+  setFilter,
+  sort,
+  setSort,
+  currentPage,
+  setCurrentPage,
+  totalPages,
+  totalEmails,
+}) => {
   return (
     <div className="border p-2 rounded flex flex-row justify-between items-center">
       <div className="flex items-center">
@@ -6,7 +26,7 @@ const EmailsSortingControls = () => {
         <p className="mx-2 font-semibold">Showing:</p>
         <select className="border p-2 rounded">
           <option value="all">All emails</option>
-          <option value="enabled">unread Emails</option>
+          <option value="unread">unread Emails</option>
         </select>
 
         {/* SORT */}
@@ -15,8 +35,6 @@ const EmailsSortingControls = () => {
           <option value="...">...</option>
           <option value="Newest first">Newest first</option>
           <option value="Oldest first">Oldest first</option>
-          <option value="High to low rating">High to low rating</option>
-          <option value="Low to high rating">Low to high rating</option>
         </select>
       </div>
 
