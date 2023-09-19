@@ -5,9 +5,8 @@ const EmailsSortingControls = () => {
         {/* FILTER */}
         <p className="mx-2 font-semibold">Showing:</p>
         <select className="border p-2 rounded">
-          <option value="all">All</option>
-          <option value="enabled">isread</option>
-          <option value="disabled">unread</option>
+          <option value="all">All emails</option>
+          <option value="enabled">unread Emails</option>
         </select>
 
         {/* SORT */}

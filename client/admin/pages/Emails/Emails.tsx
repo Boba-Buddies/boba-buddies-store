@@ -4,52 +4,47 @@ import { fetchAllEmails, fetchEmailById } from '../../../apis/emails'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import EmailsColumnTitles from '../../components/Emails/EmailsColumnTitles'
 import DisplayCurrentEmails from '../../components/Emails/DisplayCurrentEmails'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Email } from '../../../../models/Emails'
 import EmailsSortingControls from '../../components/Emails/EmailsSortingControls'
 
 const Emails = () => {
   const { getAccessTokenSilently } = useAuth0()
-  const [emails, setEmails] = useState([] as Email[])
-
+  const [sortOption, setSortOption] = useState('Newest first')
+  const [sortedEmails, setSortedEmails] = useState<Email[]>([])
   // the 10 just for testing if the filter work or not
   const reviewsPerPage = 10
 
-  //fetchtheData and then set
+  // fetche All the emails
   const {
     data: fetchedmails,
     status: emailStatus,
     isLoading,
-  } = useQuery(
-    ['getEmails'],
-    async () => {
-      const token = await getAccessTokenSilently()
-      return await fetchAllEmails(token)
-    },
-    {
-      onSuccess: (data) => {
-        setEmails(data)
-      },
-    },
-  )
+  } = useQuery(['getEmails'], async () => {
+    const token = await getAccessTokenSilently()
+    return await fetchAllEmails(token)
+  })
 
-  console.log(emails, 'I am in the state')
+  useEffect(() => {
+    if (!isLoading && fetchedmails) {
+      setSortedEmails(fetchedmails)
+    }
+  }, [sortOption, fetchedmails, isLoading])
+
+  console.log(sortedEmails, 'I am in the state')
 
   //
   return (
     <>
       <LoadError status={emailStatus} />
-      {/* SortingControl */}
-
-      <LoadError status={emailStatus} />
       <div className="flex justify-center overflow-x-auto">
         <div className="p-4 w-full lg:w-11/12">
+          {/* SortingControl */}
           <EmailsSortingControls />
           <div className="w-full bg-white mt-4 border border-gray-300">
             <EmailsColumnTitles />
-            {!isLoading && fetchedmails && (
-              <DisplayCurrentEmails currentEmails={emails} />
-            )}
+
+            <DisplayCurrentEmails currentEmails={sortedEmails} />
           </div>
         </div>
       </div>
