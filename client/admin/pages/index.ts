@@ -1,4 +1,4 @@
 import Dashboard from './Dashboard/Dashboard'
 import Reviews from './Reviews/Reviews'
-
-export { Reviews, Dashboard }
+import Emails from './Emails/Emails'
+export { Reviews, Dashboard, Emails }

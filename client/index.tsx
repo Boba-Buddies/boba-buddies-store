@@ -23,7 +23,7 @@ import {
   EditProfile,
   Wishlist,
 } from './user/pages/index'
-import { Reviews, Dashboard } from './admin/pages/'
+import { Reviews, Dashboard, Emails } from './admin/pages/'
 import Redirect from './user/pages/Redirect/Redirect'
 import AllOrders from './admin/pages/Orders/AllOrders'
 import AdminComponent from './UI/AdminComponent'
@@ -82,6 +82,8 @@ export const routes = createRoutesFromElements(
       path="admin/add-product"
       element={<AdminComponent component={AddProduct} />}
     />
+
+    <Route path="admin/inbox" element={<AdminComponent component={Emails} />} />
   </Route>,
 )
 
