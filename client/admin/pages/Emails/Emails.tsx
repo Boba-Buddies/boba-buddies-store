@@ -7,6 +7,7 @@ import DisplayCurrentEmails from '../../components/Emails/DisplayCurrentEmails'
 import { useEffect, useState } from 'react'
 import { Email } from '../../../../models/Emails'
 import EmailsSortingControls from '../../components/Emails/EmailsSortingControls'
+import EmailPopup from '../../components/Emails/EmailPopup'
 
 const Emails = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -76,8 +77,8 @@ const Emails = () => {
       <LoadError status={emailStatus} />
       {selectedEmail && (
         <EmailPopup
-          EmailId={selectedEmail.id}
-          closeReviewPopup={closeEmailPopup}
+          emailId={selectedEmail.id}
+          closeEmailPopup={closeEmailPopup}
         />
       )}
 
