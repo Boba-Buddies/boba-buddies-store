@@ -19,7 +19,7 @@ const DisplayCurrentEmails = ({
         <div
           key={email.id}
           onClick={() => fetchAndShowEmailDetails(email.id)}
-          className="flex border border-gray-300 "
+          className="flex border border-gray-300 cursor-pointer"
         >
           <div className="flex-1 py-3 px-8 text-left whitespace-nowrap">
             {email.userName}

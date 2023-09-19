@@ -32,7 +32,7 @@ export const sentEmailToBackendSchema = z.object({
 
 export const updateEmailReadStatusSchema = z.object({
   id: z.number(),
-  is_read: z.string(),
+  is_read: z.boolean(),
 })
 
 export type Emails = z.infer<typeof emailsSchema>
