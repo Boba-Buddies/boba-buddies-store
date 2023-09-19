@@ -25,7 +25,7 @@ const Emails = () => {
     status: emailStatus,
     isLoading,
     refetch,
-  } = useQuery(['getEmails'], async () => {
+  } = useQuery(['fetchEmails'], async () => {
     const token = await getAccessTokenSilently()
     return (await fetchAllEmails(token)) as Email[]
   })
@@ -38,7 +38,7 @@ const Emails = () => {
 
   useEffect(() => {
     setCurrentPage(1)
-  }, [filter, sort])
+  }, [filter, sort, selectedEmail])
 
   const filteredAndSortedEmails = fetchedmails
     ?.filter((email) => {

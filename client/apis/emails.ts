@@ -92,3 +92,16 @@ export async function modifyEmailById(
     throw { error: (error as Error).message }
   }
 }
+
+//delete the email
+export async function deleteEmailById(emailId: number, token: string) {
+  try {
+    await request
+      .delete(`${rootUrl}/emails/${emailId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+  } catch (error) {
+    console.error('Error deleting email:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
+}
