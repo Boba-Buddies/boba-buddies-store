@@ -4,13 +4,11 @@ import { NewReview, UpdatedReviewStatus } from '../../models/Reviews'
 const baseUrl = '/api/v1/reviews'
 
 export async function fetchReviewsByProductId(
-  productId: number,
-  token: string,
+  productId: number
 ) {
   try {
     const response = await request
       .get(`${baseUrl}/by-product-id/${productId}`)
-      .set('Authorization', `Bearer ${token}`)
     return response.body
   } catch (error) {
     console.error(

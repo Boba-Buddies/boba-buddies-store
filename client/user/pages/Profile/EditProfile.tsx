@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useMutation, useQueryClient, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
@@ -29,6 +29,20 @@ const EditProfile = () => {
   }
 
   const [formData, setFormData] = useState(initialFormData)
+
+  useEffect(() => {
+    if (userData) {
+      setFormData({
+        firstName: userData.firstName || '',
+        lastName: userData.lastName || '',
+        phoneNumber: userData.phoneNumber || '',
+        address: userData.address || '',
+        city: userData.city || '',
+        country: userData.country || '',
+        zipCode: userData.zipCode || '',
+      })
+    }
+  }, [userData])
 
   const mutation = useMutation(
     async (formDataToUpdate: UpdateUser) => {

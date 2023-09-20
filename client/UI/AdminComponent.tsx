@@ -1,6 +1,6 @@
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
-import { fetchCheckIfUserExists } from '../apis/users'
+import { fetchIsUserAdmin } from '../apis/users'
 import LoadError from '../user/components/LoadError/LoadError'
 
 interface Props {
@@ -9,15 +9,16 @@ interface Props {
 
 // This is a very handy wrapper component that will redirect the user to the login page
 // if they are not logged in
-export const ProtectedComponent = ({ component }: Props) => {
+export const AdminComponent = ({ component }: Props) => {
   const { getAccessTokenSilently } = useAuth0()
-  const { data: ifUserExists, status: statusUserExists } = useQuery(
-    ['fetchCheckIfUserExists'],
+  const { data: isAdmin, status: statusIsAdmin } = useQuery(
+    ['fetchIsUserAdmin'],
     async () => {
       const token = await getAccessTokenSilently()
-      return await fetchCheckIfUserExists(token)
+      return await fetchIsUserAdmin(token)
     },
   )
+
   const Component = withAuthenticationRequired(component, {
     onRedirecting: () => (
       <div>
@@ -28,11 +29,9 @@ export const ProtectedComponent = ({ component }: Props) => {
 
   return (
     <>
-      <LoadError status={statusUserExists} />
-
-      {/* will create a new page for asking the user to create a new account */}
-      {ifUserExists ? <Component /> : <div>Create an account to continue</div>}
+      <LoadError status={statusIsAdmin} />
+      {isAdmin ? <Component /> : <div>Not Admin Authorized</div>}
     </>
   )
 }
-export default ProtectedComponent
+export default AdminComponent

@@ -5,10 +5,8 @@ import { useState, useEffect } from 'react'
 import SortFilterControls from '../../components/SortFilterControls/SortFilterControls'
 import ViewShopProducts from '../../components/ViewShopProducts/ViewShopProducts'
 import ShopPaginationControls from '../../components/ShopPaginationControls/ShopPaginationControls'
-import { useAuth0 } from '@auth0/auth0-react'
 
 const Shop = () => {
-  const { getAccessTokenSilently } = useAuth0()
   const [filter, setFilter] = useState('')
   const [sort, setSort] = useState('')
   const [hoveredProductId, setHoveredProductId] = useState<number | null>(null)
@@ -22,8 +20,7 @@ const Shop = () => {
   const { data: products, status: statusProducts } = useQuery(
     ['getAllProducts'],
     async () => {
-      const token = await getAccessTokenSilently()
-      return await fetchAllProductsUser(token) 
+      return await fetchAllProductsUser() 
     },
   )
 

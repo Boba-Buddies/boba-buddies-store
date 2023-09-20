@@ -18,7 +18,7 @@ export const AdminNavBar = () => {
     <div className="bg-gray-500 py-4 text-center">
       <div className="inline-block space-x-4">
         <button
-          onClick={() => goTo('/admin/dashboard')}
+          onClick={() => goTo('/admin')}
           className="font-bold text-white hover:bg-gray-400 px-4 py-2 rounded"
         >
           Dashboard
@@ -30,16 +30,22 @@ export const AdminNavBar = () => {
           Inbox
         </button>
         <button
+          onClick={() => goTo('/admin/orders')}
+          className="font-bold text-white hover:bg-gray-400 px-4 py-2 rounded"
+        >
+          Orders
+        </button>
+        <button
           onClick={() => goTo('/admin/products-summary')}
           className="font-bold text-white hover:bg-gray-400 px-4 py-2 rounded"
         >
           Products
         </button>
         <button
-          onClick={() => goTo('/admin/add-products')}
+          onClick={() => goTo('/admin/add-product')}
           className="font-bold text-white hover:bg-gray-400 px-4 py-2 rounded"
         >
-          Add Products
+          Add Product
         </button>
         <button
           onClick={() => goTo('/admin/reviews')}

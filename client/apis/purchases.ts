@@ -30,6 +30,7 @@ export async function fetchLatestOrderId(token: string) {
   }
 }
 
+// fetches orders by user id
 export async function fetchUserOrders(token: string) {
   try {
     const response = await request
@@ -37,6 +38,56 @@ export async function fetchUserOrders(token: string) {
       .set('Authorization', `Bearer ${token}`)
       .set('Content-Type', 'application/json')
     return response.body.orders
+  } catch (error) {
+    console.error('Error fetching user orders:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
+}
+
+// fetches all orders
+export async function fetchAllOrders(token: string) {
+  try {
+    const response = await request
+      .get(`${baseUrl}`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+    return response.body.orders
+  } catch (error) {
+    console.error('Error fetching user orders:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
+}
+
+export async function fetchOrderById(orderId: number, token: string) {
+  try {
+    const response = await request
+
+      .get(`${baseUrl}/order/${orderId}`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+
+    if (response.status === 200) {
+      return response.body.order
+    } else {
+      console.error('Error fetching order by ID:', response.text)
+      throw { error: response.text }
+    }
+  } catch (error) {
+    console.error('Error fetching user orders:', (error as Error).message)
+    throw { error: (error as Error).message }
+  }
+}
+
+// fetOrderbyDate
+
+export async function fetchAmountOfOrdersByDate(date: string, token: string) {
+  try {
+    const response = await request
+      .get(`${baseUrl}/orders-by-date/${date}`)
+      .set('Authorization', `Bearer ${token}`)
+      .set('Content-Type', 'application/json')
+
+    return response.body.amountOfOrders
   } catch (error) {
     console.error('Error fetching user orders:', (error as Error).message)
     throw { error: (error as Error).message }

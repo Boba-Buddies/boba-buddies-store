@@ -23,9 +23,13 @@ import {
   EditProfile,
   Wishlist,
 } from './user/pages/index'
-import { Reviews, Dashboard, ProductsSummary, IndividualProduct } from './admin/pages/'
-import { AdminAppLayout } from './admin/components/AdminAppLayout/AdminAppLayout'
+import { Reviews, Dashboard, Emails, ProductsSummary, IndividualProduct } from './admin/pages/'
+
 import Redirect from './user/pages/Redirect/Redirect'
+import AllOrders from './admin/pages/Orders/AllOrders'
+import AdminComponent from './UI/AdminComponent'
+import ProtectedComponent from './UI/ProtectedComponent'
+import AddProduct from './admin/pages/AddProduct/AddProduct'
 
 export const routes = createRoutesFromElements(
   <Route path="/" element={<AppLayout />} errorElement={<ErrorPage />}>
@@ -43,7 +47,7 @@ export const routes = createRoutesFromElements(
     />
     <Route
       path="thankyou"
-      element={<UnprotectedComponent component={ThankYou} />}
+      element={<ProtectedComponent component={ThankYou} />}
     />
     <Route
       path="contact"
@@ -51,42 +55,46 @@ export const routes = createRoutesFromElements(
     />
     <Route
       path="checkout"
-      element={<UnprotectedComponent component={Checkout} />}
+      element={<ProtectedComponent component={Checkout} />}
     />
     <Route
       path="profile"
-      element={<UnprotectedComponent component={Profile} />}
+      element={<ProtectedComponent component={Profile} />}
     />
     <Route
       path="edit"
-      element={<UnprotectedComponent component={EditProfile} />}
+      element={<ProtectedComponent component={EditProfile} />}
     />
     <Route
       path="wishlist"
-      element={<UnprotectedComponent component={Wishlist} />}
+      element={<ProtectedComponent component={Wishlist} />}
     />
     <Route
       path="admin/reviews"
-      element={<UnprotectedComponent component={Reviews} />}
+      element={<AdminComponent component={Reviews} />}
     />
+    <Route path="admin" element={<AdminComponent component={Dashboard} />} />
+
     <Route
-      path="admin"
-      element={<UnprotectedComponent component={Dashboard} />}
+      path="admin/orders"
+      element={<AdminComponent component={AllOrders} />}
     />
     <Route
       path="admin/productsSummary"
-      element={<UnprotectedComponent component={ProductsSummary} />}
+      element={<AdminComponent component={ProductsSummary} />}
     />
     <Route
       path="admin/:id"
-      element={<UnprotectedComponent component={IndividualProduct} />}
+      element={<AdminComponent component={IndividualProduct} />}
     />
 
-    {/* temporary route!! */}
+
     <Route
-      path="admin/temporary"
-      element={<UnprotectedComponent component={AdminAppLayout} />}
+      path="admin/add-product"
+      element={<AdminComponent component={AddProduct} />}
     />
+
+    <Route path="admin/inbox" element={<AdminComponent component={Emails} />} />
   </Route>,
 )
 
