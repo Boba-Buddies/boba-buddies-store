@@ -54,10 +54,10 @@ const Dashboard = () => {
   ]
 
   return (
-    <>
+    <div className="flex flex-col items-center justify-center p-4">
       <LoadError status={statuses} />
-      <div className="bg-white text-black">
-        <div className="text-xl p-4">Hi {profileQuery.data?.firstName}</div>
+      <div className="flex flex-col bg-white text-black w-3/5">
+        <div className="text-xl p-4">Hi, {profileQuery.data?.firstName}!</div>
         <div className="flex flex-col gap-10 px-5 ">
           {/* Orders  */}
           <div className="bg-gray-100 p-4 rounded">
@@ -130,7 +130,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
