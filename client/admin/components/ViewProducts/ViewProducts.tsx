@@ -50,7 +50,7 @@ const ViewProducts = ({
           >
             <div className='w-1/4'>
               <Link
-                to={`/admin/${product.id}`}
+                to={`/admin/edit/${product.id}`}
                 className="w-full h-48 block"
               // style={{ marginBottom: "15px" }}
               >
@@ -64,7 +64,7 @@ const ViewProducts = ({
 
             <div className='flex-col w-1/4 mr-6'>
               <Link
-                to={`/admin/${product.id}`}
+                to={`/admin/edit/${product.id}`}
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId(null)}
                 className="text-2xl font-bold mt-2 block cursor-pointer"
@@ -79,7 +79,7 @@ const ViewProducts = ({
               </Link>
 
               <Link
-                to={`/admin/${product.id}`}
+                to={`/admin/edit/${product.id}`}
                 className="block cursor-pointer"
               >
                 <div className="flex items-center mt-2">
@@ -98,7 +98,7 @@ const ViewProducts = ({
 
             <div className='w-1/5'>
               <Link
-                to={`/admin/${product.id}`}
+                to={`/admin/edit/${product.id}`}
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId(null)}
                 className="text-xl font-bold block cursor-pointer"
@@ -115,7 +115,7 @@ const ViewProducts = ({
 
             <div className='w-1/5'>
               <Link
-                to={`/admin/${product.id}`}
+                to={`/admin/edit/${product.id}`}
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId(null)}
                 className="text-xl font-bold block cursor-pointer"
@@ -132,7 +132,7 @@ const ViewProducts = ({
 
             <div className='flex-col w-1/4'>
               {product.stock && product.stock < 5 && <Link
-                to={`/admin/${product.id}`}
+                to={`/admin/edit/${product.id}`}
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId(null)}
                 className="text-xl font-bold mt-2 block cursor-pointer pb-24"
@@ -147,7 +147,7 @@ const ViewProducts = ({
               </Link>}
 
               <Link
-                to={`/admin/${product.id}`}
+                to={`/admin/edit/${product.id}`}
                 onMouseEnter={() => setHoveredProductId(product.id)}
                 onMouseLeave={() => setHoveredProductId(null)}
                 className="text-xl font-bold block cursor-pointer"

@@ -85,7 +85,7 @@ export const routes = createRoutesFromElements(
       element={<AdminComponent component={ProductsSummary} />}
     />
     <Route
-      path="admin/:id"
+      path="admin/edit/:id"
       element={<AdminComponent component={IndividualProduct} />}
     />
 
