@@ -54,80 +54,79 @@ const Dashboard = () => {
   ]
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
+    <div className="flex flex-col items-center justify-center">
       <LoadError status={statuses} />
-      <div className="flex flex-col bg-white text-black w-3/5">
-        <div className="text-xl p-4">Hi, {profileQuery.data?.firstName}!</div>
-        <div className="flex flex-col gap-10 px-5 ">
-          {/* Orders  */}
-          <div className="bg-gray-100 p-4 rounded">
-            <h1 className="text-2xl text-center">
+      <div className="bg-white text-black w-1/2 rounded-lg shadow-lg mt-4 p-4">
+        <div className="text-2xl m-4">Hi, {profileQuery.data?.firstName}!</div>
+        {/* Orders */}
+        <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center mb-4 min">
+          <div>
+            <h1 className="text-2xl mb-2">
               You have {orderAmountQuery.data} orders today
             </h1>
-            <div className="flex flex-row justify-end pr-4">
-              <button
-                className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32"
-                onClick={() => goTo('/admin/orders')}
-              >
-                View Orders
-              </button>
-            </div>
           </div>
-          {/* Low Stock */}
-          <div className="bg-gray-100 p-4 rounded">
-            <h1 className="text-2xl text-center">Low Stock Alert!</h1>
+          <button
+            className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all"
+            onClick={() => goTo('/admin/orders')}
+          >
+            View Orders
+          </button>
+        </div>
+
+        {/* Low Stock */}
+        <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center mb-4">
+          <div>
+            <h1 className="text-2xl mb-2 text-red-500">Low Stock Alert!</h1>
             <div className="flex flex-row justify-center gap-7">
               {lowStockQuery.data?.lowStockProducts.map(
-                (product: AdminProduct) => {
-                  return (
-                    <div key={product.id}>
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="h-28"
-                      />
-                    </div>
-                  )
-                },
+                (product: AdminProduct) => (
+                  <div key={product.id}>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="h-28"
+                    />
+                  </div>
+                ),
               )}
             </div>
-            <div className="flex flex-row justify-end pr-4">
-              <button
-                className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32"
-                onClick={() => goTo('/admin/products-summary')}
-              >
-                Restock
-              </button>
-            </div>
           </div>
-          {/* Emails  */}
-          <div className="bg-gray-100 p-4 rounded">
-            <h1 className="text-2xl text-center">
+          <button
+            className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all mt-4"
+            onClick={() => goTo('/admin/products-summary')}
+          >
+            Restock
+          </button>
+        </div>
+
+        {/* Emails */}
+        <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center mb-4">
+          <div>
+            <h1 className="text-2xl mb-2">
               You have {emailQuery.data} new emails today
             </h1>
-            <div className="flex flex-row justify-end pr-4">
-              <button
-                className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32"
-                onClick={() => goTo('/admin/inbox')}
-              >
-                View Emails
-              </button>
-            </div>
           </div>
-          {/* Reviews  */}
-          <div className="bg-gray-100 p-4 rounded">
-            <h1 className="text-2xl text-center">
+          <button
+            className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all"
+            onClick={() => goTo('/admin/inbox')}
+          >
+            View Emails
+          </button>
+        </div>
+
+        {/* Reviews */}
+        <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl mb-2">
               You have {reviewAmountQuery.data?.reviewCount} reviews today
             </h1>
-            <div className="flex flex-row justify-end pr-4">
-              <button
-                className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32 "
-                onClick={() => goTo('/admin/reviews')}
-              >
-                View Reviews
-              </button>
-            </div>
           </div>
+          <button
+            className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all"
+            onClick={() => goTo('/admin/reviews')}
+          >
+            View Reviews
+          </button>
         </div>
       </div>
     </div>
