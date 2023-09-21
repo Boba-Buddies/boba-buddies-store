@@ -18,23 +18,24 @@ function EditProduct({
   const [editedProduct, setEditedProduct] = useState({
     description: product.description,
     image: product.image,
-    isEnabled: product.isEnabled,
+    isEnabled: !!product.isEnabled,
     name: product.name,
     price: product.price,
     stock: product.stock
   } as UpsertProduct)
-  // console.log('product', product)
+  console.log('product', product)
+  console.log('editedProduct', editedProduct)
+
   const { getAccessTokenSilently } = useAuth0()
   const params = useParams()
   const id = Number(params.id)
-  console.log('id', id)
   const queryClient = useQueryClient()
 
   const updateProductMutation = useMutation(
-    async ({ id, model }: { id: number, model: UpsertProduct }) => {
+    async ({ id, editedProduct }: { id: number, editedProduct: UpsertProduct }) => {
       const token = await getAccessTokenSilently()
 
-      return modifyProductById(id, model, token)
+      return modifyProductById(id, editedProduct, token)
     },
     {
       onSuccess: () => {
@@ -49,38 +50,21 @@ function EditProduct({
     },
   )
 
-  const saveChanges = async (event: FormEvent) => {
-    event.preventDefault()
-
-    const model: UpsertProduct = {
-      description: editedProduct.description,
-      image: editedProduct.image,
-      isEnabled: editedProduct.isEnabled,
-      name: editedProduct.name,
-      price: editedProduct.price,
-      stock: editedProduct.stock
-    }
-    console.log('I am the saveFunction', model)
-
-    await updateProductMutation.mutate({ id, model })
-  }
-
-  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value, type } = event.target
-
-    // setEditedProduct((prevProduct) => ({
-    //   ...prevProduct, [name]: type === 'number' ? parseInt(value) : value,
-    // }))
-    setEditedProduct((prevProduct) => ({
-      ...prevProduct, [name]: value,
-    }))
-  }
-
-  function handleDescriptionChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = event.target
 
-    // setEditedProduct((prevProduct) => ({ ...editedProduct, [name]: value }))
-    setEditedProduct((prevProduct) => ({ ...prevProduct, [name]: value }))
+    let finalValue: number | string
+    if (name === 'price') {
+      finalValue = Math.max(parseFloat(value), 0)
+    } else if (name === 'stock') {
+      finalValue = Math.max(Math.round(parseFloat(value)), 0)
+    } else {
+      finalValue = value
+    }
+
+    setEditedProduct((prevProduct) => ({ ...prevProduct, [name]: finalValue }))
   }
 
 
@@ -91,17 +75,36 @@ function EditProduct({
     }))
   }
 
+  const saveChanges = async (event: FormEvent) => {
+    event.preventDefault()
+
+    console.log('I am the saveFunction', editedProduct)
+
+    await updateProductMutation.mutate({ id, editedProduct })
+  }
+
   return (
     <form>
       <div className="flex flex-col max-w-5xl" style={{ padding: '10px' }}>
         <div className="flex flex-row items-center mb-16">
           <img src={product.image} alt={product.name} className="w-1/4" />
 
-          {/* fix upload image */}
-          <label>
-            UPLOAD IMAGE
-            <input type="file" id="image" name="image" accept="image/png, image/jpeg" />
-          </label>
+          <div className="w-1/2 flex flex-col justify-center">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="imageUrl"
+            >
+              Image URL:
+            </label>
+            <input
+              id="imageUrl"
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              type="text"
+              name="image"
+              value={editedProduct.image}
+              onChange={handleChange}
+            />
+          </div>
         </div>
         <div className='w-4/5'>
           <div className='flex flex-row justify-between'>
@@ -144,7 +147,7 @@ function EditProduct({
 
           <div className='mt-6'>
             <label className='text-3xl font-bold ml-6' htmlFor="description">Description</label>
-            <textarea rows={10} cols={100} className="border text-xl ml-6 w-max" onChange={handleDescriptionChange} name='description' value={editedProduct.description}></textarea>
+            <textarea rows={10} cols={100} className="border text-xl ml-6 w-max" onChange={handleChange} name='description' value={editedProduct.description}></textarea>
           </div>
 
         </div>
