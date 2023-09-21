@@ -108,7 +108,7 @@ const Dashboard = () => {
             <div className="flex flex-row justify-end pr-4">
               <button
                 className="bg-black rounded-lg text-white p-2 hover:bg-gray-800 transition-all w-32"
-                onClick={() => goTo('/admin/emails')}
+                onClick={() => goTo('/admin/inbox')}
               >
                 View Emails
               </button>
