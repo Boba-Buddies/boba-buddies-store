@@ -79,8 +79,9 @@ export const routes = createRoutesFromElements(
       path="admin/orders"
       element={<AdminComponent component={AllOrders} />}
     />
+    {/* change back to AdminComponent for admin/productsSummary & admin/:id */}
     <Route
-      path="admin/productsSummary"
+      path="admin/products-summary"
       element={<AdminComponent component={ProductsSummary} />}
     />
     <Route
