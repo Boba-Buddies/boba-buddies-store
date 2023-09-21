@@ -2,7 +2,7 @@ import {
   NewReview,
   ProductReview,
   Review,
-  Reviews,
+  ReviewForTable,
   UpdatedReviewStatus,
   UserReview,
 } from '../../models/Reviews'
@@ -40,7 +40,7 @@ export async function getAllReviews() {
       'reviews.is_enabled as isEnabled',
       'users.user_name as userName',
       'reviews.created_at as createdAt',
-    )) as Reviews
+    )) as ReviewForTable[]
 
   // Here we map through each review and transform the isEnabled field from integer to boolean, since SQLite always represents true as 1, and false as 0 under the hood.
   return reviews.map((review) => ({
