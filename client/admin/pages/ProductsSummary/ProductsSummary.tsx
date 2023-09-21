@@ -6,7 +6,7 @@ import ShopPaginationControls from '../../../user/components/ShopPaginationContr
 import LoadError from '../../../user/components/LoadError/LoadError'
 import ViewProducts from '../../components/ViewProducts/ViewProducts'
 import ProductSearchBar from '../../components/ProductSearchBar/ProductSearchBar'
-import AdminSortFilterControls from '../../components/AdminSortFilterControls/AdminSortFilterControls'
+
 
 const ProductsSummary = () => {
   const { getAccessTokenSilently } = useAuth0()
