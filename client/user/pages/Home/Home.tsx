@@ -6,7 +6,7 @@ const Home = () => {
     navigate(link)
   }
   return (
-    <div className="min-h-screen" style={{ background: '#FFC5C7' }}>
+    <div style={{ background: '#FFC5C7' }}>
       <div
         className="flex items-center justify-center min-h-screen"
         style={{

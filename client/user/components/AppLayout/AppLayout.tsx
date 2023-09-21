@@ -20,14 +20,18 @@ function AppLayout() {
   )
 
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <LoadError status={statusIsAdmin} />
-      <div className="page">
-        {isAdmin ? <AdminNavBar /> : <Nav />}
+
+      {isAdmin ? <AdminNavBar /> : <Nav />}
+
+      <div className="flex-grow">
         <Outlet />
-        {isAdmin ? <Footer /> : <Footer />}
       </div>
-    </>
+
+      {/* Footer */}
+      {isAdmin ? <Footer /> : <Footer />}
+    </div>
   )
 }
 
