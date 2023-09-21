@@ -9,6 +9,7 @@
   "scripts": {
     "start": "node dist/server/index.js",
     "test": "vitest",
+    "testjest": "jest",
     "dev": "run-p dev:client dev:server dev:css",
     "dev:client": "vite",
     "dev:server": "nodemon --watch server/",
@@ -24,6 +25,10 @@
     "ignorePatterns": [
       "bundle.js"
     ]
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.0",
