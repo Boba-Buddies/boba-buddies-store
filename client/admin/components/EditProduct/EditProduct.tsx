@@ -1,18 +1,9 @@
-import { FormEvent, MouseEventHandler, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { AdminProduct, UpsertProduct } from '../../../../models/Products'
-import { useMutation } from 'react-query'
-import {
-  addToWishlistByProductId,
-  deleteFromWishlistByProductId,
-} from '../../../apis/wishlist'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'
+import { useMutation, useQueryClient } from 'react-query'
 import { useAuth0 } from '@auth0/auth0-react'
 import { modifyProductById } from '../../../apis/products'
-import { text } from 'express'
-import { useParams } from 'react-router-dom'
-
+import { redirect, useParams } from 'react-router-dom'
 
 interface EditProductProps {
   product: AdminProduct
@@ -21,61 +12,84 @@ interface EditProductProps {
 function EditProduct({
   product,
 }: EditProductProps) {
-  // const [productName,setProductName] = useState
-  const [editedProduct, setEditedProduct] = useState<UpsertProduct>(product)
-  const { getAccessTokenSilently } = useAuth0() // Use Auth0 to get the access token
+
+
+  // const [editedProduct, setEditedProduct] = useState<UpsertProduct>(product)
+  const [editedProduct, setEditedProduct] = useState({
+    description: product.description,
+    image: product.image,
+    isEnabled: product.isEnabled,
+    name: product.name,
+    price: product.price,
+    stock: product.stock
+  } as UpsertProduct)
+  // console.log('product', product)
+  const { getAccessTokenSilently } = useAuth0()
   const params = useParams()
   const id = Number(params.id)
-  const ProductMutation = useMutation(
-    async () => {
+  console.log('id', id)
+  const queryClient = useQueryClient()
+
+  const updateProductMutation = useMutation(
+    async ({ id, model }: { id: number, model: UpsertProduct }) => {
       const token = await getAccessTokenSilently()
 
-      const modal: UpsertProduct = {
-        description: editedProduct.description,
-        image: editedProduct.image,
-        isEnabled: true,  // how to solve editedProduct.isEnabled = 1 ???
-        name: editedProduct.name,
-        price: editedProduct.price,
-        stock: editedProduct.stock
-      };
-
-      console.log('editedProduct', modal)
-      return modifyProductById(id, modal, token)
+      return modifyProductById(id, model, token)
     },
     {
       onSuccess: () => {
-        console.log('saved')
+
+        alert('Changes saved successfully!')
+        queryClient.invalidateQueries('getProduct')
+
       },
+      onError: (error) => {
+        console.error('Product edit error', error)
+      }
     },
   )
 
   const saveChanges = async (event: FormEvent) => {
     event.preventDefault()
 
-    await ProductMutation.mutate()
+    const model: UpsertProduct = {
+      description: editedProduct.description,
+      image: editedProduct.image,
+      isEnabled: editedProduct.isEnabled,
+      name: editedProduct.name,
+      price: editedProduct.price,
+      stock: editedProduct.stock
+    }
+    console.log('I am the saveFunction', model)
+
+    await updateProductMutation.mutate({ id, model })
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value, type } = event.target
 
-    if (type == 'number') {
-      setEditedProduct((prevProduct) => ({ ...editedProduct, [name]: parseInt(value) }))
-      return
-    }
-
-    setEditedProduct((prevProduct) => ({ ...editedProduct, [name]: value }))
+    // setEditedProduct((prevProduct) => ({
+    //   ...prevProduct, [name]: type === 'number' ? parseInt(value) : value,
+    // }))
+    setEditedProduct((prevProduct) => ({
+      ...prevProduct, [name]: value,
+    }))
   }
 
   function handleDescriptionChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     const { name, value } = event.target
 
-    setEditedProduct((prevProduct) => ({ ...editedProduct, [name]: value }))
+    // setEditedProduct((prevProduct) => ({ ...editedProduct, [name]: value }))
+    setEditedProduct((prevProduct) => ({ ...prevProduct, [name]: value }))
   }
 
-  function handleClick() {
-    setEditedProduct((prevProduct) => ({ ...editedProduct, isEnabled: !editedProduct.isEnabled }))
-  }
 
+  const toggleEnabled = () => {
+    setEditedProduct((prevProduct) => ({
+      ...prevProduct,
+      isEnabled: !prevProduct.isEnabled,
+    }))
+  }
 
   return (
     <form>
@@ -89,13 +103,17 @@ function EditProduct({
             <input type="file" id="image" name="image" accept="image/png, image/jpeg" />
           </label>
         </div>
-
         <div className='w-4/5'>
-
           <div className='flex flex-row justify-between'>
             <div className='ml-6'>
-              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded" onClick={handleClick} name='isEnabled' disabled={!editedProduct.isEnabled} type='button'>Enabled</button>
-              <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded" onClick={handleClick} name='isEnabled' disabled={editedProduct.isEnabled} type='button'>Disabled</button>
+              <button
+                className={`font-bold text-white py-2 px-4 rounded ${editedProduct.isEnabled ? 'bg-green-500' : 'bg-red-500'
+                  }`}
+                type="button"
+                onClick={toggleEnabled}
+              >
+                {editedProduct.isEnabled ? 'Enabled' : 'Disabled'}
+              </button>
             </div>
 
             <button
