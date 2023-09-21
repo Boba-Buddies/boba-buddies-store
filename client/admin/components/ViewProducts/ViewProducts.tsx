@@ -42,7 +42,7 @@ const ViewProducts = ({
       </div>
 
       {getPaginatedProducts().map((product) => (
-        <div key={product.id} className={product.stock < 5 && 'bg-red-300' || ''} style={{ width: 'auto' }}>
+        <div key={product.id} className={product.stock < 5 && 'border-4 border-red-600' || ''} style={{ width: 'auto' }}>
           <div
             key={product.id}
             className="border p-4 rounded-md flex flex-row items-center justify-between"
@@ -95,6 +95,7 @@ const ViewProducts = ({
                 </div>
               </Link>
             </div>
+
             <div className='w-1/5'>
               <Link
                 to={`/admin/${product.id}`}
@@ -160,6 +161,7 @@ const ViewProducts = ({
                 {product.isEnabled && <span className='text-green-600'>ENABLED</span> || <span className='text-red-600'>DISABLED</span>}
               </Link>
             </div>
+
 
 
 
