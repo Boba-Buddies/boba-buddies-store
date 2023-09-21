@@ -3,18 +3,14 @@ import { AdminProduct, UpsertProduct } from '../../../../models/Products'
 import { useMutation, useQueryClient } from 'react-query'
 import { useAuth0 } from '@auth0/auth0-react'
 import { modifyProductById } from '../../../apis/products'
-import { redirect, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 interface EditProductProps {
   product: AdminProduct
 }
 
-function EditProduct({
-  product,
-}: EditProductProps) {
+function EditProduct({ product, }: EditProductProps) {
 
-
-  // const [editedProduct, setEditedProduct] = useState<UpsertProduct>(product)
   const [editedProduct, setEditedProduct] = useState({
     description: product.description,
     image: product.image,
@@ -23,13 +19,12 @@ function EditProduct({
     price: product.price,
     stock: product.stock
   } as UpsertProduct)
-  console.log('product', product)
-  console.log('editedProduct', editedProduct)
 
   const { getAccessTokenSilently } = useAuth0()
   const params = useParams()
   const id = Number(params.id)
   const queryClient = useQueryClient()
+  const navigate = useNavigate()
 
   const updateProductMutation = useMutation(
     async ({ id, editedProduct }: { id: number, editedProduct: UpsertProduct }) => {
@@ -42,6 +37,7 @@ function EditProduct({
 
         alert('Changes saved successfully!')
         queryClient.invalidateQueries('getProduct')
+        navigate('/admin/products-summary')
 
       },
       onError: (error) => {
@@ -77,10 +73,8 @@ function EditProduct({
 
   const saveChanges = async (event: FormEvent) => {
     event.preventDefault()
-
-    console.log('I am the saveFunction', editedProduct)
-
     await updateProductMutation.mutate({ id, editedProduct })
+
   }
 
   return (
@@ -120,7 +114,7 @@ function EditProduct({
             </div>
 
             <button
-              className="font-bold py-2 px-4 rounded bg-black text-white"
+              className="font-bold py-2 px-4 rounded  bg-black text-white transition-colors hover:bg-sky-600 hover:text-black"
               type="button"
               onClick={saveChanges}
             >
