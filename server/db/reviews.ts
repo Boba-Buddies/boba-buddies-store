@@ -2,7 +2,7 @@ import {
   NewReview,
   ProductReview,
   Review,
-  Reviews,
+  ReviewForTable,
   UpdatedReviewStatus,
   UserReview,
 } from '../../models/Reviews'
@@ -22,11 +22,12 @@ export async function getReviewsByProductId(productId: number) {
 }
 
 export async function getAmountOfReviewsByDate(date: string) {
-  return await db('reviews')
-    .count('* as reviewCount')
-    .whereRaw('DATE(created_at) = ?', date)
-    //DATE will ignore hours/minutes/seconds. It will only look at the year/month/day
-    .first()
+  const reviews = await db('reviews')
+  const reviewCount = reviews.filter((review) =>
+    review.created_at.includes(date),
+  ).length
+
+  return { reviewCount: reviewCount }
 }
 
 export async function getAllReviews() {
@@ -40,7 +41,7 @@ export async function getAllReviews() {
       'reviews.is_enabled as isEnabled',
       'users.user_name as userName',
       'reviews.created_at as createdAt',
-    )) as Reviews
+    )) as ReviewForTable[]
 
   // Here we map through each review and transform the isEnabled field from integer to boolean, since SQLite always represents true as 1, and false as 0 under the hood.
   return reviews.map((review) => ({
@@ -117,7 +118,6 @@ export async function getReviewsByUserId(userId: string) {
   return userReviews
 }
 
-
 export async function addReviewByUserId(newReview: NewReview, userId: string) {
   await db('reviews').insert({
     user_id: userId,
@@ -148,7 +148,10 @@ export async function updateReviewStatusById(
   return `is_enabled status of reivew matching the id: ${id} has been updated to ${isEnabled}`
 }
 
-export async function removeReviewByProductId(productId: number, userId: string) {
+export async function removeReviewByProductId(
+  productId: number,
+  userId: string,
+) {
   await db('reviews').where({ user_id: userId, product_id: productId }).delete()
   await recalculateAverageRatingByProductId(productId)
 }
