@@ -110,7 +110,7 @@ describe('getReviewById', async () => {
   })
 })
 
-//getReviewsById
+//getReviewsByUserId
 describe('getReviewsByUserId', () => {
   it('returns reviews that match given username associated with userId (auth0)', async () => {
     const testUserId = 'auth0|abc12345'
@@ -140,5 +140,43 @@ describe('getReviewsByUserId', () => {
     expect(reviews[0]).toHaveProperty('productId')
   })
 })
+
+describe('adding and removing reviews', async () => {
+  it('review is added successfully', async () => {
+    const testNewReview = {
+      productId: 1,
+      rating: 5,
+      description: 'This drink is spectacular!',
+    }
+    const testUserId = 'auth0|abc12345'
+
+    //Add the test review
+    await db.addReviewByUserId(testNewReview, testUserId, testDb)
+
+    //Check if the newest review for matching product is the same as the added one.
+    const reviews = await db.getReviewsByProductId(
+      testNewReview.productId,
+      testDb,
+    )
+    const latestReviewIndex = reviews.length - 1
+
+    //In the test seed data, the associated userName with the userId of 'auth0|abc12345', is 'emma.j'
+    const testUserName = 'emma.j'
+
+    expect(reviews[latestReviewIndex]).toContain({
+      ...testNewReview,
+      userName: testUserName,
+    })
+  })
+})
+
+/*
+isEnabled: boolean;
+    id: number;
+    productName: string;
+    rating: number;
+    userName: string;
+    createdAt: string;
+    */
 
 //!recalculateAverageRatingByProductId
