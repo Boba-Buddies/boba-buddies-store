@@ -22,4 +22,18 @@ describe('getAllProductsAdmin', () => {
     const AdminProduct = await db.getAllProductsAdmin(testDb)
     expect(AdminProduct[0].name).toBe(testProductName)
   })
+
+  it('returns all the products which contian isEnable is true or false', async () => {
+    const isEnable = 1
+    const AdminProduct = await db.getAllProductsAdmin(testDb)
+    expect(AdminProduct[0].isEnabled).toBe(isEnable)
+  })
+})
+
+describe('getAllProductsUser', () => {
+  it('returns all the products for user page', async () => {
+    const testProductName = 'Pearl Milk Tea'
+    const AdminProduct = await db.getAllProductsAdmin(testDb)
+    expect(AdminProduct[0].name).toBe(testProductName)
+  })
 })
