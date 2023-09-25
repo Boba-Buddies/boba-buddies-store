@@ -42,13 +42,28 @@ describe('getProductByIdAdmin', () => {
   it('returns the products by productId for admin page', async () => {
     const testProductId = 5
     const testProductName = 'Brown Sugar Milk Tea and Pearls'
-    const adminProducts = await db.getProductByIdAdmin(testProductId, testDb)
-    expect(adminProducts.name).toBe(testProductName)
+    const adminProduct = await db.getProductByIdAdmin(testProductId, testDb)
+    expect(adminProduct.name).toBe(testProductName)
   })
 
   it('returns an empty object if there is no matched productId', async () => {
     const testProductId = 1123
-    const adminProducts = await db.getProductByIdAdmin(testProductId, testDb)
-    expect(adminProducts).toBeUndefined()
+    const adminProduct = await db.getProductByIdAdmin(testProductId, testDb)
+    expect(adminProduct).toBeUndefined()
+  })
+})
+
+describe('getProductByIdUser', () => {
+  it('returns the products by productId for user page', async () => {
+    const testProductId = 2
+    const testProductName = 'Original Milk Tea'
+    const userProduct = await db.getProductByIdUser(testProductId, testDb)
+    expect(userProduct.name).toBe(testProductName)
+  })
+
+  it('returns an empty object if there is no matched productId', async () => {
+    const testProductId = 1123
+    const userProduct = await db.getProductByIdAdmin(testProductId, testDb)
+    expect(userProduct).toBeUndefined()
   })
 })
