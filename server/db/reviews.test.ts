@@ -31,11 +31,6 @@ describe('getReviewsByProductId', () => {
     const testProductId = 1
     const reviews = await db.getReviewsByProductId(testProductId, testDb)
     expect(reviews[0].productId).toBe(testProductId)
-    expect(reviews[0]).toHaveProperty('productId')
-    expect(reviews[0]).toHaveProperty('userName')
-    expect(reviews[0]).toHaveProperty('rating')
-    expect(reviews[0]).toHaveProperty('createdAt')
-    expect(reviews[0]).toHaveProperty('description')
   })
 
   it('returns all reviews that match given product id', async () => {
@@ -44,6 +39,16 @@ describe('getReviewsByProductId', () => {
     const expectedAmountOfReviews = 2
     const reviews = await db.getReviewsByProductId(testProductId, testDb)
     expect(reviews.length).toBe(expectedAmountOfReviews)
+  })
+
+  it('reviews has the correct properties', async () => {
+    const testProductId = 1
+    const reviews = await db.getReviewsByProductId(testProductId, testDb)
+    expect(reviews[0]).toHaveProperty('productId')
+    expect(reviews[0]).toHaveProperty('userName')
+    expect(reviews[0]).toHaveProperty('rating')
+    expect(reviews[0]).toHaveProperty('createdAt')
+    expect(reviews[0]).toHaveProperty('description')
   })
 })
 
@@ -55,6 +60,11 @@ describe('getAmountOfReviewsByDate', () => {
     const expectedAmountOfReviews = 4
     const reviews = await db.getAmountOfReviewsByDate(testDate, testDb)
     expect(reviews.reviewCount).toBe(expectedAmountOfReviews)
+  })
+
+  it('reviews has the correct properties', async () => {
+    const testDate = '2023-07-15'
+    const reviews = await db.getAmountOfReviewsByDate(testDate, testDb)
     expect(reviews).toHaveProperty('reviewCount')
   })
 })
@@ -66,6 +76,9 @@ describe('getAllReviews', () => {
     const expectAmountOfReviews = 41
     const reviews = await db.getAllReviews(testDb)
     expect(reviews.length).toBe(expectAmountOfReviews)
+  })
+  it('reviews has the correct properties', async () => {
+    const reviews = await db.getAllReviews(testDb)
     expect(reviews[0]).toHaveProperty('isEnabled')
     expect(reviews[0]).toHaveProperty('userName')
     expect(reviews[0]).toHaveProperty('rating')
@@ -76,11 +89,16 @@ describe('getAllReviews', () => {
 })
 
 //getReviewById
-describe('getReviewById', () => {
+describe('getReviewById', async () => {
   it('returns review that matches given id', async () => {
     const testId = 1
     const review = await db.getReviewById(testId, testDb)
     expect(review.reviewId).toBe(testId)
+  })
+
+  it('review has the correct properties', async () => {
+    const testId = 1
+    const review = await db.getReviewById(testId, testDb)
     expect(review).toHaveProperty('reviewIsEnabled')
     expect(review).toHaveProperty('reviewId')
     expect(review).toHaveProperty('productName')
@@ -104,7 +122,7 @@ describe('getReviewsByUserId', () => {
 
   it('returns correct amount of reviews associated with given userId', async () => {
     const testUserId = 'auth0|abc12345'
-    //In the test seed data, there are 5 reviews made by auth0|abc12345 
+    //In the test seed data, there are 5 reviews made by auth0|abc12345
     const expectedAmountOfReviews = 5
     const reviews = await db.getReviewsByUserId(testUserId, testDb)
     expect(reviews.length).toBe(expectedAmountOfReviews)
@@ -122,9 +140,5 @@ describe('getReviewsByUserId', () => {
     expect(reviews[0]).toHaveProperty('productId')
   })
 })
-
-
-
-
 
 //!recalculateAverageRatingByProductId
