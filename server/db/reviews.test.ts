@@ -25,12 +25,17 @@ afterAll(async () => {
   await testDb.destroy()
 })
 //toHaveProperty
-//getReviewsByProductId - FLAKY!
+//getReviewsByProductId
 describe('getReviewsByProductId', () => {
   it('returns reviews that match given product id', async () => {
     const testProductId = 1
     const reviews = await db.getReviewsByProductId(testProductId, testDb)
     expect(reviews[0].productId).toBe(testProductId)
+    expect (reviews[0]).toHaveProperty('productId')
+    expect (reviews[0]).toHaveProperty('userName')
+    expect (reviews[0]).toHaveProperty('rating')
+    expect (reviews[0]).toHaveProperty('createdAt')
+    expect (reviews[0]).toHaveProperty('description')
   })
 
   it ('returns all reviews that match given product id', async () => {
