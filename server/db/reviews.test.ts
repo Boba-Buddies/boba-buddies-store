@@ -43,7 +43,19 @@ describe('getReviewsByProductId', () => {
 
 })
 
-//!getAmountOfReviewsByDate
+//getAmountOfReviewsByDate
+describe('getAmountOfReviewsByDate', () => {
+  it ('returns the correct amount of reviews associated with given date', async () => {
+    const testDate = "2023-07-15"
+    //In the test seed data, there are 4 reviews for the date "2023-07-15"
+    const expectedAmountOfReviews = 4
+    const reviews = await db.getAmountOfReviewsByDate(testDate, testDb)
+    expect (reviews.reviewCount).toBe(expectedAmountOfReviews)
+  })
+
+})
+
+
 
 //!getAllReviews
 
