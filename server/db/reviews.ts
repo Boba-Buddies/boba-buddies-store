@@ -6,9 +6,10 @@ import {
   UpdatedReviewStatus,
   UserReview,
 } from '../../models/Reviews'
+import connection from './connection'
 import db from './connection'
 
-export async function getReviewsByProductId(productId: number) {
+export async function getReviewsByProductId(productId: number, db = connection) {
   return (await db('reviews')
     .join('users', 'reviews.user_id', 'users.auth0_id')
     .where('reviews.product_id', productId)
@@ -21,7 +22,7 @@ export async function getReviewsByProductId(productId: number) {
     )) as ProductReview[]
 }
 
-export async function getAmountOfReviewsByDate(date: string) {
+export async function getAmountOfReviewsByDate(date: string, db = connection) {
   const reviews = await db('reviews')
   const reviewCount = reviews.filter((review) =>
     review.created_at.includes(date),
@@ -30,7 +31,7 @@ export async function getAmountOfReviewsByDate(date: string) {
   return { reviewCount: reviewCount }
 }
 
-export async function getAllReviews() {
+export async function getAllReviews(db = connection) {
   const reviews = (await db('reviews')
     .join('users', 'reviews.user_id', 'users.auth0_id')
     .join('products', 'reviews.product_id', 'products.id')
@@ -50,7 +51,7 @@ export async function getAllReviews() {
   }))
 }
 
-export async function getReviewById(id: number) {
+export async function getReviewById(id: number, db = connection) {
   const review = (await db('reviews')
     .where('reviews.id', id)
     .join('users', 'reviews.user_id', 'users.auth0_id')
@@ -71,7 +72,7 @@ export async function getReviewById(id: number) {
   return { ...review, reviewIsEnabled: Boolean(review.reviewIsEnabled) }
 }
 
-export async function recalculateAverageRatingByProductId(productId: number) {
+export async function recalculateAverageRatingByProductId(productId: number, db = connection) {
   // Calculate the average rating
   const averageRatingResult = await db('reviews')
     .where('product_id', productId)
@@ -99,7 +100,7 @@ export async function recalculateAverageRatingByProductId(productId: number) {
   }
 }
 
-export async function getReviewsByUserId(userId: string) {
+export async function getReviewsByUserId(userId: string, db = connection) {
   const userReviews = (await db('reviews')
     .where('reviews.user_id', userId)
     .andWhere('reviews.is_enabled', true)
@@ -118,7 +119,7 @@ export async function getReviewsByUserId(userId: string) {
   return userReviews
 }
 
-export async function addReviewByUserId(newReview: NewReview, userId: string) {
+export async function addReviewByUserId(newReview: NewReview, userId: string, db = connection) {
   await db('reviews').insert({
     user_id: userId,
     product_id: newReview.productId,
@@ -131,7 +132,7 @@ export async function addReviewByUserId(newReview: NewReview, userId: string) {
 }
 
 export async function updateReviewStatusById(
-  updatedReviewStatus: UpdatedReviewStatus,
+  updatedReviewStatus: UpdatedReviewStatus, db = connection
 ) {
   const { id, isEnabled } = updatedReviewStatus
 
@@ -151,6 +152,7 @@ export async function updateReviewStatusById(
 export async function removeReviewByProductId(
   productId: number,
   userId: string,
+  db = connection
 ) {
   await db('reviews').where({ user_id: userId, product_id: productId }).delete()
   await recalculateAverageRatingByProductId(productId)
