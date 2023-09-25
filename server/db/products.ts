@@ -5,7 +5,6 @@ import {
   UserProduct,
 } from '../../models/Products'
 import connection from './connection'
-import db from './connection'
 
 export async function getAllProductsAdmin(db = connection) {
   return (await db('products').select(
@@ -72,7 +71,7 @@ export async function getAmountOfProductsBelowStockLevel(
 ) {
   return (await db('products')
     .where('stock', '<', maxStock)
-    .select('id', 'name', 'image')) as LowStockProducts
+    .select('id', 'name', 'image')) as LowStockProducts[]
 }
 
 export async function addProduct(newProduct: UpsertProduct, db = connection) {
