@@ -117,3 +117,35 @@ describe('addProduct', () => {
     expect(Boolean(insertedProduct.is_enabled)).toBe(newProduct.isEnabled)
   })
 })
+
+describe('updateProduct', () => {
+  it('update product to the database', async () => {
+    const productId = 2
+    // Define the update product
+    const updatedProduct = {
+      name: 'New Tea',
+      image: 'new-tea.jpg',
+      price: 10.99,
+      stock: 20,
+      description: 'A brand new tea flavor.',
+      isEnabled: true,
+    }
+
+    // upate the product
+    await db.updateProduct(updatedProduct, productId, testDb)
+
+    // Fetch the updated product from the test database
+    const insertedProduct = await testDb('products')
+      .where('id', productId)
+      .first()
+
+    // Verify the updated product was updated correctly
+    expect(insertedProduct).toBeDefined()
+    expect(insertedProduct.name).toBe(updatedProduct.name)
+    expect(insertedProduct.image).toBe(updatedProduct.image)
+    expect(insertedProduct.price).toBe(updatedProduct.price)
+    expect(insertedProduct.stock).toBe(updatedProduct.stock)
+    expect(insertedProduct.description).toBe(updatedProduct.description)
+    expect(Boolean(insertedProduct.is_enabled)).toBe(updatedProduct.isEnabled)
+  })
+})
