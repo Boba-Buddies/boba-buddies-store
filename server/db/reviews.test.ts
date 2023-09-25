@@ -142,41 +142,48 @@ describe('getReviewsByUserId', () => {
 })
 
 describe('adding and removing reviews', async () => {
-  it('review is added successfully', async () => {
-    const testNewReview = {
-      productId: 1,
-      rating: 5,
-      description: 'This drink is spectacular!',
-    }
-    const testUserId = 'auth0|abc12345'
+  //The testUserId and testProductId will be the same for the adding review and removing review tests.
+  const testUserId = 'auth0|abc12345'
+  const testProductId = 2
+  const testNewReview = {
+    productId: testProductId,
+    rating: 5,
+    description: 'This drink is spectacular!',
+  }
 
+  //In the test seed data, the associated userName with the userId of 'auth0|abc12345', is 'emma.j'
+  const testUserName = 'emma.j'
+
+  it('review is added/removed successfully', async () => {
     //Add the test review
     await db.addReviewByUserId(testNewReview, testUserId, testDb)
 
-    //Check if the newest review for matching product is the same as the added one.
-    const reviews = await db.getReviewsByProductId(
-      testNewReview.productId,
-      testDb,
-    )
+    //Get all reviews
+    const reviews = await db.getReviewsByProductId(testProductId, testDb)
     const latestReviewIndex = reviews.length - 1
 
-    //In the test seed data, the associated userName with the userId of 'auth0|abc12345', is 'emma.j'
-    const testUserName = 'emma.j'
-
+    //Check if the newest review for the matching product is the same as the added one.
     expect(reviews[latestReviewIndex]).toContain({
+      ...testNewReview,
+      userName: testUserName,
+    })
+
+    //remove the review we added before by matching the testUserId and testProductId
+    await db.removeReviewByProductId(testProductId, testUserId, testDb)
+
+    //Get all reviews
+    const refetchedReviews = await db.getReviewsByProductId(
+      testProductId,
+      testDb,
+    )
+    const refetchedLatestReviewIndex = refetchedReviews.length - 1
+
+    //Check that latest review for matching product is NOT the same as the added one before.
+    expect(refetchedReviews[refetchedLatestReviewIndex]).not.toContain({
       ...testNewReview,
       userName: testUserName,
     })
   })
 })
-
-/*
-isEnabled: boolean;
-    id: number;
-    productName: string;
-    rating: number;
-    userName: string;
-    createdAt: string;
-    */
 
 //!recalculateAverageRatingByProductId
