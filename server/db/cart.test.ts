@@ -32,7 +32,6 @@ describe('getCartByUserId', () => {
 
 describe('checkIsUserInCart', () => {
   it('should return true if the user is in the cart', async () => {
-    // Assuming a user with userId 'auth0|rigelle' exists in the cart
     const userId = 'auth0|rigelle-test'
     const result = await db.checkIsUserInCart(userId, testDb)
     expect(result).toBe(true)
