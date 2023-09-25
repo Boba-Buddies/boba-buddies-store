@@ -32,6 +32,15 @@ describe('getReviewsByProductId', () => {
     const reviews = await db.getReviewsByProductId(testProductId, testDb)
     expect(reviews[0].productId).toBe(testProductId)
   })
+
+  it ('returns all reviews that match given product id', async () => {
+    const testProductId = 1
+    //In the test seed data, there are 2 reviews for product 1
+    const expectedAmountOfReviews = 2
+    const reviews = await db.getReviewsByProductId(testProductId, testDb)
+    expect(reviews.length).toBe(expectedAmountOfReviews)
+  })
+
 })
 
 //!getAmountOfReviewsByDate
