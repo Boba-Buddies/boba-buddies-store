@@ -92,4 +92,39 @@ describe('getReviewById', () => {
   })
 })
 
+//getReviewsById
+describe('getReviewsByUserId', () => {
+  it('returns reviews that match given username associated with userId (auth0)', async () => {
+    const testUserId = 'auth0|abc12345'
+    //In the test seed, auth0|abc12345 is associated with the username 'emma.j'
+    const expectUserName = 'emma.j'
+    const reviews = await db.getReviewsByUserId(testUserId, testDb)
+    expect(reviews[0].reviewerUserName).toBe(expectUserName)
+  })
+
+  it('returns correct amount of reviews associated with given userId', async () => {
+    const testUserId = 'auth0|abc12345'
+    //In the test seed data, there are 5 reviews made by auth0|abc12345 
+    const expectedAmountOfReviews = 5
+    const reviews = await db.getReviewsByUserId(testUserId, testDb)
+    expect(reviews.length).toBe(expectedAmountOfReviews)
+  })
+
+  it('reviews have the correct properties', async () => {
+    const testUserId = 'auth0|abc12345'
+    const reviews = await db.getReviewsByUserId(testUserId, testDb)
+    expect(reviews[0]).toHaveProperty('productName')
+    expect(reviews[0]).toHaveProperty('productImage')
+    expect(reviews[0]).toHaveProperty('reviewDescription')
+    expect(reviews[0]).toHaveProperty('reviewRating')
+    expect(reviews[0]).toHaveProperty('reviewerUserName')
+    expect(reviews[0]).toHaveProperty('reviewCreatedAt')
+    expect(reviews[0]).toHaveProperty('productId')
+  })
+})
+
+
+
+
+
 //!recalculateAverageRatingByProductId
