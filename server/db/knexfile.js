@@ -22,7 +22,7 @@ module.exports = {
       directory: join(__dirname, 'migrations'),
     },
     seeds: {
-      directory: join(__dirname, 'seeds'),
+      directory: join(__dirname, 'test-seeds'),
     },
     pool: {
       afterCreate: (conn, cb) => conn.run('PRAGMA foreign_keys = ON', cb),
