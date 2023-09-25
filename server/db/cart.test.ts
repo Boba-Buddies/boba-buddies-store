@@ -36,4 +36,10 @@ describe('checkIsUserInCart', () => {
     const result = await db.checkIsUserInCart(userId, testDb)
     expect(result).toBe(true)
   })
+
+  it('should return false if the userId is not in the cart', async () => {
+    const userId = 'non-existent-user'
+    const result = await db.checkIsUserInCart(userId, testDb)
+    expect(result).toBe(false)
+  })
 })
