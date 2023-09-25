@@ -71,7 +71,7 @@ export async function getAmountOfProductsBelowStockLevel(
 ) {
   return (await db('products')
     .where('stock', '<', maxStock)
-    .select('id', 'name', 'image')) as LowStockProducts
+    .select('id', 'name', 'image')) as LowStockProducts[]
 }
 
 export async function addProduct(newProduct: UpsertProduct, db = connection) {

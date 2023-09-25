@@ -67,3 +67,22 @@ describe('getProductByIdUser', () => {
     expect(userProduct).toBeUndefined()
   })
 })
+
+describe('getAmountOfProductsBelowStockLevel', () => {
+  it('returns the products which below the max stock level', async () => {
+    const testMaxStock = 5
+    const sampleLowStockProduct = await testDb('products')
+      .where('stock', '<', testMaxStock)
+      .first()
+
+    const products = await db.getAmountOfProductsBelowStockLevel(
+      testMaxStock,
+      testDb,
+    )
+    const foundProduct = products.find(
+      (product) => product.id === sampleLowStockProduct.id,
+    )
+    expect(foundProduct).toBeDefined()
+    expect(foundProduct?.name).toBe(sampleLowStockProduct.name)
+  })
+})
