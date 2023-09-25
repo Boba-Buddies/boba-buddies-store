@@ -18,3 +18,14 @@ afterAll(async () => {
 })
 
 //getReviewsByProductId
+
+describe('getReviewsByProductId', () => {
+  it('returns reviews that match product Id', async () => {
+    const testProductId = 1
+    const reviews = await db.getReviewsByProductId(testProductId, testDb)
+
+    expect(reviews[0].productId).toBe(testProductId)
+  })
+})
+
+
