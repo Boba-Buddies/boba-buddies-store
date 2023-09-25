@@ -5,7 +5,6 @@ import {
   UserProduct,
 } from '../../models/Products'
 import connection from './connection'
-import db from './connection'
 
 export async function getAllProductsAdmin(db = connection) {
   return (await db('products').select(
