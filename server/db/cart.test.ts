@@ -18,7 +18,7 @@ afterAll(async () => {
 })
 
 // Tests if it returns cart by userId
-describe('getCartByUserId', () => {
+describe('get cart by userId', () => {
   it('should return cart by userId', async () => {
     const cart = await db.getCartByUserId('auth0|rigelle-test', testDb)
 
@@ -30,7 +30,7 @@ describe('getCartByUserId', () => {
 
 // Tests if it adds product to cart by userId
 
-describe('checkIsUserInCart', () => {
+describe('check userId is in the Cart', () => {
   it('should return true if the user is in the cart', async () => {
     const userId = 'auth0|rigelle-test'
     const result = await db.checkIsUserInCart(userId, testDb)
@@ -43,3 +43,4 @@ describe('checkIsUserInCart', () => {
     expect(result).toBe(false)
   })
 })
+
