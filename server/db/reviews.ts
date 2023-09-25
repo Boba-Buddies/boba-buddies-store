@@ -155,5 +155,5 @@ export async function removeReviewByProductId(
   db = connection
 ) {
   await db('reviews').where({ user_id: userId, product_id: productId }).delete()
-  await recalculateAverageRatingByProductId(productId)
+  await recalculateAverageRatingByProductId(productId, db)
 }
