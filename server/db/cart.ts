@@ -1,9 +1,9 @@
 import connection from './connection'
-import { CartItem } from '../../models/Cart'
+import { Cart, CartItem } from '../../models/Cart'
 
 //GET: getCartByUserId(userId: string)
 export async function getCartByUserId(userId: string, db = connection) {
-  return await db('cart')
+  return (await db('cart')
     .join('products', 'cart.product_id', 'products.id')
     .where('cart.user_id', userId)
     .select(
@@ -13,7 +13,7 @@ export async function getCartByUserId(userId: string, db = connection) {
       'products.price as price',
       'cart.quantity as quantity',
       'products.image as image',
-    )
+    )) as Cart[]
 }
 
 //POST:addProductToCartByUserId(userId: string, productId: number, quantity:number)
@@ -28,7 +28,7 @@ export async function addProductToCartByUserId(
   newItem: CartItem,
   db = connection,
 ) {
-  const isUserInCart: boolean = await checkIsUserInCart(newItem.userId)
+  const isUserInCart: boolean = await checkIsUserInCart(newItem.userId, db)
 
   if (isUserInCart) {
     const existingCartItem = await db('cart')
