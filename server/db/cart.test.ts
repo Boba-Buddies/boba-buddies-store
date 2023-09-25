@@ -17,12 +17,24 @@ afterAll(async () => {
   await testDb.destroy()
 })
 
+// Tests if it returns cart by userId
 describe('getCartByUserId', () => {
-  it('it should return cart by userId', async () => {
+  it('should return cart by userId', async () => {
     const cart = await db.getCartByUserId('auth0|rigelle-test', testDb)
 
     expect(cart[0]).toHaveProperty('userId')
     expect(cart[0]).toHaveProperty('productId')
     expect(cart[0]).toHaveProperty('quantity')
+  })
+})
+
+// Tests if it adds product to cart by userId
+
+describe('checkIsUserInCart', () => {
+  it('should return true if the user is in the cart', async () => {
+    // Assuming a user with userId 'auth0|rigelle' exists in the cart
+    const userId = 'auth0|rigelle-test'
+    const result = await db.checkIsUserInCart(userId, testDb)
+    expect(result).toBe(true)
   })
 })
