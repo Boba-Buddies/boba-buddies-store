@@ -86,3 +86,34 @@ describe('getAmountOfProductsBelowStockLevel', () => {
     expect(foundProduct?.name).toBe(sampleLowStockProduct.name)
   })
 })
+
+describe('addProduct', () => {
+  it('adds a new product to the database', async () => {
+    // Define the new product
+    const newProduct = {
+      name: 'New Tea',
+      image: 'new-tea.jpg',
+      price: 10.99,
+      stock: 20,
+      description: 'A brand new tea flavor.',
+      isEnabled: true,
+    }
+
+    // Insert the new product
+    await db.addProduct(newProduct, testDb)
+
+    // Fetch the new product from the test database
+    const insertedProduct = await testDb('products')
+      .where({ name: newProduct.name })
+      .first()
+
+    // Verify the new product was inserted correctly
+    expect(insertedProduct).toBeDefined()
+    expect(insertedProduct.name).toBe(newProduct.name)
+    expect(insertedProduct.image).toBe(newProduct.image)
+    expect(insertedProduct.price).toBe(newProduct.price)
+    expect(insertedProduct.stock).toBe(newProduct.stock)
+    expect(insertedProduct.description).toBe(newProduct.description)
+    expect(Boolean(insertedProduct.is_enabled)).toBe(newProduct.isEnabled)
+  })
+})
