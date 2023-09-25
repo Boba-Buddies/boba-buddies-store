@@ -19,7 +19,7 @@ afterAll(async () => {
 
 describe('getCartByUserId', () => {
   it('it should return cart by userId', async () => {
-    const cart = await db.getCartByUserId('auth0|xyz45678', testDb)
+    const cart = await db.getCartByUserId('auth0|rigelle-test', testDb)
 
     expect(cart[0]).toHaveProperty('userId')
     expect(cart[0]).toHaveProperty('productId')
