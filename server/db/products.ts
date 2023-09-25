@@ -4,9 +4,10 @@ import {
   UpsertProduct,
   UserProduct,
 } from '../../models/Products'
+import connection from './connection'
 import db from './connection'
 
-export async function getAllProductsAdmin() {
+export async function getAllProductsAdmin(db = connection) {
   return (await db('products').select(
     'id',
     'name',
@@ -19,7 +20,7 @@ export async function getAllProductsAdmin() {
   )) as AdminProduct[]
 }
 
-export async function getAllProductsUser() {
+export async function getAllProductsUser(db = connection) {
   return (await db('products')
     .select(
       'id',
@@ -33,7 +34,7 @@ export async function getAllProductsUser() {
     .where('is_enabled', true)) as UserProduct[]
 }
 
-export async function getProductByIdAdmin(id: number) {
+export async function getProductByIdAdmin(id: number, db = connection) {
   return (await db('products')
     .select(
       'id',
@@ -49,7 +50,7 @@ export async function getProductByIdAdmin(id: number) {
     .first()) as AdminProduct
 }
 
-export async function getProductByIdUser(id: number) {
+export async function getProductByIdUser(id: number, db = connection) {
   return (await db('products')
     .select(
       'id',
@@ -65,13 +66,16 @@ export async function getProductByIdUser(id: number) {
     .first()) as UserProduct
 }
 
-export async function getAmountOfProductsBelowStockLevel(maxStock: number) {
+export async function getAmountOfProductsBelowStockLevel(
+  maxStock: number,
+  db = connection,
+) {
   return (await db('products')
     .where('stock', '<', maxStock)
     .select('id', 'name', 'image')) as LowStockProducts
 }
 
-export async function addProduct(newProduct: UpsertProduct) {
+export async function addProduct(newProduct: UpsertProduct, db = connection) {
   return await db('products').insert({
     name: newProduct.name,
     image: newProduct.image,
@@ -85,6 +89,7 @@ export async function addProduct(newProduct: UpsertProduct) {
 export async function updateProduct(
   updateProduct: UpsertProduct,
   productId: number,
+  db = connection,
 ) {
   return await db('products').where('id', productId).update({
     name: updateProduct.name,
