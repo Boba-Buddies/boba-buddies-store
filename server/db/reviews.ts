@@ -128,7 +128,7 @@ export async function addReviewByUserId(newReview: NewReview, userId: string, db
   })
 
   //After we add the review, we recalcaute the average_rating of the associated product, taking into account the new review's rating that was just added.
-  await recalculateAverageRatingByProductId(newReview.productId)
+  await recalculateAverageRatingByProductId(newReview.productId, db)
 }
 
 export async function updateReviewStatusById(
