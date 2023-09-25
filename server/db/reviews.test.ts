@@ -24,7 +24,7 @@ beforeEach(async () => {
 afterAll(async () => {
   await testDb.destroy()
 })
-
+//toHaveProperty
 //getReviewsByProductId - FLAKY!
 describe('getReviewsByProductId', () => {
   it('returns reviews that match given product id', async () => {
@@ -55,9 +55,22 @@ describe('getAmountOfReviewsByDate', () => {
 
 })
 
+//getAllReviews
+describe('getAllReviews', () => {
+  it ('returns the all of the reviews', async () => {
+    //In the test seed data, there is a total of 41 reviews
+    const expectAmountOfReviews = 41
+    const reviews = await db.getAllReviews(testDb)
+    expect (reviews.length).toBe(expectAmountOfReviews)
+    expect (reviews[0]).toHaveProperty('isEnabled')
+    expect (reviews[0]).toHaveProperty('userName')
+    expect (reviews[0]).toHaveProperty('rating')
+    expect (reviews[0]).toHaveProperty('createdAt')
+    expect (reviews[0]).toHaveProperty('id')
+    expect (reviews[0]).toHaveProperty('productName')
+  })
+})
 
-
-//!getAllReviews
 
 //getReviewById
 describe('getReviewById', () => {
