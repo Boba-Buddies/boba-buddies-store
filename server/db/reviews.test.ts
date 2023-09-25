@@ -51,6 +51,7 @@ describe('getAmountOfReviewsByDate', () => {
     const expectedAmountOfReviews = 4
     const reviews = await db.getAmountOfReviewsByDate(testDate, testDb)
     expect (reviews.reviewCount).toBe(expectedAmountOfReviews)
+    expect (reviews).toHaveProperty('reviewCount')
   })
 
 })
