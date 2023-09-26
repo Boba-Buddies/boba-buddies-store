@@ -85,6 +85,7 @@ describe('GET /api/v1/products/admin', () => {
   afterEach(() => {
     vi.restoreAllMocks()
   })
+
   it('should return 200 and all products for an admin user', async () => {
     vi.mocked(isUserAdmin).mockResolvedValue(true)
     const fakeAdminProducts: AdminProduct[] = [
@@ -110,12 +111,67 @@ describe('GET /api/v1/products/admin', () => {
 
   it('should return 500 when no access token is passed', async () => {
     vi.mocked(db.getAllProductsAdmin).mockRejectedValue(new Error('test'))
+    vi.mocked(isUserAdmin).mockResolvedValue(true)
     const response = await request(server)
-      .get('/api/v1/shipping-options')
+      .get('/api/v1/products/admin')
       .set('authorization', `Bearer ${getMockToken()}`)
     expect(response.status).toBe(500)
     expect(response.body).toEqual({
       message: 'Unable to get the data from database',
     })
   })
+
+  it('should return 401 for a non-admin user', async () => {
+    vi.mocked(db.getAllProductsAdmin).mockRejectedValue(new Error('test'))
+    vi.mocked(isUserAdmin).mockResolvedValue(false)
+    const response = await request(server)
+      .get('/api/v1/products/admin')
+      .set('authorization', `Bearer ${getMockToken()}`)
+    expect(response.status).toBe(401)
+    expect(response.body).toEqual({
+      message: 'user is not authorized as admin',
+    })
+  })
 })
+
+// describe('GET /api/v1/products/admin/:id', () => {
+//   afterEach(() => {
+//     vi.restoreAllMocks()
+//   })
+//   it('should return 200 and product for an admin user', async () => {
+//     vi.mocked(isUserAdmin).mockResolvedValue(true)
+//     const fakeId = 123
+//     const fakeAdminProduct: AdminProduct = {
+//       id: 123,
+//       name: 'Banana Tea',
+//       image: '/images/banana.svg',
+//       price: 100,
+//       description: 'banana is good.',
+//       stock: 200,
+//       averageRating: 3.75,
+//       isEnabled: true,
+//     }
+
+//     vi.mocked(db.getProductByIdAdmin).mockResolvedValue(fakeAdminProduct)
+//     vi.mocked(isUserAdmin).mockResolvedValue(true)
+//     const response = await request(server)
+//       .get(`/api/v1/products/admin/${fakeId}`)
+//       .set('authorization', `Bearer ${getMockToken()}`)
+//     expect(response.status).toBe(200)
+//     expect(response.body).toEqual(fakeAdminProduct)
+//   })
+
+//   it('should return 500 when no access token is passed', async () => {
+//     vi.mocked(isUserAdmin).mockResolvedValue(false)
+//     vi.mocked(db.getProductByIdAdmin).mockRejectedValue(new Error('test'))
+
+//     const fakeId = 123
+//     const response = await request(server)
+//       .get(`/api/v1/products/admin/${fakeId}`)
+//       .set('authorization', `Bearer ${getMockToken()}`)
+//     expect(response.status).toBe(500)
+//     expect(response.body).toEqual({
+//       message: 'Unable to get the data from database',
+//     })
+//   })
+// })
