@@ -4,7 +4,6 @@ import { logError } from '../logger'
 import { validateAccessToken } from '../auth0'
 const router = Router()
 
-
 // GET /api/v1/shipping-options/
 router.get('/', validateAccessToken, async (req, res) => {
   const userId = req.auth?.payload.sub
@@ -19,7 +18,7 @@ router.get('/', validateAccessToken, async (req, res) => {
     res.status(200).json({ shippingOptions })
   } catch (error) {
     logError(error)
-    res.status(500).json({ message: 'Unable to ge the data from database' })
+    res.status(500).json({ message: 'Unable to get the data from database' })
   }
 })
 
