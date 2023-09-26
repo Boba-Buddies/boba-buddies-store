@@ -1,8 +1,8 @@
 import { Emails, Email, NewEmail } from '../../models/Emails'
-import db from './connection'
+import connection from './connection'
 
 // GET: getAllEmails()
-export async function getAllEmails() {
+export async function getAllEmails(db = connection) {
   return (await db('emails')
     .join('users', 'users.auth0_id', 'emails.user_id')
     .select(
