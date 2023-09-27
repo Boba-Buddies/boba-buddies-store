@@ -1,7 +1,7 @@
 import { ShippingOptions } from '../../models/ShippingOptions'
-import db from './connection'
+import connection from './connection'
 
-export async function getAllShippingOptions() {
+export async function getAllShippingOptions(db = connection) {
   return (await db('shipping_options').select(
     'id',
     'shipping_type as shippingType',
