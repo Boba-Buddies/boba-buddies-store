@@ -10,7 +10,6 @@ import { validateAccessToken } from '../auth0'
 import { isUserAdmin } from '../db/users'
 const router = Router()
 
-
 //!ADMIN ONLY
 // GET /api/v1/products/admin
 router.get('/admin', validateAccessToken, async (req, res) => {
@@ -76,7 +75,6 @@ router.get('/admin/:id', validateAccessToken, async (req, res) => {
 // GET /api/v1/products/:id
 router.get('/:id', async (req, res) => {
   const productId = Number(req.params.id)
-
 
   try {
     const product: UserProduct = await db.getProductByIdUser(productId)
