@@ -39,3 +39,28 @@ describe('getAllEmails', () => {
     expect(emails[0]).toHaveProperty('createdAt')
   })
 })
+
+describe('getEmailById', () => {
+  it('return email that match given email id', async () => {
+    const testId = 1
+    const expectedTitle = 'Appreciation for Great Service'
+    const email = await db.getEmailById(testId, testDb)
+    expect(email.title).toBe(expectedTitle)
+  })
+
+  it('email has the correct properties', async () => {
+    const testId = 1
+    const email = await db.getEmailById(testId, testDb)
+    expect(email).toHaveProperty('id')
+    expect(email).toHaveProperty('userName')
+    expect(email).toHaveProperty('title')
+    expect(email).toHaveProperty('createdAt')
+    expect(email).toHaveProperty('description')
+  })
+
+  it('returns an empty object if there is no matched emailId', async () => {
+    const testId = 20
+    const email = await db.getEmailById(testId, testDb)
+    expect(email).toBeUndefined()
+  })
+})

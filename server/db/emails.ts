@@ -15,7 +15,7 @@ export async function getAllEmails(db = connection) {
 }
 
 //GET: getEmailById(id:number)
-export async function getEmailById(id: number) {
+export async function getEmailById(id: number, db = connection) {
   return (await db('emails')
     .join('users', 'users.auth0_id', 'emails.user_id')
     .where('id', id)
