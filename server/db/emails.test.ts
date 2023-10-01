@@ -107,3 +107,18 @@ describe('deleteEmailById', () => {
   })
 })
 
+describe('getAmountofUnreadEmailsByDate', () => {
+  it('get the right amount of unread email of given date', async () => {
+    const testDate = '2023-07-22'
+    const expectedAmountOfEmails = 2
+    const amount = await db.getAmountOfUnreadEmailsByDate(testDate, testDb)
+    expect(amount?.unreadEmailCount).toBe(expectedAmountOfEmails)
+  })
+
+  it('get 0 email for non-exiting date', async () => {
+    const testDate = '2023-08-30'
+    const expectedAmountOfEmails = 0
+    const amount = await db.getAmountOfUnreadEmailsByDate(testDate, testDb)
+    expect(amount?.unreadEmailCount).toBe(expectedAmountOfEmails)
+  })
+})
