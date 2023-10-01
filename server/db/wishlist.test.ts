@@ -46,3 +46,18 @@ describe('getWishlistByUserId', () => {
   })
 })
 
+describe('getWishlistStatusByProductId', () => {
+  it('return truthy if the product is in wishlist', async () => {
+    const testProductId = 1
+    const testUserId = 'auth0|abc12345'
+    const result = await db.getWishlistStatusByProductId(testProductId, testUserId, testDb)
+    expect(result).toBeTruthy
+  })
+
+  it('return falsy if the product is not in wishlist', async () => {
+    const testProductId = 12
+    const testUserId = 'auth0|abc12345'
+    const result = await db.getWishlistStatusByProductId(testProductId, testUserId, testDb)
+    expect(result).toBeFalsy
+  })
+})
