@@ -78,7 +78,14 @@ describe('sendEmailByUserId', () => {
     const expectedAmountOfEmails = 16
     const emails = await db.getAllEmails(testDb)
     expect(emails.length).toBe(expectedAmountOfEmails)
+  })
+})
 
-
+describe('updateEmailReadStatusById', () => {
+  it('email status changed to true', async () => {
+    const testId = 1
+    await db.updateEmailReadStatusById(testId, testDb)
+    const email = await db.getEmailById(testId, testDb)
+    expect(email.isRead).toBeTruthy
   })
 })
