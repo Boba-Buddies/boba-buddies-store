@@ -89,3 +89,21 @@ describe('updateEmailReadStatusById', () => {
     expect(email.isRead).toBeTruthy
   })
 })
+
+describe('deleteEmailById', () => {
+  it('email deleted successfully', async () => {
+    const testId = 1
+    await db.deleteEmailById(testId, testDb)
+    const expectedAmountOfEmails = 14
+    const emails = await db.getAllEmails(testDb)
+    expect(emails.length).toBe(expectedAmountOfEmails)
+  })
+
+  it('email deleted according to the Id correctly', async () => {
+    const testId = 1
+    await db.deleteEmailById(testId, testDb)
+    const email = await db.getEmailById(testId, testDb)
+    expect(email).toBeNull
+  })
+})
+
