@@ -85,7 +85,24 @@ describe('update cart item quantity', () => {
         product_id: updatedCartItem.productId,
       })
       .first()
-      
+
     expect(cartItem.quantity).toBe(updatedCartItem.quantity)
+  })
+})
+
+// Tests if it removes cart item by productId
+
+describe('when the product ID exists in the cart', () => {
+  it('should remove a cart item by product ID', async () => {
+    const userId = 'auth0|rigelle-test'
+    const productId = 9
+
+    await db.removeCartItemByProductId(userId, productId, testDb)
+
+    const result = await testDb('cart')
+      .where({ user_id: userId, product_id: productId })
+      .select()
+
+    expect(result).toHaveLength(0)
   })
 })
