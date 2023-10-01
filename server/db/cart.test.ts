@@ -3,7 +3,7 @@ import knex from 'knex'
 
 import * as db from './cart'
 import config from './knexfile'
-import { CartItem } from '../../models/Cart'
+import { CartItem, cartClientSchema } from '../../models/Cart'
 const testDb = knex(config.test)
 
 beforeAll(async () => {
@@ -65,5 +65,27 @@ describe('adds product to cart by userId ', () => {
 
     expect(cartItem.product_id).toBe(newItem.productId)
     expect(cartItem.quantity).toBe(newItem.quantity)
+  })
+})
+
+// Tests if it updates cart item quantity by productId
+
+describe('update cart item quantity', () => {
+  it('update cart item quantity by productId', async () => {
+    const updatedCartItem = {
+      userId: 'auth0|rigelle-test',
+      productId: 6,
+      quantity: 5,
+    }
+
+    await db.updateCartItemQuantityByProductId(updatedCartItem, testDb)
+
+    const cartItem = await testDb('cart')
+      .where({
+        product_id: updatedCartItem.productId,
+      })
+      .first()
+      
+    expect(cartItem.quantity).toBe(updatedCartItem.quantity)
   })
 })
