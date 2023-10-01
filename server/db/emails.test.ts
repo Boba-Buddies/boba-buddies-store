@@ -64,3 +64,21 @@ describe('getEmailById', () => {
     expect(email).toBeUndefined()
   })
 })
+
+describe('sendEmailByUserId', () => {
+  it('email is sent successfully', async () => {
+    const testUserId = 'auth0|abc12345'
+    const newEmail = {
+      title: 'testing-12345',
+      description: 'testing - Great Customer Service',
+    }
+
+    await db.sendEmailByUserId(newEmail, testUserId, testDb)
+
+    const expectedAmountOfEmails = 16
+    const emails = await db.getAllEmails(testDb)
+    expect(emails.length).toBe(expectedAmountOfEmails)
+
+
+  })
+})
