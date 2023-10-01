@@ -3,7 +3,7 @@ import knex from 'knex'
 
 import * as db from './cart'
 import config from './knexfile'
-import { CartItem, cartClientSchema } from '../../models/Cart'
+import { CartItem } from '../../models/Cart'
 const testDb = knex(config.test)
 
 beforeAll(async () => {
@@ -92,17 +92,31 @@ describe('update cart item quantity', () => {
 
 // Tests if it removes cart item by productId
 
-describe('when the product ID exists in the cart', () => {
-  it('should remove a cart item by product ID', async () => {
+describe('removes cart item by productId', () => {
+  it('should remove a cart item by productId', async () => {
     const userId = 'auth0|rigelle-test'
     const productId = 9
 
     await db.removeCartItemByProductId(userId, productId, testDb)
 
-    const result = await testDb('cart')
+    const cart = await testDb('cart')
       .where({ user_id: userId, product_id: productId })
-      .select()
+      .delete()
 
-    expect(result).toHaveLength(0)
+    expect(cart).toEqual(0)
+  })
+})
+
+// Tests if it clears cart
+
+describe('clears cart', () => {
+  it('should remove items in cart', async () => {
+    const userId = 'auth0|rigelle-test'
+
+    await db.clearCartByUserId(userId, testDb)
+
+    const cart = await testDb('cart').where({ user_id: userId }).delete()
+
+    expect(cart).toEqual(0)
   })
 })
