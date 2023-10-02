@@ -67,3 +67,56 @@ describe('adds product to cart by userId ', () => {
     expect(cartItem.quantity).toBe(newItem.quantity)
   })
 })
+
+// Tests if it updates cart item quantity by productId
+
+describe('update cart item quantity', () => {
+  it('update cart item quantity by productId', async () => {
+    const updatedCartItem = {
+      userId: 'auth0|rigelle-test',
+      productId: 6,
+      quantity: 5,
+    }
+
+    await db.updateCartItemQuantityByProductId(updatedCartItem, testDb)
+
+    const cartItem = await testDb('cart')
+      .where({
+        product_id: updatedCartItem.productId,
+      })
+      .first()
+
+    expect(cartItem.quantity).toBe(updatedCartItem.quantity)
+  })
+})
+
+// Tests if it removes cart item by productId
+
+describe('removes cart item by productId', () => {
+  it('should remove a cart item by productId', async () => {
+    const userId = 'auth0|rigelle-test'
+    const productId = 9
+
+    await db.removeCartItemByProductId(userId, productId, testDb)
+
+    const cart = await testDb('cart')
+      .where({ user_id: userId, product_id: productId })
+      .delete()
+
+    expect(cart).toEqual(0)
+  })
+})
+
+// Tests if it clears cart
+
+describe('clears cart', () => {
+  it('should remove items in cart', async () => {
+    const userId = 'auth0|rigelle-test'
+
+    await db.clearCartByUserId(userId, testDb)
+
+    const cart = await testDb('cart').where({ user_id: userId }).delete()
+
+    expect(cart).toEqual(0)
+  })
+})
