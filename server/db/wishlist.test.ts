@@ -88,3 +88,23 @@ describe('addToWishlistByProductId', () => {
 
   })
 })
+
+describe('removeFromWishlistByProductId', () => {
+  it('remove product from wishlist successfully', async () => {
+    const testUserId = 'auth0|abc12345'
+    const testProductId = 1
+    await db.removeFromWishlistByProductId(testProductId, testUserId, testDb)
+
+    const result = await db.getWishlistByUserId(testUserId, testDb)
+    expect(result.length).toBe(9)
+  })
+
+  it('product removed by Product Id from wishlist correctly', async () => {
+    const testUserId = 'auth0|abc12345'
+    const testProductId = 1
+    await db.removeFromWishlistByProductId(testProductId, testUserId, testDb)
+
+    const status = await db.getWishlistStatusByProductId(testProductId, testUserId, testDb)
+    expect(status).toBeFalsy
+  })
+})
