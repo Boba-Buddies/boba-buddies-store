@@ -141,7 +141,7 @@ describe('getReviewsByUserId', () => {
   })
 })
 
-describe('adding and removing reviews', async () => {
+describe('addReviewByUserId & removeReviewByProductId', async () => {
   //The testUserId and testProductId will be the same for the adding review and removing review tests.
   const testUserId = 'auth0|abc12345'
   const testProductId = 2
