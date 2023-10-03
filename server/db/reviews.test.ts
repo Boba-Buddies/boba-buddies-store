@@ -167,6 +167,11 @@ describe('addReviewByUserId & removeReviewByProductId', async () => {
       ...testNewReview,
       userName: testUserName,
     })
+    expect(reviews[latestReviewIndex]).toHaveProperty('productId')
+    expect(reviews[latestReviewIndex]).toHaveProperty('userName')
+    expect(reviews[latestReviewIndex]).toHaveProperty('rating')
+    expect(reviews[latestReviewIndex]).toHaveProperty('createdAt')
+    expect(reviews[latestReviewIndex]).toHaveProperty('description')
 
     //remove the review we added before by matching the testUserId and testProductId
     await db.removeReviewByProductId(testProductId, testUserId, testDb)
