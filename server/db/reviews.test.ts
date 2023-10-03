@@ -202,4 +202,37 @@ describe('updateReviewStatusById', async () => {
   })
 })
 
+describe('recalculateAverageRatingByProductId', async () => {
+  //Average rating of product id of 1 in the test seed is 3.75, based on two reviews, one with a rating of 5, and the other with a rating of 2.5
+
+  const testProductId = 1
+  
+  it('Average rating recalculates correctly after adding a review', async () => {
+    //when adding a review with a rating of 3, the new averageRating should be 3.5 because (5+2.5+3)/3 = 3.5
+    const expectedNewAverageRating = 3.5
+    const testReview = {
+      productId: testProductId,
+      rating: 3,
+      description: 'this product is average',
+    }
+    const testUserId = 'auth0|xyz45678'
+    await db.addReviewByUserId(testReview, testUserId, testDb)
+    //The recalculateAverageRatingByProductId will run within addReviewByUserId. We are running it again because it returns the new rounded average.
+    const testNewAverageRating = await db.recalculateAverageRatingByProductId(
+      testReview.productId, testDb
+    )
+    expect(testNewAverageRating).toBe(expectedNewAverageRating)
+  })
+
+  /*
+  it ('Averate rating recalculates correctly after removing a review') {
+
+  }
+
+  it('Average rating recalcuates correctly after changing status of a review to false') {
+
+  }
+*/
+})
+
 //!recalculateAverageRatingByProductId
