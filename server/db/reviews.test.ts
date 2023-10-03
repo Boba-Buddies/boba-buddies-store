@@ -206,9 +206,9 @@ describe('recalculateAverageRatingByProductId', async () => {
   //Average rating of product id of 1 in the test seed is 3.75, based on two reviews, one with a rating of 5, and the other with a rating of 2.5
 
   const testProductId = 1
-  
+
   it('Average rating recalculates correctly after adding a review', async () => {
-    //when adding a review with a rating of 3, the new averageRating should be 3.5 because (5+2.5+3)/3 = 3.5
+    //when adding a review to product 1 with a rating of 3 from the test seed, the new averageRating should be 3.5 because (5+2.5+3)/3 = 3.5
     const expectedNewAverageRating = 3.5
     const testReview = {
       productId: testProductId,
@@ -219,19 +219,31 @@ describe('recalculateAverageRatingByProductId', async () => {
     await db.addReviewByUserId(testReview, testUserId, testDb)
     //The recalculateAverageRatingByProductId will run within addReviewByUserId. We are running it again because it returns the new rounded average.
     const testNewAverageRating = await db.recalculateAverageRatingByProductId(
-      testReview.productId, testDb
+      testProductId, testDb
     )
     expect(testNewAverageRating).toBe(expectedNewAverageRating)
   })
 
-  /*
-  it ('Averate rating recalculates correctly after removing a review') {
+  
+  it ('Averate rating recalculates correctly after removing a review', async () => {
+  //when removing the review for product 1 that has rating of 5 in the test seed, the new averageRating should be 2.5, because the only remaining review for product 1 will have a rating of 2.5
 
-  }
+  const expectedNewAverageRating = 2.5
 
-  it('Average rating recalcuates correctly after changing status of a review to false') {
+  //In the seed, the reviewer that left the 5 star review for product 1 is auth0|abc12345
+  const testUserId = 'auth0|abc12345'
 
-  }
+  await db.removeReviewByProductId(testProductId, testUserId, testDb)
+  //The recalculateAverageRatingByProductId will run within addReviewByUserId. We are running it again because it returns the new rounded average.
+  const testNewAverageRating = await db.recalculateAverageRatingByProductId(
+    testProductId, testDb
+  )
+  expect(testNewAverageRating).toBe(expectedNewAverageRating)
+  })
+/*
+  it('Average rating recalcuates correctly after changing status of a review to false', async () => {
+
+  })
 */
 })
 
