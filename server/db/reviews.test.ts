@@ -1,12 +1,4 @@
-import {
-  beforeEach,
-  beforeAll,
-  afterAll,
-  describe,
-  it,
-  expect,
-  vi,
-} from 'vitest'
+import { beforeEach, beforeAll, afterAll, describe, it, expect } from 'vitest'
 import knex from 'knex'
 
 import * as db from './reviews'
@@ -24,8 +16,8 @@ beforeEach(async () => {
 afterAll(async () => {
   await testDb.destroy()
 })
-//toHaveProperty
-//getReviewsByProductId
+
+//!getReviewsByProductId
 describe('getReviewsByProductId', () => {
   it('returns reviews that match given product id', async () => {
     const testProductId = 1
@@ -52,7 +44,7 @@ describe('getReviewsByProductId', () => {
   })
 })
 
-//getAmountOfReviewsByDate
+//!getAmountOfReviewsByDate
 describe('getAmountOfReviewsByDate', () => {
   it('returns the correct amount of reviews associated with given date', async () => {
     const testDate = '2023-07-15'
@@ -69,7 +61,7 @@ describe('getAmountOfReviewsByDate', () => {
   })
 })
 
-//getAllReviews
+//!getAllReviews
 describe('getAllReviews', () => {
   it('returns the all of the reviews', async () => {
     //In the test seed data, there is a total of 41 reviews
@@ -88,7 +80,7 @@ describe('getAllReviews', () => {
   })
 })
 
-//getReviewById
+//!getReviewById
 describe('getReviewById', async () => {
   it('returns review that matches given id', async () => {
     const testId = 1
@@ -110,7 +102,7 @@ describe('getReviewById', async () => {
   })
 })
 
-//getReviewsByUserId
+//!getReviewsByUserId
 describe('getReviewsByUserId', () => {
   it('returns reviews that match given username associated with userId (auth0)', async () => {
     const testUserId = 'auth0|abc12345'
@@ -141,6 +133,8 @@ describe('getReviewsByUserId', () => {
   })
 })
 
+//!addReviewByUserId
+//!removeReviewByProductId
 describe('addReviewByUserId & removeReviewByProductId', async () => {
   //The testUserId and testProductId will be the same for the adding review and removing review tests.
   const testUserId = 'auth0|abc12345'
@@ -191,6 +185,7 @@ describe('addReviewByUserId & removeReviewByProductId', async () => {
   })
 })
 
+//!updateReviewStatusById
 describe('updateReviewStatusById', async () => {
   it('Status of true updates correctly', async () => {
     //In the test seed, the review associated with id of 1 is set to true.
@@ -202,6 +197,7 @@ describe('updateReviewStatusById', async () => {
   })
 })
 
+//!recalculateAverageRatingByProductId
 describe('recalculateAverageRatingByProductId', async () => {
   //Average rating of product id of 1 in the test seed is 3.75, based on two reviews, one with a rating of 5, and the other with a rating of 2.5
 
@@ -219,32 +215,26 @@ describe('recalculateAverageRatingByProductId', async () => {
     await db.addReviewByUserId(testReview, testUserId, testDb)
     //The recalculateAverageRatingByProductId will run within addReviewByUserId. We are running it again because it returns the new rounded average.
     const testNewAverageRating = await db.recalculateAverageRatingByProductId(
-      testProductId, testDb
+      testProductId,
+      testDb,
     )
     expect(testNewAverageRating).toBe(expectedNewAverageRating)
   })
 
-  
-  it ('Averate rating recalculates correctly after removing a review', async () => {
-  //when removing the review for product 1 that has rating of 5 in the test seed, the new averageRating should be 2.5, because the only remaining review for product 1 will have a rating of 2.5
+  it('Averate rating recalculates correctly after removing a review', async () => {
+    //when removing the review for product 1 that has rating of 5 in the test seed, the new averageRating should be 2.5, because the only remaining review for product 1 will have a rating of 2.5
 
-  const expectedNewAverageRating = 2.5
+    const expectedNewAverageRating = 2.5
 
-  //In the seed, the reviewer that left the 5 star review for product 1 is auth0|abc12345
-  const testUserId = 'auth0|abc12345'
+    //In the seed, the reviewer that left the 5 star review for product 1 is auth0|abc12345
+    const testUserId = 'auth0|abc12345'
 
-  await db.removeReviewByProductId(testProductId, testUserId, testDb)
-  //The recalculateAverageRatingByProductId will run within addReviewByUserId. We are running it again because it returns the new rounded average.
-  const testNewAverageRating = await db.recalculateAverageRatingByProductId(
-    testProductId, testDb
-  )
-  expect(testNewAverageRating).toBe(expectedNewAverageRating)
+    await db.removeReviewByProductId(testProductId, testUserId, testDb)
+    //The recalculateAverageRatingByProductId will run within addReviewByUserId. We are running it again because it returns the new rounded average.
+    const testNewAverageRating = await db.recalculateAverageRatingByProductId(
+      testProductId,
+      testDb,
+    )
+    expect(testNewAverageRating).toBe(expectedNewAverageRating)
   })
-/*
-  it('Average rating recalcuates correctly after changing status of a review to false', async () => {
-
-  })
-*/
 })
-
-//!recalculateAverageRatingByProductId
