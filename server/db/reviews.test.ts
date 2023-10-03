@@ -191,4 +191,15 @@ describe('addReviewByUserId & removeReviewByProductId', async () => {
   })
 })
 
+describe('updateReviewStatusById', async () => {
+  it('Status of true updates correctly', async () => {
+    //In the test seed, the review associated with id of 1 is set to true.
+    const testReviewId = 1
+    const updatedReviewStatus = { id: testReviewId, isEnabled: false }
+    await db.updateReviewStatusById(updatedReviewStatus, testDb)
+    const testReview = db.getReviewById(testReviewId, testDb)
+    expect((await testReview).reviewIsEnabled).toBe(false)
+  })
+})
+
 //!recalculateAverageRatingByProductId
