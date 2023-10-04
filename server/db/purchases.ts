@@ -1,4 +1,5 @@
 import { CartTransferInfo } from '../../models/Cart'
+import { clearCartByUserId } from './cart'
 import db from './connection'
 
 export async function getLatestOrderIdByUserId(userId: string) {
@@ -40,10 +41,6 @@ export async function addCartToPurchasesByUserId(
   await clearCartByUserId(userId)
 }
 
-//Clear cart function (NOTE: WILL BE MOVED TO CART.TS AFTERWARDS)
-export async function clearCartByUserId(userId: string) {
-  await db('cart').where('user_id', userId).delete()
-}
 
 export async function getAmountOfOrdersByDate(date: string) {
   //Check if user is authorised. If they are not:
