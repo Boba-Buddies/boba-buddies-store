@@ -1,7 +1,7 @@
 import { WishlistProduct } from '../../models/Wishlist'
-import db from './connection'
+import connection from './connection'
 
-export async function getWishlistByUserId(userId: string) {
+export async function getWishlistByUserId(userId: string, db = connection) {
   return (await db('wishlist')
     .join('products', 'product_id', 'products.id')
     .join('users', 'users.auth0_id', 'wishlist.user_id')
@@ -12,12 +12,13 @@ export async function getWishlistByUserId(userId: string) {
       'products.name as productName',
       'products.image as productImage',
       'products.price as productPrice',
-    )) as WishlistProduct
+    )) as WishlistProduct[]
 }
 
 export async function getWishlistStatusByProductId(
   productId: number,
   userId: string,
+  db = connection
 ) {
   const wishlistItem = await db('wishlist')
     .where('product_id', productId)
@@ -31,6 +32,7 @@ export async function getWishlistStatusByProductId(
 export async function addToWishlistByProductId(
   productId: number,
   userId: string,
+  db = connection
 ) {
   const existingItem = await db('wishlist')
     .where({
@@ -52,6 +54,7 @@ export async function addToWishlistByProductId(
 export async function removeFromWishlistByProductId(
   productId: number,
   userId: string,
+  db = connection
 ) {
   await db('wishlist')
     .where('product_id', productId)

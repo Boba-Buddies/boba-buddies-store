@@ -17,7 +17,7 @@ router.get('/', validateAccessToken, async (req, res) => {
     res.status(200).json(user)
   } catch (error) {
     logError(error)
-    res.status(500).json({ message: 'Unable to ge the data from database' })
+    res.status(500).json({ message: 'Unable to get the data from database' })
   }
 })
 

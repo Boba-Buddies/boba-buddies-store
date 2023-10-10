@@ -1,8 +1,8 @@
 import { Emails, Email, NewEmail } from '../../models/Emails'
-import db from './connection'
+import connection from './connection'
 
 // GET: getAllEmails()
-export async function getAllEmails() {
+export async function getAllEmails(db = connection) {
   return (await db('emails')
     .join('users', 'users.auth0_id', 'emails.user_id')
     .select(
@@ -15,7 +15,7 @@ export async function getAllEmails() {
 }
 
 //GET: getEmailById(id:number)
-export async function getEmailById(id: number) {
+export async function getEmailById(id: number, db = connection) {
   return (await db('emails')
     .join('users', 'users.auth0_id', 'emails.user_id')
     .where('id', id)
@@ -30,7 +30,7 @@ export async function getEmailById(id: number) {
 }
 
 //POST: sendEmailByUserId(userId: string, sentEmail: object)
-export async function sendEmailByUserId(newEmail: NewEmail, userId: string) {
+export async function sendEmailByUserId(newEmail: NewEmail, userId: string, db = connection) {
   return db('emails').insert({
     user_id: userId,
     title: newEmail.title,
@@ -39,17 +39,17 @@ export async function sendEmailByUserId(newEmail: NewEmail, userId: string) {
 }
 
 //PATCH: updateEmailReadStatusById(id:number, isRead:boolean)
-export function updateEmailReadStatusById(id: number) {
+export function updateEmailReadStatusById(id: number, db = connection) {
   return db('emails').where('id', id).update('is_read', true)
 }
 
 //Delete: deleteEmailById(id:number)
-export function deleteEmailById(id: number) {
+export function deleteEmailById(id: number, db = connection) {
   return db('emails').where('id', id).delete()
 }
 
 //GET: getAmountOfUnreadEmailsByDate(date:format?)
-export async function getAmountOfUnreadEmailsByDate(date: string) {
+export async function getAmountOfUnreadEmailsByDate(date: string, db = connection) {
   return await db('emails')
     .whereRaw('DATE(created_at) = ?', date)
     .where('is_read', 0)
